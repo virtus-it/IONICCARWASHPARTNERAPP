@@ -10,6 +10,8 @@ Editors:
 3. Visuval Studio
 4. Sublime
 
+Note: All commands run in node.js command prompt
+
 Instalation:
 Ionic & Cordova:
 1. npm install -g ionic@3.20.0

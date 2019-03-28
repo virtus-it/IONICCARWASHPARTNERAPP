@@ -70,11 +70,9 @@ npm install @ionic-native/call-number
 ionic cordova plugin add cordova-open-native-settings
 npm install @ionic-native/open-native-settings
 
-
 9.App Rate:
 ionic cordova plugin add cordova-plugin-apprate
 npm install @ionic-native/app-rate
-
 
 10.Swipeble tabs:
 npm i ionic2-super-tabs@4.1.4

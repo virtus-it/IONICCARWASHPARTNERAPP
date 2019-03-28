@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>FILTERS</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form>
+
+  <ion-item>
+    <ion-label>User Type</ion-label>
+    <ion-select name="userType" [(ngModel)]="input.userType">
+      <ion-option value="all" true>ALL</ion-option>
+      <ion-option value="customers">CUSTOMERS</ion-option>
+      <ion-option value="distributors">DISTRIBUTORS</ion-option>
+    </ion-select>
+  </ion-item>
+
+  FILTER BY:
+  <ion-row>
+    <button ion-button color="light" (click)="update('top10')">TOP 10</button>
+    <button ion-button color="light" (click)="update('top50')">TOP 50</button>
+    <button ion-button color="light" (click)="update('top100')">TOP 100</button>
+  </ion-row>
+
+  <ion-row>
+    <button ion-button color="light" (click)="update('least10')">LEAST 10</button>
+    <button ion-button color="light" (click)="update('least50')">LEAST 50</button>
+    <button ion-button color="light" (click)="update('least100')">LEAST 100</button>
+  </ion-row>
+
+  <button ion-button color="primary" (click)="dismiss();">CLOSE</button>
+  <button ion-button color="primary" (click)="apply();">APPLY</button>
+  </form>
+</ion-content>

@@ -1,0 +1,21 @@
+
+<ion-header no-border>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Orders Management</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+
+  <super-tabs [config]="{ sideMenu: 'left' }" tabsPlacement="top" toolbarBackground="primary" toolbarColor="light" indicatorColor="light"
+              (tabSelect)="onTabSelect($event)">
+    <super-tab *ngFor="let page of pages" [root]="page.pageName" [title]= page.title [icon]="page.icon" [id]="page.id"></super-tab>
+  </super-tabs>
+
+</ion-content>

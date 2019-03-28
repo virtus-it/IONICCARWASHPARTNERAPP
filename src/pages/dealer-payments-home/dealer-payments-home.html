@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar >
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Dealer Orders Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <div *ngFor="let order of orders">
+
+
+      <ion-card>
+
+        <ion-row>
+          <ion-col>#{{order.order_id}} </ion-col>
+          <ion-col>{{order.quantity}}</ion-col>
+          <ion-col>INR{{order.bill_amount}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.productdetails.category +" "+order.brandname+ " " +order.prod_type }} </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.slotdate}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.orderby_address}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Cost</ion-col>
+          <ion-col>Ex Del Charge</ion-col>
+          <ion-col>Serv Charge</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.prod_cost}}</ion-col>
+          <ion-col>{{order.expressdeliverycharges}}</ion-col>
+
+          <ion-col>{{order.servicecharge}}</ion-col>
+        </ion-row>
+
+      </ion-card>
+    </div>
+  </ion-list>
+
+
+</ion-content>

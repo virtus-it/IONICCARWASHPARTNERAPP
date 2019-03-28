@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  Username
+  <input type="text" [(ngModel)]="username"/><br><br>
+  Password
+  <input type="text" [(ngModel)]="password"/><br><br>
+
+  <button ion-button color="light" (click)="logIn();">LogIn</button>
+
+</ion-content>

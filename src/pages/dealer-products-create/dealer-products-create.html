@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">{{pageTitle}}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form>
+
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select [(ngModel)]="input.category" name="category">
+        <ion-option value={{cat.category}} *ngFor="let cat of categoryList"
+                    (ionSelect)="updateCategoryDetails($event, cat)">{{cat.category}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="categorySelected" class="no_bg no_shadow input_container ">
+      <ion-label>Product</ion-label>
+      <ion-select>
+        <ion-option value={{catProduct.productid}}
+                    *ngFor="let catProduct of categoryProductsList"
+                    (ionSelect)="updateProductDetails($event, catProduct);">
+          {{ catProduct.pname }}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Product Name</ion-label>
+      <ion-input name="pname" class="" type="text" [(ngModel)]="input.pname" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Product Type</ion-label>
+      <ion-input class="" name="ptype" type="text" [(ngModel)]="input.ptype" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Currency Type</ion-label>
+      <ion-select name="currency" [(ngModel)]="input.currency">
+        <ion-option value="inr" true>INR</ion-option>
+        <ion-option value="usd">USD</ion-option>
+        <ion-option value="eur">EUR</ion-option>
+        <ion-option value="sar">SAR</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Product Cost</ion-label>
+      <ion-input class="" name="pcost" type="text" [(ngModel)]="input.pcost" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Min Qty</ion-label>
+      <ion-input class="" name="minorderqty" type="text" [(ngModel)]="input.minorderqty" maxlength="50"
+                 required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Priority</ion-label>
+      <ion-input class="" name="priority" type="text" [(ngModel)]="input.priority" maxlength="50"></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Express Delivery</ion-label>
+      <ion-input class="" type="text" name="expressdeliverycharges"
+                 [(ngModel)]="input.expressdeliverycharges"
+                 maxlength="10"></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Service Charge</ion-label>
+      <ion-input class="" type="text" name="servicecharge"
+                 [(ngModel)]="input.servicecharge"
+                 maxlength="10"></ion-input>
+    </ion-item>
+
+    Can Returnble
+    <label class="checkbox">
+      <input type="checkbox" checked (click)="isCansReturnble()">
+    </label>
+
+    Is Authorized
+    <label class="checkbox">
+      <input type="checkbox" checked (click)="isAuthorized()">
+    </label>
+
+    <ion-row class="">
+      <ion-col align-self-center="">
+        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
+      </ion-col>
+      <ion-col align-self-center="">
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-content>

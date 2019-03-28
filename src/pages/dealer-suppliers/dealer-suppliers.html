@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/header_icon.png">
+      <span class="title-style">Supplier MGMT</span>
+      <img (click)="create($event, '')" class="header_icon" src="assets/imgs/img_add.png">
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Suppliers not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let user of response">
+      <ion-card>
+
+        <ion-row>
+          <ion-col>
+            {{user.firstname + " " + user.lastname}}
+          </ion-col>
+          <ion-col>
+            {{user.mobileno}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="user.address">
+          <ion-col>
+            Address : {{user.address}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, user);">
+          </ion-col>
+          <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
+                        (click)="showPromptForDelete($event, user);"></ion-col>
+          <!--<ion-col><img src="assets/imgs/img_delivery.png" class="header_icon" (click)="showPromptForTracking($event, user);"></ion-col>
+ -->       </ion-row>
+
+      </ion-card>
+    </div>
+  </ion-list>
+
+</ion-content>

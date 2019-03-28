@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/header_icon.png">
+      <span class="title-style">PRODUCTS MGMT</span>
+      <img (click)="create($event, '')" class="header_icon" src="assets/imgs/img_add.png">
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let product of response">
+      <ion-card>
+
+        <ion-row>
+          <ion-col>Category</ion-col>
+          <ion-col>Brand Name</ion-col>
+          <ion-col>Type</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{product.category}}</ion-col>
+          <ion-col>{{product.brandname}}</ion-col>
+          <ion-col>{{product.ptype}}</ion-col>
+        </ion-row>
+
+
+        <ion-item>
+          <ion-row>
+            <ion-col>Stock</ion-col>
+            <ion-col>Status</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{product.avaliable_stock}}</ion-col>
+            <ion-col>{{product.stockstatus}}</ion-col>
+          </ion-row>
+        </ion-item>
+
+
+
+        <ion-row>
+          <ion-col>P Cost</ion-col>
+          <ion-col>Buy Cost</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{product.pcost}}</ion-col>
+          <ion-col>{{product.buycost}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>MRP</ion-col>
+          <ion-col>S Charge</ion-col>
+          <ion-col>Ex Charge</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{product.mrp}}</ion-col>
+          <ion-col>{{product.servicecharge}}</ion-col>
+          <ion-col>{{product.expressdeliverycharges}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, product);">
+          </ion-col>
+          <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
+                        (click)="showPromptForDelete($event, product);"></ion-col>
+
+          <ion-col><img src="assets/imgs/img_add_stock.png" class="header_icon"
+                        (click)="showPromptForAddStock($event, product);"></ion-col>
+
+          <ion-col><img src="assets/imgs/img_update_status.png" class="header_icon"
+                        (click)="callStockHistoryView($event, product)"></ion-col>
+        </ion-row>
+
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

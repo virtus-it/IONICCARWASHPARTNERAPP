@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/header_icon.png">
+      <span class="title-style">POINTS MGMT</span>
+      <img (click)="getPointsDetails($event, '')" class="header_icon" src="assets/imgs/img_add.png">
+      <img (click)="showPointsSearch($event)" class="header_icon" src="assets/imgs/img_add.png">
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let result of response">
+      <ion-card>
+
+        <ion-row>
+          <ion-col>{{result.points}} Pts</ion-col>
+          <ion-col>Order Id:#{{result.orderid}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{result.name}}</ion-col>
+          <ion-col>{{result.mobileno}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{result.status}}</ion-col>
+          <ion-col>{{result.user_type}}</ion-col>
+        </ion-row>
+
+        <button ion-button size="large" color="primary" (click)="viewHistory($event, result);">View History</button>
+
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

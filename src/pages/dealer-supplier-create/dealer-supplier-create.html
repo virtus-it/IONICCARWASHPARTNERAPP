@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">{{pageTitle}}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form >
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>First Name</ion-label>
+      <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
+    </ion-item>
+
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" maxlength="50" required></ion-input>
+    </ion-item>
+
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Alternate Mobile</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.phno2" name="phno2" maxlength="10" ></ion-input>
+    </ion-item>
+
+
+    <ion-row class="">
+      <ion-col align-self-center="">
+        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
+      </ion-col>
+      <ion-col align-self-center="">
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-content>

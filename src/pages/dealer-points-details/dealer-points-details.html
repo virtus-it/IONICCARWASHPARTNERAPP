@@ -1,0 +1,43 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">{{pageTitle}}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <div *ngFor="let result of response">
+
+      <ion-card>
+        <ion-row>
+          <ion-col>{{result.points}} Pts</ion-col>
+          <ion-col>{{result.type}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{result.description}}</ion-col>
+          <ion-col>{{result.subtype}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{getActiveStatus(result)}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+    </div>
+  </ion-list>
+
+  <button ion-button color="primary" (click)="dismiss();">CLOSE</button>
+
+
+</ion-content>

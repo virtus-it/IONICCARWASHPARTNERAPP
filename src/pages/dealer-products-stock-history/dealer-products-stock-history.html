@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>STOCK HISTORY</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let res of response">
+      <ion-card>
+
+        <ion-row>
+          <ion-col>{{res.category + "\n" + res.brandname}}</ion-col>
+          <ion-col>{{res.ptype}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Cost : INR{{res.pcost}}</ion-col>
+          <ion-col>Empty Casn : {{res.returnemptycans}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>DATE : {{res.createddate}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{res.stock}}</ion-col>
+          <ion-col>{{res.billamt}}</ion-col>
+          <ion-col>{{res.paidamt}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Qty</ion-col>
+          <ion-col>Bill Amt</ion-col>
+          <ion-col>Paid Amt</ion-col>
+        </ion-row>
+
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

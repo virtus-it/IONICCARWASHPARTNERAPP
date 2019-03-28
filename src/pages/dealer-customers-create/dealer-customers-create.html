@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">{{pageTitle}}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form >
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>First Name</ion-label>
+      <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Last Name</ion-label>
+      <ion-input name="lastname" class="" type="text" [(ngModel)]="input.lastname" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" maxlength="50" required></ion-input>
+    </ion-item>
+
+    (OR)
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Email</ion-label>
+      <ion-input class="" name="email" type="text" [(ngModel)]="input.email" maxlength="50" ></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Phone Number2</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.phno2" name="phno2" maxlength="10" ></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Phono Number3</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.phno3" name="phno3" maxlength="10" ></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Float Number</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.platNo" name="platNo" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Locality</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.locality" name="locality" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Address</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Advance Amount</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.advAmt" name="advAmt" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-label>Payment Type</ion-label>
+    <ion-list radio-group [(ngModel)]="input.paymentType" name="paymentType">
+
+      <ion-item>
+        <ion-label>COD</ion-label>
+        <ion-radio value="cod"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>CREDIT</ion-label>
+        <ion-radio value="credit" text="CREDIT"></ion-radio>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-label>Customer Type</ion-label>
+    <ion-list radio-group [(ngModel)]="input.customerType" name="customerType">
+
+      <ion-item>
+        <ion-label>Residential</ion-label>
+        <ion-radio value="residential"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Commercial</ion-label>
+        <ion-radio value="commercial"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Corporate</ion-label>
+        <ion-radio value="corporate"></ion-radio>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-row class="">
+      <ion-col align-self-center="">
+        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
+      </ion-col>
+      <ion-col align-self-center="">
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-content>

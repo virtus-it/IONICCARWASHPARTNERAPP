@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {LoadingController, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
+import * as moment from "moment";
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
@@ -308,6 +309,16 @@ export class UtilsProvider {
       return false;
     }
 
+  }
+
+  static formatDateToDDMMYYYY(date) {
+    let d = new Date(date);
+    return moment(d).format('DD-MM-YYYY');
+  }
+
+  static formatDateToYYYYMMDD(date) {
+    let d = new Date(date);
+    return moment(d).format('YYYY-MM-DD');
   }
 
 }

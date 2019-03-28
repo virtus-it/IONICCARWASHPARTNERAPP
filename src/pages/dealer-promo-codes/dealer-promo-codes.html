@@ -3,11 +3,47 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Promo Codes</ion-title>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/header_icon.png">
+      <span class="title-style">PROMO CODES</span>
+      <img (click)="showPromptSearch($event)" class="header_icon" src="assets/imgs/img_add.png">
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Promo Codes</h3>
 
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let result of response">
+      <ion-card>
+
+        <ion-row>
+          <ion-col>{{result.description}}</ion-col>
+          <ion-col>{{result.promocode}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Offer Type as {{result.offertype}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Start Date</ion-col>
+          <ion-col>End Date</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{result.startdate|date:'dd-MM-yyyy'}}</ion-col>
+          <ion-col>{{result.enddate|date:'dd-MM-yyyy'}}</ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+  </ion-list>
 </ion-content>

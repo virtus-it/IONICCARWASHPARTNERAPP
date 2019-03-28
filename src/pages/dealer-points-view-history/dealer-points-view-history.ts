@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 
@@ -16,8 +16,13 @@ export class DealerPointsViewHistoryPage {
   output1;
   output2;
   totalPoints:string = '';
+  redeem:string = '';
+  redeemPoints:string = '';
+  noteText:string = '*The Company reserves the right, at its discretion, to change, modify, add, or remove portions of these Terms at any time. Please check these Terms periodically';
   USER_ID;
   USER_TYPE;
+  USER_NAME;
+  USER_PHNO;
   pageTitle = 'VIEW POINTS';
 
   userDetails:any;
@@ -29,17 +34,24 @@ export class DealerPointsViewHistoryPage {
               private ref: ChangeDetectorRef) {
 
     try {
-      this.userDetails = navParams.get('result');
-      this.USER_ID = this.userDetails.userid;
-      this.USER_TYPE = this.userDetails.user_type;
+      this.userDetails = navParams.get('user');
+      this.USER_ID = this.userDetails.userID;
+      this.USER_NAME = this.userDetails.userName;
+      this.USER_PHNO = this.userDetails.user_phno;
+      this.USER_TYPE = this.userDetails.userType;
     }catch (e) {
       this.alertUtils.showLog("ERROR : getting values from called page");
     }
   }
 
+  dismiss(){
+    this.navCtrl.pop();
+  }
+
   ionViewDidLoad() {
     this.fetchData1(false,false, true, '','');
   }
+
 
 
 
@@ -64,19 +76,16 @@ export class DealerPointsViewHistoryPage {
 
       this.apiService.postReq(this.apiService.getPoints(),data).then(res=>{
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
-        this.alertUtils.showLog("POST (SUCCESS)=> POINTS: "+JSON.stringify(res));
+        this.alertUtils.showLog("POST (SUCCESS)=> output1: "+JSON.stringify(res));
         this.output1 = res.data;
 
         this.alertUtils.showLog('output1 : >> '+JSON.stringify(this.output1));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          //this.noRecords = false;
 
           this.totalPoints = this.output1.totalpoints;
-
-          for (let i = 0; i < res.data.length; i++) {
-
-          }
+          this.redeem = this.output1.redeem;
+          this.redeemPoints = this.output1.redeempoints;
         } else {
           if (!isPaging)
             {
@@ -118,8 +127,10 @@ export class DealerPointsViewHistoryPage {
 
       this.apiService.postReq(this.apiService.getPoints(),data).then(res=>{
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
-        this.alertUtils.showLog("POST (SUCCESS)=> POINTS: "+JSON.stringify(res));
+        this.alertUtils.showLog("POST (SUCCESS)=> output2: "+JSON.stringify(res));
         this.output2 = res.data;
+
+        this.alertUtils.showLog("POST (SUCCESS)=> output2: "+JSON.stringify(this.output2));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           //this.noRecords = false;
@@ -154,10 +165,7 @@ export class DealerPointsViewHistoryPage {
 
   doInfinite(paging): Promise<any> {
     if (this.output1) {
-      if (this.output1.length > 0)
         this.fetchData1(true, false, false, paging, "");
-      else
-        paging.complete();
     } else {
       paging.complete();
     }
@@ -178,6 +186,14 @@ export class DealerPointsViewHistoryPage {
     if (isRefresh) {
       refresher.complete();
     }
+  }
+
+  redeemYourPoints(event){
+    this.alertUtils.showLog('redeam clicked');
+    if(this.redeem == 'yes'){
+
+    }else
+      this.alertUtils.showToast('Dealer not given to permission to redeeam');
   }
 
 }

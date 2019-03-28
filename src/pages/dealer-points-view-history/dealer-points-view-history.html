@@ -1,9 +1,7 @@
-
 <ion-header>
   <ion-navbar>
     <ion-buttons left>
       <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
-        <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>
@@ -16,8 +14,36 @@
 <ion-content padding>
 
   <ion-card>
-    <h1>{{totalPoints}}</h1>
-    <h1>{{output1}}</h1>
+    <ion-card style="text-align: center;">
+      <h1>{{totalPoints}}</h1><br>
+      <h5>TOTAL POINTS</h5><br>
+
+        <button ion-button color="primary" (click)="redeemYourPoints($event);">REDEEM POINTS</button>
+        <h5>You can Redeem</h5><br>
+
+    </ion-card>
+    <h5>NOTE:</h5>
+    <h5>{{noteText}}</h5>
   </ion-card>
+
+  <ion-row>
+    <ion-col>{{USER_NAME}}</ion-col>
+    <ion-col>{{USER_PHNO}}</ion-col>
+  </ion-row>
+
+  <h5 style="text-align: center;">Reward Points History</h5>
+  <ion-list>
+    <div *ngFor="let output of output2">
+      <ion-card>
+        <ion-row>
+          <ion-col>{{output.status}}</ion-col>
+          <ion-col>{{output.points}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>{{output.date | date:'dd-mm-yyyy'}}</ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+  </ion-list>
 
 </ion-content>

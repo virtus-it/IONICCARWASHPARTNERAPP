@@ -3,11 +3,56 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Dash Board</ion-title>
+    <ion-title>DASH BOARD</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Dash Board</h3>
+
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+
+  <ion-card style="text-align: center">
+    <h3>ORDERS</h3>
+    <ion-row>
+      <ion-col>TOTAL</ion-col>
+      <ion-col>TOTAL PENDING</ion-col>
+      <ion-col>COMPLETED</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>{{output.totalOrders}}</ion-col>
+      <ion-col>{{output.pendingOrders}}</ion-col>
+      <ion-col>{{output.completedOrders}}</ion-col>
+    </ion-row>
+  </ion-card>
+
+
+  <ion-card style="text-align: center">
+    <h3>PAYMENTS</h3>
+    <ion-row>
+      <ion-col>TOTAL</ion-col>
+      <ion-col>COD</ion-col>
+      <ion-col>CREDIT</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>{{output.totalPayments}}</ion-col>
+      <ion-col>{{output.codPayments}}</ion-col>
+      <ion-col>{{output.creditPayments}}</ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-card style="text-align: center">
+    <h3>USERS</h3>
+    <ion-row>
+      <ion-col>CUSTOMERS</ion-col>
+      <ion-col>DEALERS</ion-col>
+      <ion-col>SUPPLIERS</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>{{output.totalCustomers}}</ion-col>
+      <ion-col>{{output.totalDistributors}}</ion-col>
+      <ion-col>{{output.totalSuppliers}}</ion-col>
+    </ion-row>
+  </ion-card>
 
 </ion-content>

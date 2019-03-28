@@ -3,11 +3,74 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Feed Back</ion-title>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/header_icon.png">
+      <span class="title-style">FEEDBACK MGMT</span>
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>FeedBacks</h3>
 
+  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
+               item-center></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let res of response">
+      <ion-card>
+        <h2 *ngIf="res.status == 'close' ">CLOSED</h2>
+        <ion-row>
+          <ion-col>{{res.createdby.firstname}}</ion-col>
+          <ion-col>{{res.createddate|date:'dd-MM-yyyy HH:mm'}}</ion-col>
+        </ion-row>
+
+        Subject:
+        <ion-row>
+          <ion-col>{{res.subject}}</ion-col>
+        </ion-row>
+
+        <ion-row>{{res.details}}</ion-row>
+
+        <div *ngIf="res.reply">
+          <div *ngFor="let re of res.reply">
+
+            <ion-card class="card-md1">
+              <ion-row>
+                <ion-col>Reply from {{re.createdby.mobileno}}</ion-col>
+              </ion-row>
+              <ion-row>{{re.message}}</ion-row>
+            </ion-card>
+          </div>
+
+        </div>
+
+        <ion-row>
+
+            <ion-col>
+              <img src="assets/imgs/img_reply.png"
+                   class="header_icon"
+                   *ngIf="res.status != 'close' "
+                   (click)="showPromptForCreateIssue($event, res);">
+            </ion-col>
+
+            <ion-col><img src="assets/imgs/img_close.png"
+                          class="header_icon"
+                          *ngIf="res.status != 'close' "
+                          (click)="changeIssueStatus($event, res, 'close');">
+            </ion-col>
+
+          <ion-col><img src="assets/imgs/img_tick.png"
+                        class="header_icon"
+                        *ngIf="res.status == 'close' "
+                        (click)="changeIssueStatus($event, res, 'open');">
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+  </ion-list>
 </ion-content>

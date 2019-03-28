@@ -39,6 +39,7 @@ import { NetworkProvider } from '../providers/network/network';
 import {HttpModule} from "@angular/http";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {DealerProductsStockHistoryPage} from "../pages/dealer-products-stock-history/dealer-products-stock-history";
+import {DealerPreOrdersCartPage} from "../pages/dealer-pre-orders-cart/dealer-pre-orders-cart";
 
 
 

@@ -22,8 +22,6 @@ import {DealerTrackSupplierPage} from "../pages/dealer-track-supplier/dealer-tra
 import {DealerPromoCodesPage} from "../pages/dealer-promo-codes/dealer-promo-codes";
 import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
 import {AboutUsPage} from "../pages/about-us/about-us";
-import {HomePage} from "../pages/home/home";
-import {ListPage} from "../pages/list/list";
 import {LogoutPage} from "../pages/logout/logout";
 import {WelcomePage} from "../pages/welcome/welcome";
 
@@ -43,6 +41,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
+      { title: 'DASH BOARD',            component: DealerDashBoardPage },
       { title: 'ORDERS',                component: DealerOrdersHomePage },
       { title: 'PRE - ORDERS',          component: DealerPreOrdersPage },
       { title: 'CUSTOMERS',             component: DealerCustomersPage },

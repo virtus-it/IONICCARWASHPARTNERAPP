@@ -129,8 +129,11 @@ export class DealerPointsPage {
   }
 
   viewHistory(event, result){
+    let user = {userID:result.userid, userName:result.user_name,
+    userPhno:result.user_phno, userType:result.user_type};
+
     this.navCtrl.push('DealerPointsViewHistoryPage',{
-      result:result,
+      result:user,
     });
   }
 

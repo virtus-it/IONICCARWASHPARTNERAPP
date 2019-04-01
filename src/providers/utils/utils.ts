@@ -82,6 +82,7 @@ export class UtilsProvider {
   private static _USER_PHNO:string="";
   private static _USER_ADDR:string="";
   private static _USER_TYPE:string="";
+  private static _USER_IS_SUPER_DEALER:boolean=false;
   private static _USER_DEALER_ID:string="";
   private static _USER_DEALER_NAME:string="";
   private static _USER_DEALER_PHNO:string="";
@@ -119,6 +120,10 @@ export class UtilsProvider {
 
   static get USER_TYPE():string{
     return this._USER_TYPE;
+  }
+
+  static get IS_SUPER_DEALER():boolean{
+    return this._USER_IS_SUPER_DEALER;
   }
 
   static get USER_DEALER_ID():string{

@@ -22,9 +22,22 @@
 
   <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
   <ion-list *ngIf="!noRecords">
-    <div *ngFor="let product of response">
-      <ion-card>
 
+    <div *ngFor="let key of keys">
+      {{key|json}}
+      <div *ngFor="let product of output[key]; let i = index;">
+        {{product.brandname}}
+        {{i}}
+        {{product[i].brandname}}
+        <!--{{product|json}}-->
+      </div>
+    </div>
+
+
+    <!--<div *ngFor="let product of output">
+      <ion-card>
+        {{product.brandname+product.category}}<br>
+        {{product|json}}
         <ion-row>
           <ion-col>Category</ion-col>
           <ion-col>Brand Name</ion-col>
@@ -88,6 +101,6 @@
         </ion-row>
 
       </ion-card>
-    </div>
+    </div>-->
   </ion-list>
 </ion-content>

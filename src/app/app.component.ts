@@ -36,10 +36,13 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
+
     this.pages = [
       { title: 'DASH BOARD',            component: DealerDashBoardPage },
       { title: 'ORDERS',                component: DealerOrdersHomePage },

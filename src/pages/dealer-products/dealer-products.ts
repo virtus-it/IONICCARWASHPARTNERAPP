@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-import {NetworkProvider} from "../../providers/network/network";
 import {DealerProductsStockHistoryPage} from "../dealer-products-stock-history/dealer-products-stock-history";
 
 @IonicPage()
@@ -20,6 +19,14 @@ export class DealerProductsPage {
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
 
+  myProduct:string[];
+
+
+  output: Map<string, {}>  = new Map<string, {}>();
+  keysOfObject;
+  values;
+  keys;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
@@ -27,6 +34,7 @@ export class DealerProductsPage {
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+
   }
 
   ionViewDidLoad() {
@@ -44,17 +52,63 @@ export class DealerProductsPage {
 
       this.apiService.getReq(url).then(res=>{
         this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));
-        this.response = res.data;
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
 
           for (let i = 0; i < res.data.length; i++) {
-            if(res.data.isactive)
-              this.response.push(res.data[i]);
+            if(res.data.isactive = '1') {
+              let brandName = res.data[i].brandname+res.data[i].category;
+
+              this.alertUtils.showLog('BrandName : '+brandName);
+
+              if(this.output.has(brandName)){
+                this.alertUtils.showLog('IN MAP : Found brandname');
+                this.output.get(brandName)[this.output.size] = res.data[i];
+              }else {
+                this.alertUtils.showLog('IN MAP : Not Found brandname');
+                this.output.set(brandName,res.data[i]);
+              }
+
+            }
 
           }
+
+          this.keys = this.output.keys();
+         // this.keys = Array.from(this.output.keys());
+
+          this.alertUtils.showLog('Keys : '+this.keys);
+
+          /*for(let j=0;j<this.output.size;j++){
+            let product = this.output.get(this.output.keys()[j]);
+            this.alertUtils.showLog('j value as '+ j);
+            this.alertUtils.showLog(product);
+          }*/
+
+         /* this.alertUtils.showLog("Output object value");
+          this.alertUtils.showLog(JSON.stringify(this.output));
+          this.alertUtils.showLog(this.output.size);
+
+          this.keys = this.output.keys();
+          this.alertUtils.showLog(this.keys);*/
+          /*let keyArray = Array.from(this.output.entries());
+          this.alertUtils.showLog(keyArray.length);
+          this.alertUtils.showLog(keyArray);*/
+
+          /*this.keysOfObject = Object.keys(this.output);
+
+          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);
+
+          this.values = Array.from(this.output.values());
+          this.alertUtils.showLog("values => "+this.values.length);
+          this.keysOfObject = Object.keys(this.output);
+          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);
+          this.keysOfObject = Object.keys(this.output.keys());
+          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);
+          this.keysOfObject = this.output.keys();
+          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);*/
+
         } else {
           if (!isPaging)
             this.noRecords = true;
@@ -69,6 +123,7 @@ export class DealerProductsPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+
   }
 
   doRefresh(refresher) {

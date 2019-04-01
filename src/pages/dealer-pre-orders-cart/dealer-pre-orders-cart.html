@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>CART PAGE</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false">
+
+  <div class="ion-checkbox-viewport" style="height: 70%; background: #0f75bc" >
+
+    <div >
+    <ion-list>
+      <div *ngFor="let product of response">
+        <ion-card>
+
+          <ion-row>
+            <ion-col>Category</ion-col>
+            <ion-col>Brand Name</ion-col>
+            <ion-col>Type</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{product.category}}</ion-col>
+            <ion-col>{{product.brandname}}</ion-col>
+            <ion-col>{{product.ptype}}</ion-col>
+          </ion-row>
+
+
+          <ion-item>
+            <ion-row>
+              <ion-col>Stock</ion-col>
+              <ion-col>Status</ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>{{product.avaliable_stock}}</ion-col>
+              <ion-col>{{product.stockstatus}}</ion-col>
+            </ion-row>
+          </ion-item>
+
+
+
+          <ion-row>
+            <ion-col>P Cost</ion-col>
+            <ion-col>Buy Cost</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{product.pcost}}</ion-col>
+            <ion-col>{{product.buycost}}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>MRP</ion-col>
+            <ion-col>S Charge</ion-col>
+            <ion-col>Ex Charge</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{product.mrp}}</ion-col>
+            <ion-col>{{product.servicecharge}}</ion-col>
+            <ion-col>{{product.expressdeliverycharges}}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, product);">
+            </ion-col>
+            <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
+                          (click)="showPromptForDelete($event, product);"></ion-col>
+
+            <ion-col><img src="assets/imgs/img_add_stock.png" class="header_icon"
+                          (click)="showPromptForAddStock($event, product);"></ion-col>
+
+            <ion-col><img src="assets/imgs/img_update_status.png" class="header_icon"
+                          (click)="callStockHistoryView($event, product)"></ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>
+    </ion-list>
+    </div>
+
+  </div>
+
+  <div class = "row" style="height: 30%; background: #f53d3d">
+    <ion-row style="width: 100%">
+      <ion-col style="font-size: 1rem;">Product Cost</ion-col>
+      <ion-col style="text-align: right; font-size: 1rem;">100</ion-col>
+    </ion-row>
+
+    <ion-row style="width: 100%">
+      <ion-col style="font-size: 1rem;">Service Charge</ion-col>
+      <ion-col style="text-align: right; font-size: 1rem">100</ion-col>
+    </ion-row>
+
+    <ion-row style="width: 100%">
+      <ion-col style="font-size: 1rem;">Express Delivery Charge</ion-col>
+      <ion-col style="text-align: right; font-size: 1rem;">100</ion-col>
+    </ion-row>
+
+    <ion-row style="width: 100%">
+      <ion-col style="font-size: 1rem;">Empty Cans</ion-col>
+      <ion-col style="text-align: center; font-size: 1rem;">
+        <ion-row>
+          <ion-col><img src="assets/imgs/img_close.png" class="cart_plus_minus_icon"></ion-col>
+          <ion-col><input type="number" style="width:100%"> </ion-col>
+          <ion-col><img src="assets/imgs/img_close.png" class="cart_plus_minus_icon"></ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col style="text-align: right; font-size: 1rem">150</ion-col>
+    </ion-row>
+
+    <ion-row style="width: 100%">
+      <ion-col style="font-size: 1rem;">Total Cost</ion-col>
+      <ion-col style="font-size: 1rem; text-align: right">100+0+0+150=250</ion-col>
+    </ion-row>
+  </div>
+</ion-content>

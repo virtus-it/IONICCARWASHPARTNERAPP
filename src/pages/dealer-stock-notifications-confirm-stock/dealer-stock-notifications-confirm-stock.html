@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">CONFIRM STOCK</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-row>
+      <ion-col>Req No: {{req.reqid}}</ion-col>
+      <ion-col>Invoice Date: {{req.modifieddate}}</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>Filled</ion-col>
+      <ion-col>Empty</ion-col>
+      <ion-col>Cost</ion-col>
+      <ion-col>Total Amt</ion-col>
+    </ion-row>
+
+    <ion-row>
+      {{req.products[0].category+" "+req.products[0].brandname+" "+req.products[0].ptype}}
+    </ion-row>
+
+    <ion-row style="width: 100%">
+    <ion-col><input style="width: 25%" type="number" [ngModel]="input.filledCans"  [contentEditable]="contentEditable"></ion-col>
+    <ion-col><input style="width: 25%" type="number" [ngModel]="input.emptyCans"   [contentEditable]="contentEditable"></ion-col>
+    <ion-col><input style="width: 25%" type="number" [ngModel]="input.cost"        [contentEditable]="contentEditable"></ion-col>
+    <ion-col><input style="width: 25%" type="number" [ngModel]="input.totalCost"   [contentEditable]="contentEditable"></ion-col>
+    </ion-row>
+
+    <ion-row>Supplier</ion-row>
+
+    <div *ngIf="req.status == 'stockrequested'">
+    <ion-item>
+      <ion-label>Supplier</ion-label>
+      <ion-select [(ngModel)]="input.supplierID" name="supplierID">
+        <ion-option value={{supplier.userid}} *ngFor="let supplier of suppliersList"
+                    (ionSelect)="updateCategoryDetails($event, supplier)">{{supplier.firstname+" "+supplier.lastname}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <button ion-button color="primary" (click)="dismiss();">CANCEL</button>
+    <button ion-button color="primary" (click)="confirm($event)">CONFIRM</button>
+    </div>
+
+    <div *ngIf="req.status != 'stockrequested'">
+      <button ion-button color="primary" (click)="dismiss();">OK</button>
+    </div>
+
+  </ion-card>
+
+</ion-content>

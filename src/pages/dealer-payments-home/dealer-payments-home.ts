@@ -4,12 +4,6 @@ import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 
-/**
- * Generated class for the DealerPaymentsHomePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({

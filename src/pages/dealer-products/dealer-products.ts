@@ -18,14 +18,9 @@ export class DealerProductsPage {
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+  output: Map<string, any> = new Map<string, any>();
+  keys = [];
 
-  myProduct:string[];
-
-
-  output: Map<string, {}>  = new Map<string, {}>();
-  keysOfObject;
-  values;
-  keys;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -75,39 +70,7 @@ export class DealerProductsPage {
 
           }
 
-          this.keys = this.output.keys();
-         // this.keys = Array.from(this.output.keys());
-
-          this.alertUtils.showLog('Keys : '+this.keys);
-
-          /*for(let j=0;j<this.output.size;j++){
-            let product = this.output.get(this.output.keys()[j]);
-            this.alertUtils.showLog('j value as '+ j);
-            this.alertUtils.showLog(product);
-          }*/
-
-         /* this.alertUtils.showLog("Output object value");
-          this.alertUtils.showLog(JSON.stringify(this.output));
-          this.alertUtils.showLog(this.output.size);
-
-          this.keys = this.output.keys();
-          this.alertUtils.showLog(this.keys);*/
-          /*let keyArray = Array.from(this.output.entries());
-          this.alertUtils.showLog(keyArray.length);
-          this.alertUtils.showLog(keyArray);*/
-
-          /*this.keysOfObject = Object.keys(this.output);
-
-          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);
-
-          this.values = Array.from(this.output.values());
-          this.alertUtils.showLog("values => "+this.values.length);
-          this.keysOfObject = Object.keys(this.output);
-          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);
-          this.keysOfObject = Object.keys(this.output.keys());
-          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);
-          this.keysOfObject = this.output.keys();
-          this.alertUtils.showLog("keysOfObject => "+this.keysOfObject.length);*/
+          this.keys = Array.from(this.output.keys());
 
         } else {
           if (!isPaging)

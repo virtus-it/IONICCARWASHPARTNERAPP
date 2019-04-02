@@ -24,12 +24,9 @@
   <ion-list *ngIf="!noRecords">
 
     <div *ngFor="let key of keys">
-      {{key|json}}
-      <div *ngFor="let product of output[key]; let i = index;">
+        {{key}}
+      <div *ngFor="let product of this.output.get(key)">
         {{product.brandname}}
-        {{i}}
-        {{product[i].brandname}}
-        <!--{{product|json}}-->
       </div>
     </div>
 

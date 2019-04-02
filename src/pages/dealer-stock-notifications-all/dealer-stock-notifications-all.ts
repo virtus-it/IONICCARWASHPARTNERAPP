@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
+import {DealerStockNotificationsConfirmedPage} from "../dealer-stock-notifications-confirmed/dealer-stock-notifications-confirmed";
+import {DealerStockNotificationsConfirmStockPage} from "../dealer-stock-notifications-confirm-stock/dealer-stock-notifications-confirm-stock";
 
 @IonicPage()
 @Component({
@@ -16,51 +18,77 @@ export class DealerStockNotificationsAllPage {
   showProgress = true;
   private response: any;
   private noRecords = false;
+  from:string = '';
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private network: NetworkProvider,
-              private  apiService: ApiProvider
-
+              private apiService: ApiProvider,
+              private modalCtrl: ModalController
   ) {
+    try {
+      this.from = this.navParams.get('from');
+    }catch (e) {
+      this.from = '';
+    }
+
   }
 
   ionViewDidLoad() {
-    this.fetchOrders(false,false,false,true,true);
+    this.fetchOrders(false,false,true,"","");
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFrist: boolean, paging, refresher) {
     try {
 
-      let url = this.apiService.orderByStatus();
+      let input;
 
-      let input = {
-        "order": {
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UtilsProvider.USER_TYPE,
-          "status": 'all',
-          "pagesize": '10',
-          "framework": FRAMEWORK,
-          "apptype": APP_TYPE
-        }
-      };
+      if(this.from == 'distributor') {
+        input = {
+          "root": {
+            "userid": this.navParams.get('userID'),
+            "usertype": UtilsProvider.USER_TYPE,
+            "viewtype": 'notification',
+            "status": 'all',
+            "distributorid": this.navParams.get('distributorID'),
+            "dealerid": UtilsProvider.USER_DEALER_ID,
+            "pid": '0',
+            "pagesize": '10',
+            "framework": FRAMEWORK,
+            "apptype": APP_TYPE
+          }
+        };
+      }else {
+        input = {
+          "root": {
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UtilsProvider.USER_TYPE,
+            "viewtype": 'allnotification',
+            "status": 'all',
+            "dealerid": UtilsProvider.USER_DEALER_ID,
+            "pid": '0',
+            "pagesize": '10',
+            "framework": FRAMEWORK,
+            "apptype": APP_TYPE
+          }
+        };
+      }
+
 
       if (isPaging) {
-        input.order["last_orderid"] = this.response[this.response.length - 1].order_id;
+        input.root["lastid"] = this.response[this.response.length - 1].order_id;
       } else {
-        input.order["last_orderid"] = '0';
+        input.root["lastid"] = '0';
       }
 
       let data = JSON.stringify(input);
-      if (isFrist) {
-        this.showProgress = true;
-      }
 
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.orderByStatus(), data).then(res => {
-        this.alertUtils.hideLoading();
-        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ALL : " + JSON.stringify(res));
+      this.alertUtils.showLog('data : '+data);
+
+      this.apiService.postReq(this.apiService.getStockRequests(), data).then(res => {
+        this.hideProgress(isFrist,isRefresh,isPaging,'','');
+        this.alertUtils.showLog("POST (SUCCESS)=> STOCK: ALL : " + JSON.stringify(res));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
@@ -87,26 +115,12 @@ export class DealerStockNotificationsAllPage {
     if (isFirst) {
       this.showProgress = false;
     }
-    if (isPaging) {
+    if (isPaging && paging) {
       paging.complete();
     }
     if (isRefresh) {
       refresher.complete();
     }
-
-  }
-
-  loadDataInfinite(event) {
-    this.IS_PAGING = true;
-    this.IS_REFRESH = false;
-
-    //this.last_record = this.orders[this.orders.length - 1].order_id;
-
-    this.loadData();
-    event.target.complete();
-  }
-
-  loadData() {
 
   }
 
@@ -133,5 +147,34 @@ export class DealerStockNotificationsAllPage {
     })
   }
 
+  calculateTotalCost(cans:string, cost:string):string{
+   if(cans && cost){
+     return (+cans * +cost).toString();
+   }else
+     return '';
+  }
 
+  viewDetails($event,req){
+    if(req){
+      let model = this.modalCtrl.create('DealerStockNotificationsConfirmStockPage', {
+        req:req,
+      },{
+        cssClass: 'dialogcustomstyle',
+      })
+      model.present();
+
+      model.onDidDismiss(data => {
+        if (data && data.hasOwnProperty('result')) {
+          if (data.result == this.alertUtils.RESULT_SUCCESS) {
+              this.alertUtils.showToast('Updated successfully');
+
+            this.fetchOrders(false,false,false,'','');
+
+          } else {
+            this.alertUtils.showToast('Some thing went wrong!');
+          }
+        }
+      })
+    }
+  }
 }

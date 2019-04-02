@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {LoadingController, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
 import * as moment from "moment";
@@ -39,26 +39,25 @@ export const TRY_AGAIN_ERR_MSG = "Something went wrong please try again";
 export const VALIDATE_EMAIL = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-
-export enum UserType{
-  SALES='sales',
-  SALES_TEAM='salesteam',
-  DEALER='dealer',
-  MANUFACTURER='manufacturer',
-  CUSTOMER='customer',
-  CUSTOMER_CARE='customercare',
-  SUPER_SUPPLIER='supersupplier',
-  SUPPLIER='supplier'
+export enum UserType {
+  SALES = 'sales',
+  SALES_TEAM = 'salesteam',
+  DEALER = 'dealer',
+  MANUFACTURER = 'manufacturer',
+  CUSTOMER = 'customer',
+  CUSTOMER_CARE = 'customercare',
+  SUPER_SUPPLIER = 'supersupplier',
+  SUPPLIER = 'supplier'
 }
 
 @Injectable()
 export class UtilsProvider {
 
+  private static _USER_IS_SUPER_DEALER: boolean = false;
   RESULT_SUCCESS: string = "success";
-
-  private pd;
   public ERROR_MES = "";
   DIGITS = "[0-9]*";
+  private pd;
   private START_STR = "Please enter ";
 
   constructor(public http: HttpClient,
@@ -67,30 +66,66 @@ export class UtilsProvider {
     console.log('Hello UtilsProvider Provider');
   }
 
+  private static _USER_ID: string = "";
 
-  showLog(val, lineNumber?, pageName?) {
-    console.log(val);
-    if (lineNumber)
-      console.log(lineNumber);
-    if (pageName)
-      console.log(pageName);
+  static get USER_ID(): string {
+    return this._USER_ID;
   }
 
+  private static _USER_NAME: string = "";
 
-  private static _USER_ID:string="";
-  private static _USER_NAME:string="";
-  private static _USER_PHNO:string="";
-  private static _USER_ADDR:string="";
-  private static _USER_TYPE:string="";
-  private static _USER_IS_SUPER_DEALER:boolean=false;
-  private static _USER_DEALER_ID:string="";
-  private static _USER_DEALER_NAME:string="";
-  private static _USER_DEALER_PHNO:string="";
-  private static _USER_DEALER_ADDR:string="";
+  static get USER_NAME(): string {
+    return this._USER_NAME;
+  }
 
+  private static _USER_PHNO: string = "";
 
-  static setValues(uID:string, uName:string, uPhno:string, uAddr:string,uType:string,
-                   uDealerID:string, uDealerName:string, uDealerPhno:string, uDealerAddr:string){
+  static get USER_PHNO(): string {
+    return this._USER_PHNO;
+  }
+
+  private static _USER_ADDR: string = "";
+
+  static get USER_ADDR(): string {
+    return this._USER_ADDR;
+  }
+
+  private static _USER_TYPE: string = "";
+
+  static get USER_TYPE(): string {
+    return this._USER_TYPE;
+  }
+
+  private static _USER_DEALER_ID: string = "";
+
+  static get USER_DEALER_ID(): string {
+    return this._USER_DEALER_ID;
+  }
+
+  private static _USER_DEALER_NAME: string = "";
+
+  static get USER_DEALER_NAME(): string {
+    return this._USER_NAME;
+  }
+
+  private static _USER_DEALER_PHNO: string = "";
+
+  static get USER_DEALER_PHNO(): string {
+    return this._USER_PHNO;
+  }
+
+  private static _USER_DEALER_ADDR: string = "";
+
+  static get USER_DEALER_ADDR(): string {
+    return this._USER_ADDR;
+  }
+
+  static get IS_SUPER_DEALER(): boolean {
+    return this._USER_IS_SUPER_DEALER;
+  }
+
+  static setValues(uID: string, uName: string, uPhno: string, uAddr: string, uType: string,
+                   uDealerID: string, uDealerName: string, uDealerPhno: string, uDealerAddr: string) {
     this._USER_ID = uID;
     this._USER_NAME = uName;
     this._USER_PHNO = uPhno;
@@ -103,45 +138,23 @@ export class UtilsProvider {
     this._USER_DEALER_ADDR = uDealerAddr;
   }
 
-
-  static get USER_ID():string{
-    return this._USER_ID;
+  static formatDateToDDMMYYYY(date) {
+    let d = new Date(date);
+    return moment(d).format('DD-MM-YYYY');
   }
 
-  static get USER_NAME():string{
-    return this._USER_NAME;
-  }
-  static get USER_PHNO():string{
-    return this._USER_PHNO;
-  }
-  static get USER_ADDR():string{
-    return this._USER_ADDR;
+  static formatDateToYYYYMMDD(date) {
+    let d = new Date(date);
+    return moment(d).format('YYYY-MM-DD');
   }
 
-  static get USER_TYPE():string{
-    return this._USER_TYPE;
+  showLog(val, lineNumber?, pageName?) {
+    console.log(val);
+    if (lineNumber)
+      console.log(lineNumber);
+    if (pageName)
+      console.log(pageName);
   }
-
-  static get IS_SUPER_DEALER():boolean{
-    return this._USER_IS_SUPER_DEALER;
-  }
-
-  static get USER_DEALER_ID():string{
-    return this._USER_DEALER_ID;
-  }
-
-  static get USER_DEALER_NAME():string{
-    return this._USER_NAME;
-  }
-  static get USER_DEALER_PHNO():string{
-    return this._USER_PHNO;
-  }
-  static get USER_DEALER_ADDR():string{
-    return this._USER_ADDR;
-  }
-
-
-
 
   showToastWithButton(message: string, showCloseButton: boolean, showCloseButtonText: string) {
     const toast = this.toast.create({
@@ -153,10 +166,10 @@ export class UtilsProvider {
   }
 
   showToast(message: string) {
-     /*this.toast.show(message, '2000', 'bottom').subscribe(
-       toast => {
-         this.showLog(toast);
-      });*/
+    /*this.toast.show(message, '2000', 'bottom').subscribe(
+      toast => {
+        this.showLog(toast);
+     });*/
 
     let toast = this.toast.create({
       message: message,
@@ -164,6 +177,19 @@ export class UtilsProvider {
     });
     toast.present();
   }
+
+
+  /*showLoadingWithText(text) {
+    this.pd = this.loadingCtrl.create({
+      content: text,
+      dismissOnPageChange: true
+    });
+    this.pd.present();
+    setTimeout(() => {
+      this.pd.dismiss();
+    }, 5000);
+
+  }*/
 
   showToastSnackBar(message: string) {
     let toast = this.toast.create({
@@ -180,19 +206,6 @@ export class UtilsProvider {
     });
     this.pd.present();
   }
-
-
-  /*showLoadingWithText(text) {
-    this.pd = this.loadingCtrl.create({
-      content: text,
-      dismissOnPageChange: true
-    });
-    this.pd.present();
-    setTimeout(() => {
-      this.pd.dismiss();
-    }, 5000);
-
-  }*/
 
   hideLoading() {
     if (this.pd)
@@ -215,20 +228,20 @@ export class UtilsProvider {
           if (s.indexOf("'") == -1) {
             return true;
           } else {
-            this.showLog('Single Coat'+" : Detected");
+            this.showLog('Single Coat' + " : Detected");
             this.ERROR_MES = "single coat not allowed in " + fieldName;
             this.showLog("Error Mes   : " + this.ERROR_MES);
             return false;
           }
         } else {
-          this.showLog('Max Length'+" : Failed");
+          this.showLog('Max Length' + " : Failed");
           this.ERROR_MES = this.START_STR + "max " + maxLength
             + " characters of " + fieldName;
           this.showLog("Error Mes   : " + this.ERROR_MES);
           return false;
         }
       } else {
-        this.showLog('Min Length'+"   : Failed");
+        this.showLog('Min Length' + "   : Failed");
         this.ERROR_MES = this.START_STR + "atleast " + minLength
           + " characters of " + fieldName;
         this.showLog("Error Mes   : " + this.ERROR_MES);
@@ -248,7 +261,7 @@ export class UtilsProvider {
     let regExp = /^[0-9]{10}$/;
 
     if (!regExp.test(mob)) {
-      return { "invalidMobile": true };
+      return {"invalidMobile": true};
     }
     return null;
   }
@@ -258,7 +271,7 @@ export class UtilsProvider {
     let regExp = /^[0-9]+$/;
 
     if (!regExp.test(mob)) {
-      return { "invalidMobile": true };
+      return {"invalidMobile": true};
     }
     return null;
   }
@@ -268,7 +281,7 @@ export class UtilsProvider {
     let regExp = /^[a-z][A-Z]{50}$/;
 
     if (!regExp.test(name)) {
-      return { "invalidMobile": true };
+      return {"invalidMobile": true};
     }
     return null;
   }
@@ -316,14 +329,11 @@ export class UtilsProvider {
 
   }
 
-  static formatDateToDDMMYYYY(date) {
-    let d = new Date(date);
-    return moment(d).format('DD-MM-YYYY');
-  }
-
-  static formatDateToYYYYMMDD(date) {
-    let d = new Date(date);
-    return moment(d).format('YYYY-MM-DD');
+  validate(s) {
+    if (s == null || s == 'null')
+      return '';
+    else
+      return s;
   }
 
 }

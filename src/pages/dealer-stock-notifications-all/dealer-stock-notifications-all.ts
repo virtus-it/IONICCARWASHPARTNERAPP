@@ -3,7 +3,6 @@ import {IonicPage, NavController, NavParams, ModalController} from 'ionic-angula
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
-import {DealerStockNotificationsConfirmedPage} from "../dealer-stock-notifications-confirmed/dealer-stock-notifications-confirmed";
 import {DealerStockNotificationsConfirmStockPage} from "../dealer-stock-notifications-confirm-stock/dealer-stock-notifications-confirm-stock";
 
 @IonicPage()
@@ -16,7 +15,7 @@ export class DealerStockNotificationsAllPage {
   IS_PAGING: boolean = false;
   IS_REFRESH: boolean = false;
   showProgress = true;
-  private response: any;
+  private response: any = [];
   private noRecords = false;
   from:string = '';
 
@@ -77,7 +76,7 @@ export class DealerStockNotificationsAllPage {
 
 
       if (isPaging) {
-        input.root["lastid"] = this.response[this.response.length - 1].order_id;
+        input.root["lastid"] = this.response[this.response.length - 1].reqid;
       } else {
         input.root["lastid"] = '0';
       }
@@ -87,18 +86,22 @@ export class DealerStockNotificationsAllPage {
       this.alertUtils.showLog('data : '+data);
 
       this.apiService.postReq(this.apiService.getStockRequests(), data).then(res => {
-        this.hideProgress(isFrist,isRefresh,isPaging,'','');
+        this.hideProgress(isFrist,isRefresh,isPaging,paging, refresher);
         this.alertUtils.showLog("POST (SUCCESS)=> STOCK: ALL : " + JSON.stringify(res));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
 
-          if (!isPaging)
-            this.response = res.data;
+          /*if (!isPaging)
+            this.response = res.data;*/
           for (let i = 0; i < res.data.length; i++) {
 
-            if (isPaging)
-              this.response.push(res.data[i]);
+            if(res.data[i].products) {
+              if (isPaging)
+                this.response.push(res.data[i]);
+              else
+                this.response.push(res.data[i]);
+            }
           }
         }
 
@@ -158,6 +161,7 @@ export class DealerStockNotificationsAllPage {
     if(req){
       let model = this.modalCtrl.create('DealerStockNotificationsConfirmStockPage', {
         req:req,
+        status:req.status,
       },{
         cssClass: 'dialogcustomstyle',
       })

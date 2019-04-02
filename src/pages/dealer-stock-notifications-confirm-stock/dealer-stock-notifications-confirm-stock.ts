@@ -17,6 +17,7 @@ export class DealerStockNotificationsConfirmStockPage {
   DEALER_PHNO;
   suppliersList:string[];
   contentEditable:boolean = false;
+  status:string = '';
   input = {filledCans:'', emptyCans:'', cost:'', totalCost:'',supplierID:'', supplierName:''};
   output = {"result": "", "actionType": "", "data": ""};
 
@@ -33,6 +34,7 @@ export class DealerStockNotificationsConfirmStockPage {
 
 
     this.req = navParams.get('req');
+    this.status = navParams.get('status');
 
     if(this.req){
       if(this.req.status == 'stockrequested')
@@ -48,6 +50,7 @@ export class DealerStockNotificationsConfirmStockPage {
       this.input.totalCost  = '0';
     }
 
+    if(this.status == 'stockrequested')
     this.getSuppliers();
 
   }

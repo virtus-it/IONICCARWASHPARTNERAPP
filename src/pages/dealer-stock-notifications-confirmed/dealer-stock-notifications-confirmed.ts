@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
@@ -14,7 +14,7 @@ export class DealerStockNotificationsConfirmedPage {
   IS_PAGING: boolean = false;
   IS_REFRESH: boolean = false;
   showProgress = true;
-  private response: any;
+  private response: any = [];
   private noRecords = false;
   from:string = '';
 
@@ -22,7 +22,8 @@ export class DealerStockNotificationsConfirmedPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private network: NetworkProvider,
-              private  apiService: ApiProvider) {
+              private  apiService: ApiProvider,
+              private modalCtrl:ModalController) {
     try {
       this.from = this.navParams.get('from');
     }catch (e) {
@@ -83,18 +84,22 @@ export class DealerStockNotificationsConfirmedPage {
       this.alertUtils.showLog('data : '+data);
 
       this.apiService.postReq(this.apiService.getStockRequests(), data).then(res => {
-        this.hideProgress(isFrist,isRefresh,isPaging,'','');
+        this.hideProgress(isFrist,isRefresh,isPaging,paging, refresher);
         this.alertUtils.showLog("POST (SUCCESS)=> STOCK: ALL : " + JSON.stringify(res));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
 
-          if (!isPaging)
-            this.response = res.data;
+          /*if (!isPaging)
+            this.response = res.data;*/
           for (let i = 0; i < res.data.length; i++) {
 
-            if (isPaging)
-              this.response.push(res.data[i]);
+            if(res.data[i].products) {
+              if (isPaging)
+                this.response.push(res.data[i]);
+              else
+                this.response.push(res.data[i]);
+            }
           }
         }
 
@@ -148,6 +153,31 @@ export class DealerStockNotificationsConfirmedPage {
       return (+cans * +cost).toString();
     }else
       return '';
+  }
+
+  viewDetails($event,req){
+    if(req){
+      let model = this.modalCtrl.create('DealerStockNotificationsConfirmStockPage', {
+        req:req,
+        status:'confirm',
+      },{
+        cssClass: 'dialogcustomstyle',
+      })
+      model.present();
+
+      model.onDidDismiss(data => {
+        if (data && data.hasOwnProperty('result')) {
+          if (data.result == this.alertUtils.RESULT_SUCCESS) {
+            this.alertUtils.showToast('Updated successfully');
+
+            this.fetchOrders(false,false,false,'','');
+
+          } else {
+            this.alertUtils.showToast('Some thing went wrong!');
+          }
+        }
+      })
+    }
   }
 
 }

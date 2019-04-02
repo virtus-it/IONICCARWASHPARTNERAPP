@@ -1,3 +1,4 @@
+
 <ion-content padding>
 
   <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress" item-center></ion-spinner>
@@ -6,12 +7,13 @@
     </ion-refresher-content>
   </ion-refresher>
 
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Orders not found</h5>
+
+
   <ion-list>
     <div *ngFor="let req of response">
 
-
       <ion-card>
-
         <ion-row>
           <ion-col>Req No: {{req.reqid}} </ion-col>
           <ion-col>Invoice Date: {{reqdate}}</ion-col>
@@ -30,8 +32,8 @@
 
         <ion-row>
           <ion-col>{{req.products[0].reqdate}}</ion-col>
-          <ion-col *ngIf="req.products && req.products[0].reqconfirmdate">{{req.products[0].reqconfirmdate}}</ion-col>
-          <ion-col *ngIf="req.products && req.products[0].dealer_confirmdate">{{req.products[0].dealer_confirmdate}}</ion-col>
+          <ion-col *ngIf="req.products[0].reqconfirmdate">{{req.products[0].reqconfirmdate}}</ion-col>
+          <ion-col *ngIf="req.products[0].dealer_confirmdate">{{req.products[0].dealer_confirmdate}}</ion-col>
         </ion-row>
 
         <ion-row>
@@ -43,7 +45,7 @@
 
         <ion-row>
           <ion-col>
-            {{req.category+" "+req.brandname+" "+ptype}}
+            {{req.products[0].category+" "+req.products[0].brandname+" "+req.products[0].ptype}}
           </ion-col>
         </ion-row>
 
@@ -55,6 +57,9 @@
             <ion-col>{{calculateTotalCost(product.stock, product.pcost)}}</ion-col>
           </ion-row>
         </div>
+
+
+        <button ion-button color="primary" (click)="viewDetails($event, req);">VIEW DETAILS</button>
 
       </ion-card>
     </div>

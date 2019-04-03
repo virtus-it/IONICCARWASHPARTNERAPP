@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule} from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import {WelcomePage} from "../pages/welcome/welcome";
@@ -40,8 +40,14 @@ import {HttpModule} from "@angular/http";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {DealerProductsStockHistoryPage} from "../pages/dealer-products-stock-history/dealer-products-stock-history";
 import {DealerPreOrdersCartPage} from "../pages/dealer-pre-orders-cart/dealer-pre-orders-cart";
+import {DealerOrderDetailsPage} from "../pages/dealer-order-details/dealer-order-details";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer-order-details.module";
 
-
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -78,8 +84,16 @@ import {DealerPreOrdersCartPage} from "../pages/dealer-pre-orders-cart/dealer-pr
     BrowserModule,
     HttpClientModule,
     HttpModule,
+    DealerOrderDetailsPageModule,
     IonicModule.forRoot(MyApp),
     SuperTabsModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

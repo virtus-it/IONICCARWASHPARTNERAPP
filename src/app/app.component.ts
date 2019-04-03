@@ -24,6 +24,7 @@ import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
 import {AboutUsPage} from "../pages/about-us/about-us";
 import {LogoutPage} from "../pages/logout/logout";
 import {WelcomePage} from "../pages/welcome/welcome";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -38,7 +39,12 @@ export class MyApp {
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
+              private translateService: TranslateService,
               public splashScreen: SplashScreen) {
+
+    translateService.setDefaultLang('en');
+    translateService.use('en');
+
     this.initializeApp();
 
     // used for an example of ngFor and navigation

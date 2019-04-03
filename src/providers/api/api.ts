@@ -302,9 +302,9 @@ export class ApiProvider {
     return this.baseUrl + "mupdateavaliablecansforcustomer";
   }
 
-  /* getOrderDetails() {
-   return this.baseUrl + "getorderbyid/" + Utils.APP_TYPE;
- }*/
+   getOrderDetails() {
+   return this.baseUrl + "getorderbyid/"+APP_TYPE+"/";
+ }
 
   setProductPrice() {
     return this.baseUrl + "setcustomer_wise_productprice";

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
+import {DealerOrderDetailsPage} from "../dealer-order-details/dealer-order-details";
 
 
 @IonicPage()
@@ -18,7 +19,8 @@ export class DealerOrdersOrderedPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
-              private  apiService: ApiProvider) {
+              private  apiService: ApiProvider,
+              private appCtrl:App) {
   }
 
   ionViewDidLoad() {
@@ -204,6 +206,14 @@ export class DealerOrdersOrderedPage {
       refresher.complete();
     }
 
+  }
+
+  viewDetails(event, orderID){
+    if(orderID){
+      this.appCtrl.getRootNav().push(DealerOrderDetailsPage,{
+        orderid:orderID,
+      });
+    }
   }
 
 }

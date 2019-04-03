@@ -50,6 +50,21 @@ export enum UserType {
   SUPPLIER = 'supplier'
 }
 
+export enum OrderTypes {
+  ORDERED         = 'ordered',
+  ASSIGNED        = 'assigned',
+  ACCEPT          = 'accept',
+  DELIVERED       = 'delivered',
+  CANCELLED       = 'cancelled',
+
+  DOORLOCK        = 'doorlock',
+  CANNOT_DELIVER  = 'cannot_deliver',
+  NOT_REACHABLE   = 'not_reachable',
+  BACKTODEALER    = 'backtodealer',
+  ONHOLE          = 'onhold',
+  REJECTED        = 'rejected'
+}
+
 @Injectable()
 export class UtilsProvider {
 

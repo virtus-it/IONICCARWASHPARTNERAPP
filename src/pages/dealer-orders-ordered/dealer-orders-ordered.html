@@ -46,6 +46,8 @@
           <ion-col>{{order.servicecharge}}</ion-col>
         </ion-row>
 
+        <button ion-button color="primary" (click)="viewDetails($event,order.order_id);">VIEW DETAILS</button>
+
       </ion-card>
     </div>
   </ion-list>

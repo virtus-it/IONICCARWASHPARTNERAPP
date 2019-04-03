@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="suppliers">
+      <ion-label>Suppliers</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="distributors">
+      <ion-label>Distributors</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list radio-group [(ngModel)]="selectedValue">
+    <ion-item *ngFor="let list of mainList">
+      <ion-label>{{list.firstname + " " + list.lastname}}</ion-label>
+      <ion-radio [value]="list"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer no-border>
+  <ion-row class="">
+    <ion-col align-self-center="">
+      <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+    </ion-col>
+    <ion-col align-self-center="">
+      <button ion-button class="wd-100pc" type="Create" (click)="doValidation($event);">{{buttonTitle}}</button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

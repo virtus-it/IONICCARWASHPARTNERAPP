@@ -11,6 +11,7 @@ import {DealerProductsStockHistoryPage} from "../dealer-products-stock-history/d
 })
 export class DealerProductsPage {
 
+
   baseImgUrl:string;
   extensionPng:string='.png';
   showProgress = true;
@@ -18,9 +19,6 @@ export class DealerProductsPage {
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
-  output: Map<string, any> = new Map<string, any>();
-  keys = [];
-
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -29,7 +27,6 @@ export class DealerProductsPage {
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
-
   }
 
   ionViewDidLoad() {
@@ -47,31 +44,17 @@ export class DealerProductsPage {
 
       this.apiService.getReq(url).then(res=>{
         this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));
+        this.response = res.data;
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
 
           for (let i = 0; i < res.data.length; i++) {
-            if(res.data.isactive = '1') {
-              let brandName = res.data[i].brandname+res.data[i].category;
-
-              this.alertUtils.showLog('BrandName : '+brandName);
-
-              if(this.output.has(brandName)){
-                this.alertUtils.showLog('IN MAP : Found brandname');
-                this.output.get(brandName)[this.output.size] = res.data[i];
-              }else {
-                this.alertUtils.showLog('IN MAP : Not Found brandname');
-                this.output.set(brandName,res.data[i]);
-              }
-
-            }
+            if(res.data.isactive)
+              this.response.push(res.data[i]);
 
           }
-
-          this.keys = Array.from(this.output.keys());
-
         } else {
           if (!isPaging)
             this.noRecords = true;
@@ -86,7 +69,6 @@ export class DealerProductsPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
-
   }
 
   doRefresh(refresher) {
@@ -165,8 +147,8 @@ export class DealerProductsPage {
 
   showPromptForDelete(event, user) {
     let prompt = this.alertCtrl.create({
-      title: 'DELETE PRODUCT',
-      message: 'Are you sure. You want delete product?',
+      title: 'DELETE SERVICE',
+      message: 'Are you sure. You want delete service?',
       buttons: [
         {
           text: 'Cancel',

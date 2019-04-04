@@ -58,9 +58,6 @@ export class DealerOrdersOrderedPage {
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
         this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + JSON.stringify(res));
 
-        this.alertUtils.showLog(res.result);
-        this.alertUtils.showLog(res.data.length);
-
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
 
@@ -208,10 +205,11 @@ export class DealerOrdersOrderedPage {
 
   }
 
-  viewDetails(event, orderID){
+  viewDetails(event, orderID, categoryID){
     if(orderID){
-      this.appCtrl.getRootNav().push(DealerOrderDetailsPage,{
+      this.appCtrl.getRootNav().push('DealerOrderDetailsPage',{
         orderid:orderID,
+        categoryid:categoryID,
       });
     }
   }

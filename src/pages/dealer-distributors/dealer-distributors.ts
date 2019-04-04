@@ -158,8 +158,8 @@ export class DealerDistributorsPage {
 
   showPromptForDelete(event, user) {
     let prompt = this.alertCtrl.create({
-      title: 'DELETE CUSTOMER',
-      message: 'Are you sure. You want delete customer?',
+      title: 'DELETE VENDOR',
+      message: 'Are you sure. You want delete vendor?',
       buttons: [
         {
           text: 'Cancel',

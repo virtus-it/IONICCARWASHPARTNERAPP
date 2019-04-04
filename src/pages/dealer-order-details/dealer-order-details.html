@@ -12,8 +12,6 @@
 </ion-header>
 
 <ion-content class="page_bg">
-  <button ion-button color="primary" (click)="assignForward($event);">ASSIGN</button>
-
   <ion-spinner block name="crescent" class="spinner_center" color="primary" *ngIf="showProgress" item-center></ion-spinner>
   <div class="no_padding prdct_main_container order_details_pg" *ngIf="!showProgress">
     <ion-card class="no_padding">
@@ -25,21 +23,15 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <span class="no_padding no_margin  text_highlight"> {{item?.category+" "+item?.brandname}}</span>
-          </ion-col>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> {{item?.prod_type}}</span>
-          </ion-col>
-
-          <ion-col>
             <span class="no_padding no_margin  text_highlight"> #{{item?.order_id}}</span>
+          </ion-col>
+          <ion-col>
+            <span class="no_padding no_margin  text_highlight"> Total: {{item?.orderamt}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>DELIVERY</ion-col>
-          <ion-col>QTY</ion-col>
-          <ion-col>TOTAL</ion-col>
           <ion-col>TYPE</ion-col>
         </ion-row>
 
@@ -48,24 +40,8 @@
             <span class="gray8" item-start>{{item?.delivery_exceptedtime}}</span>
           </ion-col>
           <ion-col>
-            <span class="no_padding no_margin  text_highlight"> {{item?.quantity}}</span>
-          </ion-col>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> {{item?.bill_amount}}</span>
-          </ion-col>
-          <ion-col>
             <span class="no_padding no_margin  text_highlight"> {{item?.orderby_paymenttype}}</span>
           </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>Service Charge</ion-col>
-          <ion-col>Exp Del Charge</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>{{item?.servicecharges}}</ion-col>
-          <ion-col>{{item?.expressdeliverycharges}}</ion-col>
         </ion-row>
 
         <ion-row>
@@ -74,8 +50,82 @@
       </ion-card-content>
     </ion-card>
 
-
+    <!--Product Details-->
     <ion-card>
+      <ion-card-content class="no_margin no_padding">
+        <ion-row>
+          <ion-col>PRODUCT DETAILS</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>{{item?.productdetails?.category}}</ion-col>
+        </ion-row>
+        <div *ngFor="let product of productsList">
+          <ion-row>
+          {{product.brandname+" "+product.ptype}}
+          </ion-row>
+          <ion-row>
+            <ion-col>QTY: {{product.quantity}}</ion-col>
+            <ion-col>COST: {{product.product_cost}}</ion-col>
+          </ion-row>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!--order status-->
+    <ion-card>
+      <ion-card-content class="no_margin no_padding">
+      ORDER STATUS
+      <ion-row>
+        <ion-col>Created</ion-col>
+        <ion-col>Assigned</ion-col>
+        <ion-col>Completed</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>{{item?.orderby_firstname+" "+item?.orderby_lastname}}</ion-col>
+        <ion-col>{{item?.supplierdetails.firstname+" "+item?.supplierdetails.lastname}}</ion-col>
+        <ion-col>{{item?.supplierdetails.firstname+" "+item?.supplierdetails.lastname}}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>{{item?.ordered_date | utcDate}}</ion-col>
+        <ion-col>{{item?.order_assigneddate | utcDate}}</ion-col>
+        <ion-col>{{item?.order_delivereddate | utcDate}}</ion-col>
+      </ion-row>
+
+      <ion-row class="border-top pdtop-5">
+        <ion-col col-sm-4 col-md-4 col-lg-4 col-xl-4>
+          <label item-right class="Ordstatus-style">{{item?.ordered_qty}}</label>{{'ORDER_DETAILS_PAGE.LABELS.lb_ordered' | translate }}
+        </ion-col>
+        <ion-col col-sm-4 col-md-4 col-lg-4 col-xl-4 class="center">
+          <div *ngIf="item?.status == 'delivered' ">
+            <label item-right class="Delstatus-style">{{item?.delivered_quantity}}</label>
+            {{'ORDER_DETAILS_PAGE.LABELS.lb_delivered' | translate }}
+          </div>
+          <div *ngIf="item?.status != 'delivered' ">
+            <label item-right class="Delstatus-style">0</label>{{ 'ORDER_DETAILS_PAGE.LABELS.lb_delivered' | translate }}
+          </div>
+
+        </ion-col>
+        <ion-col col-sm-3 col-md-4 col-lg-4 col-xl-4 class="right">
+          <div *ngIf="item?.status == 'delivered' ">
+            <label item-right class="Retstatus-style">{{item?.return_cans}}</label>{{'ORDER_DETAILS_PAGE.LABELS.lb_return' | translate }}
+          </div>
+          <div *ngIf="item?.status != 'delivered' ">
+            <label item-right class="Retstatus-style">0</label>{{ 'ORDER_DETAILS_PAGE.LABELS.lb_return' | translate }}
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <button ion-button color="primary"  small no-margin style="width:49%" (click)="onHoldOrder($event);">ON-HOLD ORDER</button>
+          <button ion-button color="primary"  small no-margin style="width:49%" (click)="editStatusModal($event);">EDIT STATUS</button>
+      </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <!--order status customer app code-->
+    <!--<ion-card>
       <ion-card-content class="no_margin no_padding">
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5>
@@ -164,7 +214,7 @@
           </ion-col>
         </ion-row>
       </ion-card-content>
-    </ion-card>
+    </ion-card>-->
     <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
       <ion-card-content class="no_margin no_padding">
         <ion-row>
@@ -182,6 +232,12 @@
           <ion-icon name="call" small class="no_margin no_padding"></ion-icon>
           <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.supplierdetails.mobileno}}</span>
         </ion-item>
+
+        <ion-row *ngIf="item?.status != 'delivered'">
+          <ion-col>
+            <button ion-button color="primary" (click)="assignForward($event);">ASSIGN</button>
+          </ion-col>
+        </ion-row>
       </ion-card-content>
     </ion-card>
 

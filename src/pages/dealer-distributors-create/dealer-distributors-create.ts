@@ -47,11 +47,11 @@ export class DealerDistributorsCreatePage {
 
     if (this.user == '') {
       this.isUpdate = false;
-      this.pageTitle = 'CREATE DISTRIBUTOR';
+      this.pageTitle = 'CREATE VENDOR';
       this.buttonTitle = 'CREATE';
     } else {
       this.isUpdate = true;
-      this.pageTitle = 'EDIT DISTRIBUTOR';
+      this.pageTitle = 'EDIT VENDOR';
       this.buttonTitle = 'UPDATE';
 
       //updating values

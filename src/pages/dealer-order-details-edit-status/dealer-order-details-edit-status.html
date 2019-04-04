@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">ORDER STATUS</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form>
+
+    <ion-card>
+      <ion-list radio-group [(ngModel)]="input.orderStatus" name="paymentType">
+
+        <ion-item>
+          <ion-label>Delivered</ion-label>
+          <ion-radio value="delivered"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Door Locked</ion-label>
+          <ion-radio value="doorlock"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Rejected</ion-label>
+          <ion-radio value="rejected"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Not Reachable</ion-label>
+          <ion-radio value="notreachable"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Can't Delivered</ion-label>
+          <ion-radio value="cantdelivered"></ion-radio>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card>
+
+
+    <div *ngIf="input.orderStatus == 'delivered'">
+      <ion-card>
+        <ion-row>
+          <ion-col>Quantity</ion-col>
+          <ion-col>Return cans</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.quantity}}</ion-col>
+          <ion-col>{{order.returnemptycans}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-row>
+          <ion-col>Due Amt</ion-col>
+          <ion-col>Adv Amt</ion-col>
+          <ion-col>Bill Amt</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.quantity}}</ion-col>
+          <ion-col>{{order.returnemptycans}}</ion-col>
+          <ion-col>{{order.orderamt}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-row>
+          <ion-col>Order Amt</ion-col>
+          <ion-col>Service Charge</ion-col>
+          <ion-col>Ex Del Charge</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{order.orderamt}}</ion-col>
+          <ion-col>{{order.servicecharges}}</ion-col>
+          <ion-col>{{order.expressdeliverycharges}}</ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <button ion-button color="primary" (click)="closeModal($event);">CANCEL</button>
+    <button ion-button color="primary" (click)="submitOrder($event);">SUBMIT</button>
+  </ion-row>
+</ion-footer>

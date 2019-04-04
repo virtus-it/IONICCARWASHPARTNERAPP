@@ -14,10 +14,10 @@ import {SuperTabs} from "ionic2-super-tabs";
 export class DealerOrdersHomePage {
 
   pages = [
-    {pageName: 'DealerOrdersOrderedPage',   title: 'ORDERED',   icon: 'cloud-download', id: 'newsTab'},
-    {pageName: 'DealerOrdersForwardPage',   title: 'FORWARD',   icon: 'cloud-upload',   id: 'aboutTab'},
-    {pageName: 'DealerOrdersMiscPage',      title: 'MISC',      icon: 'cloud',          id: 'aboutTab'},
-    {pageName: 'DealerOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-done',     id: 'accountTab'}
+    {pageName: 'DealerOrdersOrderedPage',   title: 'ORDERED',   icon: 'cloud-download', id: 'orderedTab'},
+    {pageName: 'DealerOrdersForwardPage',   title: 'FORWARD',   icon: 'cloud-upload',   id: 'forwardTab'},
+    {pageName: 'DealerOrdersMiscPage',      title: 'MISC',      icon: 'cloud',          id: 'miscTab'},
+    {pageName: 'DealerOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-done',     id: 'completedTab'}
   ];
 
   selectedTab = 0;

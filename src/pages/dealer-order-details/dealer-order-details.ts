@@ -11,6 +11,7 @@ import {
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
 import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assign-forward/dealer-order-details-assign-forward";
+import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
 
 @IonicPage()
 @Component({
@@ -30,11 +31,13 @@ export class DealerOrderDetailsPage {
   editorMsg: string = "";
   suppliersList: string[];
   distributorsList: string[];
+  productsList: string[];
   private loginStatus: boolean = false;
   private dealerID = "";
   private userID = "";
   private callFrom = "";
   private orderId = "";
+  private categoryID = "";
 
   constructor(private modalCtrl: ModalController,
               private ref: ChangeDetectorRef,
@@ -51,64 +54,18 @@ export class DealerOrderDetailsPage {
 
     this.callFrom = this.param.get("callfrom");
     this.orderId = this.param.get("orderid");
+    this.categoryID = this.param.get("categoryid");
 
     this.userID = UtilsProvider.USER_ID;
     this.dealerID = UtilsProvider.USER_DEALER_ID;
 
-    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    // this.userID = Utils.USER_INFO_DATA.userid;
-    // this.dealerID = Utils.USER_INFO_DATA.superdealerid;
+
     if (this.orderId)
       this.fetchOrderDetails();
     else
       this.alertUtils.showLog('order id is not found');
 
   }
-
-  ionViewWillEnter() {
-    try {
-      this.tabBarElement.style.display = 'none';
-    } catch (e) {
-      this.alertUtils.showLog(e);
-    }
-  }
-
-  /* close() {
-     this.appCtrl.getRootNav().setRoot(TabsPage, {from: "pushnotification"});
-   }*/
-
-  ionViewWillLeave() {
-    try {
-      this.tabBarElement.style.display = 'flex';
-    } catch (e) {
-      this.alertUtils.showLog(e);
-    }
-  }
-
-  ngOnInit() {
-    console.log("ngOnInit");
-    this.fetchOrderDetails();
-    /*this.alertUtils.getLoginState().then(res => {
-      if (res) {
-        this.loginStatus = res;
-        this.alertUtils.getDealerId().then(res => {
-          if (res) {
-            this.dealerID = res;
-            this.alertUtils.getUserId().then(res => {
-              if (res) {
-                this.userID = res;
-                this.fetchOrderDetails();
-              }
-            })
-          }
-        });
-      }
-    }).catch(err => {
-      this.alertUtils.showLog(err);
-    });*/
-
-  }
-
   fetchOrderDetails() {
     try {
       let url = this.apiService.getOrderDetails() + this.orderId + "/" + this.userID;
@@ -188,6 +145,7 @@ export class DealerOrderDetailsPage {
           } else {
             this.item["orderstatus"] = this.item.status;
           }
+
           if (this.item.messages) {
             let arr = [];
             for (let i = 0; i < this.item.messages.length; i++) {
@@ -200,6 +158,8 @@ export class DealerOrderDetailsPage {
           }
           this.ref.detectChanges();
           this.alertUtils.showLog(this.item);
+
+          this.getProductsByOrderId();
         }
       }, err => {
         this.alertUtils.showLog(err);
@@ -214,14 +174,12 @@ export class DealerOrderDetailsPage {
   }
 
   openAssignForwardModal() {
-    /*this.alertUtils.showLog('Suppliers: '+this.suppliersList);
-    this.alertUtils.showLog('Distributors: '+this.distributorsList);
-    this.alertUtils.showLog('assignForwardModal');
-    this.alertUtils.showLog('Distributors: '+JSON.stringify(this.distributorsList));*/
     let model = this.modalCtrl.create('DealerOrderDetailsAssignForwardPage', {
       suppliersList: this.suppliersList,
       distributorsList: this.distributorsList,
       orderInfo: this.item,
+    },{
+      cssClass: 'dialogcustomstyle',
     })
 
     model.onDidDismiss(data => {
@@ -243,24 +201,51 @@ export class DealerOrderDetailsPage {
     model.present();
   }
 
+  editStatusModal() {
+    let model = this.modalCtrl.create('DealerOrderDetailsEditStatusPage', {
+      order:this.item,
+    },{
+      cssClass: 'dialogcustomstyle',
+    })
+
+    model.onDidDismiss(data => {
+      if (data && data.hasOwnProperty('result')) {
+        if (data.result == this.alertUtils.RESULT_SUCCESS) {
+            this.alertUtils.showToast('Order Status Updated');
+          this.fetchOrderDetails();
+        } else {
+          this.alertUtils.showToast('Some thing went wrong!');
+        }
+      }
+    })
+    model.present();
+  }
+
   getSuppliers() {
 
-    let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE;
+    try {
 
-    this.alertUtils.showLog(url);
 
-    this.alertUtils.showLoading();
-    this.apiService.getReq(url).then(res => {
-      this.alertUtils.showLog(res);
+      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE;
+
+      this.alertUtils.showLog(url);
+
+      this.alertUtils.showLoading();
+      this.apiService.getReq(url).then(res => {
+        this.alertUtils.showLog(res);
+        this.alertUtils.hideLoading();
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          this.suppliersList = res.data;
+
+          this.getDistributors();
+        }
+      }, error => {
+        this.alertUtils.hideLoading();
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
-      if (res.result == this.alertUtils.RESULT_SUCCESS) {
-        this.suppliersList = res.data;
-
-        this.getDistributors();
-      }
-    }, error => {
-
-    })
+    }
 
   }
 
@@ -289,12 +274,55 @@ export class DealerOrderDetailsPage {
         this.ref.detectChanges();
       }, error => {
         this.alertUtils.showLog("POST (ERROR)=> DISTRIBUTORS: " + error);
+        this.alertUtils.hideLoading();
       })
 
     } catch (e) {
       this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
     }
+  }
 
+  getProductsByOrderId() {
+
+    try {
+      let input = {
+        "root": {
+          "userid": UtilsProvider.USER_ID,
+          "orderid": this.orderId,
+          "categoryid": this.categoryID,
+          "loginid": UtilsProvider.USER_ID,
+          "apptype": APP_TYPE,
+        }
+      };
+
+      this.alertUtils.showLoading();
+      this.apiService.postReq(this.apiService.getProductsByOrderId(), JSON.stringify(input)).then(res => {
+        this.alertUtils.hideLoading();
+        this.alertUtils.showLog("POST (SUCCESS)=> PRODUCTS: " + JSON.stringify(res));
+        this.productsList = res.data;
+
+
+        this.ref.detectChanges();
+      }, error => {
+        this.alertUtils.showLog("POST (ERROR)=> PRODUCTS: " + error);
+        this.alertUtils.hideLoading();
+      })
+
+    } catch (e) {
+      this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
+    }
+  }
+
+  onHoldOrder(event){
+    this.alertUtils.showLog('onhold order clicked');
+    this.alertUtils.showToast('Clicked onhold order');
+  }
+
+  editStatus(event){
+    this.alertUtils.showLog('edit status clicked');
+    this.alertUtils.showToast('Clicked edit status');
   }
 
   /*cancelOrder(item) {
@@ -345,7 +373,7 @@ export class DealerOrderDetailsPage {
     }).catch(error => {
       this.alertUtils.showLog(error)
     });
-  }
+  }*/
 
   sendMessage(item) {
     // this.showPrompt(item)
@@ -370,9 +398,9 @@ export class DealerOrderDetailsPage {
   }
 
 
-  callNow(number) {
+  /*callNow(number) {
     this.alertUtils.callNumber(number);
-  }
+  }*/
 
 
   createMessage(item: any, message: string) {
@@ -396,7 +424,7 @@ export class DealerOrderDetailsPage {
       "message": message,
       "ispublic": "0",
       "user": {
-        "firstname": Utils.APP_USER_NAME, "lastname": "", "userid": this.userID
+        "firstname": UtilsProvider.USER_NAME, "lastname": "", "userid": this.userID
       }
     };
     this.alertUtils.showLog(this.item);
@@ -415,5 +443,5 @@ export class DealerOrderDetailsPage {
     }).catch(error => {
       this.alertUtils.showLog(error)
     });
-  }*/
+  }
 }

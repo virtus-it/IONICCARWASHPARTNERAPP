@@ -25,6 +25,7 @@ import {AboutUsPage} from "../pages/about-us/about-us";
 import {LogoutPage} from "../pages/logout/logout";
 import {WelcomePage} from "../pages/welcome/welcome";
 import {TranslateService} from "@ngx-translate/core";
+import {UserType} from "../providers/utils/utils";
 
 
 @Component({
@@ -35,7 +36,11 @@ export class MyApp {
 
   rootPage: any = WelcomePage;
 
-  pages: Array<{title: string, component: any}>;
+  static userType:string = 'supplier';
+
+  pages:          Array<{title: string, component: any, icon: string}>;
+  pagesDealer:    Array<{title: string, component: any, icon: string}>;
+  pagesSupplier:  Array<{title: string, component: any, icon: string}>;
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -45,6 +50,7 @@ export class MyApp {
       this.splashScreen.hide();
     });
   }
+
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
@@ -59,27 +65,37 @@ export class MyApp {
     // used for an example of ngFor and navigation
 
     this.pages = [
-      { title: 'DASH BOARD',            component: DealerDashBoardPage },
+      //{ title: 'DASH BOARD',            component: DealerDashBoardPage,                 icon:"md-home" },
+      { title: 'ORDERS',                component: DealerOrdersHomePage,                icon:"md-home" },
+      //{ title: 'PRE - ORDERS',          component: DealerPreOrdersPage,                 icon:"md-home" },
+      { title: 'CUSTOMERS',             component: DealerCustomersPage,                 icon:"md-home" },
+      { title: 'SERVICES',              component: DealerProductsPage,                  icon:"md-home" },
+      { title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
+      //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
+      { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage,                 icon:"md-home" },
+      { title: 'VENDORS',               component: DealerDistributorsPage,              icon:"md-home" },
+      //{ title: 'POINTS VIEW',           component: DealerPointsPage,                    icon:"md-home" },
+      { title: 'FEEDBACK',              component: FeedbackPage,                        icon:"md-home" },
+      //{ title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage,    icon:"md-home" },
+      //{ title: 'SALES REPORT',          component: DealerSalesReportHomePage,           icon:"md-home" },
+      //{ title: 'CATEGORY',              component: DealerCategoryHomePage,              icon:"md-home" },
+      //{ title: 'MARKET PLACE',          component: DealerMarketPlacePage,               icon:"md-home" },
+      //{ title: 'TRACK SUPPLIER',        component: DealerTrackSupplierPage,             icon:"md-home" },
+      //{ title: 'PROMO CODES',           component: DealerPromoCodesPage,                icon:"md-home" },
+      { title: 'PROFILE',               component: DealerProfilePage,                   icon:"md-home" },
+      { title: 'ABOUT US',              component: AboutUsPage,                         icon:"md-home" },
+      { title: 'LOGOUT',                component: LogoutPage,                          icon:"md-home" }
+    ];
+
+    /*this.pagesSupplier = [
       { title: 'ORDERS',                component: DealerOrdersHomePage },
-      { title: 'PRE - ORDERS',          component: DealerPreOrdersPage },
-      { title: 'CUSTOMERS',             component: DealerCustomersPage },
-      { title: 'SERVICES',              component: DealerProductsPage },
-      { title: 'PAYMENTS',              component: DealerPaymentsHomePage },
-      { title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage },
-      { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage },
-      { title: 'VENDORS',               component: DealerDistributorsPage },
-      { title: 'POINTS VIEW',           component: DealerPointsPage },
-      { title: 'FEEDBACK',              component: FeedbackPage },
-      { title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage },
-      { title: 'SALES REPORT',          component: DealerSalesReportHomePage },
-      { title: 'CATEGORY',              component: DealerCategoryHomePage },
-      { title: 'MARKET PLACE',          component: DealerMarketPlacePage },
-      { title: 'TRACK SUPPLIER',        component: DealerTrackSupplierPage },
-      { title: 'PROMO CODES',           component: DealerPromoCodesPage },
       { title: 'PROFILE',               component: DealerProfilePage },
       { title: 'ABOUT US',              component: AboutUsPage },
       { title: 'LOGOUT',                component: LogoutPage }
-    ];
+    ];*/
+
+    //this.pages = this.pagesDealer;
+      //MyApp.updateList(UserType.SUPPLIER);
 
   }
 
@@ -87,5 +103,12 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  updateList(s){
+    if(s == UserType.DEALER)
+      this.pages = this.pagesDealer;
+    else if(s == UserType.SUPPLIER)
+      this.pages = this.pagesSupplier;
   }
 }

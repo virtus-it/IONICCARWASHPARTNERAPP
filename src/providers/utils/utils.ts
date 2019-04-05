@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {LoadingController, ToastController} from "ionic-angular";
+import {AlertController, LoadingController, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
 import * as moment from "moment";
 
@@ -61,8 +61,9 @@ export enum OrderTypes {
   CANNOT_DELIVER  = 'cannot_deliver',
   NOT_REACHABLE   = 'not_reachable',
   BACKTODEALER    = 'backtodealer',
-  ONHOLE          = 'onhold',
-  REJECTED        = 'rejected'
+  ONHOLD          = 'onhold',
+  REJECTED        = 'rejected',
+  NOT_BROADCASTED = 'not_broadcasted'
 }
 
 @Injectable()
@@ -77,6 +78,7 @@ export class UtilsProvider {
 
   constructor(public http: HttpClient,
               public toast: ToastController,
+              public alertCtrl: AlertController,
               public loadingCtrl: LoadingController) {
     console.log('Hello UtilsProvider Provider');
   }
@@ -351,4 +353,18 @@ export class UtilsProvider {
       return s;
   }
 
+  showAlert(title: string, message: string, btnName: string) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      message: message,
+      buttons: [
+        {
+          text: btnName,
+          handler: () => {
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }

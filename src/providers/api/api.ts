@@ -15,7 +15,7 @@ export class ApiProvider {
 
   private static DEVELOPMENT_URL = "http://192.168.1.50:2250/";
   private static LOCALHOST_URL = "http://localhost:5432/";
-  private static TESTING_URL = "http://104.211.247.42:3229/";
+  private static TESTING_URL = "http://104.211.247.42:2250/";
   private static PRODUCTION_URL = "http://moya.online/";
 
   private baseUrl: string;
@@ -23,7 +23,7 @@ export class ApiProvider {
 
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
-    this.baseUrl = ApiProvider.DEVELOPMENT_URL;
+    this.baseUrl = ApiProvider.TESTING_URL;
     this.http = http;
   }
 
@@ -121,9 +121,9 @@ export class ApiProvider {
     return this.baseUrl + "signup";
   }
 
-  /*  getForgotPwdUrl() {
-    return this.baseUrl + "forgotpwd/" + Utils.APP_TYPE + "/";
-  }*/
+    getForgotPwdUrl() {
+    return this.baseUrl + "forgotpwd/" + APP_TYPE + "/";
+  }
 
   getProductsByCustomerid() {
     return this.baseUrl + "getproductsbycustomerid/";

@@ -301,7 +301,7 @@
       "lb_ordered": "Ordered",
       "lb_delivered": "Delivered",
       "lb_return": "Return",
-      "lb_supplier_details": "SUPPLIER DETAILS",
+      "lb_supplier_details": "SERVICE ENGINEER DETAILS",
       "lb_dealer_details": " DEALER DETAILS",
       "lb_order_msg": "ORDER MESSAGES",
       "lb_send_msg": "Send Message"

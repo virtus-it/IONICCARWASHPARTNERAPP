@@ -4,7 +4,7 @@ import {
   APP_TYPE,
   APP_USER_TYPE,
   FRAMEWORK,
-  INTERNET_ERR_MSG,
+  INTERNET_ERR_MSG, OrderTypes,
   RES_SUCCESS, UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
@@ -75,6 +75,13 @@ export class DealerOrderDetailsPage {
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.alertUtils.showLog(res.data[0]);
           this.item = res.data[0];
+
+          if(this.item.status == OrderTypes.DELIVERED){
+            this.item["billamt_updated"] = res.data[0].bill_amount;
+          }else
+            this.item["billamt_updated"] = res.data[0].orderamt;
+
+
           if (this.item.status == "assigned" || this.item.status == "delivered") {
             if (this.item.supplierdetails) {
               this.item["showassignstatus"] = true;
@@ -146,6 +153,31 @@ export class DealerOrderDetailsPage {
             this.item["orderstatus"] = this.item.status;
           }
 
+          if (this.item.status == OrderTypes.ORDERED ||
+            this.item.status == OrderTypes.ASSIGNED ||
+            this.item.status == OrderTypes.ACCEPT ||
+            this.item.status == OrderTypes.BACKTODEALER ||
+            this.item.status == OrderTypes.NOT_BROADCASTED) {
+
+            if (this.item.status == OrderTypes.ORDERED ||
+              this.item.status == OrderTypes.ACCEPT ||
+              this.item.status == OrderTypes.BACKTODEALER ||
+              this.item.status == OrderTypes.NOT_BROADCASTED)
+              this.item["statusUpdated"] = "Order Created";
+            else if (this.item.status == OrderTypes.ASSIGNED)
+              this.item["statusUpdated"] = "Assigned to Service Engineer";
+          } else if (this.item.status == OrderTypes.DELIVERED) {
+            this.item["statusUpdated"] = "Order Delivered";
+          } else if (this.item.status == OrderTypes.CANNOT_DELIVER) {
+          } else if (this.item.status == OrderTypes.DOORLOCK) {
+          } else if (this.item.status == OrderTypes.NOT_REACHABLE) {
+          } else if (this.item.status == OrderTypes.CANCELLED) {
+            this.item["statusUpdated"] = "Order Cancelled";
+          } else if (this.item.status == OrderTypes.ONHOLD) {
+
+            this.item["statusUpdated"] = "Order is On Hold";
+          }
+
           if (this.item.messages) {
             let arr = [];
             for (let i = 0; i < this.item.messages.length; i++) {
@@ -211,7 +243,7 @@ export class DealerOrderDetailsPage {
     model.onDidDismiss(data => {
       if (data && data.hasOwnProperty('result')) {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
-            this.alertUtils.showToast('Order Status Updated');
+            this.alertUtils.showToast('Order Delivered');
           this.fetchOrderDetails();
         } else {
           this.alertUtils.showToast('Some thing went wrong!');
@@ -237,7 +269,7 @@ export class DealerOrderDetailsPage {
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.suppliersList = res.data;
 
-          this.getDistributors();
+          this.openAssignForwardModal();
         }
       }, error => {
         this.alertUtils.hideLoading();

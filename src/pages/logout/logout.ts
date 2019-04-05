@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the LogoutPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {UtilsProvider} from "../../providers/utils/utils";
+import {LoginPage} from "../login/login";
 
 @IonicPage()
 @Component({
@@ -19,7 +14,12 @@ export class LogoutPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LogoutPage');
+    this.logout();
+  }
+
+  logout(){
+    UtilsProvider.setValues('','','','','','','','','');
+    this.navCtrl.setRoot(LoginPage)
   }
 
 }

@@ -12,7 +12,7 @@
   <form>
 
     <ion-card>
-      <ion-list radio-group [(ngModel)]="input.orderStatus" name="paymentType">
+      <ion-list radio-group [(ngModel)]="input.orderStatus" name="orderStatus">
 
         <ion-item>
           <ion-label>Delivered</ion-label>
@@ -48,16 +48,24 @@
       <ion-card>
         <ion-row>
           <ion-col>Quantity</ion-col>
-          <ion-col>Return cans</ion-col>
+          <ion-col>{{input.return_cans}}</ion-col>
+
         </ion-row>
 
-        <ion-row>
-          <ion-col>{{order.quantity}}</ion-col>
-          <ion-col>{{order.returnemptycans}}</ion-col>
-        </ion-row>
+        <!--<ion-row>
+          <ion-col>{{input.delivered_qty}}</ion-col>
+          <ion-col>{{input.return_cans}}</ion-col>
+        </ion-row>-->
       </ion-card>
 
       <ion-card>
+        <ion-row>
+          <ion-col>Bill Amt</ion-col>
+          <ion-col>{{order.orderamt}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+      <!--<ion-card>
         <ion-row>
           <ion-col>Due Amt</ion-col>
           <ion-col>Adv Amt</ion-col>
@@ -69,9 +77,9 @@
           <ion-col>{{order.returnemptycans}}</ion-col>
           <ion-col>{{order.orderamt}}</ion-col>
         </ion-row>
-      </ion-card>
+      </ion-card>-->
 
-      <ion-card>
+      <!--<ion-card>
         <ion-row>
           <ion-col>Order Amt</ion-col>
           <ion-col>Service Charge</ion-col>
@@ -83,8 +91,36 @@
           <ion-col>{{order.servicecharges}}</ion-col>
           <ion-col>{{order.expressdeliverycharges}}</ion-col>
         </ion-row>
+      </ion-card>-->
+
+      <ion-card>
+        <ion-list radio-group [(ngModel)]="input.paymentype" name="paymentype">
+
+          <ion-item>
+            <ion-label>COD</ion-label>
+            <ion-radio value="cod"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>CREDIT</ion-label>
+            <ion-radio value="credit"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>PAYTM</ion-label>
+            <ion-radio value="paytm"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>ONLINE BANKING</ion-label>
+            <ion-radio value="onlinebanking"></ion-radio>
+          </ion-item>
+
+        </ion-list>
       </ion-card>
     </div>
+
+
 
   </form>
 </ion-content>

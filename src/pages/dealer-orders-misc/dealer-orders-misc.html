@@ -1,20 +1,31 @@
-
 <ion-content padding>
 
-  <ion-list>
-    <div *ngFor="let order of orders">
+  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+               name="crescent"></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
 
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Orders not found</h5>
+
+
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let order of response">
 
       <ion-card>
 
+        <ion-card-header>
+          {{order.statusUpdated}}
+        </ion-card-header>
+
         <ion-row>
           <ion-col>#{{order.order_id}} </ion-col>
-          <ion-col>{{order.quantity}}</ion-col>
-          <ion-col>INR{{order.bill_amount}}</ion-col>
+          <ion-col>INR{{order.billamt_updated}}</ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>{{order.productdetails.category +" "+order.brandname+ " " +order.prod_type }} </ion-col>
+          <ion-col>{{order.productdetails.category + " " + order.brandname + " " + order.prod_type }} </ion-col>
         </ion-row>
 
         <ion-row>
@@ -26,19 +37,16 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>Cost</ion-col>
-          <ion-col>Ex Del Charge</ion-col>
-          <ion-col>Serv Charge</ion-col>
+          <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
+            VIEW DETAILS
+          </button>
+          {{order.orderstatus}}
         </ion-row>
-
-        <ion-row>
-          <ion-col>{{order.prod_cost}}</ion-col>
-          <ion-col>{{order.expressdeliverycharges}}</ion-col>
-
-          <ion-col>{{order.servicecharge}}</ion-col>
-        </ion-row>
-
       </ion-card>
     </div>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

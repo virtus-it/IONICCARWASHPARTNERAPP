@@ -39,11 +39,10 @@ import { NetworkProvider } from '../providers/network/network';
 import {HttpModule} from "@angular/http";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {DealerProductsStockHistoryPage} from "../pages/dealer-products-stock-history/dealer-products-stock-history";
-import {DealerPreOrdersCartPage} from "../pages/dealer-pre-orders-cart/dealer-pre-orders-cart";
-import {DealerOrderDetailsPage} from "../pages/dealer-order-details/dealer-order-details";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer-order-details.module";
+import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -53,7 +52,6 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     MyApp,
     WelcomePage,
-    LoginPage,
     RegisterPage,
     HomePage,
     ListPage,
@@ -76,9 +74,10 @@ export function createTranslateLoader(http: HttpClient) {
     DealerPromoCodesPage,
     DealerProfilePage,
     DealerProductsStockHistoryPage,
-    AboutUsPage,
+    SupplierOrdersHomePage,
     LogoutPage,
-
+    AboutUsPage,
+    LoginPage,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +98,6 @@ export function createTranslateLoader(http: HttpClient) {
   entryComponents: [
     MyApp,
     WelcomePage,
-    LoginPage,
     RegisterPage,
     HomePage,
     ListPage,
@@ -122,8 +120,10 @@ export function createTranslateLoader(http: HttpClient) {
     DealerPromoCodesPage,
     DealerProfilePage,
     DealerProductsStockHistoryPage,
+    SupplierOrdersHomePage,
     AboutUsPage,
-    LogoutPage
+    LogoutPage,
+    LoginPage,
   ],
   providers: [
     StatusBar,

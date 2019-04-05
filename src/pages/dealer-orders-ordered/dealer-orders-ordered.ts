@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
+import {APP_TYPE, FRAMEWORK, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerOrderDetailsPage} from "../dealer-order-details/dealer-order-details";
 
@@ -20,11 +20,11 @@ export class DealerOrdersOrderedPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
-              private appCtrl:App) {
+              private appCtrl: App) {
   }
 
   ionViewDidLoad() {
-    this.fetchOrders(false,false,true,"","");
+    this.fetchOrders(false, false, true, "", "");
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
@@ -55,7 +55,7 @@ export class DealerOrdersOrderedPage {
       //this.alertUtils.showLoading();
       this.apiService.postReq(this.apiService.orderByStatus(), data).then(res => {
         this.alertUtils.hideLoading();
-        this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
+        this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
         this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + JSON.stringify(res));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
@@ -64,6 +64,44 @@ export class DealerOrdersOrderedPage {
           if (!isPaging)
             this.response = res.data;
           for (let i = 0; i < res.data.length; i++) {
+
+            if(res.data[i].status == OrderTypes.DELIVERED){
+              res.data[i]["billamt_updated"] = res.data[i].bill_amount;
+            }else
+              res.data[i]["billamt_updated"] = res.data[i].orderamt;
+
+            if (res.data[i].status == OrderTypes.ORDERED ||
+              res.data[i].status == OrderTypes.ASSIGNED ||
+              res.data[i].status == OrderTypes.ACCEPT ||
+              res.data[i].status == OrderTypes.BACKTODEALER ||
+              res.data[i].status == OrderTypes.NOT_BROADCASTED) {
+
+              res.data[i]["orderstatus"] = "ASSIGN";
+
+              if (res.data[i].status == OrderTypes.ORDERED ||
+                res.data[i].status == OrderTypes.ACCEPT ||
+                res.data[i].status == OrderTypes.BACKTODEALER ||
+                res.data[i].status == OrderTypes.NOT_BROADCASTED)
+                res.data[i]["statusUpdated"] = "Order Created";
+              else if (res.data[i].status == OrderTypes.ASSIGNED)
+                res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
+            } else if (res.data[i].status == OrderTypes.DELIVERED) {
+              res.data[i]["orderstatus"] = "DELIVERED";
+              res.data[i]["statusUpdated"] = "Order Delivered";
+            } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
+              res.data[i]["orderstatus"] = "CANT DELIVER";
+            } else if (res.data[i].status == OrderTypes.DOORLOCK) {
+              res.data[i]["orderstatus"] = "DOORLOCK";
+            } else if (res.data[i].status == OrderTypes.NOT_REACHABLE) {
+              res.data[i]["orderstatus"] = "NOT REACHABLE";
+            } else if (res.data[i].status == OrderTypes.CANCELLED) {
+              res.data[i]["orderstatus"] = "CANCELLED";
+              res.data[i]["statusUpdated"] = "Order Cancelled";
+            } else if (res.data[i].status == OrderTypes.ONHOLD) {
+              res.data[i]["orderstatus"] = "ON HOLD";
+              res.data[i]["statusUpdated"] = "Order is On Hold";
+            }
+
             /*res.data[i]["commentstext"] = "Show Comments";
             res.data[i]["showcommentsbox"] = false;
             if (res.data[i].status == "onhold") {
@@ -160,12 +198,12 @@ export class DealerOrdersOrderedPage {
 
       }, error => {
         this.alertUtils.hideLoading();
-        this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
+        this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
       });
 
     } catch (e) {
       this.alertUtils.hideLoading();
-      this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
+      this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
   }
 
@@ -205,11 +243,11 @@ export class DealerOrdersOrderedPage {
 
   }
 
-  viewDetails(event, orderID, categoryID){
-    if(orderID){
-      this.appCtrl.getRootNav().push('DealerOrderDetailsPage',{
-        orderid:orderID,
-        categoryid:categoryID,
+  viewDetails(event, orderID, categoryID) {
+    if (orderID) {
+      this.appCtrl.getRootNav().push('DealerOrderDetailsPage', {
+        orderid: orderID,
+        categoryid: categoryID,
       });
     }
   }

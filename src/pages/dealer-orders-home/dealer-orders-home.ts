@@ -17,7 +17,6 @@ export class DealerOrdersHomePage {
     {pageName: 'DealerOrdersOrderedPage',   title: 'ORDERED',   icon: 'cloud-download', id: 'orderedTab'},
     {pageName: 'DealerOrdersForwardPage',   title: 'FORWARD',   icon: 'cloud-upload',   id: 'forwardTab'},
     {pageName: 'DealerOrdersMiscPage',      title: 'MISC',      icon: 'cloud',          id: 'miscTab'},
-    {pageName: 'DealerOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-done',     id: 'completedTab'}
   ];
 
   selectedTab = 0;

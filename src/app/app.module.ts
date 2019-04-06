@@ -45,6 +45,9 @@ import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer
 import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+const config: SocketIoConfig = { url: 'http://192.168.1.50:1900', options: {} };
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -87,6 +90,7 @@ export function createTranslateLoader(http: HttpClient) {
     DealerOrderDetailsPageModule,
     IonicModule.forRoot(MyApp),
     SuperTabsModule.forRoot(),
+    SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

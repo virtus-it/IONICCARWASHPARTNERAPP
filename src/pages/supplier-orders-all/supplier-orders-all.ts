@@ -5,7 +5,7 @@ import {ApiProvider} from "../../providers/api/api";
 import 'rxjs/add/observable/interval';
 import {Observable, Subscription} from "rxjs";
 import {Geolocation} from '@ionic-native/geolocation/ngx';
-
+import { Socket } from 'ng-socket-io';
 @IonicPage()
 @Component({
   selector: 'page-supplier-orders-all',
@@ -23,6 +23,7 @@ export class SupplierOrdersAllPage {
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
               private geolocation: Geolocation,
+              private socket: Socket,
               private appCtrl: App) {
   }
 
@@ -310,8 +311,20 @@ export class SupplierOrdersAllPage {
   }
 
   trackingUpdate(data, i) {
-    //{"root":{"classificationid":"123","latitude":"17.20","longitude":"12.20","userid":"4567","transtype":"create"}}
     try {
+      this.socket.connect();
+      this.socket.emit("carwashserviceenginerstarted",
+        {
+          "orderid":  this.response[i].order_id,
+          "lat":      data.coords.latitude,
+          "log":      data.coords.longitude,
+          "uuid":     '1234567890'});
+    }catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
+    //{"root":{"classificationid":"123","latitude":"17.20","longitude":"12.20","userid":"4567","transtype":"create"}}
+    /*try {
       let input = {
         "root": {
           "classificationid": this.response[i].order_id,
@@ -340,7 +353,7 @@ export class SupplierOrdersAllPage {
     } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
-    }
+    }*/
   }
 
 }

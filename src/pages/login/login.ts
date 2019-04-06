@@ -6,6 +6,10 @@ import {NetworkProvider} from "../../providers/network/network";
 import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
 import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
 import {TranslateService} from "@ngx-translate/core";
+import 'rxjs/add/observable/interval';
+import {Observable, Subscription} from "rxjs";
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+import { Socket } from 'ng-socket-io';
 
 @IonicPage()
 @Component({
@@ -21,6 +25,7 @@ export class LoginPage {
   public showPass = false;
   errorText: string = "";
   showLogin = true;
+  sub: Subscription;
 
   //production
 /*   username:string='9863636315';
@@ -33,6 +38,8 @@ export class LoginPage {
               private apiUrl : ApiProvider,
               private alertCtrl: AlertController,
               private apiService:ApiProvider,
+              private geolocation: Geolocation,
+              private socket: Socket,
               private translateService: TranslateService) {
 
     translateService.setDefaultLang('en');
@@ -252,5 +259,34 @@ export class LoginPage {
       this.alertUtils.showLog(e);
     }
   }
+
+
+  /*getLocation() {
+    let i=0;
+    this.alertUtils.showToast('Tracking Initialized');
+    this.sub = Observable.interval(10000).subscribe((val) => {
+      try {
+        let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
+        watch.subscribe((data) => {
+          this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
+          if(data && data.coords && data.coords.latitude && data.coords.longitude){
+            this.trackingUpdate(data,i);
+          }
+        });
+      } catch (e) {
+        this.alertUtils.showLog(e);
+      }
+
+    }, (error) => {
+      this.alertUtils.showLog("error");
+    })
+  }
+
+  trackingUpdate(data, i) {
+    this.alertUtils.showLog('SOCKET : STARTED');
+    this.socket.connect();
+    this.socket.emit('carwashserviceenginerstarted', {"lat":data.coords.latitude, "log":data.coords.longitude});
+    this.alertUtils.showLog('SOCKET : ENDEDED');
+  }*/
 
 }

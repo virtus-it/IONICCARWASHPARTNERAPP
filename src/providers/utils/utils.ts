@@ -57,6 +57,7 @@ export enum OrderTypes {
   DELIVERED       = 'delivered',
   CANCELLED       = 'cancelled',
 
+  ORDER_STARTED   = 'orderstarted',
   DOORLOCK        = 'doorlock',
   CANNOT_DELIVER  = 'cannot_deliver',
   NOT_REACHABLE   = 'not_reachable',

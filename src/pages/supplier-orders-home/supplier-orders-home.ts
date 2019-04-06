@@ -3,9 +3,6 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams} fr
 import {UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
-import {SupplierOrdersAllPage} from "../supplier-orders-all/supplier-orders-all";
-import {SupplierOrdersPendingPage} from "../supplier-orders-pending/supplier-orders-pending";
-import {SupplierOrdersCompletedPage} from "../supplier-orders-completed/supplier-orders-completed";
 import {SuperTabs} from "ionic2-super-tabs";
 
 @IonicPage()

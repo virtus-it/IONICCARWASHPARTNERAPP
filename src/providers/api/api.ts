@@ -23,7 +23,7 @@ export class ApiProvider {
 
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
-    this.baseUrl = ApiProvider.TESTING_URL;
+    this.baseUrl = ApiProvider.DEVELOPMENT_URL;
     this.http = http;
   }
 
@@ -288,6 +288,10 @@ export class ApiProvider {
 
   changeOrderStatus() {
     return this.baseUrl + "changeorderstatus";
+  }
+
+  tracking() {
+    return this.baseUrl + "tracking ";
   }
 
   getProfile() {

@@ -26,6 +26,7 @@ import {LogoutPage} from "../pages/logout/logout";
 import {WelcomePage} from "../pages/welcome/welcome";
 import {TranslateService} from "@ngx-translate/core";
 import {UserType} from "../providers/utils/utils";
+import {LoginPage} from "../pages/login/login";
 
 
 @Component({
@@ -34,7 +35,7 @@ import {UserType} from "../providers/utils/utils";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = WelcomePage;
+  rootPage: any = LoginPage;
 
   static userType:string = 'supplier';
 

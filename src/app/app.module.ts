@@ -43,6 +43,7 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer-order-details.module";
 import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -131,7 +132,8 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
     UtilsProvider,
-    NetworkProvider
+    NetworkProvider,
+    Geolocation
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

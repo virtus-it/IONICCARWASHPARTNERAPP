@@ -4,6 +4,7 @@ import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UtilsProvider} from "..
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 import {SuperTabs} from "ionic2-super-tabs";
+import {DealerOrdersCompletedPage} from "../dealer-orders-completed/dealer-orders-completed";
 
 
 @IonicPage()
@@ -15,8 +16,8 @@ export class DealerOrdersHomePage {
 
   pages = [
     {pageName: 'DealerOrdersOrderedPage',   title: 'ORDERED',   icon: 'cloud-download', id: 'orderedTab'},
-    {pageName: 'DealerOrdersForwardPage',   title: 'FORWARD',   icon: 'cloud-upload',   id: 'forwardTab'},
     {pageName: 'DealerOrdersMiscPage',      title: 'MISC',      icon: 'cloud',          id: 'miscTab'},
+    {pageName: 'DealerOrdersCompletedPage',   title: 'COMPLETED',   icon: 'cloud-upload',   id: 'completedTab'}
   ];
 
   selectedTab = 0;

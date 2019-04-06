@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
+import 'rxjs/add/observable/interval';
+import {Observable, Subscription} from "rxjs";
+import {Geolocation} from '@ionic-native/geolocation/ngx';
 
 @IonicPage()
 @Component({
@@ -11,6 +14,7 @@ import {ApiProvider} from "../../providers/api/api";
 export class SupplierOrdersAllPage {
 
   showProgress = true;
+  sub: Subscription;
   private response: any;
   private noRecords = false;
 
@@ -18,6 +22,7 @@ export class SupplierOrdersAllPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
+              private geolocation: Geolocation,
               private appCtrl: App) {
   }
 
@@ -72,20 +77,16 @@ export class SupplierOrdersAllPage {
               res.data[i]["orderstatus"] = "ASSIGN";
 
               if (res.data[i].status == OrderTypes.ORDERED ||
-                res.data[i].status == OrderTypes.ACCEPT ||
-                res.data[i].status == OrderTypes.BACKTODEALER ||
                 res.data[i].status == OrderTypes.NOT_BROADCASTED ||
                 res.data[i].status == OrderTypes.ASSIGNED)
-                res.data[i]["statusUpdated"] = "Dilivery Pending";
+                res.data[i]["statusUpdated"] = "Order Assigned";
+            } else if (res.data[i].status == OrderTypes.ACCEPT) {
+              res.data[i]["statusUpdated"] = "Order Accepted";
+            } else if (res.data[i].status == OrderTypes.ORDER_STARTED) {
+              res.data[i]["statusUpdated"] = "ORDER STARTED";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "DELIVERED";
               res.data[i]["statusUpdated"] = "Order Delivered";
-            } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
-              res.data[i]["orderstatus"] = "CANT DELIVER";
-            } else if (res.data[i].status == OrderTypes.DOORLOCK) {
-              res.data[i]["orderstatus"] = "DOORLOCK";
-            } else if (res.data[i].status == OrderTypes.NOT_REACHABLE) {
-              res.data[i]["orderstatus"] = "NOT REACHABLE";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "CANCELLED";
               res.data[i]["statusUpdated"] = "Order Cancelled";
@@ -241,6 +242,104 @@ export class SupplierOrdersAllPage {
         orderid: orderID,
         categoryid: categoryID,
       });
+    }
+  }
+
+  updateOrderStatus(event, i, status) {
+    try {
+      let input = {
+        "order": {
+          "orderid": this.response[i].order_id,
+          "status": status,
+          "userid": UtilsProvider.USER_ID,
+          "usertype": UserType.SUPPLIER,
+          "loginid": UtilsProvider.USER_ID,
+          "apptype": APP_TYPE,
+        }
+      };
+
+      this.alertUtils.showLog(JSON.stringify(input));
+
+      this.alertUtils.showLoading();
+      this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
+        this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
+        this.alertUtils.hideLoading();
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          if (status == 'accept')
+            this.alertUtils.showToast('Order accepted');
+          else if (status == 'backtodealer')
+            this.alertUtils.showToast('Order rejected');
+          else if (status == 'orderstarted') {
+            this.alertUtils.showLog('order started');
+            this.getLocation(i);
+          }
+        } else
+          this.alertUtils.showToast(res.result);
+
+        this.fetchOrders(false, false, false, '', '');
+
+      }, error => {
+        this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+        this.alertUtils.hideLoading();
+      })
+    } catch (e) {
+      this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
+    }
+  }
+
+  getLocation(i) {
+    this.alertUtils.showToast('Tracking Initialized');
+    this.sub = Observable.interval(10000).subscribe((val) => {
+      try {
+        let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
+        watch.subscribe((data) => {
+          this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
+          if(data && data.coords && data.coords.latitude && data.coords.longitude){
+            this.trackingUpdate(data,i);
+          }
+        });
+      } catch (e) {
+        this.alertUtils.showLog(e);
+      }
+
+    }, (error) => {
+      this.alertUtils.showLog("error");
+    })
+  }
+
+  trackingUpdate(data, i) {
+    //{"root":{"classificationid":"123","latitude":"17.20","longitude":"12.20","userid":"4567","transtype":"create"}}
+    try {
+      let input = {
+        "root": {
+          "classificationid": this.response[i].order_id,
+          "latitude": data.coords.latitude,
+          "longitude": data.coords.longitude,
+          "transtype": 'create',
+          "userid": UtilsProvider.USER_ID,
+          "usertype": UserType.SUPPLIER,
+          "loginid": UtilsProvider.USER_ID,
+          "apptype": APP_TYPE,
+        }
+      };
+
+      this.alertUtils.showLog(JSON.stringify(input));
+      this.apiService.postReq(this.apiService.tracking(), JSON.stringify(input)).then(res => {
+        this.alertUtils.showLog("POST (SUCCESS)=> TRACKING: " + JSON.stringify(res.data));
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+
+        }
+
+      }, error => {
+        this.alertUtils.showLog("POST (ERROR)=> TRACKING: " + error);
+        this.alertUtils.hideLoading();
+      })
+    } catch (e) {
+      this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
     }
   }
 

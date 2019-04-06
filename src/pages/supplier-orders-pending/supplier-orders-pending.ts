@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
+import {Observable, Subscription} from "rxjs";
+import 'rxjs/add/observable/interval';
 
 
 @IonicPage()
@@ -14,6 +16,7 @@ export class SupplierOrdersPendingPage {
   showProgress = true;
   private response: any;
   private noRecords = false;
+  sub:Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -243,5 +246,13 @@ export class SupplierOrdersPendingPage {
         categoryid: categoryID,
       });
     }
+  }
+
+  callFunction(){
+    this.sub = Observable.interval(10000).subscribe((val)=>{
+      this.alertUtils.showLog("fucntion called : "+UtilsProvider.formatDateToDDMMYYYY(new Date()));
+    },(error)=>{
+      this.alertUtils.showLog("error");
+    })
   }
 }

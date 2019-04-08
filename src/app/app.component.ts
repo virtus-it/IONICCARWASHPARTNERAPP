@@ -71,7 +71,7 @@ export class MyApp {
       //{ title: 'PRE - ORDERS',          component: DealerPreOrdersPage,                 icon:"md-home" },
       { title: 'CUSTOMERS',             component: DealerCustomersPage,                 icon:"md-home" },
       { title: 'SERVICES',              component: DealerProductsPage,                  icon:"md-home" },
-      { title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
+      //{ title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
       //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
       { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage,                 icon:"md-home" },
       { title: 'VENDORS',               component: DealerDistributorsPage,              icon:"md-home" },

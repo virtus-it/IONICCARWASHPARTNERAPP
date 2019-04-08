@@ -14,7 +14,7 @@ import "rxjs/add/operator/map";
 export class ApiProvider {
 
   private static DEVELOPMENT_URL = "http://192.168.1.50:2250/";
-  private static LOCALHOST_URL = "http://localhost:5432/";
+  private static LOCALHOST_URL = "http://localhost:2221/";
   private static TESTING_URL = "http://104.211.247.42:2250/";
   private static PRODUCTION_URL = "http://moya.online/";
 
@@ -25,7 +25,7 @@ export class ApiProvider {
 
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
-    this.baseUrl = ApiProvider.DEVELOPMENT_URL;
+    this.baseUrl = ApiProvider.LOCALHOST_URL;
     this.http = http;
   }
 

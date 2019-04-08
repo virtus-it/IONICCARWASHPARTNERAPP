@@ -46,8 +46,8 @@ export class LoginPage {
     translateService.use('en');
 
     //supplier
-    this.username = '9774937711';
-    this.password = '9774937711';
+   /* this.username = '9774937711';
+    this.password = '9774937711';*/
   }
 
   ionViewDidLoad() {

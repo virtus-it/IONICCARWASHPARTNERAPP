@@ -20,10 +20,10 @@ export class DealerProductsCreatePage {
   user: any;
   isUpdate: boolean = true;
 
-  categorySelected:boolean =false;
-  categoryList:string[];
-  categoryProductsList:string[];
-  categoryPos:number = -1;
+  categorySelected: boolean = false;
+  categoryList: string[];
+  categoryProductsList: string[];
+  categoryPos: number = -1;
 
   input = {
     category: "", categoryid: "", currency: "inr", brandname: "", pname: "", ptype: "", pcost: "",
@@ -81,11 +81,12 @@ export class DealerProductsCreatePage {
   isAuthorized() {
     this.input.isauthorized = !this.input.isauthorized;
   }
+
   isCansReturnble() {
     this.input.iscanreturnable = !this.input.iscanreturnable;
   }
 
-  updateCategoryDetails(event, category){
+  updateCategoryDetails(event, category) {
     this.input.category = category.category;
     this.input.categoryid = category.categoryid;
     this.categorySelected = true;
@@ -93,7 +94,7 @@ export class DealerProductsCreatePage {
     this.getCategoryProducts(category);
   }
 
-  updateProductDetails($event, product){
+  updateProductDetails($event, product) {
     this.input.pname = product.pname;
     this.input.brandname = product.pname;
   }
@@ -116,20 +117,20 @@ export class DealerProductsCreatePage {
         if (this.alertUtils.validateText(this.input.ptype, "ProductType", 1, 50)) {
           if (this.alertUtils.validateText(this.input.currency, "Currency", 3, 20)) {
             if (this.alertUtils.validateNumber(this.input.pcost, "Product Cost", 1, 4)) {
-              if (this.alertUtils.validateNumber(this.input.minorderqty, 'Min Order Qty', 1, 3)) {
-                if (this.alertUtils.validateNumber(this.input.priority, 'Priority', 1, 3)) {
-                  if (this.alertUtils.validateNumber(this.input.expressdeliverycharges, 'Express Delivery Charge', 1, 4)) {
-                    if (this.alertUtils.validateNumber(this.input.servicecharge, 'Service Charge', 1, 4)) {
+              //if (this.alertUtils.validateNumber(this.input.minorderqty, 'Min Order Qty', 1, 3)) {
+              if (this.alertUtils.validateNumber(this.input.priority, 'Priority', 1, 3)) {
+              // (this.alertUtils.validateNumber(this.input.expressdeliverycharges, 'Express Delivery Charge', 1, 4)) {
+                // if (this.alertUtils.validateNumber(this.input.servicecharge, 'Service Charge', 1, 4)) {
 
-                      this.showToast = false;
+                this.showToast = false;
 
-                      if (this.isUpdate)
-                        this.doUpdate();
-                      else
-                        this.doCreate();
-                    }
-                  }
-                }
+                if (this.isUpdate)
+                  this.doUpdate();
+                else
+                  this.doCreate();
+                /* }
+               }
+             }*/
               }
             }
           }
@@ -199,7 +200,7 @@ export class DealerProductsCreatePage {
     try {
       let input = {
         "product": {
-          "pid":this.user.productid,
+          "pid": this.user.productid,
           "category": this.input.category,
           "categoryid": this.input.categoryid,
           "currency": this.input.currency,
@@ -246,33 +247,33 @@ export class DealerProductsCreatePage {
     }
   }
 
-  getCategories(){
+  getCategories() {
 
-    let url = this.apiService.getProductCategory()+ this.USER_ID + "/" + this.USER_TYPE + "/" + APP_TYPE;
+    let url = this.apiService.getProductCategory() + this.USER_ID + "/" + this.USER_TYPE + "/" + APP_TYPE;
 
     this.alertUtils.showLog(url);
 
     this.alertUtils.showLoading();
-    this.apiService.getReq(url).then(res=>{
+    this.apiService.getReq(url).then(res => {
       this.alertUtils.showLog(res);
       this.alertUtils.hideLoading();
-      if(res.result == this.alertUtils.RESULT_SUCCESS){
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
         this.categoryList = res.data;
       }
-    },error=>{
+    }, error => {
 
     })
   }
 
-  getCategoryProducts(catDetails:any){
+  getCategoryProducts(catDetails: any) {
 
-    let input ={
-      "root":{
-        "userid":this.USER_ID,
-        "usertype":this.USER_TYPE,
-        "category":catDetails.category,
-        "categoryid":catDetails.categoryid,
-        "apptype":APP_TYPE
+    let input = {
+      "root": {
+        "userid": this.USER_ID,
+        "usertype": this.USER_TYPE,
+        "category": catDetails.category,
+        "categoryid": catDetails.categoryid,
+        "apptype": APP_TYPE
       }
     };
 
@@ -281,13 +282,13 @@ export class DealerProductsCreatePage {
     this.alertUtils.showLog('input : ' + data);
 
     this.alertUtils.showLoading();
-    this.apiService.postReq(this.apiService.getProductsByCategory(), data).then(res=>{
+    this.apiService.postReq(this.apiService.getProductsByCategory(), data).then(res => {
       this.alertUtils.showLog(res);
       this.alertUtils.hideLoading();
-      if(res.result == this.alertUtils.RESULT_SUCCESS){
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
         this.categoryProductsList = res.data;
       }
-    },error=>{
+    }, error => {
 
     })
   }

@@ -89,13 +89,13 @@ export class DealerCustomersCreatePage {
           if (this.alertUtils.validateText(this.input.platNo, "Plat No", 1, 10)) {
             if (this.alertUtils.validateText(this.input.locality, "Locality", 3, 50)) {
               if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
-                if (this.alertUtils.validateText(this.input.advAmt, "Advance Amount", 1, 10)) {
+                //if (this.alertUtils.validateText(this.input.advAmt, "Advance Amount", 1, 10)) {
                   if (this.isUpdate)
                     this.doUpdate();
                   else
                     this.doCreate();
-                } else
-                  this.showToast = true;
+               /* } else
+                  this.showToast = true;*/
               } else
                 this.showToast = true;
             } else
@@ -122,7 +122,7 @@ export class DealerCustomersCreatePage {
     try {
       let input = {
         "User": {
-          "registertype": this.input.customerType,
+          //"registertype": this.input.customerType,
           "user_type": UserType.CUSTOMER,
           "TransType": 'create',
           "firstname": this.input.firstname,
@@ -133,7 +133,7 @@ export class DealerCustomersCreatePage {
           "mobileno_two": this.input.phno3,
           "emailid": this.input.email,
           "pwd": 'paani',
-          "advamt": this.input.advAmt,
+          //"advamt": this.input.advAmt,
           "paymenttype": this.input.paymentType,
           /*"areaname": this.input.name,
           "areaid": this.input.name,*/

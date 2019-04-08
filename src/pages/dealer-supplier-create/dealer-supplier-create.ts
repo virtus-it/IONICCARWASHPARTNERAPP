@@ -22,7 +22,7 @@ export class DealerSupplierCreatePage {
   isUpdate: boolean = true;
 
 
-  input = {firstname: "", phno1: "", phno2: ""};
+  input = {firstname: "", phno1: "", phno2: "", id:"", vechicleNumber:"", addr:"", flottingCash:""};
 
   output = {"result": "", "actionType": "", "data": ""};
 
@@ -74,10 +74,22 @@ export class DealerSupplierCreatePage {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
-        if (this.isUpdate)
-          this.doUpdate();
-        else
-          this.doCreate();
+        if(this.alertUtils.validateNumber(this.input.id, 'ID',2,10)){
+          if(this.alertUtils.validateText(this.input.vechicleNumber, "Vechicle Number", 4, 10)){
+            if(this.alertUtils.validateText(this.input.flottingCash,"Flotting Cash", 1, 8)){
+              if(this.alertUtils.validateText(this.input.addr, "Address", 4, 100)){
+                if (this.isUpdate)
+                  this.doUpdate();
+                else
+                  this.doCreate();
+              }else
+                this.showToast = true;
+            }else
+              this.showToast = true;
+          }else
+            this.showToast = true;
+        }else
+          this.showToast = true;
       } else
         this.showToast = true;
     } else
@@ -89,20 +101,6 @@ export class DealerSupplierCreatePage {
     }
   }
 
-
-  /*obj2.put("user_type", "supplier");
-  obj2.put("TransType", "create");
-  obj2.put("firstname", name);
-  obj2.put("gender", gender);
-  obj2.put("pwd", phno);
-  obj2.put("loginid", Utils.UID);
-  obj2.put("mobileno", phno);
-  obj2.put("altmobileno", altmobile);
-  obj2.put("issuppersupplier", isSuperSupplier);
-  obj2.put("areaid", areaID);
-  obj2.put("areaname", areaName);
-  obj2.put("dealer_mobileno",*/
-
   doCreate() {
     try {
       let input = {
@@ -112,6 +110,10 @@ export class DealerSupplierCreatePage {
           "firstname": this.input.firstname,
           "mobileno": this.input.phno1,
           "altmobileno": this.input.phno2,
+          "id": this.input.id,
+          "vechicle_number": this.input.vechicleNumber,
+          "flotting_cash": this.input.flottingCash,
+          "address": this.input.addr,
           "issuppersupplier": false,
           "pwd": 'paani',
           "loginid": this.USER_ID,

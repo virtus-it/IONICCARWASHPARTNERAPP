@@ -37,10 +37,18 @@
         </ion-row>
 
         <ion-row>
-          <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
-            VIEW DETAILS
-          </button>
-          {{order.orderstatus}}
+          <ion-col>
+            <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
+              VIEW DETAILS
+            </button>
+          </ion-col>
+          <ion-col>
+            <!--<button ion-button *ngIf="order.states != OrderTypes.DELIVERED ||
+                                      order.status != OrderTypes.CANCELLED ||
+                                      order.status != OrderTypes.REJECTED">
+              ASSIGN
+            </button>-->
+          </ion-col>
         </ion-row>
       </ion-card>
     </div>

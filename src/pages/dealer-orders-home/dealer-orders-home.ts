@@ -1,10 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UtilsProvider} from "../../providers/utils/utils";
+import {UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 import {SuperTabs} from "ionic2-super-tabs";
-import {DealerOrdersCompletedPage} from "../dealer-orders-completed/dealer-orders-completed";
 
 
 @IonicPage()
@@ -15,8 +14,8 @@ import {DealerOrdersCompletedPage} from "../dealer-orders-completed/dealer-order
 export class DealerOrdersHomePage {
 
   pages = [
-    {pageName: 'DealerOrdersOrderedPage',   title: 'ORDERED',   icon: 'cloud-download', id: 'orderedTab'},
-    {pageName: 'DealerOrdersMiscPage',      title: 'MISC',      icon: 'cloud',          id: 'miscTab'},
+    {pageName: 'DealerOrdersOrderedPage',     title: 'ORDERED',     icon: 'cloud-download', id: 'orderedTab'},
+    {pageName: 'DealerOrdersMiscPage',        title: 'MISC',        icon: 'cloud',          id: 'miscTab'},
     {pageName: 'DealerOrdersCompletedPage',   title: 'COMPLETED',   icon: 'cloud-upload',   id: 'completedTab'}
   ];
 

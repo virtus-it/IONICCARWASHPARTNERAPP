@@ -28,6 +28,7 @@ import {DealerPromoCodesPage} from "../pages/dealer-promo-codes/dealer-promo-cod
 import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
 import {AboutUsPage} from "../pages/about-us/about-us";
 import {LogoutPage} from "../pages/logout/logout";
+import { Device } from '@ionic-native/device/ngx';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -133,6 +134,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     StatusBar,
     SplashScreen,
+    Device,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
     UtilsProvider,

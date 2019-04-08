@@ -11,7 +11,7 @@
 
 
   <ion-list *ngIf="!noRecords">
-    <div *ngFor="let order of response">
+    <div *ngFor="let order of response; let i = index;">
 
       <ion-card>
 
@@ -40,23 +40,37 @@
         <ion-row>
           <ion-col>Cost</ion-col>
           <ion-col>{{order.prod_cost}}</ion-col>
-          <!--<ion-col>Ex Del Charge</ion-col>
-          <ion-col>Serv Charge</ion-col>-->
         </ion-row>
 
-        <!--<ion-row>
-          <ion-col>{{order.prod_cost}}</ion-col>
-          <ion-col>{{order.expressdeliverycharges}}</ion-col>
 
-          <ion-col>{{order.servicecharge}}</ion-col>
-        </ion-row>-->
+
+        <!--accept or reject order-->
+        <ion-row *ngIf="order.orderstatus == 'assigned'">
+          <ion-col>
+            <button (click)="updateOrderStatus($event,i,'backtodealer');"  ion-button>
+              REJECT
+            </button>
+          </ion-col>
+          <ion-col>
+            <button (click)="updateOrderStatus($event,i,'accept');"  ion-button>
+              ACCEPT
+            </button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="order.orderstatus == 'accepted'">
+          <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
+            STARTED
+          </button>
+        </ion-row>
 
         <ion-row>
-          <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
+          <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
             VIEW DETAILS
           </button>
           {{order.orderstatus}}
         </ion-row>
+
       </ion-card>
     </div>
   </ion-list>

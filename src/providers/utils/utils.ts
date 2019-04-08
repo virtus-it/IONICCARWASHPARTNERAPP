@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {AlertController, LoadingController, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
 import * as moment from "moment";
+import { Device } from '@ionic-native/device/ngx';
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
@@ -28,7 +29,7 @@ const KEY_USER_LOGIN_STATUS = 'secure_storage_user_login_status';
 const KEY_USER_PROMO_CODE = 'secure_storage_user_prome_code';
 const KEY_USER_INFO = 'secure_storage_user_user_info';
 const KEY_APP_FIRST_CALL_INFO = 'secure_storage_user_app_first_info';
-export const APP_TYPE: string = "moya";
+export const APP_TYPE: string = "carwash";
 export const APP_USER_TYPE: string = "admin";
 export const MOBILE_TYPE: string = "android";
 export const FRAMEWORK: string = "ionic";
@@ -80,6 +81,7 @@ export class UtilsProvider {
   constructor(public http: HttpClient,
               public toast: ToastController,
               public alertCtrl: AlertController,
+              private device: Device,
               public loadingCtrl: LoadingController) {
     console.log('Hello UtilsProvider Provider');
   }
@@ -367,5 +369,9 @@ export class UtilsProvider {
       ]
     });
     alert.present();
+  }
+
+  getDeviceUUID() {
+    return this.device.uuid;
   }
 }

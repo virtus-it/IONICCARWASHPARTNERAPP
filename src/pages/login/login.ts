@@ -46,8 +46,8 @@ export class LoginPage {
     translateService.use('en');
 
     //supplier
-   /* this.username = '9774937711';
-    this.password = '9774937711';*/
+    this.username = '9774937711';
+    this.password = '9774937711';
   }
 
   ionViewDidLoad() {
@@ -64,14 +64,16 @@ export class LoginPage {
         "emailid": this.username,
         "mobileno": this.username,
         "pwd": this.password,
+        //"useruniqueid": this.alertUtils.getDeviceUUID(),
         "apptype": APP_TYPE,
         "mobiletype": MOBILE_TYPE,
         "framework": FRAMEWORK,
-        "user_type": APP_USER_TYPE
+        "app_user_type": APP_USER_TYPE
       }
     };
 
     let data = JSON.stringify(input);
+    //input.User["useruniqueid"] = this.getUUID();
 
     this.alertUtils.showLog("data",data);
 

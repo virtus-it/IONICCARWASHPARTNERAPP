@@ -156,27 +156,44 @@ export class DealerOrderDetailsPage {
           if (this.item.status == OrderTypes.ORDERED ||
             this.item.status == OrderTypes.ASSIGNED ||
             this.item.status == OrderTypes.ACCEPT ||
+            this.item.status == OrderTypes.ORDER_STARTED ||
             this.item.status == OrderTypes.BACKTODEALER ||
             this.item.status == OrderTypes.NOT_BROADCASTED) {
 
+            this.item["orderstatus"] = "ASSIGN";
+
             if (this.item.status == OrderTypes.ORDERED ||
-              this.item.status == OrderTypes.ACCEPT ||
               this.item.status == OrderTypes.BACKTODEALER ||
               this.item.status == OrderTypes.NOT_BROADCASTED)
               this.item["statusUpdated"] = "Order Created";
             else if (this.item.status == OrderTypes.ASSIGNED)
               this.item["statusUpdated"] = "Assigned to Service Engineer";
+            else if(this.item.status == OrderTypes.ACCEPT)
+              this.item["statusUpdated"] = "Order Accepted";
+            else if(this.item.status == OrderTypes.ORDER_STARTED)
+              this.item["statusUpdated"] = "Order Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
+            this.item["orderstatus"] = "DELIVERED";
             this.item["statusUpdated"] = "Order Delivered";
           } else if (this.item.status == OrderTypes.CANNOT_DELIVER) {
+            this.item["orderstatus"] = "CANT DELIVER";
           } else if (this.item.status == OrderTypes.DOORLOCK) {
+            this.item["orderstatus"] = "DOORLOCK";
           } else if (this.item.status == OrderTypes.NOT_REACHABLE) {
+            this.item["orderstatus"] = "NOT REACHABLE";
           } else if (this.item.status == OrderTypes.CANCELLED) {
+            this.item["orderstatus"] = "CANCELLED";
             this.item["statusUpdated"] = "Order Cancelled";
           } else if (this.item.status == OrderTypes.ONHOLD) {
-
+            this.item["orderstatus"] = "ON HOLD";
             this.item["statusUpdated"] = "Order is On Hold";
           }
+
+          //updating bill amount
+          if(this.item.status == OrderTypes.DELIVERED){
+            this.item["billamt_updated"] = this.item.bill_amount;
+          }else
+            this.item["billamt_updated"] = this.item.orderamt;
 
           if (this.item.messages) {
             let arr = [];
@@ -281,7 +298,7 @@ export class DealerOrderDetailsPage {
 
   }
 
-  getDistributors() {
+  /*getDistributors() {
 
     try {
       let input = {
@@ -313,7 +330,7 @@ export class DealerOrderDetailsPage {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
     }
-  }
+  }*/
 
   getProductsByOrderId() {
 
@@ -345,6 +362,8 @@ export class DealerOrderDetailsPage {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
     }
+
+    this.alertUtils.hideLoading();
   }
 
   onHoldOrder(event){

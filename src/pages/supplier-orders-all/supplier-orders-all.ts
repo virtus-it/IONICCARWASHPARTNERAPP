@@ -17,6 +17,8 @@ export class SupplierOrdersAllPage {
   sub: Subscription;
   private response: any;
   private noRecords = false;
+  lat:any;
+  log:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -70,120 +72,28 @@ export class SupplierOrdersAllPage {
           for (let i = 0; i < res.data.length; i++) {
 
             if (res.data[i].status == OrderTypes.ORDERED ||
-              res.data[i].status == OrderTypes.ASSIGNED ||
-              res.data[i].status == OrderTypes.ACCEPT ||
-              res.data[i].status == OrderTypes.BACKTODEALER ||
-              res.data[i].status == OrderTypes.NOT_BROADCASTED) {
+                res.data[i].status == OrderTypes.ASSIGNED ||
+                res.data[i].status == OrderTypes.BACKTODEALER ||
+                res.data[i].status == OrderTypes.NOT_BROADCASTED) {
 
-              res.data[i]["orderstatus"] = "ASSIGN";
-
-              if (res.data[i].status == OrderTypes.ORDERED ||
-                res.data[i].status == OrderTypes.NOT_BROADCASTED ||
-                res.data[i].status == OrderTypes.ASSIGNED)
+                res.data[i]["orderstatus"] = "assigned";
                 res.data[i]["statusUpdated"] = "Order Assigned";
             } else if (res.data[i].status == OrderTypes.ACCEPT) {
+              res.data[i]["orderstatus"] = "accepted";
               res.data[i]["statusUpdated"] = "Order Accepted";
             } else if (res.data[i].status == OrderTypes.ORDER_STARTED) {
+              res.data[i]["orderstatus"] = "started";
               res.data[i]["statusUpdated"] = "ORDER STARTED";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
-              res.data[i]["orderstatus"] = "DELIVERED";
+              res.data[i]["orderstatus"] = "delivered";
               res.data[i]["statusUpdated"] = "Order Delivered";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
-              res.data[i]["orderstatus"] = "CANCELLED";
+              res.data[i]["orderstatus"] = "cancelled";
               res.data[i]["statusUpdated"] = "Order Cancelled";
             } else if (res.data[i].status == OrderTypes.ONHOLD) {
-              res.data[i]["orderstatus"] = "ON HOLD";
+              res.data[i]["orderstatus"] = "onhold";
               res.data[i]["statusUpdated"] = "Order is On Hold";
             }
-
-            /*res.data[i]["commentstext"] = "Show Comments";
-            res.data[i]["showcommentsbox"] = false;
-            if (res.data[i].status == "onhold") {
-              res.data[i]["orderstatus"] = "Onhold";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "We have put your order on-hold as our supplier can't deliver, sorry for the inconvenience caused";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "Cancelled" || res.data[i].status == "cancelled") {
-              res.data[i]["orderstatus"] = "Cancelled";
-              res.data[i]["statusColor"] = "danger";
-              res.data[i]["trackingmessage"] = "Not delivered: Cancelled";
-              res.data[i]["assigncolor"] = "danger";
-              res.data[i]["completedcolor"] = "danger";
-              if (res.data[i].order_by)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "customer_" + res.data[i].order_by;
-            } else if (res.data[i].status == "rejected" || res.data[i].status == "Rejected") {
-              res.data[i]["orderstatus"] = "Rejected";
-              res.data[i]["statusColor"] = "danger";
-              res.data[i]["trackingmessage"] = "Not delivered: Rejected";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "danger";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "assigned") {
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["orderstatus"] = "Assigned to supplier";
-              res.data[i]["trackingmessage"] = "Delivered";
-              res.data[i]["assigncolor"] = "success";
-              res.data[i]["completedcolor"] = "";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "delivered" || res.data[i].status == "Delivered") {
-              res.data[i]["orderstatus"] = "Delivered";
-              res.data[i]["statusColor"] = "success";
-              res.data[i]["trackingmessage"] = "Delivered";
-              res.data[i]["assigncolor"] = "success";
-              res.data[i]["completedcolor"] = "success";
-
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "doorlock" || res.data[i].status == "Door Locked") {
-              res.data[i]["orderstatus"] = "Door Locked";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "Not delivered: Door - Locked";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "warning";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "cannot_deliver" || res.data[i].status == "Cant Deliver") {
-              res.data[i]["orderstatus"] = "Cant Deliver";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "We have put your order on-hold as our supplier can't deliver, sorry for the inconvenience caused";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "warning";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "Not Reachable" || res.data[i].status == "not_reachable") {
-              res.data[i]["orderstatus"] = "Not Reachable";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "warning";
-              res.data[i]["trackingmessage"] = "Your order is unable to deliver due to your un-availability";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "pending") {
-              res.data[i]["orderstatus"] = "Pending";
-              res.data[i]["statusColor"] = "primary";
-              res.data[i]["trackingmessage"] = "Delivered";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "ordered" || res.data[i].status == "backtodealer" || res.data[i].status.toLowerCase() == "accept") {
-              res.data[i]["orderstatus"] = "Order Placed";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "Delivered";
-              if (res.data[i].dealerdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "dealer_" + res.data[i].dealerdetails.userid;
-            } else {
-              res.data[i]["orderstatus"] = res.data[i].status;
-              if (res.data[i].dealerdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].dealerdetails.userid;
-            }
-            if (res.data[i].paymenttype == "cod"
-              || res.data[i].paymenttype == "cash") {
-              res.data[i].paymenttype = "COD";
-            } else if (res.data[i].paymenttype == "credit") {
-              res.data[i].paymenttype = "CREDIT";
-            }*/
 
             if (isPaging)
               this.response.push(res.data[i]);
@@ -248,10 +158,16 @@ export class SupplierOrdersAllPage {
 
   updateOrderStatus(event, i, status) {
     try {
+
+      if(status == 'orderstarted')
+        this.getCurrentLocation();
+
       let input = {
         "order": {
           "orderid": this.response[i].order_id,
           "status": status,
+          "lat": this.lat,
+          "log": this.log,
           "userid": UtilsProvider.USER_ID,
           "usertype": UserType.SUPPLIER,
           "loginid": UtilsProvider.USER_ID,
@@ -290,6 +206,15 @@ export class SupplierOrdersAllPage {
     }
   }
 
+  getCurrentLocation(){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude
+      this.log =  resp.coords.longitude
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
+
   getLocation(i) {
     this.alertUtils.showToast('Tracking Initialized');
     this.sub = Observable.interval(10000).subscribe((val) => {
@@ -323,38 +248,6 @@ export class SupplierOrdersAllPage {
     }catch (e) {
       this.alertUtils.showLog(e);
     }
-
-    //{"root":{"classificationid":"123","latitude":"17.20","longitude":"12.20","userid":"4567","transtype":"create"}}
-    /*try {
-      let input = {
-        "root": {
-          "classificationid": this.response[i].order_id,
-          "latitude": data.coords.latitude,
-          "longitude": data.coords.longitude,
-          "transtype": 'create',
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE,
-        }
-      };
-
-      this.alertUtils.showLog(JSON.stringify(input));
-      this.apiService.postReq(this.apiService.tracking(), JSON.stringify(input)).then(res => {
-        this.alertUtils.showLog("POST (SUCCESS)=> TRACKING: " + JSON.stringify(res.data));
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-
-        }
-
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> TRACKING: " + error);
-        this.alertUtils.hideLoading();
-      })
-    } catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }*/
   }
 
 }

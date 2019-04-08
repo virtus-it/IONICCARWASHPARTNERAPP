@@ -65,26 +65,26 @@ export class DealerOrdersOrderedPage {
             this.response = res.data;
           for (let i = 0; i < res.data.length; i++) {
 
-            if(res.data[i].status == OrderTypes.DELIVERED){
-              res.data[i]["billamt_updated"] = res.data[i].bill_amount;
-            }else
-              res.data[i]["billamt_updated"] = res.data[i].orderamt;
 
             if (res.data[i].status == OrderTypes.ORDERED ||
-              res.data[i].status == OrderTypes.ASSIGNED ||
-              res.data[i].status == OrderTypes.ACCEPT ||
-              res.data[i].status == OrderTypes.BACKTODEALER ||
-              res.data[i].status == OrderTypes.NOT_BROADCASTED) {
+                res.data[i].status == OrderTypes.ASSIGNED ||
+                res.data[i].status == OrderTypes.ACCEPT ||
+                res.data[i].status == OrderTypes.ORDER_STARTED ||
+                res.data[i].status == OrderTypes.BACKTODEALER ||
+                res.data[i].status == OrderTypes.NOT_BROADCASTED) {
 
               res.data[i]["orderstatus"] = "ASSIGN";
 
               if (res.data[i].status == OrderTypes.ORDERED ||
-                res.data[i].status == OrderTypes.ACCEPT ||
                 res.data[i].status == OrderTypes.BACKTODEALER ||
                 res.data[i].status == OrderTypes.NOT_BROADCASTED)
                 res.data[i]["statusUpdated"] = "Order Created";
               else if (res.data[i].status == OrderTypes.ASSIGNED)
                 res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
+              else if(res.data[i].status == OrderTypes.ACCEPT)
+                res.data[i]["statusUpdated"] = "Order Accepted";
+              else if(res.data[i].status == OrderTypes.ORDER_STARTED)
+                res.data[i]["statusUpdated"] = "Order Started";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "DELIVERED";
               res.data[i]["statusUpdated"] = "Order Delivered";
@@ -102,94 +102,11 @@ export class DealerOrdersOrderedPage {
               res.data[i]["statusUpdated"] = "Order is On Hold";
             }
 
-            /*res.data[i]["commentstext"] = "Show Comments";
-            res.data[i]["showcommentsbox"] = false;
-            if (res.data[i].status == "onhold") {
-              res.data[i]["orderstatus"] = "Onhold";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "We have put your order on-hold as our supplier can't deliver, sorry for the inconvenience caused";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "Cancelled" || res.data[i].status == "cancelled") {
-              res.data[i]["orderstatus"] = "Cancelled";
-              res.data[i]["statusColor"] = "danger";
-              res.data[i]["trackingmessage"] = "Not delivered: Cancelled";
-              res.data[i]["assigncolor"] = "danger";
-              res.data[i]["completedcolor"] = "danger";
-              if (res.data[i].order_by)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "customer_" + res.data[i].order_by;
-            } else if (res.data[i].status == "rejected" || res.data[i].status == "Rejected") {
-              res.data[i]["orderstatus"] = "Rejected";
-              res.data[i]["statusColor"] = "danger";
-              res.data[i]["trackingmessage"] = "Not delivered: Rejected";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "danger";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "assigned") {
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["orderstatus"] = "Assigned to supplier";
-              res.data[i]["trackingmessage"] = "Delivered";
-              res.data[i]["assigncolor"] = "success";
-              res.data[i]["completedcolor"] = "";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "delivered" || res.data[i].status == "Delivered") {
-              res.data[i]["orderstatus"] = "Delivered";
-              res.data[i]["statusColor"] = "success";
-              res.data[i]["trackingmessage"] = "Delivered";
-              res.data[i]["assigncolor"] = "success";
-              res.data[i]["completedcolor"] = "success";
-
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "doorlock" || res.data[i].status == "Door Locked") {
-              res.data[i]["orderstatus"] = "Door Locked";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "Not delivered: Door - Locked";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "warning";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "cannot_deliver" || res.data[i].status == "Cant Deliver") {
-              res.data[i]["orderstatus"] = "Cant Deliver";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "We have put your order on-hold as our supplier can't deliver, sorry for the inconvenience caused";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "warning";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "Not Reachable" || res.data[i].status == "not_reachable") {
-              res.data[i]["orderstatus"] = "Not Reachable";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["assigncolor"] = "warning";
-              res.data[i]["completedcolor"] = "warning";
-              res.data[i]["trackingmessage"] = "Your order is unable to deliver due to your un-availability";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "pending") {
-              res.data[i]["orderstatus"] = "Pending";
-              res.data[i]["statusColor"] = "primary";
-              res.data[i]["trackingmessage"] = "Delivered";
-              if (res.data[i].supplierdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].supplierdetails.userid;
-            } else if (res.data[i].status == "ordered" || res.data[i].status == "backtodealer" || res.data[i].status.toLowerCase() == "accept") {
-              res.data[i]["orderstatus"] = "Order Placed";
-              res.data[i]["statusColor"] = "warning";
-              res.data[i]["trackingmessage"] = "Delivered";
-              if (res.data[i].dealerdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "dealer_" + res.data[i].dealerdetails.userid;
-            } else {
-              res.data[i]["orderstatus"] = res.data[i].status;
-              if (res.data[i].dealerdetails)
-                res.data[i]["defindimg"] = this.apiService.getImg() + "supplier_" + res.data[i].dealerdetails.userid;
-            }
-            if (res.data[i].paymenttype == "cod"
-              || res.data[i].paymenttype == "cash") {
-              res.data[i].paymenttype = "COD";
-            } else if (res.data[i].paymenttype == "credit") {
-              res.data[i].paymenttype = "CREDIT";
-            }*/
+            //updating bill amount
+            if(res.data[i].status == OrderTypes.DELIVERED){
+              res.data[i]["billamt_updated"] = res.data[i].bill_amount;
+            }else
+              res.data[i]["billamt_updated"] = res.data[i].orderamt;
 
             if (isPaging)
               this.response.push(res.data[i]);

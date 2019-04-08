@@ -15,10 +15,11 @@ export class DealerOrderDetailsEditStatusPage {
   input = {
     orderStatus: "delivered", orderid: '', paymentype: 'cod', received_amt: '',
     paymentstatus: 'confirm', adv_amt: '', return_cans: '', empty_cans: '',
-    delivered_qty: '', product_type: 'cans',
+    delivered_qty: '', product_type: 'cans'
   };
   output = {"result": "", "actionType": "", "data": ""};
-  order: any;
+  order:    any;
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -35,6 +36,7 @@ export class DealerOrderDetailsEditStatusPage {
     this.input.empty_cans = '0';
     this.input.delivered_qty = this.order.delivered_quantity;
     this.alertUtils.showLog('Order : ' + JSON.stringify(this.order));
+
   }
 
 
@@ -56,6 +58,7 @@ export class DealerOrderDetailsEditStatusPage {
           "empty_cans": this.input.empty_cans,
           "delivered_qty": this.input.delivered_qty,
           "product_type": this.input.product_type,
+          "userid": UtilsProvider.USER_ID,
           "usertype": UtilsProvider.USER_TYPE,
           "loginid": UtilsProvider.USER_ID,
           "dealerid": UtilsProvider.USER_DEALER_ID,

@@ -167,7 +167,7 @@ export class SupplierOrdersAllPage {
           "userid": UtilsProvider.USER_ID,
           "usertype": UserType.SUPPLIER,
           "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE,
+          "apptype": APP_TYPE
         }
       };
 
@@ -246,7 +246,12 @@ export class SupplierOrdersAllPage {
           "orderid":  this.response[i].order_id,
           "lat":      data.coords.latitude,
           "lng":      data.coords.longitude,
-          "uuid":     this.response[i].useruniqueid});
+          "uuid":     this.response[i].useruniqueid,
+          "userid":   UtilsProvider.USER_ID,
+          "usertype": UserType.SUPPLIER,
+          "loginid":  UtilsProvider.USER_ID,
+          "apptype":  APP_TYPE
+        });
     }catch (e) {
       this.alertUtils.showLog(e);
     }

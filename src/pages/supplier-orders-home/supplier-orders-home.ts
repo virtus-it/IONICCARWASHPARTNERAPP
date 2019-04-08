@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {UtilsProvider} from "../../providers/utils/utils";
+import {UserType, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 import {SuperTabs} from "ionic2-super-tabs";
@@ -34,7 +34,6 @@ export class SupplierOrdersHomePage {
               private menuCtrl: MenuController,
               private alertCtrl: AlertController) {
 
-
   }
 
   onTabSelect(ev: any) {
@@ -43,7 +42,8 @@ export class SupplierOrdersHomePage {
   }
 
   ionViewDidLoad() {
-    this.menuCtrl.enable(true);
+    this.menuCtrl.enable(false,'menu1');
+    this.menuCtrl.enable(true,'menu2');
   }
 
 }

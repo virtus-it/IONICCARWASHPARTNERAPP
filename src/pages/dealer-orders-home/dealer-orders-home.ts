@@ -38,6 +38,7 @@ export class DealerOrdersHomePage {
 
   }
 
+
   onTabSelect(ev: any) {
     this.selectedTab = ev.index;
     this.superTabs.clearBadge(this.pages[ev.index].id);
@@ -69,7 +70,8 @@ export class DealerOrdersHomePage {
 
   ionViewDidLoad() {
 
-     this.menuCtrl.enable(true);
+     this.menuCtrl.enable(true,'menu1');
+     this.menuCtrl.enable(false,'menu2');
 
     /* this.baseImgUrl = this.apiUrl.imageDownload()+'product_';
 

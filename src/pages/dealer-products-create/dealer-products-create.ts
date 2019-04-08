@@ -61,10 +61,10 @@ export class DealerProductsCreatePage {
       this.input.brandname = this.user.brandname;
       this.input.categoryid = this.user.categoryid;
       this.input.category = this.user.category;
-      this.input.minorderqty = JSON.stringify(this.user.minorderqty);
+      //this.input.minorderqty = JSON.stringify(this.user.minorderqty);
       this.input.priority = JSON.stringify(this.user.priority);
-      this.input.servicecharge = JSON.stringify(this.user.servicecharge);
-      this.input.expressdeliverycharges = JSON.stringify(this.user.expressdeliverycharges);
+      //this.input.servicecharge = JSON.stringify(this.user.servicecharge);
+      //this.input.expressdeliverycharges = JSON.stringify(this.user.expressdeliverycharges);
       this.input.iscanreturnable = this.user.iscanreturnable;
       this.input.isauthorized = this.user.isauthorized;
 
@@ -259,7 +259,8 @@ export class DealerProductsCreatePage {
       this.alertUtils.hideLoading();
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
         this.categoryList = res.data;
-      }
+      }else
+        this.categoryList = [];
     }, error => {
 
     })

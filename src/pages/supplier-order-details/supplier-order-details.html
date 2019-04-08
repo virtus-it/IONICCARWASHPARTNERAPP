@@ -1,0 +1,222 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      <img src="assets/imgs/header_icon.png" class="header_icon">
+      <span class="title-style"> {{ 'ORDER_DETAILS_PAGE.PAGE_TITLE' | translate }}
+      </span>
+    </ion-title>
+    <ion-buttons end *ngIf="callFrom == 'pushnotification'">
+      <button ion-button clear (click)="close()">{{ 'ORDER_DETAILS_PAGE.BUTTONS.btn_done' | translate }}</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="page_bg">
+  <ion-spinner block name="crescent" class="spinner_center" color="primary" *ngIf="showProgress" item-center></ion-spinner>
+  <div class="no_padding prdct_main_container order_details_pg" *ngIf="!showProgress">
+    <ion-card class="no_padding">
+      <ion-card-header>
+        {{item.statusUpdated}}
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <div class="corner-ribbon" *ngIf="item.promocodeapplied && item.promocodeapplied=='true'">Promocode Applied</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <span class="no_padding no_margin  text_highlight"> #{{item?.order_id}}</span>
+          </ion-col>
+          <ion-col>
+            <span class="no_padding no_margin  text_highlight"> Total: {{item?.orderamt}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>DELIVERY</ion-col>
+          <ion-col>TYPE</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <span class="gray8" item-start>{{item?.delivery_exceptedtime}}</span>
+          </ion-col>
+          <ion-col>
+            <span class="no_padding no_margin  text_highlight"> {{item?.orderby_paymenttype}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{item?.modifieddate | utcDate}}</ion-col>
+          <ion-col *ngIf="item?.status != 'delivered'">
+            <button ion-button color="primary" (click)="editStatusModal($event);">DELIVER</button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <!--Product Details-->
+    <ion-card>
+      <ion-card-content class="no_margin no_padding">
+        <ion-row>
+          <ion-col>PRODUCT DETAILS</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>{{item?.productdetails?.category}}</ion-col>
+        </ion-row>
+        <div *ngFor="let product of productsList">
+          <ion-row>
+            <ion-col>{{product?.brandname+" "+product?.ptype}}</ion-col>
+            <ion-col>COST: {{product?.billamt_updated}}</ion-col>
+          </ion-row>
+          <ion-row>
+
+          </ion-row>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!--order status-->
+    <ion-card>
+      <ion-card-content class="no_margin no_padding">
+        ORDER STATUS
+        <ion-row>
+          <ion-col>Created</ion-col>
+          <ion-col>Assigned</ion-col>
+          <ion-col>Completed</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{item.orderby_firstname+" "+item.orderby_lastname}}</ion-col>
+          <ion-col>{{item?.supplierdetails?.firstname+" "+item?.supplierdetails?.lastname}}</ion-col>
+          <ion-col>{{item?.supplierdetails?.firstname+" "+item?.supplierdetails?.lastname}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>{{item?.ordered_date | utcDate}}</ion-col>
+          <ion-col>{{item?.order_assigneddate | utcDate}}</ion-col>
+          <ion-col>{{item?.order_delivereddate | utcDate}}</ion-col>
+        </ion-row>
+
+        <!--<ion-row *ngIf="item?.status != 'delivered'">
+          &lt;!&ndash;<button ion-button color="primary"  small no-margin style="width:49%" (click)="onHoldOrder($event);">ON-HOLD ORDER</button>&ndash;&gt;
+          <button ion-button  small no-margin style="width:49%" (click)="editStatusModal($event);">EDIT STATUS</button>
+        </ion-row>-->
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
+      <ion-card-content class="no_margin no_padding">
+        <ion-row>
+          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
+            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_supplier_details' | translate }}
+          </ion-col>
+          <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
+          </ion-col>
+        </ion-row>
+        <ion-item class="no_margin no_padding">
+          <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
+          <span *ngIf="item?.suppliername" class="text_output no_margin pdleft12-nopadding">{{item?.suppliername }}</span>
+        </ion-item>
+        <ion-item class="no_margin no_padding logo-color" (click)="callNow(item?.supplierdetails.mobileno)" *ngIf="item?.supplierdetails">
+          <ion-icon name="call" small class="no_margin no_padding"></ion-icon>
+          <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.supplierdetails.mobileno}}</span>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="dealer_contnr">
+      <ion-card-content class="no_margin no_padding">
+        <ion-row>
+          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
+            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}
+          </ion-col>
+          <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
+          </ion-col>
+        </ion-row>
+        <ion-item class="no_margin no_padding">
+          <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
+          <span class="text_output no_margin pdleft12-nopadding">{{item?.dealerdetails.firstname + " "+item?.dealerdetails.lastname }}</span>
+        </ion-item>
+        <ion-row class="no_margin no_padding" hidden>
+          <ion-icon col-1 name="pin" item-left small class="no_margin no_padding"></ion-icon>
+          <ion-card-content col class="text_output no_margin pdleft20-nopadding">
+            <span>{{item?.dealerdetails.address+", "+item?.dealerdetails.city+", "+item?.dealerdetails.state + "," + item?.dealerdetails.pincode}}</span>
+          </ion-card-content>
+        </ion-row>
+        <ion-item (click)="callNow(item?.dealerdetails.mobileno)" class=" no_padding no_margin logo-color">
+          <ion-icon name="call" small></ion-icon>
+          <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.dealerdetails.mobileno}}</span>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!--<ion-card class="dealer_contnr">
+      <ion-card-content class="no_margin no_padding">
+        <ion-row>
+          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
+            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_dealer_details' | translate }}
+          </ion-col>
+          <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
+          </ion-col>
+        </ion-row>
+        <ion-item class="no_margin no_padding">
+          <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
+          <span class="text_output no_margin pdleft12-nopadding">{{item?.dealerdetails.firstname + " "+item?.dealerdetails.lastname }}</span>
+        </ion-item>
+        <ion-row class="no_margin no_padding" hidden>
+          <ion-icon col-1 name="pin" item-left small class="no_margin no_padding"></ion-icon>
+          <ion-card-content col class="text_output no_margin pdleft20-nopadding">
+            <span>{{item?.dealerdetails.address+", "+item?.dealerdetails.city+", "+item?.dealerdetails.state + "," + item?.dealerdetails.pincode}}</span>
+          </ion-card-content>
+        </ion-row>
+        <ion-item (click)="callNow(item?.dealerdetails.mobileno)" class=" no_padding no_margin logo-color">
+          <ion-icon name="call" small></ion-icon>
+          <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.dealerdetails.mobileno}}</span>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>-->
+    <ion-card>
+      <ion-card-content class="no_padding no_margin">
+        <ion-row>
+          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
+            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}
+          </ion-col>
+        </ion-row>
+        <div class="message-wrap">
+          <div *ngFor="let mes of item?.messages" class="message" [class.left]=" mes.user.userid != userID " [class.right]=" mes.user.userid == userID ">
+            <img class="user-img" src="assets/imgs/img_user.png" alt="" *ngIf="mes.user.userid != userID">
+            <div class="msg-detail">
+              <div class="msg-info">
+                <p>
+                  {{mes.user.firstname}}&nbsp;&nbsp;&nbsp;{{mes.createddate | utcDate }}</p>
+              </div>
+              <div class="msg-content">
+                <span class="triangle"></span>
+                <p class="line-breaker ">{{mes.message}}</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+<ion-footer no-border>
+  <ion-grid class="input-wrap">
+    <ion-row>
+      <ion-col col-10>
+        <ion-textarea #chat_input placeholder="Type a message here" (focusin)="onFocus()" [(ngModel)]="editorMsg" (keyup.enter)="sendMessage(item)">
+        </ion-textarea>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button clear icon-only item-right (click)="sendMessage(item)">
+          <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

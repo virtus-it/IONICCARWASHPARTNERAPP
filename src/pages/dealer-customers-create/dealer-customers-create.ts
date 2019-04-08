@@ -52,16 +52,16 @@ export class DealerCustomersCreatePage {
       this.buttonTitle = 'UPDATE';
 
       //updating values
-      this.input.firstname = this.user.firstname;
-      this.input.lastname = this.user.lastname;
+      this.input.firstname = this.alertUtils.validate(this.user.firstname);
+      this.input.lastname = this.alertUtils.validate(this.user.lastname);
       this.input.phno1 = this.user.mobileno;
       this.input.email = this.user.emailid;
       this.input.phno2 = this.user.mobileno_one;
       this.input.phno3 = this.user.mobileno_two;
-      this.input.platNo = this.user.buildingname;
-      this.input.locality = this.user.locality;
-      this.input.addr = this.user.address;
-      this.input.advAmt = JSON.stringify(this.user.payments.advance_amount);
+      this.input.platNo = this.alertUtils.validate(this.user.buildingname);
+      this.input.locality = this.alertUtils.validate(this.user.locality);
+      this.input.addr = this.alertUtils.validate(this.user.address);
+      //this.input.advAmt = JSON.stringify(this.user.payments.advance_amount);
       this.input.paymentType = this.user.paymenttype;
       this.input.customerType = this.user.registertype;
     }

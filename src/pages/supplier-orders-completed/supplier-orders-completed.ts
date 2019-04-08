@@ -29,6 +29,7 @@ export class SupplierOrdersCompletedPage {
   }
 
   ionViewDidLoad() {
+    this.getCurrentLocation();
     this.fetchOrders(false, false, true, "", "");
   }
 
@@ -158,15 +159,12 @@ export class SupplierOrdersCompletedPage {
   updateOrderStatus(event, i, status) {
     try {
 
-      if(status == 'orderstarted')
-        this.getCurrentLocation();
-
       let input = {
         "order": {
           "orderid": this.response[i].order_id,
           "status": status,
           "lat": this.lat,
-          "log": this.log,
+          "lng": this.log,
           "userid": UtilsProvider.USER_ID,
           "usertype": UserType.SUPPLIER,
           "loginid": UtilsProvider.USER_ID,
@@ -206,12 +204,19 @@ export class SupplierOrdersCompletedPage {
   }
 
   getCurrentLocation(){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.lat = resp.coords.latitude
-      this.log =  resp.coords.longitude
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+    try {
+      let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 100, enableHighAccuracy: true});
+      watch.subscribe((data) => {
+        this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
+        if(data && data.coords && data.coords.latitude && data.coords.longitude){
+          this.lat = data.coords.latitude;
+          this.log = data.coords.longitude;
+        }
+      });
+
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   getLocation(i) {
@@ -229,7 +234,7 @@ export class SupplierOrdersCompletedPage {
       } catch (e) {
         this.alertUtils.showLog(e);
       }
-
+      this.alertUtils.setSubscription(this.sub);
     }, (error) => {
       this.alertUtils.showLog("error");
     })
@@ -242,11 +247,12 @@ export class SupplierOrdersCompletedPage {
         {
           "orderid":  this.response[i].order_id,
           "lat":      data.coords.latitude,
-          "log":      data.coords.longitude,
-          "uuid":     '1234567890'});
+          "lng":      data.coords.longitude,
+          "uuid":     this.response[i].useruniqueid});
     }catch (e) {
       this.alertUtils.showLog(e);
     }
   }
+
 
 }

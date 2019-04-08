@@ -54,6 +54,10 @@ export class DealerSupplierCreatePage {
       this.input.firstname = this.user.firstname;
       this.input.phno1 = this.user.mobileno;
       this.input.phno2 = this.user.mobileno_one;
+      this.input.id = this.user.id;
+      this.input.vechicleNumber = this.user.vechicle_number;
+      this.input.flottingCash = JSON.stringify(this.user.flotting_cash);
+      this.input.addr = this.user.address;
     }
 
     this.USER_ID = UtilsProvider.USER_ID;
@@ -161,6 +165,10 @@ export class DealerSupplierCreatePage {
           "altmobileno": this.input.phno2,
           "issuppersupplier": false,
           "pwd": 'paani',
+          "id": this.input.id,
+          "vechicle_number": this.input.vechicleNumber,
+          "flotting_cash": this.input.flottingCash,
+          "address": this.input.addr,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
           "framework": FRAMEWORK,

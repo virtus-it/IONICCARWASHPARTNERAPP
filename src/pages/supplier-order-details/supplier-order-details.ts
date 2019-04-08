@@ -15,10 +15,10 @@ import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-sta
 
 @IonicPage()
 @Component({
-  selector: 'page-dealer-order-details',
-  templateUrl: 'dealer-order-details.html',
+  selector: 'page-supplier-order-details',
+  templateUrl: 'supplier-order-details.html',
 })
-export class DealerOrderDetailsPage {
+export class SupplierOrderDetailsPage {
 
   model: any;
   @ViewChild(Content) content: Content;
@@ -260,7 +260,7 @@ export class DealerOrderDetailsPage {
     model.onDidDismiss(data => {
       if (data && data.hasOwnProperty('result')) {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
-            this.alertUtils.showToast('Order Delivered');
+          this.alertUtils.showToast('Order Delivered');
           this.fetchOrderDetails();
         } else {
           this.alertUtils.showToast('Some thing went wrong!');

@@ -26,8 +26,9 @@
       <ion-card>
 
         <ion-row>
-          <ion-col>
-            {{user.firstname + " " + user.lastname}}
+          <ion-col *ngIf="user.lastname">
+            <label>{{user.firstname}}</label>
+            <label>{{user.lastname}}</label>
           </ion-col>
           <ion-col>
             {{user.mobileno}}

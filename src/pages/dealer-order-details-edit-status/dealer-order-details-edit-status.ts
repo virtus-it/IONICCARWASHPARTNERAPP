@@ -78,6 +78,7 @@ export class DealerOrderDetailsEditStatusPage {
         this.output.result = res.result;
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.viewCtrl.dismiss(this.output);
+          this.alertUtils.stopSubscription();
         } else
           this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
       }, error => {

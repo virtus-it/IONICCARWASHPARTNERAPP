@@ -8,9 +8,24 @@
 </ion-header>
 
 <ion-content padding>
-  <br>
-  <br>
-  <h3>About Us</h3>
+  <ion-card padding>
+
+    <h5 class="">{{ 'ABOUT_US_PAGE.LABELS.lb_build_version_title' | translate }}</h5>
+    <p>{{buildVersion}}</p>
+
+    <h5 class="pdtop-10">{{ 'ABOUT_US_PAGE.LABELS.lb_about_title' | translate }}</h5>
+    <p class="pstyle">{{ 'ABOUT_US_PAGE.LABELS.lb_about_content_1' | translate }}</p>
+    <p class="pstyle">{{ 'ABOUT_US_PAGE.LABELS.lb_about_content_2' | translate }}</p>
+    <p class="pstyle">{{ 'ABOUT_US_PAGE.LABELS.lb_about_content_3' | translate }}</p>
+    <p class="pstyle">{{ 'ABOUT_US_PAGE.LABELS.lb_about_content_4' | translate }}</p>
+
+    <p>
+      <a href="http://www.virtus-it.com/legal/">{{ 'ABOUT_US_PAGE.LABELS.lb_terms' | translate }}</a> and
+      <a href="http://www.virtus-it.com/privacy-statement/">{{ 'ABOUT_US_PAGE.LABELS.lb_privacy' | translate }}</a>
+    </p>
+
+    <img src="assets/imgs/powerby.png" class="img-responsive powerby-style">
+  </ion-card>
 
 
 </ion-content>

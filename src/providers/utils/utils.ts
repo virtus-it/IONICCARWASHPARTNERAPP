@@ -38,7 +38,7 @@ export const INTERNET_ERR_MSG = "Please check internet connectivity and try agai
 export const GEN_ERR_MSG = "Something went wrong please check internet connectivity and try again";
 export const TRY_AGAIN_ERR_MSG = "Something went wrong please try again";
 export const VALIDATE_EMAIL = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+import {Observable, Subscription} from "rxjs";
 
 export enum UserType {
   SALES = 'sales',
@@ -77,13 +77,28 @@ export class UtilsProvider {
   DIGITS = "[0-9]*";
   private pd;
   private START_STR = "Please enter ";
+  sub: Subscription;
 
   constructor(public http: HttpClient,
               public toast: ToastController,
               public alertCtrl: AlertController,
               private device: Device,
+
               public loadingCtrl: LoadingController) {
     console.log('Hello UtilsProvider Provider');
+  }
+
+  setSubscription(sub){
+    this.sub = sub;
+  }
+
+  getSubscription(){
+    return this.sub;
+  }
+
+  stopSubscription(){
+    if(this.sub)
+      this.sub.unsubscribe();
   }
 
   private static _USER_ID: string = "";

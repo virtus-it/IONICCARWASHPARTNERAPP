@@ -11,6 +11,7 @@ import {Observable, Subscription} from "rxjs";
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import { Socket } from 'ng-socket-io';
 
+
 @IonicPage()
 @Component({
   selector: 'page-log-in',
@@ -117,8 +118,7 @@ export class LoginPage {
             UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 
 
-            this.navCtrl.setRoot(DealerOrdersHomePage);
-            if(uType == UserType.DEALER){
+            if(uType == UserType.DEALER||uType == UserType.CUSTOMER_CARE){
               //MyApp.updateList(UserType.DEALER);
               this.navCtrl.setRoot(DealerOrdersHomePage);
             }else if(uType == UserType.SUPPLIER){

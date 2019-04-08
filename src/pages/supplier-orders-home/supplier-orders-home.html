@@ -10,7 +10,7 @@
 <ion-content>
 
 
-  <super-tabs [config]="{ sideMenu: 'left' }" tabsPlacement="top" toolbarBackground="primary" toolbarColor="light" indicatorColor="light"
+  <super-tabs tabsPlacement="top" toolbarBackground="primary" toolbarColor="light" indicatorColor="light"
               (tabSelect)="onTabSelect($event)">
     <super-tab *ngFor="let page of pages" [root]="page.pageName" [title]= page.title [icon]="page.icon" [id]="page.id"></super-tab>
   </super-tabs>

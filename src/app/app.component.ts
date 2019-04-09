@@ -56,7 +56,7 @@ export class MyApp {
 
     this.pagesDealer = [
       //{ title: 'DASH BOARD',            component: DealerDashBoardPage,                 icon:"md-home" },
-      { title: 'ORDERS',                component: DealerOrdersHomePage,                icon:"md-home" },
+      { title: 'JOBS',                  component: DealerOrdersHomePage,                icon:"md-home" },
       //{ title: 'PRE - ORDERS',          component: DealerPreOrdersPage,                 icon:"md-home" },
       { title: 'CUSTOMERS',             component: DealerCustomersPage,                 icon:"md-home" },
       { title: 'SERVICES',              component: DealerProductsPage,                  icon:"md-home" },
@@ -78,7 +78,7 @@ export class MyApp {
     ];
 
     this.pagesSupplier = [
-      { title: 'ORDERS',                component: SupplierOrdersHomePage,  icon:"md-home" },
+      { title: 'JOBS',                  component: SupplierOrdersHomePage,  icon:"md-home" },
       { title: 'PROFILE',               component: DealerProfilePage,       icon:"md-home" },
       { title: 'ABOUT US',              component: AboutUsPage,             icon:"md-home" },
       { title: 'LOGOUT',                component: LogoutPage,              icon:"md-home" }

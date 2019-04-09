@@ -45,7 +45,6 @@ export class SupplierOrdersHomePage {
   ionViewDidLoad() {
     this.menuCtrl.enable(false,'menu1');
     this.menuCtrl.enable(true,'menu2');
-    this.alertUtils.getCurrentLocation();
   }
 
 }

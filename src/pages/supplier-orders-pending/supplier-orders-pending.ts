@@ -30,7 +30,6 @@ export class SupplierOrdersPendingPage {
   }
 
   ionViewDidLoad() {
-    this.alertUtils.getCurrentLocation();
     this.fetchOrders(false, false, true, "", "");
   }
 
@@ -83,9 +82,13 @@ export class SupplierOrdersPendingPage {
               res.data[i]["orderstatus"] = "accepted";
               res.data[i]["statusUpdated"] = "Order Accepted";
             } else if (res.data[i].status == OrderTypes.ORDER_STARTED) {
-              res.data[i]["orderstatus"] = "started";
-              res.data[i]["statusUpdated"] = "ORDER STARTED";
-            } else if (res.data[i].status == OrderTypes.DELIVERED) {
+              res.data[i]["orderstatus"] = "orderstarted";
+              res.data[i]["statusUpdated"] = "Engineer started from his loc";
+            }else if (res.data[i].status == OrderTypes.JOB_STARTED) {
+              res.data[i]["orderstatus"] = "jobstarted";
+              res.data[i]["statusUpdated"] = "Job Started";
+            }
+            else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
               res.data[i]["statusUpdated"] = "Order Delivered";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
@@ -158,6 +161,9 @@ export class SupplierOrdersPendingPage {
   updateOrderStatus(event, i, status) {
     try {
 
+      if(status == 'orderstarted')
+        this.alertUtils.getCurrentLocation();
+
       let input = {
         "order": {
           "orderid": this.response[i].order_id,
@@ -186,6 +192,9 @@ export class SupplierOrdersPendingPage {
           else if (status == 'orderstarted') {
             this.alertUtils.showLog('order started');
             this.getLocation(i);
+          }else if(status == 'jobstarted'){
+            this.alertUtils.showLog('job started');
+            this.alertUtils.stopSubscription();
           }
         } else
           this.alertUtils.showToast(res.result);
@@ -207,9 +216,13 @@ export class SupplierOrdersPendingPage {
       try {
         let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
         watch.subscribe((data) => {
-          this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-          if(data && data.coords && data.coords.latitude && data.coords.longitude){
-            this.trackingUpdate(data,i);
+          try {
+            this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
+            if(data && data.coords && data.coords.latitude && data.coords.longitude){
+              this.trackingUpdate(data,i);
+            }
+          }catch (e) {
+            this.alertUtils.showLog(e);
           }
         });
 
@@ -240,5 +253,4 @@ export class SupplierOrdersPendingPage {
       this.alertUtils.showLog(e);
     }
   }
-
 }

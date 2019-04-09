@@ -60,6 +60,7 @@ export enum OrderTypes {
   CANCELLED       = 'cancelled',
 
   ORDER_STARTED   = 'orderstarted',
+  JOB_STARTED     = 'jobstarted',
   DOORLOCK        = 'doorlock',
   CANNOT_DELIVER  = 'cannot_deliver',
   NOT_REACHABLE   = 'not_reachable',
@@ -395,19 +396,19 @@ export class UtilsProvider {
 
   getCurrentLocation(){
     try {
-      /*this.geolocation.getCurrentPosition().then((resp) => {
-        this.location.latitude =  (resp.coords.latitude).toString();
-        this.location.longitude =  (resp.coords.longitude).toString();
-      }).catch((error) => {
-        console.log('Error getting location', error);
-      });*/
 
-      let watch = this.geolocation.watchPosition();
+      let watch = this.geolocation.watchPosition({enableHighAccuracy: true });
       watch.subscribe((data) => {
         // data can be a set of coordinates, or an error (if an error occurred).
-        if(data && data.coords && data.coords.latitude && data.coords.longitude)
-        this.location.latitude  = (data.coords.latitude).toString();
-        this.location.longitude = (data.coords.longitude).toString();
+        try {
+          if(data && data.coords && data.coords.latitude && data.coords.longitude) {
+            this.location.latitude = (data.coords.latitude).toString();
+            this.location.longitude = (data.coords.longitude).toString();
+          }
+        }catch (e) {
+          this.showLog(e);
+        }
+
       });
 
     } catch (e) {

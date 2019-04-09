@@ -297,40 +297,6 @@ export class SupplierOrderDetailsPage {
     }
   }
 
-  /*getDistributors() {
-
-    try {
-      let input = {
-        "root": {
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.DEALER,
-          "loginid": UtilsProvider.USER_ID,
-          "lastuserid": '0',
-          "apptype": APP_TYPE,
-        }
-      };
-
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.distributors(), JSON.stringify(input)).then(res => {
-        this.alertUtils.showLog("POST (SUCCESS)=> DISTRIBUTORS: " + JSON.stringify(res.data));
-        this.distributorsList = res.data;
-        this.alertUtils.hideLoading();
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.openAssignForwardModal();
-        }
-        this.ref.detectChanges();
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> DISTRIBUTORS: " + error);
-        this.alertUtils.hideLoading();
-      })
-
-    } catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }
-  }*/
-
   getProductsByOrderId() {
 
     try {
@@ -371,57 +337,6 @@ export class SupplierOrderDetailsPage {
     this.alertUtils.showLog('edit status clicked');
     this.alertUtils.showToast('Clicked edit status');
   }
-
-  /*cancelOrder(item) {
-    // this.showRadio(item)
-    this.model = this.modalCtrl.create('CancelOrderPage', {}, {
-      showBackdrop: false,
-      enableBackdropDismiss: false,
-      cssClass: 'raiserequestdialog'
-    });
-    this.model.present();
-    this.model.onDidDismiss(data => {
-      if (data) {
-        this.alertUtils.showLog(data);
-        if (this.alertUtils.networkStatus()) {
-          this.cancelOrderTask(item.order_id, data)
-        } else {
-          this.alertUtils.showAlert("CONNECTION ERROR", INTERNET_ERR_MSG, "OK");
-        }
-      }
-    });
-
-  }
-
-  cancelOrderTask(orderid: string, reason: string) {
-    let input = {
-      "order": {
-        "orderid": orderid,
-        "customerid": this.userID,
-        "usertype": APP_USER_TYPE,
-        "orderstatus": "cancelled",
-        "reason": reason,
-        "loginid": this.userID,
-        "apptype": APP_TYPE
-      }
-    };
-    this.alertUtils.showLog(JSON.stringify(input));
-    let data = JSON.stringify(input);
-    this.apiService.postReq(this.apiService.cancelOrder(), data).then(res => {
-      this.alertUtils.showLog(res);
-      if (res.result == RES_SUCCESS) {
-        this.alertUtils.showToast("Order successfully cancelled");
-        Utils.UPDATE_ORDER_LIST = true;
-        this.item.status = "Cancelled";
-        if (this.orderId)
-          this.fetchOrderDetails();
-
-      }
-    }).catch(error => {
-      this.alertUtils.showLog(error)
-    });
-  }*/
-
   sendMessage(item) {
     // this.showPrompt(item)
     if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {

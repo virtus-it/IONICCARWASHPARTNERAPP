@@ -95,4 +95,5 @@
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
 </widget>

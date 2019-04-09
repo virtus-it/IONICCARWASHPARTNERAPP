@@ -6,6 +6,7 @@ import {Observable, Subscription} from "rxjs";
 import 'rxjs/add/observable/interval';
 import {Geolocation} from "@ionic-native/geolocation/ngx";
 import {Socket} from "ng-socket-io";
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 
 @IonicPage()
@@ -26,6 +27,7 @@ export class SupplierOrdersPendingPage {
               private  apiService: ApiProvider,
               private geolocation: Geolocation,
               private socket: Socket,
+              private camera: Camera,
               private appCtrl: App) {
   }
 
@@ -217,8 +219,8 @@ export class SupplierOrdersPendingPage {
         let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
         watch.subscribe((data) => {
           try {
-            this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
             if(data && data.coords && data.coords.latitude && data.coords.longitude){
+              this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
               this.trackingUpdate(data,i);
             }
           }catch (e) {
@@ -252,5 +254,59 @@ export class SupplierOrdersPendingPage {
     }catch (e) {
       this.alertUtils.showLog(e);
     }
+  }
+
+  pickImage(order,prePost) {
+    this.alertUtils.showLog(order.order_id);
+    try {
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.PNG,
+        mediaType: this.camera.MediaType.PICTURE,
+        targetWidth: 100,
+        targetHeight: 100
+      };
+
+
+      this.camera.getPicture(options).then((imageData) => {
+        let base64Image = 'data:image/png;base64,' + imageData;
+        //console.log(base64Image);
+
+        if(base64Image && base64Image.length>0){
+          this.uploadImg(base64Image,prePost+'_'+order.order_id);
+        }
+
+      }, (err) => {
+        // Handle error
+        this.alertUtils.showLog(err);
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+  }
+
+  uploadImg(s,fileName){
+    let input = {
+      "image": {
+        "filename": fileName,
+        "base64string": s,
+      }
+    };
+
+    //this.alertUtils.showLog('input : '+JSON.stringify(input));
+    this.showProgress = true;
+    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
+      this.showProgress = false;
+      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
+
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
+
+      } else
+        this.alertUtils.showToast(res.result);
+
+    }, error => {
+      this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+    })
   }
 }

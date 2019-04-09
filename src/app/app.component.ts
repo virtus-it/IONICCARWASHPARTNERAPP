@@ -16,6 +16,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {UserType, UtilsProvider} from "../providers/utils/utils";
 import {LoginPage} from "../pages/login/login";
 import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
+import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
 
 
 @Component({
@@ -64,6 +65,7 @@ export class MyApp {
       //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
       { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage,                 icon:"md-home" },
       { title: 'VENDORS',               component: DealerDistributorsPage,              icon:"md-home" },
+      { title: 'CUSTOMER CARE',         component: DealerUsersCustomercarePage,              icon:"md-home" },
       //{ title: 'POINTS VIEW',           component: DealerPointsPage,                    icon:"md-home" },
       { title: 'FEEDBACK',              component: FeedbackPage,                        icon:"md-home" },
       //{ title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage,    icon:"md-home" },

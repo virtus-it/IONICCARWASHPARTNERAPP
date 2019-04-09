@@ -128,7 +128,7 @@ export class DealerUsersCustomercareCreatePage {
       let input = {
         "User": {
           "TransType": 'create',
-          "user_type": UserType.DEALER,
+          "user_type": UserType.CUSTOMER_CARE,
           "firstname": this.input.firstname,
           "lastname": this.input.lastname,
           "mobileno": this.input.phno1,

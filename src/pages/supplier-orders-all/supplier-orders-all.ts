@@ -1,11 +1,13 @@
-import {Component} from '@angular/core';
-import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
-import {ApiProvider} from "../../providers/api/api";
+import { Component } from '@angular/core';
+import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider } from "../../providers/utils/utils";
+import { ApiProvider } from "../../providers/api/api";
 import 'rxjs/add/observable/interval';
-import {Observable, Subscription} from "rxjs";
-import {Geolocation} from '@ionic-native/geolocation/ngx';
+import { Observable, Subscription } from "rxjs";
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Socket } from 'ng-socket-io';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
 @IonicPage()
 @Component({
   selector: 'page-supplier-orders-all',
@@ -19,12 +21,13 @@ export class SupplierOrdersAllPage {
   private noRecords = false;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private alertUtils: UtilsProvider,
-              private  apiService: ApiProvider,
-              private geolocation: Geolocation,
-              private socket: Socket,
-              private appCtrl: App) {
+    public navParams: NavParams,
+    private alertUtils: UtilsProvider,
+    private apiService: ApiProvider,
+    private geolocation: Geolocation,
+    private socket: Socket,
+    private camera: Camera,
+    private appCtrl: App) {
   }
 
   ionViewDidLoad() {
@@ -70,23 +73,22 @@ export class SupplierOrdersAllPage {
           for (let i = 0; i < res.data.length; i++) {
 
             if (res.data[i].status == OrderTypes.ORDERED ||
-                res.data[i].status == OrderTypes.ASSIGNED ||
-                res.data[i].status == OrderTypes.BACKTODEALER ||
-                res.data[i].status == OrderTypes.NOT_BROADCASTED) {
+              res.data[i].status == OrderTypes.ASSIGNED ||
+              res.data[i].status == OrderTypes.BACKTODEALER ||
+              res.data[i].status == OrderTypes.NOT_BROADCASTED) {
 
-                res.data[i]["orderstatus"] = "assigned";
-                res.data[i]["statusUpdated"] = "Order Assigned";
+              res.data[i]["orderstatus"] = "assigned";
+              res.data[i]["statusUpdated"] = "Order Assigned";
             } else if (res.data[i].status == OrderTypes.ACCEPT) {
               res.data[i]["orderstatus"] = "accepted";
               res.data[i]["statusUpdated"] = "Order Accepted";
             } else if (res.data[i].status == OrderTypes.ORDER_STARTED) {
               res.data[i]["orderstatus"] = "orderstarted";
               res.data[i]["statusUpdated"] = "Engineer started from his loc";
-            }else if (res.data[i].status == OrderTypes.JOB_STARTED) {
+            } else if (res.data[i].status == OrderTypes.JOB_STARTED) {
               res.data[i]["orderstatus"] = "jobstarted";
               res.data[i]["statusUpdated"] = "Job Started";
-            }
-            else if (res.data[i].status == OrderTypes.DELIVERED) {
+            } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
               res.data[i]["statusUpdated"] = "Order Delivered";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
@@ -159,7 +161,7 @@ export class SupplierOrdersAllPage {
   updateOrderStatus(event, i, status) {
     try {
 
-      if(status == 'orderstarted')
+      if (status == 'orderstarted')
         this.alertUtils.getCurrentLocation();
 
       let input = {
@@ -190,7 +192,7 @@ export class SupplierOrdersAllPage {
           else if (status == 'orderstarted') {
             this.alertUtils.showLog('order started');
             this.getLocation(i);
-          }else if(status == 'jobstarted'){
+          } else if (status == 'jobstarted') {
             this.alertUtils.showLog('job started');
             this.alertUtils.stopSubscription();
           }
@@ -212,14 +214,14 @@ export class SupplierOrdersAllPage {
     this.alertUtils.showToast('Tracking Initialized');
     this.sub = Observable.interval(10000).subscribe((val) => {
       try {
-        let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
+        let watch = this.geolocation.watchPosition({ maximumAge: 0, timeout: 10000, enableHighAccuracy: true });
         watch.subscribe((data) => {
           try {
-            this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-            if(data && data.coords && data.coords.latitude && data.coords.longitude){
-              this.trackingUpdate(data,i);
+            if (data && data.coords && data.coords.latitude && data.coords.longitude) {
+              this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
+              this.trackingUpdate(data, i);
             }
-          }catch (e) {
+          } catch (e) {
             this.alertUtils.showLog(e);
           }
         });
@@ -227,7 +229,7 @@ export class SupplierOrdersAllPage {
       } catch (e) {
         this.alertUtils.showLog(e);
       }
-        this.alertUtils.setSubscription(this.sub);
+      this.alertUtils.setSubscription(this.sub);
     }, (error) => {
       this.alertUtils.showLog("error");
     })
@@ -238,18 +240,74 @@ export class SupplierOrdersAllPage {
       this.socket.connect();
       this.socket.emit("carwashserviceenginerstarted",
         {
-          "orderid":  this.response[i].order_id,
-          "lat":      data.coords.latitude,
-          "lng":      data.coords.longitude,
-          "uuid":     this.response[i].useruniqueid,
-          "userid":   UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid":  UtilsProvider.USER_ID,
-          "apptype":  APP_TYPE
+          "order":{
+            "orderid": this.response[i].order_id,
+            "lat": data.coords.latitude,
+            "lng": data.coords.longitude,
+            "uuid": this.response[i].useruniqueid,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
+          }
         });
-    }catch (e) {
+    } catch (e) {
       this.alertUtils.showLog(e);
     }
+  }
+
+  pickImage(order,prePost) {
+    this.alertUtils.showLog(order.order_id);
+    try {
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.PNG,
+        mediaType: this.camera.MediaType.PICTURE,
+        targetWidth: 100,
+        targetHeight: 100
+      };
+
+
+      this.camera.getPicture(options).then((imageData) => {
+        let base64Image = 'data:image/png;base64,' + imageData;
+        //console.log(base64Image);
+
+        if(base64Image && base64Image.length>0){
+          this.uploadImg(base64Image,prePost+'_'+order.order_id);
+        }
+
+      }, (err) => {
+        // Handle error
+        this.alertUtils.showLog(err);
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+  }
+
+  uploadImg(s,fileName){
+    let input = {
+      "image": {
+        "filename": fileName,
+        "base64string": s,
+      }
+    };
+
+    //this.alertUtils.showLog('input : '+JSON.stringify(input));
+    this.showProgress = true;
+    this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
+      this.showProgress = false;
+      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
+
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
+
+      } else
+        this.alertUtils.showToast(res.result);
+
+    }, error => {
+      this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+    })
   }
 
 }

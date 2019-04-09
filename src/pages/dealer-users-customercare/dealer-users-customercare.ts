@@ -39,6 +39,7 @@ export class DealerUsersCustomercarePage {
         "root": {
           "userid": UtilsProvider.USER_ID,
           "usertype": UserType.DEALER,
+          "transtype":"getall",
           "loginid": UtilsProvider.USER_ID,
           "lastuserid": '0',
           "apptype": APP_TYPE,
@@ -131,7 +132,7 @@ export class DealerUsersCustomercarePage {
     else
       this.alertUtils.showLog('customer : update');
 
-    let model = this.modalCtrl.create('DealerDistributorsCreatePage', {
+    let model = this.modalCtrl.create('DealerUsersCustomercareCreatePage', {
       from: 'customer',
       item: user,
       payments: user.payments,

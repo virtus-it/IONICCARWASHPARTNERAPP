@@ -19,6 +19,7 @@ export class AboutUsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AboutUsPage');
     console.log('welcome');
+    console.log('welcome');
   }
 
 }

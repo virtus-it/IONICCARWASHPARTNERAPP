@@ -4,6 +4,7 @@ import {AlertController, LoadingController, ToastController} from "ionic-angular
 import "rxjs/add/operator/map";
 import * as moment from "moment";
 import { Device } from '@ionic-native/device/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
@@ -78,10 +79,12 @@ export class UtilsProvider {
   private pd;
   private START_STR = "Please enter ";
   sub: Subscription;
+  location = {latitude:'',longitude:''};
 
   constructor(public http: HttpClient,
               public toast: ToastController,
               public alertCtrl: AlertController,
+              private geolocation: Geolocation,
               private device: Device,
 
               public loadingCtrl: LoadingController) {
@@ -388,5 +391,27 @@ export class UtilsProvider {
 
   getDeviceUUID() {
     return this.device.uuid;
+  }
+
+  getCurrentLocation(){
+    try {
+      /*this.geolocation.getCurrentPosition().then((resp) => {
+        this.location.latitude =  (resp.coords.latitude).toString();
+        this.location.longitude =  (resp.coords.longitude).toString();
+      }).catch((error) => {
+        console.log('Error getting location', error);
+      });*/
+
+      let watch = this.geolocation.watchPosition();
+      watch.subscribe((data) => {
+        // data can be a set of coordinates, or an error (if an error occurred).
+        if(data && data.coords && data.coords.latitude && data.coords.longitude)
+        this.location.latitude  = (data.coords.latitude).toString();
+        this.location.longitude = (data.coords.longitude).toString();
+      });
+
+    } catch (e) {
+      this.showLog(e);
+    }
   }
 }

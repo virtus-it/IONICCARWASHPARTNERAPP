@@ -16,8 +16,6 @@ export class SupplierOrdersCompletedPage {
   sub: Subscription;
   private response: any;
   private noRecords = false;
-  lat:any;
-  log:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -29,7 +27,7 @@ export class SupplierOrdersCompletedPage {
   }
 
   ionViewDidLoad() {
-    this.getCurrentLocation();
+    this.alertUtils.getCurrentLocation();
     this.fetchOrders(false, false, true, "", "");
   }
 
@@ -101,12 +99,10 @@ export class SupplierOrdersCompletedPage {
         }
 
       }, error => {
-        this.alertUtils.hideLoading();
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
       });
 
     } catch (e) {
-      this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
   }
@@ -149,7 +145,7 @@ export class SupplierOrdersCompletedPage {
 
   viewDetails(event, orderID, categoryID) {
     if (orderID) {
-      this.appCtrl.getRootNav().push('DealerOrderDetailsPage', {
+      this.appCtrl.getRootNav().push('SupplierOrderDetailsPage', {
         orderid: orderID,
         categoryid: categoryID,
       });
@@ -163,12 +159,12 @@ export class SupplierOrdersCompletedPage {
         "order": {
           "orderid": this.response[i].order_id,
           "status": status,
-          "lat": this.lat,
-          "lng": this.log,
+          "lat": this.alertUtils.location.latitude,
+          "lng": this.alertUtils.location.longitude,
           "userid": UtilsProvider.USER_ID,
           "usertype": UserType.SUPPLIER,
           "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE,
+          "apptype": APP_TYPE
         }
       };
 
@@ -195,27 +191,10 @@ export class SupplierOrdersCompletedPage {
 
       }, error => {
         this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
-        this.alertUtils.hideLoading();
       })
     } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
-    }
-  }
-
-  getCurrentLocation(){
-    try {
-      let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 100, enableHighAccuracy: true});
-      watch.subscribe((data) => {
-        this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-        if(data && data.coords && data.coords.latitude && data.coords.longitude){
-          this.lat = data.coords.latitude;
-          this.log = data.coords.longitude;
-        }
-      });
-
-    } catch (e) {
-      this.alertUtils.showLog(e);
     }
   }
 
@@ -248,11 +227,15 @@ export class SupplierOrdersCompletedPage {
           "orderid":  this.response[i].order_id,
           "lat":      data.coords.latitude,
           "lng":      data.coords.longitude,
-          "uuid":     this.response[i].useruniqueid});
+          "uuid":     this.response[i].useruniqueid,
+          "userid":   UtilsProvider.USER_ID,
+          "usertype": UserType.SUPPLIER,
+          "loginid":  UtilsProvider.USER_ID,
+          "apptype":  APP_TYPE
+        });
     }catch (e) {
       this.alertUtils.showLog(e);
     }
   }
-
 
 }

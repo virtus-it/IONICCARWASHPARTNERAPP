@@ -17,8 +17,6 @@ export class SupplierOrdersAllPage {
   sub: Subscription;
   private response: any;
   private noRecords = false;
-  lat:any;
-  log:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -30,6 +28,7 @@ export class SupplierOrdersAllPage {
   }
 
   ionViewDidLoad() {
+    this.alertUtils.getCurrentLocation();
     this.fetchOrders(false, false, true, "", "");
   }
 
@@ -156,14 +155,13 @@ export class SupplierOrdersAllPage {
 
   updateOrderStatus(event, i, status) {
     try {
-      this.getCurrentLocation();
 
       let input = {
         "order": {
           "orderid": this.response[i].order_id,
           "status": status,
-          "lat": this.lat,
-          "lng": this.log,
+          "lat": this.alertUtils.location.latitude,
+          "lng": this.alertUtils.location.longitude,
           "userid": UtilsProvider.USER_ID,
           "usertype": UserType.SUPPLIER,
           "loginid": UtilsProvider.USER_ID,
@@ -198,22 +196,6 @@ export class SupplierOrdersAllPage {
     } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
-    }
-  }
-
-  getCurrentLocation(){
-    try {
-      let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 100, enableHighAccuracy: true});
-      watch.subscribe((data) => {
-        this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-        if(data && data.coords && data.coords.latitude && data.coords.longitude){
-          this.lat = data.coords.latitude;
-          this.log = data.coords.longitude;
-        }
-      });
-
-    } catch (e) {
-      this.alertUtils.showLog(e);
     }
   }
 

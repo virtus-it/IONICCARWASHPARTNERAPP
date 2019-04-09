@@ -32,6 +32,7 @@ export class SupplierOrdersHomePage {
               private network: NetworkProvider,
               private  apiUrl: ApiProvider,
               private menuCtrl: MenuController,
+              private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
 
   }
@@ -44,6 +45,7 @@ export class SupplierOrdersHomePage {
   ionViewDidLoad() {
     this.menuCtrl.enable(false,'menu1');
     this.menuCtrl.enable(true,'menu2');
+    this.alertUtils.getCurrentLocation();
   }
 
 }

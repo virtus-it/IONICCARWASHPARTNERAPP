@@ -77,16 +77,16 @@ export class DealerOrdersCompletedPage {
               if (res.data[i].status == OrderTypes.ORDERED ||
                 res.data[i].status == OrderTypes.BACKTODEALER ||
                 res.data[i].status == OrderTypes.NOT_BROADCASTED)
-                res.data[i]["statusUpdated"] = "Order Created";
+                res.data[i]["statusUpdated"] = "Job Created";
               else if (res.data[i].status == OrderTypes.ASSIGNED)
                 res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
               else if(res.data[i].status == OrderTypes.ACCEPT)
-                res.data[i]["statusUpdated"] = "Order Accepted";
+                res.data[i]["statusUpdated"] = "Job Accepted";
               else if(res.data[i].status == OrderTypes.ORDER_STARTED)
-                res.data[i]["statusUpdated"] = "Order Started";
+                res.data[i]["statusUpdated"] = "Job Started";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "DELIVERED";
-              res.data[i]["statusUpdated"] = "Order Delivered";
+              res.data[i]["statusUpdated"] = "Job Delivered";
             } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
               res.data[i]["orderstatus"] = "CANT DELIVER";
             } else if (res.data[i].status == OrderTypes.DOORLOCK) {
@@ -95,10 +95,10 @@ export class DealerOrdersCompletedPage {
               res.data[i]["orderstatus"] = "NOT REACHABLE";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "CANCELLED";
-              res.data[i]["statusUpdated"] = "Order Cancelled";
+              res.data[i]["statusUpdated"] = "Job Cancelled";
             } else if (res.data[i].status == OrderTypes.ONHOLD) {
               res.data[i]["orderstatus"] = "ON HOLD";
-              res.data[i]["statusUpdated"] = "Order is On Hold";
+              res.data[i]["statusUpdated"] = "Job is On Hold";
             }
 
             //updating bill amount

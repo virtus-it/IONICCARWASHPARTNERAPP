@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-import {DealerProductsStockHistoryPage} from "../dealer-products-stock-history/dealer-products-stock-history";
 
 @IonicPage()
 @Component({
@@ -107,9 +106,9 @@ export class DealerProductsPage {
   }
 
   callStockHistoryView(event, product){
-    this.navCtrl.push(DealerProductsStockHistoryPage, {
-      item:product
-    });
+    // this.navCtrl.push(DealerProductsStockHistoryPage, {
+      // item:product
+    // });
   }
 
   create(event, user) {

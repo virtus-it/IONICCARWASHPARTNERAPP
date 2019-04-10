@@ -38,46 +38,12 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>P Cost</ion-col>
+          <ion-col>Service Cost</ion-col>
           <ion-col>{{product.pcost}}</ion-col>
         </ion-row>
 
 
-        <!--<ion-item>
-          <ion-row>
-            <ion-col>Stock</ion-col>
-            <ion-col>Status</ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col>{{product.avaliable_stock}}</ion-col>
-            <ion-col>{{product.stockstatus}}</ion-col>
-          </ion-row>
-        </ion-item>
-
-
-
-        <ion-row>
-          <ion-col>P Cost</ion-col>
-          <ion-col>{{product.pcost}}</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>{{product.pcost}}</ion-col>
-          <ion-col>{{product.buycost}}</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>MRP</ion-col>
-          <ion-col>S Charge</ion-col>
-          <ion-col>Ex Charge</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>{{product.mrp}}</ion-col>
-          <ion-col>{{product.servicecharge}}</ion-col>
-          <ion-col>{{product.expressdeliverycharges}}</ion-col>
-        </ion-row>-->
+       
 
         <ion-row>
           <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, product);">
@@ -85,11 +51,7 @@
           <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
                         (click)="showPromptForDelete($event, product);"></ion-col>
 
-         <!-- <ion-col><img src="assets/imgs/img_add_stock.png" class="header_icon"
-                        (click)="showPromptForAddStock($event, product);"></ion-col>
 
-          <ion-col><img src="assets/imgs/img_update_status.png" class="header_icon"
-                        (click)="callStockHistoryView($event, product)"></ion-col>-->
         </ion-row>
 
       </ion-card>

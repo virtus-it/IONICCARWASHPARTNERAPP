@@ -10,7 +10,7 @@ import {HomePage} from "../pages/home/home";
 import {ListPage} from "../pages/list/list";
 import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
-import {DealerPreOrdersPage} from "../pages/dealer-pre-orders/dealer-pre-orders";
+
 import {DealerCustomersPage} from "../pages/dealer-customers/dealer-customers";
 import {DealerProductsPage} from "../pages/dealer-products/dealer-products";
 import {DealerPaymentsHomePage} from "../pages/dealer-payments-home/dealer-payments-home";
@@ -39,7 +39,6 @@ import { UtilsProvider } from '../providers/utils/utils';
 import { NetworkProvider } from '../providers/network/network';
 import {HttpModule} from "@angular/http";
 import {SuperTabsModule} from "ionic2-super-tabs";
-import {DealerProductsStockHistoryPage} from "../pages/dealer-products-stock-history/dealer-products-stock-history";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer-order-details.module";
@@ -62,7 +61,6 @@ export function createTranslateLoader(http: HttpClient) {
     ListPage,
     DealerDashBoardPage,
     DealerOrdersHomePage,
-    DealerPreOrdersPage,
     DealerCustomersPage,
     DealerProductsPage,
     DealerPaymentsHomePage,
@@ -78,7 +76,7 @@ export function createTranslateLoader(http: HttpClient) {
     DealerTrackSupplierPage,
     DealerPromoCodesPage,
     DealerProfilePage,
-    DealerProductsStockHistoryPage,
+   
     SupplierOrdersHomePage,
     LogoutPage,
     AboutUsPage,
@@ -109,7 +107,6 @@ export function createTranslateLoader(http: HttpClient) {
     ListPage,
     DealerDashBoardPage,
     DealerOrdersHomePage,
-    DealerPreOrdersPage,
     DealerCustomersPage,
     DealerProductsPage,
     DealerPaymentsHomePage,
@@ -125,7 +122,6 @@ export function createTranslateLoader(http: HttpClient) {
     DealerTrackSupplierPage,
     DealerPromoCodesPage,
     DealerProfilePage,
-    DealerProductsStockHistoryPage,
     SupplierOrdersHomePage,
     AboutUsPage,
     LogoutPage,

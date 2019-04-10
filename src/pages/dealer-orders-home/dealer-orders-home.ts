@@ -15,7 +15,6 @@ export class DealerOrdersHomePage {
 
   pages = [
     {pageName: 'DealerOrdersOrderedPage',     title: 'ORDERED',     icon: 'cloud-download', id: 'orderedTab'},
-    {pageName: 'DealerOrdersMiscPage',        title: 'MISC',        icon: 'cloud',          id: 'miscTab'},
     {pageName: 'DealerOrdersCompletedPage',   title: 'COMPLETED',   icon: 'cloud-upload',   id: 'completedTab'}
   ];
 

@@ -60,7 +60,7 @@ export class DealerOrdersAllPage {
       this.alertUtils.showLoading();
       this.apiService.postReq(this.apiService.orderByStatus(), data).then(res => {
         this.alertUtils.hideLoading();
-        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ALL : " + JSON.stringify(res));
+        this.alertUtils.showLog("POST (SUCCESS)=> JOBS: ALL : " + JSON.stringify(res));
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;

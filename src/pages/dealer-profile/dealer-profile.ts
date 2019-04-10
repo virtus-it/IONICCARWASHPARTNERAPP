@@ -18,6 +18,7 @@ import { UtilsProvider, APP_TYPE, APP_USER_TYPE, RES_SUCCESS } from '../../provi
 export class DealerProfilePage {
   person: any;
 
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
     private apiService: ApiProvider) {
   }

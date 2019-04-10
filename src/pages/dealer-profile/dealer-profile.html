@@ -15,6 +15,7 @@
     <img style="width: 40%;" class="profile-image" src="assets/imgs/img_user.png">
     <h4>{{person.firstname}}</h4>
   </div>
+
   <ion-list *ngIf="person">
     <ion-item>
       <ion-label floating>First Name</ion-label>
@@ -22,19 +23,19 @@
     </ion-item>
     <ion-item>
       <ion-label floating>Last Name</ion-label>
-      <ion-input type="text" [(ngModel)]="person.lastname" name="name" required></ion-input>      
+      <ion-input type="text" [(ngModel)]="person.lastname" name="name" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Email</ion-label>
-      <ion-input type="text" [(ngModel)]="person.emailid" name="name" required></ion-input>      
+      <ion-input type="text" [(ngModel)]="person.emailid" name="name" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Mobile Number</ion-label>
-      <ion-input type="text" [(ngModel)]="person.mobileno" name="name" required></ion-input>      
+      <ion-input type="text" [(ngModel)]="person.mobileno" name="name" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Address</ion-label>
-      <ion-input type="text" [(ngModel)]="person.address" name="name" required></ion-input>      
+      <ion-input type="text" [(ngModel)]="person.address" name="name" required></ion-input>
     </ion-item>
   </ion-list>
   <button color="secondary" ion-button block (click)="save()">Save</button>

@@ -3,15 +3,14 @@ import {AlertController, App, IonicPage, ModalController, NavController, NavPara
 import {
   APP_TYPE,
   APP_USER_TYPE,
-  FRAMEWORK,
-  INTERNET_ERR_MSG, OrderTypes,
+  OrderTypes,
   RES_SUCCESS, UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
-import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assign-forward/dealer-order-details-assign-forward";
-import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
 
 @IonicPage()
 @Component({
@@ -22,17 +21,11 @@ export class SupplierOrderDetailsPage {
 
   model: any;
   @ViewChild(Content) content: Content;
-  testRadioResult: any;
-  testRadioOpen: boolean;
+
   item: any;
-  fetchDone: boolean = false;
   showProgress = true;
-  tabBarElement: any;
   editorMsg: string = "";
-  suppliersList: string[];
-  distributorsList: string[];
   productsList: string[];
-  private loginStatus: boolean = false;
   private dealerID = "";
   private userID = "";
   private callFrom = "";
@@ -47,6 +40,7 @@ export class SupplierOrderDetailsPage {
               public alertUtils: UtilsProvider,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
+              private camera: Camera,
               private apiService: ApiProvider) {
 
     translateService.setDefaultLang('en');
@@ -55,7 +49,6 @@ export class SupplierOrderDetailsPage {
     this.callFrom = this.param.get("callfrom");
     this.orderId = this.param.get("orderid");
     this.categoryID = this.param.get("categoryid");
-
     this.userID = UtilsProvider.USER_ID;
     this.dealerID = UtilsProvider.USER_DEALER_ID;
 
@@ -66,6 +59,39 @@ export class SupplierOrderDetailsPage {
       this.alertUtils.showLog('order id is not found');
 
   }
+
+
+
+  validate(s) {
+    if (s == null || s == 'null')
+      return '';
+    else
+      return s;
+  }
+
+  sendMessage(item) {
+    // this.showPrompt(item)
+    if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {
+      this.createMessage(item, this.editorMsg)
+    } else {
+      this.alertUtils.showToast(this.alertUtils.ERROR_MES);
+    }
+  }
+
+  onFocus() {
+    this.content.resize();
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.content.scrollToBottom) {
+        this.content.scrollToBottom();
+      }
+    }, 400)
+  }
+
+  /*Api calls*/
   fetchOrderDetails() {
     try {
       let url = this.apiService.getOrderDetails() + this.orderId + "/" + this.userID;
@@ -75,11 +101,6 @@ export class SupplierOrderDetailsPage {
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.alertUtils.showLog(res.data[0]);
           this.item = res.data[0];
-
-          if(this.item.status == OrderTypes.DELIVERED){
-            this.item["billamt_updated"] = res.data[0].bill_amount;
-          }else
-            this.item["billamt_updated"] = res.data[0].orderamt;
 
 
           if (this.item.status == "assigned" || this.item.status == "delivered") {
@@ -153,39 +174,31 @@ export class SupplierOrderDetailsPage {
             this.item["orderstatus"] = this.item.status;
           }
 
+
           if (this.item.status == OrderTypes.ORDERED ||
             this.item.status == OrderTypes.ASSIGNED ||
-            this.item.status == OrderTypes.ACCEPT ||
-            this.item.status == OrderTypes.ORDER_STARTED ||
             this.item.status == OrderTypes.BACKTODEALER ||
             this.item.status == OrderTypes.NOT_BROADCASTED) {
 
-            this.item["orderstatus"] = "ASSIGN";
-
-            if (this.item.status == OrderTypes.ORDERED ||
-              this.item.status == OrderTypes.BACKTODEALER ||
-              this.item.status == OrderTypes.NOT_BROADCASTED)
-              this.item["statusUpdated"] = "Order Created";
-            else if (this.item.status == OrderTypes.ASSIGNED)
-              this.item["statusUpdated"] = "Assigned to Service Engineer";
-            else if(this.item.status == OrderTypes.ACCEPT)
-              this.item["statusUpdated"] = "Order Accepted";
-            else if(this.item.status == OrderTypes.ORDER_STARTED)
-              this.item["statusUpdated"] = "Order Started";
+            this.item["orderstatus"] = "assigned";
+            this.item["statusUpdated"] = "Order Assigned";
+          } else if (this.item.status == OrderTypes.ACCEPT) {
+            this.item["orderstatus"] = "accepted";
+            this.item["statusUpdated"] = "Order Accepted";
+          } else if (this.item.status == OrderTypes.ORDER_STARTED) {
+            this.item["orderstatus"] = "orderstarted";
+            this.item["statusUpdated"] = "Engineer started from his loc";
+          } else if (this.item.status == OrderTypes.JOB_STARTED) {
+            this.item["orderstatus"] = "jobstarted";
+            this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
-            this.item["orderstatus"] = "DELIVERED";
+            this.item["orderstatus"] = "delivered";
             this.item["statusUpdated"] = "Order Delivered";
-          } else if (this.item.status == OrderTypes.CANNOT_DELIVER) {
-            this.item["orderstatus"] = "CANT DELIVER";
-          } else if (this.item.status == OrderTypes.DOORLOCK) {
-            this.item["orderstatus"] = "DOORLOCK";
-          } else if (this.item.status == OrderTypes.NOT_REACHABLE) {
-            this.item["orderstatus"] = "NOT REACHABLE";
           } else if (this.item.status == OrderTypes.CANCELLED) {
-            this.item["orderstatus"] = "CANCELLED";
+            this.item["orderstatus"] = "cancelled";
             this.item["statusUpdated"] = "Order Cancelled";
           } else if (this.item.status == OrderTypes.ONHOLD) {
-            this.item["orderstatus"] = "ON HOLD";
+            this.item["orderstatus"] = "onhold";
             this.item["statusUpdated"] = "Order is On Hold";
           }
 
@@ -218,36 +231,87 @@ export class SupplierOrderDetailsPage {
     }
   }
 
-  assignForward(event) {
-    this.getSuppliers();
+  getProductsByOrderId() {
+
+    try {
+      let input = {
+        "root": {
+          "userid": UtilsProvider.USER_ID,
+          "orderid": this.orderId,
+          "categoryid": this.categoryID,
+          "loginid": UtilsProvider.USER_ID,
+          "apptype": APP_TYPE,
+        }
+      };
+
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.getProductsByOrderId(), JSON.stringify(input)).then(res => {
+        this.showProgress = false;
+        this.alertUtils.showLog("POST (SUCCESS)=> PRODUCTS: " + JSON.stringify(res));
+        this.productsList = res.data;
+
+
+        this.ref.detectChanges();
+      }, error => {
+        this.alertUtils.showLog("POST (ERROR)=> PRODUCTS: " + error);
+      })
+
+    } catch (e) {
+      this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
+    }
   }
 
-  openAssignForwardModal() {
-    let model = this.modalCtrl.create('DealerOrderDetailsAssignForwardPage', {
-      suppliersList: this.suppliersList,
-      distributorsList: this.distributorsList,
-      orderInfo: this.item,
-    },{
-      cssClass: 'dialogcustomstyle',
-    })
+  pickImage(order,prePost) {
+    this.alertUtils.showLog(order.order_id);
+    try {
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.PNG,
+        mediaType: this.camera.MediaType.PICTURE,
+        targetWidth: 100,
+        targetHeight: 100
+      };
 
-    model.onDidDismiss(data => {
-      if (data && data.hasOwnProperty('result')) {
-        if (data.result == this.alertUtils.RESULT_SUCCESS) {
 
-          if (data.actionType == 'assign')
-            this.alertUtils.showToast('Order assignment completed');
-          else
-            this.alertUtils.showToast('Order Forward completed');
+      this.camera.getPicture(options).then((imageData) => {
+        let base64Image = 'data:image/png;base64,' + imageData;
 
-          this.fetchOrderDetails();
-
-        } else {
-          this.alertUtils.showToast('Some thing went wrong!');
+        if(base64Image && base64Image.length>0){
+          this.uploadImg(base64Image,prePost+'_'+order.order_id);
         }
+
+      }, (err) => {
+        // Handle error
+        this.alertUtils.showLog(err);
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+  }
+
+  uploadImg(s,fileName){
+    let input = {
+      "image": {
+        "filename": fileName,
+        "base64string": s,
       }
+    };
+
+    this.showProgress = true;
+    this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
+      this.showProgress = false;
+      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
+
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
+
+      } else
+        this.alertUtils.showToast(res.result);
+
+    }, error => {
+      this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
     })
-    model.present();
   }
 
   editStatusModal() {
@@ -269,101 +333,6 @@ export class SupplierOrderDetailsPage {
     })
     model.present();
   }
-
-  getSuppliers() {
-
-    try {
-
-
-      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE;
-
-      this.alertUtils.showLog(url);
-
-      this.alertUtils.showLoading();
-      this.apiService.getReq(url).then(res => {
-        this.alertUtils.showLog(res);
-        this.alertUtils.hideLoading();
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.suppliersList = res.data;
-
-          this.openAssignForwardModal();
-        }
-      }, error => {
-      })
-    }catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }
-  }
-
-  getProductsByOrderId() {
-
-    try {
-      let input = {
-        "root": {
-          "userid": UtilsProvider.USER_ID,
-          "orderid": this.orderId,
-          "categoryid": this.categoryID,
-          "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE,
-        }
-      };
-
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.getProductsByOrderId(), JSON.stringify(input)).then(res => {
-        this.alertUtils.hideLoading();
-        this.alertUtils.showLog("POST (SUCCESS)=> PRODUCTS: " + JSON.stringify(res));
-        this.productsList = res.data;
-
-
-        this.ref.detectChanges();
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> PRODUCTS: " + error);
-      })
-
-    } catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }
-  }
-
-  onHoldOrder(event){
-    this.alertUtils.showLog('onhold order clicked');
-    this.alertUtils.showToast('Clicked onhold order');
-  }
-
-  editStatus(event){
-    this.alertUtils.showLog('edit status clicked');
-    this.alertUtils.showToast('Clicked edit status');
-  }
-  sendMessage(item) {
-    // this.showPrompt(item)
-    if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {
-      this.createMessage(item, this.editorMsg)
-    } else {
-      this.alertUtils.showToast(this.alertUtils.ERROR_MES);
-    }
-  }
-
-  onFocus() {
-    this.content.resize();
-    this.scrollToBottom();
-  }
-
-  scrollToBottom() {
-    setTimeout(() => {
-      if (this.content.scrollToBottom) {
-        this.content.scrollToBottom();
-      }
-    }, 400)
-  }
-
-
-  /*callNow(number) {
-    this.alertUtils.callNumber(number);
-  }*/
-
 
   createMessage(item: any, message: string) {
     let input = {
@@ -390,8 +359,10 @@ export class SupplierOrderDetailsPage {
       }
     };
     this.alertUtils.showLog(this.item);
+    this.showProgress = true;
     this.apiService.postReq(this.apiService.createMessageOnOrder(), data).then(res => {
       this.alertUtils.showLog(res);
+      this.showProgress = false;
       if (res.result == RES_SUCCESS) {
         this.alertUtils.showToast("Message sent successfully ");
         if (!this.item.messages)
@@ -406,4 +377,5 @@ export class SupplierOrderDetailsPage {
       this.alertUtils.showLog(error)
     });
   }
+
 }

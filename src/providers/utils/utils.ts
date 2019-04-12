@@ -4,7 +4,7 @@ import {AlertController, LoadingController, ToastController} from "ionic-angular
 import "rxjs/add/operator/map";
 import * as moment from "moment";
 import { Device } from '@ionic-native/device/ngx';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@ionic-native/geolocation';
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
@@ -397,7 +397,9 @@ export class UtilsProvider {
   getCurrentLocation(){
     try {
 
-      let watch = this.geolocation.watchPosition({enableHighAccuracy: true });
+      return this.geolocation.getCurrentPosition();
+
+      /*let watch = this.geolocation.watchPosition({enableHighAccuracy: true });
       watch.subscribe((data) => {
         // data can be a set of coordinates, or an error (if an error occurred).
         try {
@@ -408,8 +410,7 @@ export class UtilsProvider {
         }catch (e) {
           this.showLog(e);
         }
-
-      });
+      });*/
 
     } catch (e) {
       this.showLog(e);

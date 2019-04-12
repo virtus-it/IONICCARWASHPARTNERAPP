@@ -3,9 +3,8 @@ import {AlertController, App, IonicPage, ModalController, NavController, NavPara
 import {
   APP_TYPE,
   APP_USER_TYPE,
-  FRAMEWORK,
-  INTERNET_ERR_MSG, OrderTypes,
-  RES_SUCCESS, UserType,
+  OrderTypes,
+  RES_SUCCESS,
   UtilsProvider
 } from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
@@ -22,17 +21,13 @@ export class DealerOrderDetailsPage {
 
   model: any;
   @ViewChild(Content) content: Content;
-  testRadioResult: any;
-  testRadioOpen: boolean;
+
   item: any;
-  fetchDone: boolean = false;
   showProgress = true;
-  tabBarElement: any;
   editorMsg: string = "";
-  suppliersList: string[];
+  suppliersList = [];
   distributorsList: string[];
   productsList: string[];
-  private loginStatus: boolean = false;
   private dealerID = "";
   private userID = "";
   private callFrom = "";
@@ -55,7 +50,6 @@ export class DealerOrderDetailsPage {
     this.callFrom = this.param.get("callfrom");
     this.orderId = this.param.get("orderid");
     this.categoryID = this.param.get("categoryid");
-
     this.userID = UtilsProvider.USER_ID;
     this.dealerID = UtilsProvider.USER_DEALER_ID;
 
@@ -66,6 +60,43 @@ export class DealerOrderDetailsPage {
       this.alertUtils.showLog('order id is not found');
 
   }
+
+
+
+  assignForward(event) {
+    this.getSuppliers();
+  }
+
+  validate(s) {
+    if (s == null || s == 'null')
+      return '';
+    else
+      return s;
+  }
+
+  sendMessage(item) {
+    // this.showPrompt(item)
+    if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {
+      this.createMessage(item, this.editorMsg)
+    } else {
+      this.alertUtils.showToast(this.alertUtils.ERROR_MES);
+    }
+  }
+
+  onFocus() {
+    this.content.resize();
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.content.scrollToBottom) {
+        this.content.scrollToBottom();
+      }
+    }, 400)
+  }
+
+  /*Api calls*/
   fetchOrderDetails() {
     try {
       let url = this.apiService.getOrderDetails() + this.orderId + "/" + this.userID;
@@ -218,8 +249,34 @@ export class DealerOrderDetailsPage {
     }
   }
 
-  assignForward(event) {
-    this.getSuppliers();
+  getSuppliers() {
+
+    try {
+      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE;
+
+      this.alertUtils.showLog(url);
+
+      this.showProgress = true;
+      this.apiService.getReq(url).then(res => {
+        this.alertUtils.showLog(res);
+        this.showProgress = false;
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i]["firstname"]  = this.validate(res.data[i].firstname);
+            res.data[i]["lastname"]   = this.validate(res.data[i].lastname);
+            this.suppliersList.push(res.data[i]);
+          }
+
+
+          this.openAssignForwardModal();
+        }
+      }, error => {
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
+    }
   }
 
   openAssignForwardModal() {
@@ -260,7 +317,7 @@ export class DealerOrderDetailsPage {
     model.onDidDismiss(data => {
       if (data && data.hasOwnProperty('result')) {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
-            this.alertUtils.showToast('Order Delivered');
+          this.alertUtils.showToast('Order Delivered');
           this.fetchOrderDetails();
         } else {
           this.alertUtils.showToast('Some thing went wrong!');
@@ -269,67 +326,6 @@ export class DealerOrderDetailsPage {
     })
     model.present();
   }
-
-  getSuppliers() {
-
-    try {
-
-
-      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE;
-
-      this.alertUtils.showLog(url);
-
-      this.alertUtils.showLoading();
-      this.apiService.getReq(url).then(res => {
-        this.alertUtils.showLog(res);
-        this.alertUtils.hideLoading();
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.suppliersList = res.data;
-
-          this.openAssignForwardModal();
-        }
-      }, error => {
-      })
-    }catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }
-  }
-
-  /*getDistributors() {
-
-    try {
-      let input = {
-        "root": {
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.DEALER,
-          "loginid": UtilsProvider.USER_ID,
-          "lastuserid": '0',
-          "apptype": APP_TYPE,
-        }
-      };
-
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.distributors(), JSON.stringify(input)).then(res => {
-        this.alertUtils.showLog("POST (SUCCESS)=> DISTRIBUTORS: " + JSON.stringify(res.data));
-        this.distributorsList = res.data;
-        this.alertUtils.hideLoading();
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.openAssignForwardModal();
-        }
-        this.ref.detectChanges();
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> DISTRIBUTORS: " + error);
-        this.alertUtils.hideLoading();
-      })
-
-    } catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }
-  }*/
 
   getProductsByOrderId() {
 
@@ -344,9 +340,9 @@ export class DealerOrderDetailsPage {
         }
       };
 
-      this.alertUtils.showLoading();
+      this.showProgress = true;
       this.apiService.postReq(this.apiService.getProductsByOrderId(), JSON.stringify(input)).then(res => {
-        this.alertUtils.hideLoading();
+        this.showProgress = false;
         this.alertUtils.showLog("POST (SUCCESS)=> PRODUCTS: " + JSON.stringify(res));
         this.productsList = res.data;
 
@@ -361,93 +357,6 @@ export class DealerOrderDetailsPage {
       this.alertUtils.hideLoading();
     }
   }
-
-  onHoldOrder(event){
-    this.alertUtils.showLog('onhold order clicked');
-    this.alertUtils.showToast('Clicked onhold order');
-  }
-
-  editStatus(event){
-    this.alertUtils.showLog('edit status clicked');
-    this.alertUtils.showToast('Clicked edit status');
-  }
-
-  /*cancelOrder(item) {
-    // this.showRadio(item)
-    this.model = this.modalCtrl.create('CancelOrderPage', {}, {
-      showBackdrop: false,
-      enableBackdropDismiss: false,
-      cssClass: 'raiserequestdialog'
-    });
-    this.model.present();
-    this.model.onDidDismiss(data => {
-      if (data) {
-        this.alertUtils.showLog(data);
-        if (this.alertUtils.networkStatus()) {
-          this.cancelOrderTask(item.order_id, data)
-        } else {
-          this.alertUtils.showAlert("CONNECTION ERROR", INTERNET_ERR_MSG, "OK");
-        }
-      }
-    });
-
-  }
-
-  cancelOrderTask(orderid: string, reason: string) {
-    let input = {
-      "order": {
-        "orderid": orderid,
-        "customerid": this.userID,
-        "usertype": APP_USER_TYPE,
-        "orderstatus": "cancelled",
-        "reason": reason,
-        "loginid": this.userID,
-        "apptype": APP_TYPE
-      }
-    };
-    this.alertUtils.showLog(JSON.stringify(input));
-    let data = JSON.stringify(input);
-    this.apiService.postReq(this.apiService.cancelOrder(), data).then(res => {
-      this.alertUtils.showLog(res);
-      if (res.result == RES_SUCCESS) {
-        this.alertUtils.showToast("Order successfully cancelled");
-        Utils.UPDATE_ORDER_LIST = true;
-        this.item.status = "Cancelled";
-        if (this.orderId)
-          this.fetchOrderDetails();
-
-      }
-    }).catch(error => {
-      this.alertUtils.showLog(error)
-    });
-  }*/
-
-  sendMessage(item) {
-    // this.showPrompt(item)
-    if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {
-      this.createMessage(item, this.editorMsg)
-    } else {
-      this.alertUtils.showToast(this.alertUtils.ERROR_MES);
-    }
-  }
-
-  onFocus() {
-    this.content.resize();
-    this.scrollToBottom();
-  }
-
-  scrollToBottom() {
-    setTimeout(() => {
-      if (this.content.scrollToBottom) {
-        this.content.scrollToBottom();
-      }
-    }, 400)
-  }
-
-
-  /*callNow(number) {
-    this.alertUtils.callNumber(number);
-  }*/
 
 
   createMessage(item: any, message: string) {
@@ -475,8 +384,10 @@ export class DealerOrderDetailsPage {
       }
     };
     this.alertUtils.showLog(this.item);
+    this.showProgress = true;
     this.apiService.postReq(this.apiService.createMessageOnOrder(), data).then(res => {
       this.alertUtils.showLog(res);
+      this.showProgress = false;
       if (res.result == RES_SUCCESS) {
         this.alertUtils.showToast("Message sent successfully ");
         if (!this.item.messages)

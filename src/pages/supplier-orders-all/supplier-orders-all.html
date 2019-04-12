@@ -20,31 +20,29 @@
         </ion-card-header>
 
         <ion-row>
-          <ion-col>#{{order.order_id}} </ion-col>
-          <ion-col>{{order.quantity}}</ion-col>
-          <ion-col>INR{{order.bill_amount}}</ion-col>
+          <ion-col>#{{order?.order_id}} </ion-col>
+          <ion-col>{{order?.quantity}}</ion-col>
+          <ion-col>INR{{order?.bill_amount}}</ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>{{order.productdetails.category + " " + order.brandname + " " + order.prod_type }} </ion-col>
+          <ion-col>{{order?.productdetails.category + " " + order?.brandname + " " + order?.prod_type }} </ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>{{order.slotdate}}</ion-col>
+          <ion-col>{{order?.slotdate}}</ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>{{order.orderby_address}}</ion-col>
+          <ion-col>{{order?.orderby_address}}</ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>Cost</ion-col>
-          <ion-col>{{order.prod_cost}}</ion-col>
+          <ion-col>{{order?.prod_cost}}</ion-col>
         </ion-row>
 
-
-
-        <!--accept or reject order-->
+        <!--buttons-->
         <ion-row *ngIf="order.orderstatus == 'assigned'">
           <ion-col>
             <button (click)="updateOrderStatus($event,i,'backtodealer');"  ion-button>
@@ -59,17 +57,16 @@
         </ion-row>
 
         <ion-row *ngIf="order.orderstatus == 'accepted'">
-          <button (click)="pickImage(order); updateOrderStatus($event,i,'orderstarted');"  ion-button>
-            STARTED
+          <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
+            START TO VISIT
           </button>
         </ion-row>
 
         <ion-row *ngIf="order.orderstatus == 'orderstarted'">
-          <button (click)="updateOrderStatus($event,i,'jobstarted');" ion-button>
+          <button (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
             JOB START
           </button>
         </ion-row>
-
 
         <ion-row>
           <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>

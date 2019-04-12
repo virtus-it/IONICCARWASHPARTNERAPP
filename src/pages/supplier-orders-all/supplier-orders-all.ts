@@ -4,7 +4,7 @@ import { APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider } from "../../
 import { ApiProvider } from "../../providers/api/api";
 import 'rxjs/add/observable/interval';
 import { Observable, Subscription } from "rxjs";
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@ionic-native/geolocation';
 import { Socket } from 'ng-socket-io';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -161,49 +161,69 @@ export class SupplierOrdersAllPage {
   updateOrderStatus(event, i, status) {
     try {
 
-      if (status == 'orderstarted')
-        this.alertUtils.getCurrentLocation();
+      let canIExecute = true;
 
-      let input = {
-        "order": {
-          "orderid": this.response[i].order_id,
-          "status": status,
-          "lat": this.alertUtils.location.latitude,
-          "lng": this.alertUtils.location.longitude,
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE
-        }
-      };
+      if (status == 'orderstarted') {
+        canIExecute = false;
+        this.alertUtils.getCurrentLocation().then((data) => {
+          if(data && data.coords && data.coords.latitude && data.coords.longitude) {
+            this.alertUtils.location.latitude   = (data.coords.latitude).toString();
+            this.alertUtils.location.longitude  = (data.coords.longitude).toString();
+            canIExecute = true;
+          }else
+            canIExecute = true;
+        }).catch((error) => {
+          console.log('Error getting location', error);
+        });
 
-      this.alertUtils.showLog(JSON.stringify(input));
+      }else if(status == 'jobstarted'){
+        //tracking should be trun off using Subscription object
+        this.alertUtils.stopSubscription();
+      }
 
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
-        this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
-        this.alertUtils.hideLoading();
+      if(canIExecute) {
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          if (status == 'accept')
-            this.alertUtils.showToast('Order accepted');
-          else if (status == 'backtodealer')
-            this.alertUtils.showToast('Order rejected');
-          else if (status == 'orderstarted') {
-            this.alertUtils.showLog('order started');
-            this.getLocation(i);
-          } else if (status == 'jobstarted') {
-            this.alertUtils.showLog('job started');
-            this.alertUtils.stopSubscription();
+        let input = {
+          "order": {
+            "orderid": this.response[i].order_id,
+            "status": status,
+            "lat": this.alertUtils.location.latitude,
+            "lng": this.alertUtils.location.longitude,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
           }
-        } else
-          this.alertUtils.showToast(res.result);
+        };
 
-        this.fetchOrders(false, false, false, '', '');
+        this.alertUtils.showLog(JSON.stringify(input));
 
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
-      })
+        this.alertUtils.showLoading();
+        this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
+          this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
+          this.alertUtils.hideLoading();
+
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            if (status == 'accept')
+              this.alertUtils.showToast('Order accepted');
+            else if (status == 'backtodealer')
+              this.alertUtils.showToast('Order rejected');
+            else if (status == 'orderstarted') {
+              this.alertUtils.showLog('order started');
+              this.getLocation(i);
+            } else if (status == 'jobstarted') {
+              this.alertUtils.showLog('job started');
+              this.alertUtils.stopSubscription();
+            }
+          } else
+            this.alertUtils.showToast(res.result);
+
+          this.fetchOrders(false, false, false, '', '');
+
+        }, error => {
+          this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+        })
+      }
     } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
@@ -271,7 +291,6 @@ export class SupplierOrdersAllPage {
 
       this.camera.getPicture(options).then((imageData) => {
         let base64Image = 'data:image/png;base64,' + imageData;
-        //console.log(base64Image);
 
         if(base64Image && base64Image.length>0){
           this.uploadImg(base64Image,prePost+'_'+order.order_id);
@@ -294,7 +313,6 @@ export class SupplierOrdersAllPage {
       }
     };
 
-    //this.alertUtils.showLog('input : '+JSON.stringify(input));
     this.showProgress = true;
     this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
       this.showProgress = false;

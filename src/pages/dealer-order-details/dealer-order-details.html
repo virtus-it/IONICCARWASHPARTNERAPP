@@ -29,7 +29,7 @@
             <span class="no_padding no_margin  text_highlight"> #{{item?.order_id}}</span>
           </ion-col>
           <ion-col>
-            <span class="no_padding no_margin  text_highlight"> Total: {{item?.orderamt}}</span>
+            <span class="no_padding no_margin  text_highlight"> Total: {{item?.billamt_updated}}</span>
           </ion-col>
         </ion-row>
 
@@ -68,7 +68,7 @@
         <div *ngFor="let product of productsList">
           <ion-row>
             <ion-col>{{product?.brandname+" "+product?.ptype}}</ion-col>
-            <ion-col>COST: {{product?.billamt_updated}}</ion-col>
+            <ion-col>COST: {{product?.product_cost}}</ion-col>
           </ion-row>
           <ion-row>
 
@@ -88,9 +88,9 @@
       </ion-row>
 
       <ion-row>
-        <ion-col>{{item.orderby_firstname+" "+item.orderby_lastname}}</ion-col>
-        <ion-col>{{item?.supplierdetails?.firstname+" "+item?.supplierdetails?.lastname}}</ion-col>
-        <ion-col>{{item?.supplierdetails?.firstname+" "+item?.supplierdetails?.lastname}}</ion-col>
+        <ion-col>{{validate(item?.orderby_firstname)+" "+validate(item?.orderby_lastname)}}</ion-col>
+        <ion-col>{{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}</ion-col>
+        <ion-col>{{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}</ion-col>
       </ion-row>
 
       <ion-row>

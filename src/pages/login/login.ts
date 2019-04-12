@@ -8,7 +8,6 @@ import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-ho
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
 import {Observable, Subscription} from "rxjs";
-import {Geolocation} from '@ionic-native/geolocation/ngx';
 import { Socket } from 'ng-socket-io';
 
 
@@ -39,7 +38,6 @@ export class LoginPage {
               private apiUrl : ApiProvider,
               private alertCtrl: AlertController,
               private apiService:ApiProvider,
-              private geolocation: Geolocation,
               private socket: Socket,
               private translateService: TranslateService) {
 

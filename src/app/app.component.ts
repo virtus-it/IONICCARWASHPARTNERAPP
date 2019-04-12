@@ -17,7 +17,7 @@ import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
 import {AboutUsPage} from "../pages/about-us/about-us";
 import {LogoutPage} from "../pages/logout/logout";
 import {TranslateService} from "@ngx-translate/core";
-import {UserType, UtilsProvider} from "../providers/utils/utils";
+import { UtilsProvider} from "../providers/utils/utils";
 import {LoginPage} from "../pages/login/login";
 import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
 

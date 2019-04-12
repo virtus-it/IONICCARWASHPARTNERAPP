@@ -4,7 +4,7 @@ import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../pr
 import {ApiProvider} from "../../providers/api/api";
 import {Observable, Subscription} from "rxjs";
 import 'rxjs/add/observable/interval';
-import {Geolocation} from "@ionic-native/geolocation/ngx";
+import {Geolocation} from "@ionic-native/geolocation";
 import {Socket} from "ng-socket-io";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -24,7 +24,7 @@ export class SupplierOrdersPendingPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
-              private  apiService: ApiProvider,
+              private apiService: ApiProvider,
               private geolocation: Geolocation,
               private socket: Socket,
               private camera: Camera,
@@ -86,11 +86,10 @@ export class SupplierOrdersPendingPage {
             } else if (res.data[i].status == OrderTypes.ORDER_STARTED) {
               res.data[i]["orderstatus"] = "orderstarted";
               res.data[i]["statusUpdated"] = "Engineer started from his loc";
-            }else if (res.data[i].status == OrderTypes.JOB_STARTED) {
+            } else if (res.data[i].status == OrderTypes.JOB_STARTED) {
               res.data[i]["orderstatus"] = "jobstarted";
               res.data[i]["statusUpdated"] = "Job Started";
-            }
-            else if (res.data[i].status == OrderTypes.DELIVERED) {
+            } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
               res.data[i]["statusUpdated"] = "Order Delivered";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
@@ -163,49 +162,68 @@ export class SupplierOrdersPendingPage {
   updateOrderStatus(event, i, status) {
     try {
 
-      if(status == 'orderstarted')
-        this.alertUtils.getCurrentLocation();
+      let canIExecute = true;
 
-      let input = {
-        "order": {
-          "orderid": this.response[i].order_id,
-          "status": status,
-          "lat": this.alertUtils.location.latitude,
-          "lng": this.alertUtils.location.longitude,
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE
-        }
-      };
-
-      this.alertUtils.showLog(JSON.stringify(input));
-
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
-        this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
-        this.alertUtils.hideLoading();
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          if (status == 'accept')
-            this.alertUtils.showToast('Order accepted');
-          else if (status == 'backtodealer')
-            this.alertUtils.showToast('Order rejected');
-          else if (status == 'orderstarted') {
-            this.alertUtils.showLog('order started');
-            this.getLocation(i);
-          }else if(status == 'jobstarted'){
-            this.alertUtils.showLog('job started');
-            this.alertUtils.stopSubscription();
+      if (status == 'orderstarted') {
+        canIExecute = false;
+        this.alertUtils.getCurrentLocation().then((data) => {
+          if(data && data.coords && data.coords.latitude && data.coords.longitude) {
+            this.alertUtils.location.latitude   = (data.coords.latitude).toString();
+            this.alertUtils.location.longitude  = (data.coords.longitude).toString();
+            canIExecute = true;
           }
-        } else
-          this.alertUtils.showToast(res.result);
+        }).catch((error) => {
+          console.log('Error getting location', error);
+        });
 
-        this.fetchOrders(false, false, false, '', '');
+      }else if(status == 'jobstarted'){
+        //tracking should be trun off using Subscription object
+        this.alertUtils.stopSubscription();
+      }
 
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
-      })
+      if(canIExecute) {
+
+        let input = {
+          "order": {
+            "orderid": this.response[i].order_id,
+            "status": status,
+            "lat": this.alertUtils.location.latitude,
+            "lng": this.alertUtils.location.longitude,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
+          }
+        };
+
+        this.alertUtils.showLog(JSON.stringify(input));
+
+        this.alertUtils.showLoading();
+        this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
+          this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
+          this.alertUtils.hideLoading();
+
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            if (status == 'accept')
+              this.alertUtils.showToast('Order accepted');
+            else if (status == 'backtodealer')
+              this.alertUtils.showToast('Order rejected');
+            else if (status == 'orderstarted') {
+              this.alertUtils.showLog('order started');
+              this.getLocation(i);
+            } else if (status == 'jobstarted') {
+              this.alertUtils.showLog('job started');
+              this.alertUtils.stopSubscription();
+            }
+          } else
+            this.alertUtils.showToast(res.result);
+
+          this.fetchOrders(false, false, false, '', '');
+
+        }, error => {
+          this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+        })
+      }
     } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
@@ -216,14 +234,14 @@ export class SupplierOrdersPendingPage {
     this.alertUtils.showToast('Tracking Initialized');
     this.sub = Observable.interval(10000).subscribe((val) => {
       try {
-        let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
+        let watch = this.geolocation.watchPosition({ maximumAge: 0, timeout: 10000, enableHighAccuracy: true });
         watch.subscribe((data) => {
           try {
-            if(data && data.coords && data.coords.latitude && data.coords.longitude){
+            if (data && data.coords && data.coords.latitude && data.coords.longitude) {
               this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-              this.trackingUpdate(data,i);
+              this.trackingUpdate(data, i);
             }
-          }catch (e) {
+          } catch (e) {
             this.alertUtils.showLog(e);
           }
         });
@@ -242,16 +260,18 @@ export class SupplierOrdersPendingPage {
       this.socket.connect();
       this.socket.emit("carwashserviceenginerstarted",
         {
-          "orderid":  this.response[i].order_id,
-          "lat":      data.coords.latitude,
-          "lng":      data.coords.longitude,
-          "uuid":     this.response[i].useruniqueid,
-          "userid":   UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid":  UtilsProvider.USER_ID,
-          "apptype":  APP_TYPE
+          "order":{
+            "orderid": this.response[i].order_id,
+            "lat": data.coords.latitude,
+            "lng": data.coords.longitude,
+            "uuid": this.response[i].useruniqueid,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
+          }
         });
-    }catch (e) {
+    } catch (e) {
       this.alertUtils.showLog(e);
     }
   }
@@ -271,7 +291,6 @@ export class SupplierOrdersPendingPage {
 
       this.camera.getPicture(options).then((imageData) => {
         let base64Image = 'data:image/png;base64,' + imageData;
-        //console.log(base64Image);
 
         if(base64Image && base64Image.length>0){
           this.uploadImg(base64Image,prePost+'_'+order.order_id);
@@ -294,9 +313,8 @@ export class SupplierOrdersPendingPage {
       }
     };
 
-    //this.alertUtils.showLog('input : '+JSON.stringify(input));
     this.showProgress = true;
-    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
+    this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
       this.showProgress = false;
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
 

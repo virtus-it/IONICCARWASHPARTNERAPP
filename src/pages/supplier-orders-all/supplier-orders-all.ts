@@ -322,7 +322,7 @@ export class SupplierOrdersAllPage {
     };
 
     this.showProgress = true;
-    this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
+    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
       this.showProgress = false;
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
 

@@ -193,7 +193,7 @@ export class SupplierOrderDetailsPage {
             this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "delivered";
-            this.item["statusUpdated"] = "Order Delivered";
+            this.item["statusUpdated"] = "Job Completed";
           } else if (this.item.status == OrderTypes.CANCELLED) {
             this.item["orderstatus"] = "cancelled";
             this.item["statusUpdated"] = "Order Cancelled";

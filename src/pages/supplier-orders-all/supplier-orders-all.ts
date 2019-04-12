@@ -90,7 +90,7 @@ export class SupplierOrdersAllPage {
               res.data[i]["statusUpdated"] = "Job Started";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
-              res.data[i]["statusUpdated"] = "Order Delivered";
+              res.data[i]["statusUpdated"] = "Job Completed";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "cancelled";
               res.data[i]["statusUpdated"] = "Order Cancelled";

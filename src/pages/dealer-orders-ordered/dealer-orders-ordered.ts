@@ -90,7 +90,7 @@ export class DealerOrdersOrderedPage {
                 res.data[i]["statusUpdated"] = "Job Started";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "DELIVERED";
-              res.data[i]["statusUpdated"] = "Job Delivered";
+              res.data[i]["statusUpdated"] = "Job Completed";
             } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
               res.data[i]["orderstatus"] = "CANT DELIVER";
             } else if (res.data[i].status == OrderTypes.DOORLOCK) {

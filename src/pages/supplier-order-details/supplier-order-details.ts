@@ -262,8 +262,8 @@ export class SupplierOrderDetailsPage {
     }
   }
 
-  pickImage(order,prePost) {
-    this.alertUtils.showLog(order.order_id);
+  pickImage(prePost) {
+    /*this.alertUtils.showLog(order.order_id);*/
     try {
       const options: CameraOptions = {
         quality: 50,
@@ -279,7 +279,7 @@ export class SupplierOrderDetailsPage {
         let base64Image = 'data:image/png;base64,' + imageData;
 
         if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,prePost+'_'+order.order_id);
+          this.uploadImg(base64Image,prePost+'_'+this.item.order_id);
         }
 
       }, (err) => {

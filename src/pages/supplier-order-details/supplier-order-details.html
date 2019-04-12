@@ -99,10 +99,6 @@
           <ion-col>{{item?.order_delivereddate | utcDate}}</ion-col>
         </ion-row>
 
-        <ion-row *ngIf="item?.status != 'delivered'">
-          <!--<button ion-button color="primary"  small no-margin style="width:49%" (click)="onHoldOrder($event);">ON-HOLD ORDER</button>-->
-          <button ion-button  small no-margin style="width:49%" (click)="editStatusModal($event);">EDIT STATUS</button>
-        </ion-row>
       </ion-card-content>
     </ion-card>
 

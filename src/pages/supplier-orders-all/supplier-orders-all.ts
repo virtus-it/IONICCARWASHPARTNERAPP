@@ -165,16 +165,24 @@ export class SupplierOrdersAllPage {
 
       if (status == 'orderstarted') {
         canIExecute = false;
-        this.alertUtils.getCurrentLocation().then((data) => {
-          if(data && data.coords && data.coords.latitude && data.coords.longitude) {
-            this.alertUtils.location.latitude   = (data.coords.latitude).toString();
-            this.alertUtils.location.longitude  = (data.coords.longitude).toString();
-            canIExecute = true;
-          }else
-            canIExecute = true;
-        }).catch((error) => {
-          console.log('Error getting location', error);
-        });
+
+        if(this.alertUtils.location.latitude && this.alertUtils.location.longitude){
+          canIExecute = true;
+        }else {
+          canIExecute = false;
+          this.alertUtils.getCurrentLocation().then((data) => {
+            this.alertUtils.showLog("Data : "+data);
+            if (data && data.coords && data.coords.latitude && data.coords.longitude) {
+              this.alertUtils.location.latitude = (data.coords.latitude).toString();
+              this.alertUtils.location.longitude = (data.coords.longitude).toString();
+              canIExecute = true;
+            }
+          }).catch((error) => {
+            console.log('Error getting location', error);
+          });
+          canIExecute = true;
+        }
+
 
       }else if(status == 'jobstarted'){
         //tracking should be trun off using Subscription object

@@ -203,8 +203,10 @@ export class DealerOrderDetailsPage {
               this.item["statusUpdated"] = "Order Accepted";
             else if(this.item.status == OrderTypes.ORDER_STARTED)
               this.item["statusUpdated"] = "Order Started";
+            else if(this.item.status == OrderTypes.JOB_STARTED)
+              this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
-            this.item["orderstatus"] = "DELIVERED";
+            this.item["orderstatus"] = "Job Completed";
             this.item["statusUpdated"] = "Order Delivered";
           } else if (this.item.status == OrderTypes.CANNOT_DELIVER) {
             this.item["orderstatus"] = "CANT DELIVER";

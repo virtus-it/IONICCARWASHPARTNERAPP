@@ -90,7 +90,7 @@ export class SupplierOrdersAllPage {
               res.data[i]["statusUpdated"] = "Job Started";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
-              res.data[i]["statusUpdated"] = "Order Delivered";
+              res.data[i]["statusUpdated"] = "Job Completed";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "cancelled";
               res.data[i]["statusUpdated"] = "Order Cancelled";
@@ -165,16 +165,24 @@ export class SupplierOrdersAllPage {
 
       if (status == 'orderstarted') {
         canIExecute = false;
-        this.alertUtils.getCurrentLocation().then((data) => {
-          if(data && data.coords && data.coords.latitude && data.coords.longitude) {
-            this.alertUtils.location.latitude   = (data.coords.latitude).toString();
-            this.alertUtils.location.longitude  = (data.coords.longitude).toString();
-            canIExecute = true;
-          }else
-            canIExecute = true;
-        }).catch((error) => {
-          console.log('Error getting location', error);
-        });
+
+        if(this.alertUtils.location.latitude && this.alertUtils.location.longitude){
+          canIExecute = true;
+        }else {
+          canIExecute = false;
+          this.alertUtils.getCurrentLocation().then((data) => {
+            this.alertUtils.showLog("Data : "+data);
+            if (data && data.coords && data.coords.latitude && data.coords.longitude) {
+              this.alertUtils.location.latitude = (data.coords.latitude).toString();
+              this.alertUtils.location.longitude = (data.coords.longitude).toString();
+              canIExecute = true;
+            }
+          }).catch((error) => {
+            console.log('Error getting location', error);
+          });
+          canIExecute = true;
+        }
+
 
       }else if(status == 'jobstarted'){
         //tracking should be trun off using Subscription object
@@ -314,7 +322,7 @@ export class SupplierOrdersAllPage {
     };
 
     this.showProgress = true;
-    this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
+    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
       this.showProgress = false;
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
 

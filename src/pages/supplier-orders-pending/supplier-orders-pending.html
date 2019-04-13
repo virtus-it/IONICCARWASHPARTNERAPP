@@ -57,7 +57,7 @@
         </ion-row>
 
         <ion-row *ngIf="order.orderstatus == 'accepted'">
-          <button (click)=" updateOrderStatus($event,i,'orderstarted');"  ion-button>
+          <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
             START TO VISIT
           </button>
         </ion-row>

@@ -4,6 +4,7 @@ import {UserType, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 import {SuperTabs} from "ionic2-super-tabs";
+import { Geolocation } from '@ionic-native/geolocation';
 
 @IonicPage()
 @Component({
@@ -32,6 +33,7 @@ export class SupplierOrdersHomePage {
               private network: NetworkProvider,
               private  apiUrl: ApiProvider,
               private menuCtrl: MenuController,
+              private geolocation: Geolocation,
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
 
@@ -45,6 +47,23 @@ export class SupplierOrdersHomePage {
   ionViewDidLoad() {
     this.menuCtrl.enable(false,'menu1');
     this.menuCtrl.enable(true,'menu2');
+
+    try {
+      let watch = this.geolocation.watchPosition({ maximumAge: 0, timeout: 10000, enableHighAccuracy: true });
+      watch.subscribe((data) => {
+        try {
+          if (data && data.coords && data.coords.latitude && data.coords.longitude) {
+            this.alertUtils.location.latitude = (data.coords.latitude).toString();
+            this.alertUtils.location.longitude = (data.coords.longitude).toString();
+          }
+        } catch (e) {
+          this.alertUtils.showLog(e);
+        }
+      });
+
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
 }

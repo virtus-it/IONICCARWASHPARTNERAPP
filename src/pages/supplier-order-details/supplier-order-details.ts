@@ -193,7 +193,7 @@ export class SupplierOrderDetailsPage {
             this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "delivered";
-            this.item["statusUpdated"] = "Order Delivered";
+            this.item["statusUpdated"] = "Job Completed";
           } else if (this.item.status == OrderTypes.CANCELLED) {
             this.item["orderstatus"] = "cancelled";
             this.item["statusUpdated"] = "Order Cancelled";
@@ -262,8 +262,8 @@ export class SupplierOrderDetailsPage {
     }
   }
 
-  pickImage(order,prePost) {
-    this.alertUtils.showLog(order.order_id);
+  pickImage(prePost) {
+    /*this.alertUtils.showLog(order.order_id);*/
     try {
       const options: CameraOptions = {
         quality: 50,
@@ -279,7 +279,7 @@ export class SupplierOrderDetailsPage {
         let base64Image = 'data:image/png;base64,' + imageData;
 
         if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,prePost+'_'+order.order_id);
+          this.uploadImg(base64Image,prePost+'_'+this.item.order_id);
         }
 
       }, (err) => {
@@ -300,7 +300,7 @@ export class SupplierOrderDetailsPage {
     };
 
     this.showProgress = true;
-    this.apiService.postReq('http://104.211.247.42:2250/uploadimg', JSON.stringify(input)).then(res => {
+    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
       this.showProgress = false;
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
 

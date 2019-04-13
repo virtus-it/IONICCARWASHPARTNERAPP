@@ -1,16 +1,80 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <button ion-button menuToggle *ngIf="page1">
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-buttons left>
+      <button ion-button (click)="back()" *ngIf="page2">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Category</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="add()" *ngIf="page1">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <br>
-  <br>
-  <h3>Category</h3>
+  <div *ngIf="page1">
+    <ion-segment [(ngModel)]="type">
+      <ion-segment-button value="1">
+        Category
+      </ion-segment-button>
+      <ion-segment-button value="2">
+        Packages
+      </ion-segment-button>
+    </ion-segment>
+    <div *ngFor="let item of list">
+      <ion-card>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <h2>{{item.category}}</h2>
+              <p>Priority: {{item.priority}}</p>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-buttons class="right">
+              <button ion-button (click)="update(item)">
+                <ion-icon name="md-create"></ion-icon>
+              </button>
+              <button ion-button (click)="delete(item)">
+                <ion-icon name="md-trash"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-col>
+
+        </ion-row>
+        <img src="{{item.url}}" (error)="onImageError(item)" />
+
+        <ion-card-content>
+          {{item.category_desc}}
+        </ion-card-content>
+
+      </ion-card>
+    </div>
+  </div>
+  <div *ngIf="page2">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Category Name</ion-label>
+        <ion-input type="text" [(ngModel)]="person.category" name="name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Priority</ion-label>
+        <ion-input type="tel" [(ngModel)]="person.priority" name="name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Category Description</ion-label>
+        <ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>
+      </ion-item>
+
+    </ion-list>
+    <button color="secondary" ion-button block (click)="save()">{{btnText}}</button>
+  </div>
 
 
 </ion-content>

@@ -15,6 +15,7 @@ export class DealerCustomersCreatePage {
   USER_ID;
   USER_TYPE;
   DEALER_ID;
+
   DEALER_PHNO;
   pageTitle: string;
   buttonTitle: string;

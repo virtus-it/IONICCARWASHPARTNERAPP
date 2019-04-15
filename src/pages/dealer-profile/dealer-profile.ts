@@ -108,14 +108,14 @@ export class DealerProfilePage {
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: 100,
-        targetHeight: 100,
+        targetWidth: 256,
+        targetHeight: 256,
         sourceType:sourceType
       };
 
 
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image = 'data:image/png;base64,' + imageData;
+        let base64Image =  imageData;
 
         if(base64Image && base64Image.length>0){
           this.uploadImg(base64Image,UtilsProvider.USER_TYPE+'_'+UtilsProvider.USER_ID+'.png');
@@ -141,7 +141,7 @@ export class DealerProfilePage {
     this.showProgress = true;
     this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
       this.showProgress = false;
-      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + JSON.stringify(res.data));
+      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
 
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
 

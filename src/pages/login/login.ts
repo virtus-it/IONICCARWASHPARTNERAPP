@@ -9,6 +9,8 @@ import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
 import {Observable, Subscription} from "rxjs";
 import { Socket } from 'ng-socket-io';
+import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
+import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
 
 
 @IonicPage()
@@ -101,29 +103,29 @@ export class LoginPage {
             uPhno = input.mobileno;
             uAddr = input.address;
 
-            if(uType == UserType.DEALER){
+            if(uType == UserType.DEALER && input.issuperdealer){
               uDealerId = uId;
               uDealerName = uName;
               uDealerPhno = uPhno;
               uDealerAddr = uAddr;
             }else{
-              uDealerId = input.userid;
-              uDealerName = input.userid;
-              uDealerPhno = input.userid;
-              uDealerAddr = input.userid;
+              uDealerId = input.sdealers.dealerid;
+              uDealerName = input.sdealers.firstname +' '+input.sdealers.lastname;
+              uDealerPhno = input.sdealers.mobileno;
+              uDealerAddr = '';
             }
 
             UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 
 
             if(uType == UserType.DEALER||uType == UserType.CUSTOMER_CARE){
-              //MyApp.updateList(UserType.DEALER);
+              if(input.issuperdealer == 'true')
               this.navCtrl.setRoot(DealerOrdersHomePage);
+              else
+                this.navCtrl.setRoot(DealerSuppliersPage,{from:'loginPage'});
             }else if(uType == UserType.SUPPLIER){
-             // MyApp.updateList(UserType.SUPPLIER);
               this.navCtrl.setRoot(SupplierOrdersHomePage);
             }
-            //this.navCtrl.push(DealerOrdersHomePage);
 
           }else {
             //show alert
@@ -162,31 +164,6 @@ export class LoginPage {
 
   forgotPwd() {
     this.showPromptForPwd()
-  }
-
-  setGCMDetails() {
-    /*let registrationId = this.alertUtils.getGcmId();
-    let input = {
-      "User": {
-        "userid": this.info.userid,
-        "gcm_mailid": this.info.email,
-        "gcm_regid": registrationId,
-        "gcm_name": APP_USER_TYPE,
-        "mobileno": this.mobileNumber
-      }
-    };
-    let gcmData = JSON.stringify(input);
-    this.apiService.postReq(this.apiService.setGCMRegister(), gcmData).then(gcm => {
-      if (gcm.result == this.alertUtils.RESULT_SUCCESS) {
-        this.alertUtils.showToast("You have successfully logged in");
-
-      } else {
-        this.alertUtils.showToast("Could not register device");
-      }
-    }, err => {
-      this.alertUtils.showToast("Could not register device");
-      this.alertUtils.showLog(err);
-    })*/
   }
 
   showPromptForPwd() {
@@ -259,34 +236,5 @@ export class LoginPage {
       this.alertUtils.showLog(e);
     }
   }
-
-
-  /*getLocation() {
-    let i=0;
-    this.alertUtils.showToast('Tracking Initialized');
-    this.sub = Observable.interval(10000).subscribe((val) => {
-      try {
-        let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
-        watch.subscribe((data) => {
-          this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-          if(data && data.coords && data.coords.latitude && data.coords.longitude){
-            this.trackingUpdate(data,i);
-          }
-        });
-      } catch (e) {
-        this.alertUtils.showLog(e);
-      }
-
-    }, (error) => {
-      this.alertUtils.showLog("error");
-    })
-  }
-
-  trackingUpdate(data, i) {
-    this.alertUtils.showLog('SOCKET : STARTED');
-    this.socket.connect();
-    this.socket.emit('carwashserviceenginerstarted', {"lat":data.coords.latitude, "log":data.coords.longitude});
-    this.alertUtils.showLog('SOCKET : ENDEDED');
-  }*/
 
 }

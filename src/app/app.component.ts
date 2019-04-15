@@ -31,6 +31,7 @@ export class MyApp {
 
   pagesDealer:    Array<{title: string, component: any, icon: string}>;
   pagesSupplier:  Array<{title: string, component: any, icon: string}>;
+  pagesVendor:    Array<{title: string, component: any, icon: string}>;
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -79,6 +80,14 @@ export class MyApp {
 
     this.pagesSupplier = [
       { title: 'ORDERS',                component: SupplierOrdersHomePage,  icon:"md-home" },
+      { title: 'VENDOR',                component: DealerDistributorsPage,  icon:"md-home" },
+      { title: 'PROFILE',               component: DealerProfilePage,       icon:"md-home" },
+      { title: 'ABOUT US',              component: AboutUsPage,             icon:"md-home" },
+      { title: 'LOGOUT',                component: LogoutPage,              icon:"md-home" }
+    ];
+
+    this.pagesVendor = [
+      { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage,     icon:"md-home" },
       { title: 'PROFILE',               component: DealerProfilePage,       icon:"md-home" },
       { title: 'ABOUT US',              component: AboutUsPage,             icon:"md-home" },
       { title: 'LOGOUT',                component: LogoutPage,              icon:"md-home" }

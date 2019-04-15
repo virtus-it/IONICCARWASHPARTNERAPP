@@ -4,12 +4,6 @@ import {Http, Headers, RequestOptions} from "@angular/http";
 import {APP_VER_CODE} from "../network/network";
 import "rxjs/add/operator/map";
 
-/*
-  Generated class for the ApiProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class ApiProvider {
 
@@ -17,7 +11,6 @@ export class ApiProvider {
   private static LOCALHOST_URL    = "http://localhost:2221/";
   private static TESTING_URL      = "http://104.211.247.42:2250/";
   private static PRODUCTION_URL   = "http://moya.online/";
-  private static IMG_URL          = "http://104.211.247.42:2250/";
 
   private baseUrl: string;
   http: any;
@@ -103,7 +96,7 @@ export class ApiProvider {
   }
 
   getImg() {
-    return ApiProvider.IMG_URL + "modules/uploads/"
+    return this.baseUrl+ "modules/uploads/"
   }
 
 
@@ -282,7 +275,7 @@ export class ApiProvider {
   }
 
   imageDownload() {
-    return ApiProvider.IMG_URL + "modules/uploads/";
+    return this.baseUrl + "modules/uploads/";
   }
 
   orderDelivered() {
@@ -351,7 +344,7 @@ export class ApiProvider {
   }
 
   imgUpload() {
-    return this.baseUrl + "uploadimg";
+    return this.baseUrl+ "uploadimg";
   }
 
   removeProduct() {

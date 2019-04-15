@@ -6,7 +6,7 @@
     <ion-title start>
       <img class="header_icon" src="assets/imgs/header_icon.png">
       <span class="title-style">VENDORS</span>
-      <img (click)="create($event, '')" class="header_icon" src="assets/imgs/img_add.png">
+      <img  *ngIf="isDealer" (click)="create($event, '')" class="header_icon" src="assets/imgs/img_add.png">
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -40,12 +40,14 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, user);">
+        <ion-row *ngIf="isDealer">
+          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, user,'');">
           </ion-col>
           <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
-                        (click)="showPromptForDelete($event, user);"></ion-col>
+                        (click)="showPromptForDelete($event, user,'');"></ion-col>
         </ion-row>
+
+        <button ion-button block *ngIf="!isDealer" (click)="create($event, user, 'view');">View More</button>
 
       </ion-card>
     </div>

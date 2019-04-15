@@ -1,7 +1,12 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
+import {DealerCustomersPage} from "../dealer-customers/dealer-customers";
+import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
+import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
+import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
+import { Chart } from 'chart.js';
 
 @IonicPage()
 @Component({
@@ -15,7 +20,11 @@ export class DealerDashBoardPage {
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
 
+  @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('doughnutCanvas2') doughnutCanvas2;
+
   showProgress    = true;
+  doughnutChart: any;
 
   output ={totalOrders:'', pendingOrders: '', completedOrders:'',
     totalPayments:'', codPayments:'', creditPayments:'',
@@ -43,12 +52,12 @@ export class DealerDashBoardPage {
 
       let input = {
 
-        "root": {
-          "user_id": this.USER_ID,
-          "user_type": this.USER_TYPE,
-          "transtype": 'allorderscount',
-          "fromdate": UtilsProvider.formatDateToYYYYMMDD(d.setDate(d.getDate()-30)),
-          "todate": UtilsProvider.formatDateToYYYYMMDD(new Date().toISOString()),
+        //'{"User":{"TRANSTYPE":"dashboard","usertype":"dealer","userid":"289"}}
+
+        "User": {
+          "userid": this.USER_ID,
+          "usertype": this.USER_TYPE,
+          "TRANSTYPE": 'dashboard',
           "dealerid": UtilsProvider.USER_DEALER_ID,
           "framework": FRAMEWORK,
           "apptype": APP_TYPE,
@@ -63,55 +72,21 @@ export class DealerDashBoardPage {
       this.apiService.postReq(this.apiService.getDashboard(), data).then(res => {
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
         this.alertUtils.showLog("POST (SUCCESS)=> DASHBOARD: " + JSON.stringify(res));
-        this.response = res.data;
+        this.response = res.data.DASHBOARDDETAILS;
 
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
 
-          //orders
-          this.output.totalOrders     = this.response.vallordercount;
-          this.output.pendingOrders   = this.response.vpendingordercount;
-          this.output.completedOrders = this.response.vdeliverordercount;
+          this.showChart1(
+            parseInt(this.response.TOTALBOOKING.totalbookingsdaily),
+            parseInt(this.response.TOTALBOOKING.totalbookingsmonthly),
+            parseInt(this.response.TOTALBOOKING.totalbookingsyearly));
 
-          if(this.output.totalOrders == '')
-            this.output.pendingOrders = '0';
-
-          if(this.output.pendingOrders == '')
-            this.output.pendingOrders = '0';
-
-          if(this.output.pendingOrders == '')
-            this.output.pendingOrders = '0';
-
-          //payments
-          this.output.totalPayments     = JSON.stringify(this.response.vtotal_payments);
-          this.output.codPayments       = JSON.stringify(this.response.vcod_payments);
-          this.output.creditPayments    = JSON.stringify(this.response.vcredit_payments);
-
-          if(this.output.totalPayments == '')
-            this.output.totalPayments = '0';
-
-          if(this.output.codPayments == '')
-            this.output.codPayments = '0';
-
-          if(this.output.creditPayments == '')
-            this.output.creditPayments = '0';
-
-          //users
-          this.output.totalCustomers      = this.response.vtotalcustomers;
-          this.output.totalDistributors   = this.response.vtotaldistributor;
-          this.output.totalSuppliers      = this.response.vtotalsuppliers;
-
-          if(this.output.totalCustomers == '')
-            this.output.totalCustomers = '0';
-
-          if(this.output.totalDistributors == '')
-            this.output.totalDistributors = '0';
-
-          if(this.output.totalSuppliers == '')
-            this.output.totalSuppliers = '0';
-
-          this.alertUtils.showLog("result : "+JSON.stringify(this.output));
+          this.showChart2(
+            parseInt(this.response.CARWASHER.serviceengineersdaily),
+            parseInt(this.response.CARWASHER.serviceengineersmonthly),
+            parseInt(this.response.CARWASHER.serviceengineersyearly));
 
         }
         this.ref.detectChanges();
@@ -136,6 +111,63 @@ export class DealerDashBoardPage {
     if (isRefresh) {
       refresher.complete();
     }
+  }
+
+  openUsers(){
+    this.navCtrl.setRoot(DealerCustomersPage);
+  }
+
+  openCarWashers(){
+    this.navCtrl.setRoot(DealerSuppliersPage);
+  }
+
+  openCompanies(){
+    this.navCtrl.setRoot(DealerDistributorsPage);
+  }
+
+  openBookings(){
+    this.navCtrl.setRoot(DealerOrdersHomePage);
+  }
+
+  showChart1(val1,val2,val3){
+    this.alertUtils.showLog('val1 : '+val1);
+    this.alertUtils.showLog('val2 : '+val2);
+    this.alertUtils.showLog('val3 : '+val3);
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+
+      type: 'doughnut',
+      data: {
+        labels: ["Today", "This Month", "This Year"],
+        datasets: [{
+          label: '# of Votes',
+          data: [val1,val2,val3],
+          backgroundColor: [
+            '#b13c2e','#c27d0e','#009abf'
+          ],
+        }]
+      }
+
+    });
+  }
+
+  showChart2(val1,val2,val3){
+    this.doughnutChart = new Chart(this.doughnutCanvas2.nativeElement, {
+
+      type: 'doughnut',
+      data: {
+        labels: ["Today", "This Month", "This Year"],
+        datasets: [{
+          label: '# of Votes',
+          data: [val1,val2,val3],
+          number: [50],
+          // borderColor:['#000000'],
+          backgroundColor: [
+            '#b13c2e','#c27d0e','#009abf'
+          ],
+        }]
+      }
+
+    });
   }
 
 }

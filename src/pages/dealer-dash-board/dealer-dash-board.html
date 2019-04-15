@@ -12,47 +12,146 @@
   <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
                item-center></ion-spinner>
 
+
+  <!--users-->
   <ion-card style="text-align: center">
-    <h3>JOBS</h3>
-    <ion-row>
-      <ion-col>TOTAL</ion-col>
-      <ion-col>TOTAL PENDING</ion-col>
-      <ion-col>COMPLETED</ion-col>
+    <ion-row (click)="openUsers();">
+      <ion-col col-4 style="background: #009abf">
+        <ion-icon name="md-contacts" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #00c0ef">
+        <h2>{{response?.USER?.user}}</h2>
+        <h5>USERS</h5>
+      </ion-col>
     </ion-row>
+
+  </ion-card>
+
+  <!--car washers-->
+  <ion-card style="text-align: center">
+    <ion-row (click)="openCarWashers();">
+      <ion-col col-4 style="background: #c27d0e">
+        <ion-icon name="md-body" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #f39c12">
+        <h2>{{response?.CARWASHER?.serviceengineers}}</h2>
+        <h5>CAR WASHERS</h5>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <!--vendors/companies-->
+  <ion-card style="text-align: center">
+    <ion-row (click)="openCompanies();">
+      <ion-col col-4 style="background: #b13c2e">
+        <ion-icon name="md-paper" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #dd4b39">
+        <h2>{{response?.COMPANIES?.company}}</h2>
+        <h5>VENDORS</h5>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <!--total earnings-->
+  <ion-card style="text-align: center">
     <ion-row>
-      <ion-col>{{output.totalOrders}}</ion-col>
-      <ion-col>{{output.pendingOrders}}</ion-col>
-      <ion-col>{{output.completedOrders}}</ion-col>
+      <ion-col col-4 style="background: #008548">
+        <ion-icon name="md-cash" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #00a65a">
+        <h2>{{response?.TOTALEARNINGS?.totalamount}}</h2>
+        <h5>TOTAL EARNINGS</h5>
+      </ion-col>
     </ion-row>
   </ion-card>
 
 
+  <br><br>
+
+  <!--total bookings-->
   <ion-card style="text-align: center">
-    <h3>PAYMENTS</h3>
-    <ion-row>
-      <ion-col>TOTAL</ion-col>
-      <ion-col>COD</ion-col>
-      <ion-col>CREDIT</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>{{output.totalPayments}}</ion-col>
-      <ion-col>{{output.codPayments}}</ion-col>
-      <ion-col>{{output.creditPayments}}</ion-col>
+    <ion-row (click)="openBookings();">
+      <ion-col col-4 style="background: #009abf">
+        <ion-icon name="md-stats" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #00c0ef">
+        <h2>{{response?.TOTALBOOKING?.totalbookings}}</h2>
+        <h5>TOTAL BOOKINGS</h5>
+      </ion-col>
     </ion-row>
   </ion-card>
 
+  <!--total on going jobs-->
   <ion-card style="text-align: center">
-    <h3>USERS</h3>
-    <ion-row>
-      <ion-col>CUSTOMERS</ion-col>
-      <ion-col>VENDORS</ion-col>
-      <ion-col>SERVICE ENGINEER</ion-col>
+    <ion-row (click)="openBookings();">
+      <ion-col col-4 style="background: #c27d0e">
+        <ion-icon name="md-download" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #f39c12">
+        <h2>{{response?.ONGOINGJOBS?.ongoingjobs}}</h2>
+        <h5>ON GOING JOBS</h5>
+      </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>{{output.totalCustomers}}</ion-col>
-      <ion-col>{{output.totalDistributors}}</ion-col>
-      <ion-col>{{output.totalSuppliers}}</ion-col>
+  </ion-card>
+
+  <!--total cancel jobs-->
+  <ion-card style="text-align: center">
+    <ion-row (click)="openBookings();">
+      <ion-col col-4 style="background: #b13c2e">
+        <ion-icon name="md-close" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #dd4b39">
+        <h2>{{response?.CANCEL?.canceljobs}}</h2>
+        <h5>CANCELLED JOBS</h5>
+      </ion-col>
     </ion-row>
+  </ion-card>
+
+
+  <!--total completed jobs-->
+  <ion-card style="text-align: center">
+    <ion-row (click)="openBookings();">
+      <ion-col col-4 style="background: #008548">
+        <ion-icon name="md-checkmark" color="white"></ion-icon>
+      </ion-col>
+      <ion-col style="background: #00a65a">
+        <h2>{{response?.completed?.completedjobs}}</h2>
+        <h5>COMPLETED JOBS</h5>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <br><br>
+
+  <ion-card>
+    <ion-card-header>
+      Bookings
+    </ion-card-header>
+    <ion-card-content>
+      <canvas id="chart1" #doughnutCanvas></canvas>
+      <div style="align-content: center">
+      <h3>Bookings Count:</h3>
+      <h4>Today: {{response?.TOTALBOOKING?.totalbookingsdaily}}</h4>
+      <h4>This Month: {{response?.TOTALBOOKING?.totalbookingsmonthly}}</h4>
+      <h4>This Year: {{response?.TOTALBOOKING?.totalbookingsyearly}}</h4>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <br>
+  <ion-card>
+    <ion-card-header>
+      Car Washers
+    </ion-card-header>
+    <ion-card-content>
+      <canvas id="chart2" #doughnutCanvas2></canvas>
+      <div style="align-content: center">
+      <h3>Car Washers Count:</h3>
+      <h4>Today: {{response?.CARWASHER?.serviceengineersdaily}}</h4>
+      <h4>This Month: {{response?.CARWASHER?.serviceengineersmonthly}}</h4>
+      <h4>This Year: {{response?.CARWASHER?.serviceengineersyearly}}</h4>
+      </div>
+    </ion-card-content>
   </ion-card>
 
 </ion-content>

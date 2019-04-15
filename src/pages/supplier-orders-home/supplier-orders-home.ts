@@ -47,6 +47,7 @@ export class SupplierOrdersHomePage {
   ionViewDidLoad() {
     this.menuCtrl.enable(false,'menu1');
     this.menuCtrl.enable(true,'menu2');
+    this.menuCtrl.enable(false,'menu3');
 
     try {
       let watch = this.geolocation.watchPosition({ maximumAge: 0, timeout: 10000, enableHighAccuracy: true });

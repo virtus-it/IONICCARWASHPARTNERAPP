@@ -1,15 +1,8 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ModalController, AlertController, MenuController} from 'ionic-angular';
 import {APP_TYPE, UtilsProvider, UserType, FRAMEWORK} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplier-create";
-
-/**
- * Generated class for the DealerSuppliersPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -18,6 +11,7 @@ import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplie
 })
 export class DealerSuppliersPage {
 
+  from:any;
   showProgress = true;
   private response: any;
   private noRecords = false;
@@ -29,11 +23,19 @@ export class DealerSuppliersPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef,
+              private menuCtrl: MenuController,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+    this.from = this.navParams.get('from');
   }
 
   ionViewDidLoad() {
+
+    if(this.from && this.from == 'loginPage'){
+      this.menuCtrl.enable(false,'menu1');
+      this.menuCtrl.enable(false,'menu2');
+      this.menuCtrl.enable(true,'menu3');
+    }
 
     this.fetchSuppliers(false, false, true, "", "");
 
@@ -171,82 +173,4 @@ export class DealerSuppliersPage {
     });
     prompt.present();
   }
-
-  showPromptForTracking(event, user) {
-    let prompt = this.alertCtrl.create({
-      title: 'ASSIGN VECHICLE',
-      inputs:[{
-        name:'Enter number',
-        placeholder:'Vechicle Name'
-      }],
-
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-          }
-        },
-        {
-          text: 'Sure',
-          handler: data => {
-            let input = {
-              "User": {
-                "TransType": 'deactivate',
-                "userid": user.userid,
-                "user_type": UserType.SUPPLIER,
-                "app_type": APP_TYPE
-              }
-            };
-
-            let inputData = JSON.stringify(input);
-            this.alertUtils.showLog(inputData);
-
-            this.apiService.postReq(this.apiService.createCustomer(), inputData).then(res => {
-              this.alertUtils.showLog(res);
-
-              if (res.result == this.alertUtils.RESULT_SUCCESS) {
-                this.alertUtils.showToast('User successfully deleted');
-                this.fetchSuppliers(false, false, false, '', '');
-              }
-
-            });
-
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
-
-  /*//tracking input
- obj2.put("transtype", "get");
- obj2.put("id", suppliersData.vehicleID);
- obj2.put("supplierid", suppliersData.sID);
- obj2.put("loginid", Utils.UID);
- obj2.put("user_type",
- Constants.SUPPLIER);
- obj2.put("apptype", Utils.APP_TYPE);
- obj1.put("User", obj2);*/
-
-  doTrackingOnOrOff(event, user) {
-    try {
-      let input = {
-        "User": {
-          "id": user.userid,
-          "TransType": 'get',
-          "user_type": UserType.SUPPLIER,
-          "supplierid": user.userid,
-          "loginid": this.USER_ID,
-          //"dealer_mobileno": this.DEALER_PHNO,
-          "framework": FRAMEWORK,
-          "apptype": APP_TYPE
-        }
-      };
-
-      let data = JSON.stringify(input);
-    } catch (e) {
-
-    }
-  }
-
 }

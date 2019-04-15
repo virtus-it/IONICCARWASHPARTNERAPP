@@ -50,6 +50,7 @@ export class DealerProductsPage {
           this.noRecords = false;
 
           for (let i = 0; i < res.data.length; i++) {
+            res.data[i]['imgUrl'] = this.apiService.getImg()+'product_'+res.data[i].productid+'.png';
             if(res.data.isactive)
               this.response.push(res.data[i]);
 

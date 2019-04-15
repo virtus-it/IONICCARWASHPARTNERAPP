@@ -79,14 +79,14 @@ export class DealerDashBoardPage {
           this.noRecords = false;
 
           this.showChart1(
-            parseInt(this.response.TOTALBOOKING.totalbookingsdaily),
-            parseInt(this.response.TOTALBOOKING.totalbookingsmonthly),
-            parseInt(this.response.TOTALBOOKING.totalbookingsyearly));
+            +this.response.TOTALBOOKING.totalbookingsdaily,
+            +this.response.TOTALBOOKING.totalbookingsmonthly,
+            +this.response.TOTALBOOKING.totalbookingsyearly);
 
           this.showChart2(
-            parseInt(this.response.CARWASHER.serviceengineersdaily),
-            parseInt(this.response.CARWASHER.serviceengineersmonthly),
-            parseInt(this.response.CARWASHER.serviceengineersyearly));
+            +this.response.CARWASHER.serviceengineersdaily,
+            +this.response.CARWASHER.serviceengineersmonthly,
+            +this.response.CARWASHER.serviceengineersyearly);
 
         }
         this.ref.detectChanges();
@@ -130,9 +130,6 @@ export class DealerDashBoardPage {
   }
 
   showChart1(val1,val2,val3){
-    this.alertUtils.showLog('val1 : '+val1);
-    this.alertUtils.showLog('val2 : '+val2);
-    this.alertUtils.showLog('val3 : '+val3);
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
       type: 'doughnut',

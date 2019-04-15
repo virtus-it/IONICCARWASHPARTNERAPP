@@ -83,7 +83,7 @@ export class LoginPage {
       this.alertUtils.hideLoading();
       this.alertUtils.showLog("res",res.data);
 
-      //this.utils.showToastSnackBar(res.data);
+      this.setGCMDetails(res.data);
 
       if(res.result == this.alertUtils.RESULT_SUCCESS){
         if(res.data && res.data.user){
@@ -235,6 +235,32 @@ export class LoginPage {
     } catch (e) {
       this.alertUtils.showLog(e);
     }
+  }
+
+
+  setGCMDetails(data) {
+    let registrationId = this.alertUtils.getDeviceUUID();
+    let input = {
+      "User": {
+        "userid": data.userid,
+        "gcm_mailid": this.username,
+        "gcm_regid": registrationId,
+        "gcm_name": APP_USER_TYPE,
+        "mobileno": this.username
+      }
+    };
+    let gcmData = JSON.stringify(input);
+    this.apiService.postReq(this.apiService.setGCMRegister(), gcmData).then(gcm => {
+      if (gcm.result == this.alertUtils.RESULT_SUCCESS) {
+        this.alertUtils.showToast("You have successfully logged in");
+
+      } else {
+        this.alertUtils.showToast("Could not register device");
+      }
+    }, err => {
+      this.alertUtils.showToast("Could not register device");
+      this.alertUtils.showLog(err);
+    })
   }
 
 }

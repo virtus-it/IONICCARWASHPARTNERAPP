@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {AlertController, LoadingController, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
 import * as moment from "moment";
-import { Device } from '@ionic-native/device/ngx';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { Geolocation } from '@ionic-native/geolocation';
 
 export const SHOW_ALL = false;
@@ -86,7 +86,7 @@ export class UtilsProvider {
               public toast: ToastController,
               public alertCtrl: AlertController,
               private geolocation: Geolocation,
-              private device: Device,
+              private uniqueDeviceID: UniqueDeviceID,
 
               public loadingCtrl: LoadingController) {
     console.log('Hello UtilsProvider Provider');
@@ -391,7 +391,7 @@ export class UtilsProvider {
   }
 
   getDeviceUUID() {
-    return this.device.uuid;
+    return this.uniqueDeviceID.get();
   }
 
   getCurrentLocation(){

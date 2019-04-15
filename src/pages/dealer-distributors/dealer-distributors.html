@@ -6,8 +6,12 @@
     <ion-title start>
       <img class="header_icon" src="assets/imgs/header_icon.png">
       <span class="title-style">VENDORS</span>
-      <img  *ngIf="isDealer" (click)="create($event, '')" class="header_icon" src="assets/imgs/img_add.png">
     </ion-title>
+    <ion-buttons end *ngIf="isDealer" (click)="create($event, '')">
+      <button ion-button icon-end >
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

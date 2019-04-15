@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {IonicPage, NavController, NavParams, ViewController} from "ionic-angular";
 import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {ApiProvider} from "../../providers/api/api";
 
 @IonicPage()
@@ -90,12 +90,12 @@ export class DealerCustomersCreatePage {
             if (this.alertUtils.validateText(this.input.locality, "Locality", 3, 50)) {
               if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
                 //if (this.alertUtils.validateText(this.input.advAmt, "Advance Amount", 1, 10)) {
-                  if (this.isUpdate)
-                    this.doUpdate();
-                  else
-                    this.doCreate();
-               /* } else
-                  this.showToast = true;*/
+                if (this.isUpdate)
+                  this.doUpdate();
+                else
+                  this.doCreate();
+                /* } else
+                 this.showToast = true;*/
               } else
                 this.showToast = true;
             } else
@@ -103,7 +103,7 @@ export class DealerCustomersCreatePage {
           } else
             this.showToast = true;
           /*} else
-            this.alertUtils.showToast('Invalid mobile number');*/
+           this.alertUtils.showToast('Invalid mobile number');*/
         } else
           this.showToast = true;
       } else
@@ -136,7 +136,7 @@ export class DealerCustomersCreatePage {
           //"advamt": this.input.advAmt,
           "paymenttype": this.input.paymentType,
           /*"areaname": this.input.name,
-          "areaid": this.input.name,*/
+           "areaid": this.input.name,*/
           "address": this.input.addr,
           "locality": this.input.locality,
           "buildingname": this.input.platNo,

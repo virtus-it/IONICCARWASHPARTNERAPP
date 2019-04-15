@@ -31,7 +31,7 @@ export class DealerProfilePage {
     let input = {
       "User": {
         "userid": UtilsProvider.USER_ID,
-        "user_type": APP_USER_TYPE,
+        "user_type": UtilsProvider.USER_TYPE,
         "firstname": this.person.firstname,
         "lastname": this.person.lastname,
         "emailid": this.person.emailid,

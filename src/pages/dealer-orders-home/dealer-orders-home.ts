@@ -71,6 +71,7 @@ export class DealerOrdersHomePage {
 
      this.menuCtrl.enable(true,'menu1');
      this.menuCtrl.enable(false,'menu2');
+     this.menuCtrl.enable(false,'menu3');
 
     /* this.baseImgUrl = this.apiUrl.imageDownload()+'product_';
 

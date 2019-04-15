@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, APP_USER_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {AlertController, IonicPage, MenuController, ModalController, NavController, NavParams} from 'ionic-angular';
+import {APP_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerDistributorsCreatePage} from "../dealer-distributors-create/dealer-distributors-create";
 
@@ -12,11 +12,13 @@ import {DealerDistributorsCreatePage} from "../dealer-distributors-create/dealer
 })
 export class DealerDistributorsPage {
 
+  isDealer:any = true;
   showProgress = true;
   private response: any;
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -25,6 +27,11 @@ export class DealerDistributorsPage {
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+
+    if(UtilsProvider.USER_TYPE == UserType.SUPPLIER)
+      this.isDealer = false;
+    else
+      this.isDealer = true;
   }
 
   ionViewDidLoad() {
@@ -38,7 +45,7 @@ export class DealerDistributorsPage {
 
       let input = {
         "root": {
-          "userid": UtilsProvider.USER_ID,
+          "userid": UtilsProvider.USER_DEALER_ID,
           "usertype": UserType.DEALER,
           "loginid": UtilsProvider.USER_ID,
           "lastuserid": '0',
@@ -57,9 +64,12 @@ export class DealerDistributorsPage {
       }
 
       input.root['lastuserid'] = last_userid_id;
+      if(UtilsProvider.USER_TYPE == UserType.SUPPLIER){
+        input.root['supplierid'] = UtilsProvider.USER_ID;
+      }
 
       this.apiService.postReq(this.apiService.distributors(),JSON.stringify(input)).then(res=>{
-        this.alertUtils.showLog("POST (SUCCESS)=> DISTRIBUTORS: "+JSON.stringify(res.data));
+        this.alertUtils.showLog(res.data);
         this.response = res.data;
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 
@@ -126,7 +136,7 @@ export class DealerDistributorsPage {
     }
   }
 
-  create(event, user) {
+  create(event, user, type) {
     if (user == '')
       this.alertUtils.showLog('customer : create');
     else
@@ -135,6 +145,7 @@ export class DealerDistributorsPage {
     let model = this.modalCtrl.create('DealerDistributorsCreatePage', {
       from: 'customer',
       item: user,
+      type: type,
       payments: user.payments,
     })
 

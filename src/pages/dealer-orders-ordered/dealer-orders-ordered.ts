@@ -70,6 +70,7 @@ export class DealerOrdersOrderedPage {
                 res.data[i].status == OrderTypes.ASSIGNED ||
                 res.data[i].status == OrderTypes.ACCEPT ||
                 res.data[i].status == OrderTypes.ORDER_STARTED ||
+                res.data[i].status == OrderTypes.JOB_STARTED ||
                 res.data[i].status == OrderTypes.BACKTODEALER ||
                 res.data[i].status == OrderTypes.NOT_BROADCASTED) {
 
@@ -84,10 +85,12 @@ export class DealerOrdersOrderedPage {
               else if(res.data[i].status == OrderTypes.ACCEPT)
                 res.data[i]["statusUpdated"] = "Job Accepted";
               else if(res.data[i].status == OrderTypes.ORDER_STARTED)
+                res.data[i]["statusUpdated"] = "Engineer started from his loc";
+              else if(res.data[i].status == OrderTypes.JOB_STARTED)
                 res.data[i]["statusUpdated"] = "Job Started";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "DELIVERED";
-              res.data[i]["statusUpdated"] = "Job Delivered";
+              res.data[i]["statusUpdated"] = "Job Completed";
             } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
               res.data[i]["orderstatus"] = "CANT DELIVER";
             } else if (res.data[i].status == OrderTypes.DOORLOCK) {

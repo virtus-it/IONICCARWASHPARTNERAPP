@@ -43,8 +43,9 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer-order-details.module";
 import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@ionic-native/geolocation';
 
+import { Camera } from '@ionic-native/camera';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 const config: SocketIoConfig = { url: 'http://192.168.1.50:1900', options: {} };
 
@@ -133,6 +134,7 @@ export function createTranslateLoader(http: HttpClient) {
     Device,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
+    Camera,
     UtilsProvider,
     NetworkProvider,
     Geolocation

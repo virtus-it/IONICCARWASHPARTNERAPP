@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-import {Observable, Subscription} from "rxjs";
-import {Geolocation} from "@ionic-native/geolocation/ngx";
-import {Socket} from "ng-socket-io";
 
 @IonicPage()
 @Component({
@@ -14,7 +11,6 @@ import {Socket} from "ng-socket-io";
 export class SupplierOrdersCompletedPage {
 
   showProgress = true;
-  sub: Subscription;
   private response: any;
   private noRecords = false;
 
@@ -22,8 +18,6 @@ export class SupplierOrdersCompletedPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
-              private geolocation: Geolocation,
-              private socket: Socket,
               private appCtrl: App) {
   }
 
@@ -153,102 +147,6 @@ export class SupplierOrdersCompletedPage {
         orderid: orderID,
         categoryid: categoryID,
       });
-    }
-  }
-
-  updateOrderStatus(event, i, status) {
-    try {
-
-      if(status == 'orderstarted')
-        this.alertUtils.getCurrentLocation();
-
-      let input = {
-        "order": {
-          "orderid": this.response[i].order_id,
-          "status": status,
-          "lat": this.alertUtils.location.latitude,
-          "lng": this.alertUtils.location.longitude,
-          "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid": UtilsProvider.USER_ID,
-          "apptype": APP_TYPE
-        }
-      };
-
-      this.alertUtils.showLog(JSON.stringify(input));
-
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
-        this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
-        this.alertUtils.hideLoading();
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          if (status == 'accept')
-            this.alertUtils.showToast('Order accepted');
-          else if (status == 'backtodealer')
-            this.alertUtils.showToast('Order rejected');
-          else if (status == 'orderstarted') {
-            this.alertUtils.showLog('order started');
-            this.getLocation(i);
-          }else if(status == 'jobstarted'){
-            this.alertUtils.showLog('job started');
-            this.alertUtils.stopSubscription();
-          }
-        } else
-          this.alertUtils.showToast(res.result);
-
-        this.fetchOrders(false, false, false, '', '');
-
-      }, error => {
-        this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
-      })
-    } catch (e) {
-      this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
-    }
-  }
-
-  getLocation(i) {
-    this.alertUtils.showToast('Tracking Initialized');
-    this.sub = Observable.interval(10000).subscribe((val) => {
-      try {
-        let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
-        watch.subscribe((data) => {
-          try {
-            this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-            if(data && data.coords && data.coords.latitude && data.coords.longitude){
-              this.trackingUpdate(data,i);
-            }
-          }catch (e) {
-            this.alertUtils.showLog(e);
-          }
-        });
-
-      } catch (e) {
-        this.alertUtils.showLog(e);
-      }
-      this.alertUtils.setSubscription(this.sub);
-    }, (error) => {
-      this.alertUtils.showLog("error");
-    })
-  }
-
-  trackingUpdate(data, i) {
-    try {
-      this.socket.connect();
-      this.socket.emit("carwashserviceenginerstarted",
-        {
-          "orderid":  this.response[i].order_id,
-          "lat":      data.coords.latitude,
-          "lng":      data.coords.longitude,
-          "uuid":     this.response[i].useruniqueid,
-          "userid":   UtilsProvider.USER_ID,
-          "usertype": UserType.SUPPLIER,
-          "loginid":  UtilsProvider.USER_ID,
-          "apptype":  APP_TYPE
-        });
-    }catch (e) {
-      this.alertUtils.showLog(e);
     }
   }
 }

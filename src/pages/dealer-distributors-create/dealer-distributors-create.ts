@@ -18,6 +18,8 @@ export class DealerDistributorsCreatePage {
   pageTitle: string;
   buttonTitle: string;
   user: any;
+  type: any;
+  disable: any = false;
   isUpdate: boolean = true;
   input = {
     firstname: "", lastname: "", phno1: "", phno2: "",phno3: "", companyName: "", referenceCode: "",
@@ -41,6 +43,12 @@ export class DealerDistributorsCreatePage {
               private formBuilder: FormBuilder) {
 
     this.user = navParams.get('item');
+    this.type = navParams.get('type');
+
+    if(this.type == 'view')
+      this.disable = true;
+    else
+      this.disable = false;
 
     alertUtils.showLog(this.user);
 
@@ -50,9 +58,14 @@ export class DealerDistributorsCreatePage {
       this.pageTitle = 'CREATE VENDOR';
       this.buttonTitle = 'CREATE';
     } else {
-      this.isUpdate = true;
-      this.pageTitle = 'EDIT VENDOR';
-      this.buttonTitle = 'UPDATE';
+
+      if(this.type == 'view'){
+        this.pageTitle = 'VIEW VENDOR';
+      }else{
+        this.isUpdate = true;
+        this.pageTitle = 'EDIT VENDOR';
+        this.buttonTitle = 'UPDATE';
+      }
 
       //updating values
       this.input.firstname = this.user.firstname;

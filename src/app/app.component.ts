@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import {DealerCategoryHomePage} from "../pages/dealer-category-home/dealer-category-home"; 
+import {Component, ViewChild} from '@angular/core';
+import {Nav, Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {DealerCategoryHomePage} from "../pages/dealer-category-home/dealer-category-home";
 import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 import {DealerCustomersPage} from "../pages/dealer-customers/dealer-customers";
@@ -14,28 +14,78 @@ import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
 import {AboutUsPage} from "../pages/about-us/about-us";
 import {LogoutPage} from "../pages/logout/logout";
 import {TranslateService} from "@ngx-translate/core";
-import { UtilsProvider} from "../providers/utils/utils";
+import {UtilsProvider} from "../providers/utils/utils";
 import {LoginPage} from "../pages/login/login";
 import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
-import {WelcomePage} from "../pages/welcome/welcome";
 import {Push, PushObject, PushOptions} from "@ionic-native/push";
+import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
 
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
+  static userType: string = 'supplier';
   @ViewChild(Nav) nav: Nav;
-
   rootPage: any = LoginPage;
   showProgress: boolean = true;
-
-  static userType:string = 'supplier';
+  pagesDealer: Array<{ title: string, component: any, icon: string }>;
+  pagesSupplier: Array<{ title: string, component: any, icon: string }>;
+  pagesVendor: Array<{ title: string, component: any, icon: string }>;
   private isNotification: boolean = false;
 
-  pagesDealer:    Array<{title: string, component: any, icon: string}>;
-  pagesSupplier:  Array<{title: string, component: any, icon: string}>;
-  pagesVendor:    Array<{title: string, component: any, icon: string}>;
+  constructor(public platform: Platform,
+              public push: Push,
+              public statusBar: StatusBar,
+              public alertUtils: UtilsProvider,
+              private translateService: TranslateService,
+              public splashScreen: SplashScreen) {
+
+    translateService.setDefaultLang('en');
+    translateService.use('en');
+
+    this.initializeApp();
+
+    // used for an example of ngFor and navigation
+
+    this.pagesDealer = [
+      {title: 'DASH BOARD', component: DealerDashBoardPage, icon: "md-home"},
+      {title: 'JOBS', component: DealerOrdersHomePage, icon: "md-home"},
+      {title: 'CUSTOMERS', component: DealerCustomersPage, icon: "md-home"},
+      {title: 'SERVICES', component: DealerProductsPage, icon: "md-home"},
+      //{ title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
+      //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
+      {title: 'SERVICE ENGINEERS', component: DealerSuppliersPage, icon: "md-home"},
+      {title: 'VENDORS', component: DealerDistributorsPage, icon: "md-home"},
+      {title: 'CUSTOMER CARE', component: DealerUsersCustomercarePage, icon: "md-home"},
+      {title: 'FEEDBACK', component: FeedbackPage, icon: "md-home"},
+      //{ title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage,    icon:"md-home" },
+      //{ title: 'SALES REPORT',          component: DealerSalesReportHomePage,           icon:"md-home" },
+      {title: 'CATEGORY', component: DealerCategoryHomePage, icon: "md-home"},
+      //{ title: 'MARKET PLACE',   l̥l̥       component: DealerMarketPlacePage,               icon:"md-home" },
+      //{ title: 'TRACK SUPPLIER',        component: DealerTrackSupplierPage,             icon:"md-home" },
+      //{ title: 'PROMO CODES',           component: DealerPromoCodesPage,                icon:"md-home" },
+      {title: 'PROFILE', component: DealerProfilePage, icon: "md-home"},
+      {title: 'ABOUT US', component: AboutUsPage, icon: "md-home"},
+      {title: 'LOGOUT', component: LogoutPage, icon: "md-home"}
+    ];
+
+    this.pagesSupplier = [
+      {title: 'ORDERS', component: SupplierOrdersHomePage, icon: "md-home"},
+      {title: 'VENDOR', component: DealerDistributorsPage, icon: "md-home"},
+      {title: 'PROFILE', component: DealerProfilePage, icon: "md-home"},
+      {title: 'ABOUT US', component: AboutUsPage, icon: "md-home"},
+      {title: 'LOGOUT', component: LogoutPage, icon: "md-home"}
+    ];
+
+    this.pagesVendor = [
+      {title: 'SERVICE ENGINEERS', component: DealerSuppliersPage, icon: "md-home"},
+      {title: 'PROFILE', component: DealerProfilePage, icon: "md-home"},
+      {title: 'ABOUT US', component: AboutUsPage, icon: "md-home"},
+      {title: 'LOGOUT', component: LogoutPage, icon: "md-home"}
+    ];
+
+  }
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -45,60 +95,6 @@ export class MyApp {
       this.splashScreen.hide();
       this.initPushNotification();
     });
-  }
-
-
-  constructor(public platform: Platform,
-              public push: Push,
-              public statusBar: StatusBar,
-              public alertUtils:UtilsProvider,
-              private translateService: TranslateService,
-              public splashScreen: SplashScreen) {
-
-        translateService.setDefaultLang('en');
-        translateService.use('en');
-
-    this.initializeApp();
-
-    // used for an example of ngFor and navigation
-
-    this.pagesDealer = [
-      { title: 'DASH BOARD',            component: DealerDashBoardPage,                 icon:"md-home" },
-      { title: 'JOBS',                  component: DealerOrdersHomePage,                icon:"md-home" },
-      { title: 'CUSTOMERS',             component: DealerCustomersPage,                 icon:"md-home" },
-      { title: 'SERVICES',              component: DealerProductsPage,                  icon:"md-home" },
-      //{ title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
-      //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
-      { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage,                 icon:"md-home" },
-      { title: 'VENDORS',               component: DealerDistributorsPage,              icon:"md-home" },
-      //{ title: 'POINTS VIEW',           component: DealerPointsPage,                    icon:"md-home" },
-      { title: 'FEEDBACK',              component: FeedbackPage,                        icon:"md-home" },
-      //{ title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage,    icon:"md-home" },
-      //{ title: 'SALES REPORT',          component: DealerSalesReportHomePage,           icon:"md-home" },
-      { title: 'CATEGORY',              component: DealerCategoryHomePage,              icon:"md-home" },
-      //{ title: 'MARKET PLACE',          component: DealerMarketPlacePage,               icon:"md-home" },
-      //{ title: 'TRACK SUPPLIER',        component: DealerTrackSupplierPage,             icon:"md-home" },
-      //{ title: 'PROMO CODES',           component: DealerPromoCodesPage,                icon:"md-home" },
-      { title: 'PROFILE',               component: DealerProfilePage,                   icon:"md-home" },
-      { title: 'ABOUT US',              component: AboutUsPage,                         icon:"md-home" },
-      { title: 'LOGOUT',                component: LogoutPage,                          icon:"md-home" }
-    ];
-
-    this.pagesSupplier = [
-      { title: 'ORDERS',                component: SupplierOrdersHomePage,  icon:"md-home" },
-      { title: 'VENDOR',                component: DealerDistributorsPage,  icon:"md-home" },
-      { title: 'PROFILE',               component: DealerProfilePage,       icon:"md-home" },
-      { title: 'ABOUT US',              component: AboutUsPage,             icon:"md-home" },
-      { title: 'LOGOUT',                component: LogoutPage,              icon:"md-home" }
-    ];
-
-    this.pagesVendor = [
-      { title: 'SERVICE ENGINEERS',     component: DealerSuppliersPage,     icon:"md-home" },
-      { title: 'PROFILE',               component: DealerProfilePage,       icon:"md-home" },
-      { title: 'ABOUT US',              component: AboutUsPage,             icon:"md-home" },
-      { title: 'LOGOUT',                component: LogoutPage,              icon:"md-home" }
-    ];
-
   }
 
   openPage(page) {
@@ -136,6 +132,7 @@ export class MyApp {
 
       pushObject.on('registration').subscribe((data: any) => {
         this.alertUtils.showLog('device token -> ' + data.registrationId);
+        UtilsProvider.setGCM(data.registrationId);
         //this.alertUtils.saveGcmId(data.registrationId);
       });
       pushObject.on('notification').subscribe((notification: any) => {

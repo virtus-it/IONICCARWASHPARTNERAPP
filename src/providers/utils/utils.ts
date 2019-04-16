@@ -105,6 +105,16 @@ export class UtilsProvider {
       this.sub.unsubscribe();
   }
 
+   static _GCM_ID: string = "";
+
+  static setGCM(gcmID:string){
+    this._GCM_ID = gcmID;
+  }
+
+  static  getGCM_ID(): string{
+    return this._GCM_ID;
+  }
+
   private static _USER_ID: string = "";
 
   static get USER_ID(): string {

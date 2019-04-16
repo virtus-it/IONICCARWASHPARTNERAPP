@@ -207,7 +207,7 @@ export class DealerOrderDetailsPage {
               this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "Job Completed";
-            this.item["statusUpdated"] = "Order Delivered";
+            this.item["statusUpdated"] = "Job Completed";
           } else if (this.item.status == OrderTypes.CANNOT_DELIVER) {
             this.item["orderstatus"] = "CANT DELIVER";
           } else if (this.item.status == OrderTypes.DOORLOCK) {
@@ -263,6 +263,7 @@ export class DealerOrderDetailsPage {
         this.alertUtils.showLog(res);
         this.showProgress = false;
 
+        this.suppliersList = [];
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           for (let i = 0; i < res.data.length; i++) {
             res.data[i]["firstname"]  = this.validate(res.data[i].firstname);

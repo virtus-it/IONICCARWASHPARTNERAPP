@@ -54,7 +54,7 @@ export class DealerSuppliersPage {
 
       this.apiService.getReq(url).then(res => {
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("GET (SUCCESS)=> SUPPLIERS: " + res.data);
+        this.alertUtils.showLog(res.data);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;

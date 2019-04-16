@@ -49,6 +49,7 @@ import { Camera } from '@ionic-native/camera';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
 import {Push} from "@ionic-native/push";
+import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
 const config: SocketIoConfig = { url: 'http://192.168.1.50:1900', options: {} };
 
 export function createTranslateLoader(http: HttpClient) {
@@ -79,7 +80,7 @@ export function createTranslateLoader(http: HttpClient) {
     DealerTrackSupplierPage,
     DealerPromoCodesPage,
     DealerProfilePage,
-   
+    DealerUsersCustomercarePage,
     SupplierOrdersHomePage,
     LogoutPage,
     AboutUsPage,
@@ -126,6 +127,7 @@ export function createTranslateLoader(http: HttpClient) {
     DealerPromoCodesPage,
     DealerProfilePage,
     SupplierOrdersHomePage,
+    DealerUsersCustomercarePage,
     AboutUsPage,
     LogoutPage,
     LoginPage,

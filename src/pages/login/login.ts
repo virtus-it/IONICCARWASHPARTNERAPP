@@ -47,8 +47,8 @@ export class LoginPage {
     translateService.use('en');
 
     //supplier
-/*    this.username = '9774937711';
-    this.password = '9774937711';*/
+    this.username = '9774937711';
+    this.password = '9774937711';
   }
 
   ionViewDidLoad() {
@@ -137,7 +137,7 @@ export class LoginPage {
 
         }
       }else{
-        alert(res);
+        alert(JSON.stringify(res.data));
       }
 
 
@@ -244,13 +244,15 @@ export class LoginPage {
       "User": {
         "userid": data.userid,
         "gcm_mailid": this.username,
-        "gcm_regid": registrationId,
+        "gcm_regid": UtilsProvider.getGCM_ID(),
         "gcm_name": APP_USER_TYPE,
         "mobileno": this.username
       }
     };
     let gcmData = JSON.stringify(input);
+    this.alertUtils.showLog('gcmData : '+gcmData);
     this.apiService.postReq(this.apiService.setGCMRegister(), gcmData).then(gcm => {
+      this.alertUtils.showLog(gcmData);
       if (gcm.result == this.alertUtils.RESULT_SUCCESS) {
         this.alertUtils.showToast("You have successfully logged in");
 

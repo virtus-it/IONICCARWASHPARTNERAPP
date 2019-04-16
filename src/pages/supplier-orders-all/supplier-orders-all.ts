@@ -78,13 +78,13 @@ export class SupplierOrdersAllPage {
               res.data[i].status == OrderTypes.NOT_BROADCASTED) {
 
               res.data[i]["orderstatus"] = "assigned";
-              res.data[i]["statusUpdated"] = "Order Assigned";
+              res.data[i]["statusUpdated"] = "Job Assigned";
             } else if (res.data[i].status == OrderTypes.ACCEPT) {
               res.data[i]["orderstatus"] = "accepted";
-              res.data[i]["statusUpdated"] = "Order Accepted";
+              res.data[i]["statusUpdated"] = "Job Accepted";
             } else if (res.data[i].status == OrderTypes.ORDER_STARTED) {
               res.data[i]["orderstatus"] = "orderstarted";
-              res.data[i]["statusUpdated"] = "Engineer started from his loc";
+              res.data[i]["statusUpdated"] = "You started to visit";
             } else if (res.data[i].status == OrderTypes.JOB_STARTED) {
               res.data[i]["orderstatus"] = "jobstarted";
               res.data[i]["statusUpdated"] = "Job Started";
@@ -93,10 +93,10 @@ export class SupplierOrdersAllPage {
               res.data[i]["statusUpdated"] = "Job Completed";
             } else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "cancelled";
-              res.data[i]["statusUpdated"] = "Order Cancelled";
+              res.data[i]["statusUpdated"] = "Job Cancelled";
             } else if (res.data[i].status == OrderTypes.ONHOLD) {
               res.data[i]["orderstatus"] = "onhold";
-              res.data[i]["statusUpdated"] = "Order is On Hold";
+              res.data[i]["statusUpdated"] = "Job is On Hold";
             }
 
             if (isPaging)

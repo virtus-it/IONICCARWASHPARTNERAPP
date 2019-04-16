@@ -50,7 +50,7 @@ import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
 import {Push} from "@ionic-native/push";
 import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
-const config: SocketIoConfig = { url: 'http://192.168.1.50:1900', options: {} };
+const config: SocketIoConfig = { url: ApiProvider.SOCKET_DEV_URL, options: {} };
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

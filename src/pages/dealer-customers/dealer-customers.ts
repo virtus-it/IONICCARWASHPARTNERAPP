@@ -50,7 +50,7 @@ export class DealerCustomersPage {
 
       this.apiService.getReq(url).then(res => {
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("GET (SUCCESS)=> CUSTOMERS: " + res.data);
+        this.alertUtils.showLog(res.data);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
@@ -59,8 +59,6 @@ export class DealerCustomersPage {
             this.response = res.data;
 
           for (let i = 0; i < res.data.length; i++) {
-
-
             if (isPaging)
               this.response.push(res.data[i]);
           }
@@ -78,6 +76,16 @@ export class DealerCustomersPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+
+  validate(s){
+    if(s){
+      if(s == null || s == 'null')
+        return '';
+      else
+        return s;
+    }else
+      return '';
   }
 
   doRefresh(refresher) {

@@ -30,9 +30,8 @@
       <ion-card>
 
         <ion-row>
-          <ion-col *ngIf="user.lastname">
-            <label>{{user.firstname}}</label>
-            <label>{{user.lastname}}</label>
+          <ion-col>
+            {{validate(user.firstname) +' '+ validate(user.lastname)}}
           </ion-col>
           <ion-col>
             {{user.mobileno}}
@@ -41,8 +40,26 @@
 
         <ion-row *ngIf="user.address">
           <ion-col>
-            Address : {{user.address}}
+            Address : {{validate(user.address)}}
           </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            ID : {{validate(user.id)}}
+          </ion-col>
+          <ion-col>
+            Cash : {{validate(user.flotting_cash)}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Vechicle</ion-col>
+          <ion-col>Tracking</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>{{validate(user.vechicle_number)}}</ion-col>
+          <ion-col>{{user.tracking}}</ion-col>
         </ion-row>
 
         <ion-row>

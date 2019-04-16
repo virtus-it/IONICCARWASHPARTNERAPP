@@ -31,7 +31,7 @@
 
         <ion-row>
           <ion-col>
-            {{user.firstname + " " + user.lastname}}
+            {{validate(user.firstname) + " " + validate(user.lastname)}}
           </ion-col>
           <ion-col>
             {{user.mobileno}}
@@ -40,7 +40,7 @@
 
         <ion-row *ngIf="user.address">
           <ion-col>
-            Address : {{user.address}}
+            Address : {{validate(user.address)}}
           </ion-col>
         </ion-row>
 

@@ -23,6 +23,8 @@ export class DealerOrderDetailsPage {
   @ViewChild(Content) content: Content;
 
   item: any;
+  imgUrlPre: any;
+  imgUrlPost: any;
   showProgress = true;
   editorMsg: string = "";
   suppliersList = [];
@@ -53,6 +55,8 @@ export class DealerOrderDetailsPage {
     this.userID = UtilsProvider.USER_ID;
     this.dealerID = UtilsProvider.USER_DEALER_ID;
 
+    this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
+    this.imgUrlPost = this.apiService.getImg()+'post_'+this.orderId+'.png';
 
     if (this.orderId)
       this.fetchOrderDetails();

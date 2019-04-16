@@ -84,6 +84,16 @@ export class DealerSuppliersPage {
     }
   }
 
+  validate(s){
+    if(s){
+      if(s == null || s == 'null')
+        return '';
+      else
+        return s;
+    }else
+      return '';
+  }
+
   doRefresh(refresher) {
     this.fetchSuppliers(false, true, false, "", refresher);
     setTimeout(() => {

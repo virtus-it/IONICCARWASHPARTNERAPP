@@ -81,36 +81,12 @@
       <ion-input class="" name="priority" type="text" [(ngModel)]="input.priority" maxlength="50"></ion-input>
     </ion-item>
 
-    <!--<ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Express Delivery</ion-label>
-      <ion-input class="" type="text" name="expressdeliverycharges"
-                 [(ngModel)]="input.expressdeliverycharges"
-                 maxlength="10"></ion-input>
-    </ion-item>
-
-    <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Service Charge</ion-label>
-      <ion-input class="" type="text" name="servicecharge"
-                 [(ngModel)]="input.servicecharge"
-                 maxlength="10"></ion-input>
-    </ion-item>-->
-
-   <!-- Can Returnble
-    <label class="checkbox">
-      <input type="checkbox" checked (click)="isCansReturnble()">
-    </label>
-
-    Is Authorized
-    <label class="checkbox">
-      <input type="checkbox" checked (click)="isAuthorized()">
-    </label>-->
-
     <ion-row class="">
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
       </ion-col>
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
       </ion-col>
     </ion-row>
 

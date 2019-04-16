@@ -30,7 +30,7 @@ export class DealerProductsCreatePage {
   categoryPos: number = -1;
 
   input = {
-    category: "", categoryid: "", currency: "inr", brandname: "", pname: "", ptype: "", pcost: "",
+    category: "", categoryid: "", currency: "aed", brandname: "", pname: "", ptype: "", pcost: "",
     minorderqty: "", priority: "", iscanreturnable: false, servicecharge: "",
     expressdeliverycharges: "", isauthorized: false
   };

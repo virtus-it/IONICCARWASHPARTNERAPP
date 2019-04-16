@@ -86,24 +86,31 @@
         <ion-col>Assigned</ion-col>
         <ion-col>Completed</ion-col>
       </ion-row>
-
       <ion-row>
         <ion-col>{{validate(item?.orderby_firstname)+" "+validate(item?.orderby_lastname)}}</ion-col>
         <ion-col>{{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}</ion-col>
         <ion-col>{{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}</ion-col>
       </ion-row>
-
       <ion-row>
         <ion-col>{{item?.ordered_date | utcDate}}</ion-col>
         <ion-col>{{item?.order_assigneddate | utcDate}}</ion-col>
         <ion-col>{{item?.order_delivereddate | utcDate}}</ion-col>
       </ion-row>
-
-      <!--<ion-row *ngIf="item?.status != 'delivered'">
-          &lt;!&ndash;<button ion-button color="primary"  small no-margin style="width:49%" (click)="onHoldOrder($event);">ON-HOLD ORDER</button>&ndash;&gt;
-          <button ion-button  small no-margin style="width:49%" (click)="editStatusModal($event);">EDIT STATUS</button>
-      </ion-row>-->
       </ion-card-content>
+    </ion-card>
+
+    <!--Images-->
+    <ion-card *ngIf="item.status == 'jobstarted' || item.status == 'delivered'">
+      JOB IMAGES
+      <ion-row>
+        <ion-col>BEFORE</ion-col>
+        <ion-col>AFTER</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col><img [src]="imgUrlPre" style="width: 30%"></ion-col>
+        <ion-col><img [src]="imgUrlPost" style="width: 30%"></ion-col>
+      </ion-row>
     </ion-card>
 
     <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">

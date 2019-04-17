@@ -14,13 +14,14 @@
 <ion-content padding>
 
   <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
-               item-center></ion-spinner>
+               item-center>
+  </ion-spinner>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Users not found</h5>
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let user of response">
       <ion-card>

@@ -28,6 +28,8 @@ export class DealerDistributorsPage {
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     if(UtilsProvider.USER_TYPE == UserType.SUPPLIER)
       this.isDealer = false;
     else

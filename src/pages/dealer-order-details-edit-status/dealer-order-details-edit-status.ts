@@ -28,6 +28,8 @@ export class DealerOrderDetailsEditStatusPage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     this.order = navParams.get('order');
     this.input.orderid = this.order.order_id;
     this.input.received_amt = this.order.orderamt;

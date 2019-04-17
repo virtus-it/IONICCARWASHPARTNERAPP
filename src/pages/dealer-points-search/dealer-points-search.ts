@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {UtilsProvider} from "../../providers/utils/utils";
 
 @IonicPage()
 @Component({
@@ -12,7 +13,9 @@ export class DealerPointsSearchPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              private alertUtils: UtilsProvider,
               private viewCtrl: ViewController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

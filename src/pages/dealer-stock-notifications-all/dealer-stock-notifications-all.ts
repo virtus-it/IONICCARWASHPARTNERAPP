@@ -24,8 +24,8 @@ export class DealerStockNotificationsAllPage {
               private alertUtils: UtilsProvider,
               private network: NetworkProvider,
               private apiService: ApiProvider,
-              private modalCtrl: ModalController
-  ) {
+              private modalCtrl: ModalController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
     try {
       this.from = this.navParams.get('from');
     }catch (e) {

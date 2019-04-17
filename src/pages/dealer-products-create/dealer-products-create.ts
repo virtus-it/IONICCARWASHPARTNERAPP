@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -11,6 +12,8 @@ import {FormBuilder} from "@angular/forms";
 })
 export class DealerProductsCreatePage {
 
+  imgUrl: any;
+  showProgress: any;
   USER_ID;
   USER_TYPE;
   DEALER_ID;
@@ -19,6 +22,7 @@ export class DealerProductsCreatePage {
   buttonTitle: string;
   user: any;
   isUpdate: boolean = true;
+  b64Image: any;
 
   categorySelected: boolean = false;
   categoryList: string[];
@@ -26,7 +30,7 @@ export class DealerProductsCreatePage {
   categoryPos: number = -1;
 
   input = {
-    category: "", categoryid: "", currency: "inr", brandname: "", pname: "", ptype: "", pcost: "",
+    category: "", categoryid: "", currency: "aed", brandname: "", pname: "", ptype: "", pcost: "",
     minorderqty: "", priority: "", iscanreturnable: false, servicecharge: "",
     expressdeliverycharges: "", isauthorized: false
   };
@@ -35,10 +39,13 @@ export class DealerProductsCreatePage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              private alertCtrl: AlertController,
+              private camera: Camera,
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.user = navParams.get('item');
 
@@ -68,6 +75,7 @@ export class DealerProductsCreatePage {
       this.input.iscanreturnable = this.user.iscanreturnable;
       this.input.isauthorized = this.user.isauthorized;
 
+      this.imgUrl = this.apiService.getImg()+'product_'+this.user.productid+'.png'
     }
 
     this.USER_ID = UtilsProvider.USER_ID;
@@ -76,6 +84,10 @@ export class DealerProductsCreatePage {
     this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
 
     this.getCategories();
+  }
+
+  assetImg(){
+    this.imgUrl = 'assets/imgs/img_user.png';
   }
 
   isAuthorized() {
@@ -183,6 +195,10 @@ export class DealerProductsCreatePage {
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.viewCtrl.dismiss(this.output);
+          /*if(this.b64Image && this.b64Image.length > 0){
+            this.uploadImg(this.b64Image,'product_'+res.data.productid);
+          }*/
+          //this.viewCtrl.dismiss(this.output);
           //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
         } else
           this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
@@ -291,6 +307,86 @@ export class DealerProductsCreatePage {
       }
     }, error => {
 
+    })
+  }
+
+  promptPickImage(event) {
+    let prompt = this.alertCtrl.create({
+      title: 'PICK IMAGE',
+      /*message: 'Are you sure. You want delete customer?',*/
+      buttons: [
+        {
+          text: 'Gallery',
+          handler: data => {
+            this.pickImage(0);
+          }
+        },
+        {
+          text: 'Camera',
+          handler: data => {
+            this.pickImage(1);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  pickImage(sourceType) {
+
+    try {
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.PNG,
+        mediaType: this.camera.MediaType.PICTURE,
+        targetWidth: 256,
+        targetHeight: 256,
+        sourceType:sourceType
+      };
+
+
+      this.camera.getPicture(options).then((imageData) => {
+        let base64Image =  imageData;
+
+        if(base64Image && base64Image.length>0){
+          if(this.isUpdate){
+            this.uploadImg(base64Image,'product_'+this.user.productid);
+          }else{
+            this.b64Image = base64Image;
+          }
+        }
+
+      }, (err) => {
+        // Handle error
+        this.alertUtils.showLog(err);
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+  }
+
+  uploadImg(s,fileName){
+    let input = {
+      "image": {
+        "filename": fileName,
+        "base64string": s,
+      }
+    };
+
+    this.showProgress = true;
+    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
+      this.showProgress = false;
+      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
+
+      this.viewCtrl.dismiss(this.output);
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
+
+      } else
+        this.alertUtils.showToast(res.result);
+
+    }, error => {
+      this.alertUtils.showLog("POST (ERROR)=> IMAGE UPLOAD: " + error);
     })
   }
 }

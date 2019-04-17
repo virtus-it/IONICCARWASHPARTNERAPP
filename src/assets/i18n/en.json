@@ -283,7 +283,7 @@
     }
   },
   "ORDER_DETAILS_PAGE": {
-    "PAGE_TITLE": "Order Details",
+    "PAGE_TITLE": "Job Details",
     "BUTTONS": {
       "btn_done": "Done",
       "btn_cancel": "Cancel"

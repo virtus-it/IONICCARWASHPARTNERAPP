@@ -32,6 +32,7 @@ export class DealerPromoCodesPage {
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
   }
 

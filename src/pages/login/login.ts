@@ -3,14 +3,14 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams} fr
 import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {NetworkProvider} from "../../providers/network/network";
-import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
-import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
+// import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
+// import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
 import {Observable, Subscription} from "rxjs";
 import { Socket } from 'ng-socket-io';
-import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
-import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
+// import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
+// import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
 
 
 @IonicPage()
@@ -83,12 +83,12 @@ export class LoginPage {
       this.alertUtils.hideLoading();
       this.alertUtils.showLog("res",res.data);
 
-      //this.utils.showToastSnackBar(res.data);
+      this.setGCMDetails(res.data);
 
       if(res.result == this.alertUtils.RESULT_SUCCESS){
         if(res.data && res.data.user){
-          let input = res.data.user;
-          let uType=input.USERTYPE;
+          let output = res.data.user;
+          let uType=output.USERTYPE;
 
           if(uType == UserType.DEALER ||
             uType == UserType.SUPPLIER ||
@@ -96,35 +96,18 @@ export class LoginPage {
             uType == UserType.SALES ||
             uType == UserType.CUSTOMER_CARE){
 
-            let uId,uName,uPhno,uAddr,uDealerId,uDealerName,uDealerPhno,uDealerAddr;
-
-            uId = input.userid;
-            uName = input.first_name+" "+input.last_name;
-            uPhno = input.mobileno;
-            uAddr = input.address;
-
-            if(uType == UserType.DEALER && input.issuperdealer){
-              uDealerId = uId;
-              uDealerName = uName;
-              uDealerPhno = uPhno;
-              uDealerAddr = uAddr;
-            }else{
-              uDealerId = input.sdealers.dealerid;
-              uDealerName = input.sdealers.firstname +' '+input.sdealers.lastname;
-              uDealerPhno = input.sdealers.mobileno;
-              uDealerAddr = '';
-            }
-
-            UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
+            UtilsProvider.setUSER_INFO(output);
+            this.alertUtils.initUser(output);
+            //UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 
 
             if(uType == UserType.DEALER||uType == UserType.CUSTOMER_CARE){
-              if(input.issuperdealer == 'true')
-              this.navCtrl.setRoot(DealerOrdersHomePage);
+              if(output.issuperdealer == 'true')
+              this.navCtrl.setRoot('DealerOrdersHomePage');
               else
-                this.navCtrl.setRoot(DealerSuppliersPage,{from:'loginPage'});
+                this.navCtrl.setRoot('DealerSuppliersPage',{from:'loginPage'});
             }else if(uType == UserType.SUPPLIER){
-              this.navCtrl.setRoot(SupplierOrdersHomePage);
+              this.navCtrl.setRoot('SupplierOrdersHomePage');
             }
 
           }else {
@@ -137,7 +120,7 @@ export class LoginPage {
 
         }
       }else{
-        alert(res);
+        alert(JSON.stringify(res.data));
       }
 
 
@@ -235,6 +218,35 @@ export class LoginPage {
     } catch (e) {
       this.alertUtils.showLog(e);
     }
+  }
+
+
+  setGCMDetails(data) {
+    let registrationId = this.alertUtils.getDeviceUUID();
+    let input = {
+      "User": {
+        "userid": data.userid,
+        "gcm_mailid": this.username,
+        "gcm_regid": UtilsProvider.getGCM_ID(),
+        "gcm_name": APP_USER_TYPE,
+        "apptype": APP_TYPE,
+        "mobileno": this.username
+      }
+    };
+    let gcmData = JSON.stringify(input);
+    this.alertUtils.showLog('gcmData : '+gcmData);
+    this.apiService.postReq(this.apiService.setGCMRegister(), gcmData).then(gcm => {
+      this.alertUtils.showLog(gcmData);
+      if (gcm.result == this.alertUtils.RESULT_SUCCESS) {
+        this.alertUtils.showToast("You have successfully logged in");
+
+      } else {
+        this.alertUtils.showToast("Could not register device");
+      }
+    }, err => {
+      this.alertUtils.showToast("Could not register device");
+      this.alertUtils.showLog(err);
+    })
   }
 
 }

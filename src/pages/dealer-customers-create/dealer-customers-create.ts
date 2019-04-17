@@ -38,6 +38,8 @@ export class DealerCustomersCreatePage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     this.user = navParams.get('item');
 
     alertUtils.showLog(this.user);

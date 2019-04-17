@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {LoginPage} from "../login/login";
-import {RegisterPage} from "../register/register";
+import {UtilsProvider} from "../../providers/utils/utils";
+// import {LoginPage} from "../login/login";
+// import {RegisterPage} from "../register/register";
 
 
 @IonicPage()
@@ -11,7 +12,10 @@ import {RegisterPage} from "../register/register";
 })
 export class WelcomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public alertUtils: UtilsProvider) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {
@@ -19,11 +23,11 @@ export class WelcomePage {
   }
 
   loadLoginPage(){
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push('LoginPage');
   }
 
   loadSignUpPage(){
-    this.navCtrl.push(RegisterPage);
+    this.navCtrl.push('RegisterPage');
   }
 
 }

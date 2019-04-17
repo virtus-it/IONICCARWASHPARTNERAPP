@@ -42,6 +42,8 @@ export class DealerDistributorsCreatePage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     this.user = navParams.get('item');
     this.type = navParams.get('type');
 

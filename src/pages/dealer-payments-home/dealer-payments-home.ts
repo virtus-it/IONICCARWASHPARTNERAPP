@@ -21,7 +21,9 @@ export class DealerPaymentsHomePage {
               private utils: UtilsProvider,
               private network:NetworkProvider,
               private  apiUrl: ApiProvider,
+              private alertUtils: UtilsProvider,
               private menuCtrl: MenuController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

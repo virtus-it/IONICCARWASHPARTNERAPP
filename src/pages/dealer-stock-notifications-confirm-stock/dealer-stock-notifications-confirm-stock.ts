@@ -29,6 +29,8 @@ export class DealerStockNotificationsConfirmStockPage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     this.USER_ID = UtilsProvider.USER_ID;
     this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
 

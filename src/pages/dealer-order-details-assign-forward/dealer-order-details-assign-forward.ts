@@ -42,6 +42,8 @@ export class DealerOrderDetailsAssignForwardPage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     this.orderInfo = navParams.get('orderInfo');
     this.suppliersList = navParams.get('suppliersList');
     this.distributorsList = navParams.get('distributorsList');

@@ -26,6 +26,7 @@ export class DealerSuppliersPage {
               private menuCtrl: MenuController,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
     this.from = this.navParams.get('from');
   }
 
@@ -54,7 +55,7 @@ export class DealerSuppliersPage {
 
       this.apiService.getReq(url).then(res => {
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("GET (SUCCESS)=> SUPPLIERS: " + res.data);
+        this.alertUtils.showLog(res.data);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
@@ -82,6 +83,16 @@ export class DealerSuppliersPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+
+  validate(s){
+    if(s){
+      if(s == null || s == 'null')
+        return '';
+      else
+        return s;
+    }else
+      return '';
   }
 
   doRefresh(refresher) {

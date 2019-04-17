@@ -12,10 +12,12 @@
 
 <ion-content>
 
-
-  <super-tabs [config]="{ sideMenu: 'left' }" tabsPlacement="top" toolbarBackground="primary" toolbarColor="light" indicatorColor="light"
-              (tabSelect)="onTabSelect($event)">
-    <super-tab *ngFor="let page of pages" [root]="page.pageName" [title]= page.title [icon]="page.icon" [id]="page.id"></super-tab>
-  </super-tabs>
+  <ion-tabs tabsPlacement="top" >
+    <ion-tab *ngFor="let page of pages" [root]="page.pageName" [tabTitle]= page.title [tabIcon]="page.icon" [id]="page.id"></ion-tab>
+  </ion-tabs>
+  <!--<super-tabs [config]="{ sideMenu: 'left' }" tabsPlacement="top" toolbarBackground="primary" toolbarColor="light" indicatorColor="light"-->
+              <!--(tabSelect)="onTabSelect($event)">-->
+    <!--<super-tab *ngFor="let page of pages" [root]="page.pageName" [title]= page.title [icon]="page.icon" [id]="page.id"></super-tab>-->
+  <!--</super-tabs>-->
 
 </ion-content>

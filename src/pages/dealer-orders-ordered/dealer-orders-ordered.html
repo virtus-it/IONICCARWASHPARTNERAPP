@@ -19,33 +19,33 @@
           <span class="jobassign_no">#{{order.order_id}}</span> <span class="order_heading">{{order.statusUpdated}}</span>
         </ion-card-header>
 
-
+        <ion-row>
+          <ion-col>#{{order.order_id}} </ion-col>
+          <ion-col>AED {{order.billamt_updated}}</ion-col>
+        </ion-row>
 
         <ion-row>
-          <ion-col>{{order.productdetails.category + " " + order.brandname + " " + order.prod_type }} </ion-col>
+          <ion-col>Cart ID</ion-col>
+          <ion-col>Delivery Time</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>{{order.cart_id}}</ion-col>
+          <ion-col>{{order.delivery_exceptedtime}}</ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>{{order.slotdate}}</ion-col>
         </ion-row>
-
         <ion-row>
           <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address">{{order.orderby_address}}</span></ion-col>
         </ion-row>
 
         <ion-row>
+          <ion-col>{{order?.timestamp | utcDate}}</ion-col>
           <ion-col>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
               VIEW DETAILS
-            </button></ion-col>
-            <ion-col> <span>AED{{order.billamt_updated}}</span>
-          </ion-col>
-          <ion-col>
-            <!--<button ion-button *ngIf="order.states != OrderTypes.DELIVERED ||
-                                      order.status != OrderTypes.CANCELLED ||
-                                      order.status != OrderTypes.REJECTED">
-              ASSIGN
-            </button>-->
+            </button>
           </ion-col>
         </ion-row>
       </ion-card>

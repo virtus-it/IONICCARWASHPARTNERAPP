@@ -61,6 +61,14 @@
     </div>
   </div>
   <div *ngIf="page2">
+
+    <div align="center" *ngIf="isUpdate">
+      <img style="width: 40%;" class="profile-image"
+           [src]="imgUrl"
+           (error)="assetImg();"
+           (click)="promptPickImage(person);">
+    </div>
+
     <ion-list>
       <ion-item>
         <ion-label floating>Category Name</ion-label>

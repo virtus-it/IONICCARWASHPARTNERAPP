@@ -23,6 +23,8 @@ export class DealerOrderDetailsPage {
   @ViewChild(Content) content: Content;
 
   item: any;
+  imgUrlPre: any;
+  imgUrlPost: any;
   showProgress = true;
   editorMsg: string = "";
   suppliersList = [];
@@ -44,6 +46,8 @@ export class DealerOrderDetailsPage {
               public alertCtrl: AlertController,
               private apiService: ApiProvider) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     translateService.setDefaultLang('en');
     translateService.use('en');
 
@@ -53,6 +57,8 @@ export class DealerOrderDetailsPage {
     this.userID = UtilsProvider.USER_ID;
     this.dealerID = UtilsProvider.USER_DEALER_ID;
 
+    this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
+    this.imgUrlPost = this.apiService.getImg()+'post_'+this.orderId+'.png';
 
     if (this.orderId)
       this.fetchOrderDetails();
@@ -207,7 +213,7 @@ export class DealerOrderDetailsPage {
               this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "Job Completed";
-            this.item["statusUpdated"] = "Order Delivered";
+            this.item["statusUpdated"] = "Job Completed";
           } else if (this.item.status == OrderTypes.CANNOT_DELIVER) {
             this.item["orderstatus"] = "CANT DELIVER";
           } else if (this.item.status == OrderTypes.DOORLOCK) {
@@ -263,6 +269,7 @@ export class DealerOrderDetailsPage {
         this.alertUtils.showLog(res);
         this.showProgress = false;
 
+        this.suppliersList = [];
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           for (let i = 0; i < res.data.length; i++) {
             res.data[i]["firstname"]  = this.validate(res.data[i].firstname);

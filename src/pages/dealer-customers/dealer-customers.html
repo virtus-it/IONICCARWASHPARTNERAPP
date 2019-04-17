@@ -30,25 +30,26 @@
       <ion-card class="customer_mgmnt">
 
         <ion-row>
-
           <ion-col>
-           <span> {{user.mobileno}}</span><div class="customer_btnedit"><img src="assets/imgs/img_edit.png" class="header_icon" (click)="createCustomer($event, user);"><img src="assets/imgs/img_delete.png" class="header_icon"
-                                                                                                                                                    (click)="showPromptForDeleteCustomer($event, user);"></div>
+            {{validate(user.firstname) + " " + validate(user.lastname)}}
+          </ion-col>
+          <ion-col>
+            {{user.mobileno}}
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            {{user.firstname + " " + user.lastname}}
-          </ion-col>
 
-        </ion-row>
         <ion-row *ngIf="user.address">
           <ion-col>
-            Address : {{user.address}}
+            Address : {{validate(user.address)}}
           </ion-col>
         </ion-row>
 
-
+        <ion-row>
+          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="createCustomer($event, user);">
+          </ion-col>
+          <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
+                        (click)="showPromptForDeleteCustomer($event, user);"></ion-col>
+        </ion-row>
 
       </ion-card>
     </div>

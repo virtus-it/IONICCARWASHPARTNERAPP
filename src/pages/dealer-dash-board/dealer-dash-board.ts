@@ -2,11 +2,11 @@ import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-import {DealerCustomersPage} from "../dealer-customers/dealer-customers";
-import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
-import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
-import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
-import { Chart } from 'chart.js';
+// import {DealerCustomersPage} from "../dealer-customers/dealer-customers";
+// import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
+// import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
+// import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
+import {Chart} from 'chart.js';
 
 @IonicPage()
 @Component({
@@ -15,28 +15,26 @@ import { Chart } from 'chart.js';
 })
 export class DealerDashBoardPage {
 
+  @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('doughnutCanvas2') doughnutCanvas2;
+  showProgress = true;
+  doughnutChart: any;
+  output = {
+    totalOrders: '', pendingOrders: '', completedOrders: '',
+    totalPayments: '', codPayments: '', creditPayments: '',
+    totalCustomers: '', totalDistributors: '', totalSuppliers: ''
+  };
   private response: any = [];
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
-
-  @ViewChild('doughnutCanvas') doughnutCanvas;
-  @ViewChild('doughnutCanvas2') doughnutCanvas2;
-
-  showProgress    = true;
-  doughnutChart: any;
-
-  output ={totalOrders:'', pendingOrders: '', completedOrders:'',
-    totalPayments:'', codPayments:'', creditPayments:'',
-    totalCustomers:'', totalDistributors:'', totalSuppliers:''};
-
-
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
   }
 
@@ -79,14 +77,14 @@ export class DealerDashBoardPage {
           this.noRecords = false;
 
           this.showChart1(
-            parseInt(this.response.TOTALBOOKING.totalbookingsdaily),
-            parseInt(this.response.TOTALBOOKING.totalbookingsmonthly),
-            parseInt(this.response.TOTALBOOKING.totalbookingsyearly));
+            +this.response.TOTALBOOKING.totalbookingsdaily,
+            +this.response.TOTALBOOKING.totalbookingsmonthly,
+            +this.response.TOTALBOOKING.totalbookingsyearly);
 
           this.showChart2(
-            parseInt(this.response.CARWASHER.serviceengineersdaily),
-            parseInt(this.response.CARWASHER.serviceengineersmonthly),
-            parseInt(this.response.CARWASHER.serviceengineersyearly));
+            +this.response.CARWASHER.serviceengineersdaily,
+            +this.response.CARWASHER.serviceengineersmonthly,
+            +this.response.CARWASHER.serviceengineersyearly);
 
         }
         this.ref.detectChanges();
@@ -113,26 +111,23 @@ export class DealerDashBoardPage {
     }
   }
 
-  openUsers(){
-    this.navCtrl.setRoot(DealerCustomersPage);
+  openUsers() {
+    this.navCtrl.setRoot('DealerCustomersPage');
   }
 
-  openCarWashers(){
-    this.navCtrl.setRoot(DealerSuppliersPage);
+  openCarWashers() {
+    this.navCtrl.setRoot('DealerSuppliersPage');
   }
 
-  openCompanies(){
-    this.navCtrl.setRoot(DealerDistributorsPage);
+  openCompanies() {
+    this.navCtrl.setRoot('DealerDistributorsPage');
   }
 
-  openBookings(){
-    this.navCtrl.setRoot(DealerOrdersHomePage);
+  openBookings() {
+    this.navCtrl.setRoot('DealerOrdersHomePage');
   }
 
-  showChart1(val1,val2,val3){
-    this.alertUtils.showLog('val1 : '+val1);
-    this.alertUtils.showLog('val2 : '+val2);
-    this.alertUtils.showLog('val3 : '+val3);
+  showChart1(val1, val2, val3) {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
       type: 'doughnut',
@@ -140,9 +135,9 @@ export class DealerDashBoardPage {
         labels: ["Today", "This Month", "This Year"],
         datasets: [{
           label: '# of Votes',
-          data: [val1,val2,val3],
+          data: [val1, val2, val3],
           backgroundColor: [
-            '#b13c2e','#c27d0e','#009abf'
+            '#b13c2e', '#c27d0e', '#009abf'
           ],
         }]
       }
@@ -150,7 +145,7 @@ export class DealerDashBoardPage {
     });
   }
 
-  showChart2(val1,val2,val3){
+  showChart2(val1, val2, val3) {
     this.doughnutChart = new Chart(this.doughnutCanvas2.nativeElement, {
 
       type: 'doughnut',
@@ -158,11 +153,11 @@ export class DealerDashBoardPage {
         labels: ["Today", "This Month", "This Year"],
         datasets: [{
           label: '# of Votes',
-          data: [val1,val2,val3],
+          data: [val1, val2, val3],
           number: [50],
           // borderColor:['#000000'],
           backgroundColor: [
-            '#b13c2e','#c27d0e','#009abf'
+            '#b13c2e', '#c27d0e', '#009abf'
           ],
         }]
       }

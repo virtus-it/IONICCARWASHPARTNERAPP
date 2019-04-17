@@ -43,6 +43,8 @@ export class SupplierOrderDetailsPage {
               private camera: Camera,
               private apiService: ApiProvider) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     translateService.setDefaultLang('en');
     translateService.use('en');
 

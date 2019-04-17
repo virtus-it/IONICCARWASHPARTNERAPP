@@ -32,6 +32,7 @@ export class DealerPointsPage {
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

@@ -24,7 +24,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Distributors not found</h5>
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Vendors not found</h5>
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let user of response">
       <ion-card>
@@ -48,7 +48,7 @@
           <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, user,'');">
           </ion-col>
           <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
-                        (click)="showPromptForDelete($event, user,'');"></ion-col>
+                        (click)="showPromptForDelete($event, user);"></ion-col>
         </ion-row>
 
         <button ion-button block *ngIf="!isDealer" (click)="create($event, user, 'view');">View More</button>

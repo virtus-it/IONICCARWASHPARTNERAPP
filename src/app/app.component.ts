@@ -2,23 +2,23 @@ import {Component, ViewChild} from '@angular/core';
 import {Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {DealerCategoryHomePage} from "../pages/dealer-category-home/dealer-category-home";
-import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
-import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
-import {DealerCustomersPage} from "../pages/dealer-customers/dealer-customers";
-import {DealerProductsPage} from "../pages/dealer-products/dealer-products";
-import {DealerSuppliersPage} from "../pages/dealer-suppliers/dealer-suppliers";
-import {DealerDistributorsPage} from "../pages/dealer-distributors/dealer-distributors";
-import {FeedbackPage} from "../pages/feedback/feedback";
-import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
-import {AboutUsPage} from "../pages/about-us/about-us";
-import {LogoutPage} from "../pages/logout/logout";
+// import {DealerCategoryHomePage} from "../pages/dealer-category-home/dealer-category-home";
+// import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
+// import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
+// import {DealerCustomersPage} from "../pages/dealer-customers/dealer-customers";
+// import {DealerProductsPage} from "../pages/dealer-products/dealer-products";
+// import {DealerSuppliersPage} from "../pages/dealer-suppliers/dealer-suppliers";
+// import {DealerDistributorsPage} from "../pages/dealer-distributors/dealer-distributors";
+// import {FeedbackPage} from "../pages/feedback/feedback";
+// import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
+// import {AboutUsPage} from "../pages/about-us/about-us";
+// import {LogoutPage} from "../pages/logout/logout";
 import {TranslateService} from "@ngx-translate/core";
 import {UtilsProvider} from "../providers/utils/utils";
-import {LoginPage} from "../pages/login/login";
-import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
+// import {LoginPage} from "../pages/login/login";
+// import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
 import {Push, PushObject, PushOptions} from "@ionic-native/push";
-import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
+// import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
 
 
 @Component({
@@ -27,7 +27,7 @@ import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/de
 export class MyApp {
   static userType: string = 'supplier';
   @ViewChild(Nav) nav: Nav;
-  rootPage: any = LoginPage;
+  rootPage: any = 'LoginPage';
   showProgress: boolean = true;
   pagesDealer: Array<{ title: string, component: any, icon: string }>;
   pagesSupplier: Array<{ title: string, component: any, icon: string }>;
@@ -49,40 +49,40 @@ export class MyApp {
     // used for an example of ngFor and navigation
 
     this.pagesDealer = [
-      {title: 'DASH BOARD', component: DealerDashBoardPage, icon: "md-home"},
-      {title: 'JOBS', component: DealerOrdersHomePage, icon: "md-home"},
-      {title: 'CUSTOMERS', component: DealerCustomersPage, icon: "md-home"},
-      {title: 'SERVICES', component: DealerProductsPage, icon: "md-home"},
+      {title: 'DASH BOARD', component: 'DealerDashBoardPage', icon: "md-home"},
+      {title: 'JOBS', component: 'DealerOrdersHomePage', icon: "md-home"},
+      {title: 'CUSTOMERS', component: 'DealerCustomersPage', icon: "md-home"},
+      {title: 'SERVICES', component: 'DealerProductsPage', icon: "md-home"},
       //{ title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
       //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
-      {title: 'SERVICE ENGINEERS', component: DealerSuppliersPage, icon: "md-home"},
-      {title: 'VENDORS', component: DealerDistributorsPage, icon: "md-home"},
-      {title: 'CUSTOMER CARE', component: DealerUsersCustomercarePage, icon: "md-home"},
-      {title: 'FEEDBACK', component: FeedbackPage, icon: "md-home"},
+      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "md-home"},
+      {title: 'VENDORS', component: 'DealerDistributorsPage', icon: "md-home"},
+      {title: 'CUSTOMER CARE', component: 'DealerUsersCustomercarePage', icon: "md-home"},
+      {title: 'FEEDBACK', component: 'FeedbackPage', icon: "md-home"},
       //{ title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage,    icon:"md-home" },
       //{ title: 'SALES REPORT',          component: DealerSalesReportHomePage,           icon:"md-home" },
-      {title: 'CATEGORY', component: DealerCategoryHomePage, icon: "md-home"},
+      {title: 'CATEGORY', component: 'DealerCategoryHomePage', icon: "md-home"},
       //{ title: 'MARKET PLACE',   l̥l̥       component: DealerMarketPlacePage,               icon:"md-home" },
       //{ title: 'TRACK SUPPLIER',        component: DealerTrackSupplierPage,             icon:"md-home" },
       //{ title: 'PROMO CODES',           component: DealerPromoCodesPage,                icon:"md-home" },
-      {title: 'PROFILE', component: DealerProfilePage, icon: "md-home"},
-      {title: 'ABOUT US', component: AboutUsPage, icon: "md-home"},
-      {title: 'LOGOUT', component: LogoutPage, icon: "md-home"}
+      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
+      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
+      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
     ];
 
     this.pagesSupplier = [
-      {title: 'ORDERS', component: SupplierOrdersHomePage, icon: "md-home"},
-      {title: 'VENDOR', component: DealerDistributorsPage, icon: "md-home"},
-      {title: 'PROFILE', component: DealerProfilePage, icon: "md-home"},
-      {title: 'ABOUT US', component: AboutUsPage, icon: "md-home"},
-      {title: 'LOGOUT', component: LogoutPage, icon: "md-home"}
+      {title: 'ORDERS', component: 'SupplierOrdersHomePage', icon: "md-home"},
+      {title: 'VENDOR', component: 'DealerDistributorsPage', icon: "md-home"},
+      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
+      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
+      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
     ];
 
     this.pagesVendor = [
-      {title: 'SERVICE ENGINEERS', component: DealerSuppliersPage, icon: "md-home"},
-      {title: 'PROFILE', component: DealerProfilePage, icon: "md-home"},
-      {title: 'ABOUT US', component: AboutUsPage, icon: "md-home"},
-      {title: 'LOGOUT', component: LogoutPage, icon: "md-home"}
+      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "md-home"},
+      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
+      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
+      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
     ];
 
   }
@@ -108,7 +108,7 @@ export class MyApp {
     try {
       if (!this.platform.is('cordova')) {
         this.showProgress = false;
-        this.rootPage = LoginPage;
+        this.rootPage = 'LoginPage';
         this.alertUtils.showLog('Push notifications not initialized. Cordova is not available - Run in physical device');
         return;
       }
@@ -246,7 +246,7 @@ export class MyApp {
         }, error2 => {
           this.splashScreen.hide();
           this.showProgress = false;
-          this.rootPage = LoginPage;
+          this.rootPage = 'LoginPage';
         }
       );
       pushObject.on('error').subscribe(error => this.alertUtils.showLog('Error with Push plugin' + error));
@@ -258,12 +258,12 @@ export class MyApp {
         if (!this.isNotification) {
           this.splashScreen.hide();
           this.showProgress = false;
-          this.rootPage = LoginPage;
+          this.rootPage = 'LoginPage';
         }
       }, 1000);
     } catch (e) {
       this.showProgress = false;
-      this.rootPage = LoginPage;
+      this.rootPage = 'LoginPage';
       this.alertUtils.showLog("CATCH BLOCK");
       this.alertUtils.showLog(JSON.stringify(e));
     }

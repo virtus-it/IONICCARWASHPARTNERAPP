@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {SuperTabs} from "ionic2-super-tabs";
+// import {SuperTabs} from "ionic2-super-tabs";
 import {UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
@@ -24,7 +24,9 @@ export class DealerStockNotificationsHomePage {
 
   selectedTab = 0;
 
-  @ViewChild(SuperTabs) superTabs: SuperTabs;
+  // @ViewChild(SuperTabs) superTabs: SuperTabs;
+
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,

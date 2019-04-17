@@ -3,14 +3,14 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams} fr
 import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {NetworkProvider} from "../../providers/network/network";
-import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
-import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
+// import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
+// import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
 import {Observable, Subscription} from "rxjs";
 import { Socket } from 'ng-socket-io';
-import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
-import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
+// import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
+// import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
 
 
 @IonicPage()
@@ -120,11 +120,11 @@ export class LoginPage {
 
             if(uType == UserType.DEALER||uType == UserType.CUSTOMER_CARE){
               if(input.issuperdealer == 'true')
-              this.navCtrl.setRoot(DealerOrdersHomePage);
+              this.navCtrl.setRoot('DealerOrdersHomePage');
               else
-                this.navCtrl.setRoot(DealerSuppliersPage,{from:'loginPage'});
+                this.navCtrl.setRoot('DealerSuppliersPage',{from:'loginPage'});
             }else if(uType == UserType.SUPPLIER){
-              this.navCtrl.setRoot(SupplierOrdersHomePage);
+              this.navCtrl.setRoot('SupplierOrdersHomePage');
             }
 
           }else {

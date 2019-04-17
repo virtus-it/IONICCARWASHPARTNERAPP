@@ -3,7 +3,7 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams} fr
 import {UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
-import {SuperTabs} from "ionic2-super-tabs";
+// import {SuperTabs} from "ionic2-super-tabs";
 
 
 @IonicPage()
@@ -20,7 +20,7 @@ export class DealerOrdersHomePage {
 
   selectedTab = 0;
 
-  @ViewChild(SuperTabs) superTabs: SuperTabs;
+  // @ViewChild(SuperTabs) superTabs: SuperTabs;
 
   orders: string[] = [];
   baseImgUrl: string;
@@ -40,7 +40,7 @@ export class DealerOrdersHomePage {
 
   onTabSelect(ev: any) {
     this.selectedTab = ev.index;
-    this.superTabs.clearBadge(this.pages[ev.index].id);
+    // this.superTabs.clearBadge(this.pages[ev.index].id);
     /*if (ev.index === 2) {
       /!*let alert = this.alertCtrl.create({
         title: 'Secret Page',

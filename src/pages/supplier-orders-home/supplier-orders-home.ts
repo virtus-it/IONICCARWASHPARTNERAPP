@@ -3,7 +3,7 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams} fr
 import {UserType, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
-import {SuperTabs} from "ionic2-super-tabs";
+// import {SuperTabs} from "ionic2-super-tabs";
 import { Geolocation } from '@ionic-native/geolocation';
 
 @IonicPage()
@@ -21,7 +21,7 @@ export class SupplierOrdersHomePage {
 
   selectedTab = 0;
 
-  @ViewChild(SuperTabs) superTabs: SuperTabs;
+  // @ViewChild(SuperTabs) superTabs: SuperTabs;
 
   orders: string[] = [];
   baseImgUrl: string;
@@ -41,7 +41,7 @@ export class SupplierOrdersHomePage {
 
   onTabSelect(ev: any) {
     this.selectedTab = ev.index;
-    this.superTabs.clearBadge(this.pages[ev.index].id);
+    // this.superTabs.clearBadge(this.pages[ev.index].id);
   }
 
   ionViewDidLoad() {

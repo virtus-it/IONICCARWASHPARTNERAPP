@@ -5,12 +5,10 @@
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
 
-
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
 // http://ionicframework.com/docs/theming/rtl-support/
 $app-direction: ltr;
-
 
 $colors: (
   primary: #408f98,
@@ -71,6 +69,18 @@ $color-white: #fff;
   font-size: 15px !important;
 }
 
+.tabs-md .tabbar {
+  background: map-get($map: $colors, $key: primary) !important;
+}
+.tabs-md .tab-button[aria-selected=true] .tab-button-icon {
+  color: #fff !important;
+}
+
+.tabs-md .tab-button[aria-selected=true] {
+  color: #fff !important;
+}
+
+
 .fs-20 {
   font-size: 20px;
 }
@@ -128,6 +138,7 @@ $color-white: #fff;
 .black {
   color: #222 !important;
 }
+
 .orange {
   color: #f07b06 !important;
 }
@@ -155,16 +166,20 @@ $color-white: #fff;
 .border {
   border: 1px solid #ddd !important;
 }
-.float-right{
-  float:right !important;
+
+.float-right {
+  float: right !important;
 }
+
 .header-bg {
   background: #f1f5f7 !important;
   border: 1px solid #ddd !important;
 }
-.info{
-  color:#17a2b8 !important;
+
+.info {
+  color: #17a2b8 !important;
 }
+
 .pdtop-5 {
   padding-top: 5px !important;
 }
@@ -202,7 +217,8 @@ $color-white: #fff;
 .alert-md .alert-wrapper {
   min-width: 50%;
 }
-.add-style{
+
+.add-style {
   position: fixed;
   bottom: 0px;
   right: 0px;
@@ -413,9 +429,11 @@ b {
   background: #5a6268 !important;
   color: #ffffff !important;
 }
-.error{
+
+.error {
   color: red !important;
 }
+
 .pdleft-10 {
   padding-left: 10px;
 }
@@ -438,7 +456,7 @@ b {
 
 .card-header-md {
   padding: 5px 15px !important;
-  background-color: #408f98  !important;
+  background-color: #408f98 !important;
   color: white !important;
   text-align: center;
 }
@@ -758,6 +776,7 @@ ion-footer span {
   width: 89%;
   border: 1px solid #408f98;
 }
+
 .editFeedback {
   height: 65%;
   margin-top: 20%;
@@ -795,18 +814,25 @@ ion-card img.img-rupee {
 .pdleftright-10 {
   padding: 0px 10px !important;
 }
+
 ion-navbar.toolbar .btn-header {
   padding: 10px !important;
 }
-.mr-auto{
+
+.mr-auto {
   margin-right: auto;
 }
-.d-flex{
+
+.d-flex {
   display: flex;
 }
+
 .blink-text {
   animation: blink-text 0.6s linear infinite;
 }
+
 @keyframes blink-text {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }

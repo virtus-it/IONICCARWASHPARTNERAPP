@@ -34,7 +34,9 @@ export class DealerStockNotificationsHomePage {
               private network: NetworkProvider,
               private  apiUrl: ApiProvider,
               private menuCtrl: MenuController,
+              private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
   }
 

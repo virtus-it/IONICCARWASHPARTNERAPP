@@ -32,6 +32,7 @@ export class DealerPointsViewHistoryPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     try {
       this.userDetails = navParams.get('user');

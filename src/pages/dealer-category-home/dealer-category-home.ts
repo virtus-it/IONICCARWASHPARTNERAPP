@@ -25,6 +25,8 @@ export class DealerCategoryHomePage {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
   }
 
   assetImg(){

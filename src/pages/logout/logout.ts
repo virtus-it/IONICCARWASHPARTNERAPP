@@ -18,7 +18,8 @@ export class LogoutPage {
   }
 
   logout(){
-    UtilsProvider.setValues('','','','','','','','','');
+    //UtilsProvider.setValues('','','','','','','','','');
+    UtilsProvider.initUser('');
     this.navCtrl.setRoot(LoginPage)
   }
 

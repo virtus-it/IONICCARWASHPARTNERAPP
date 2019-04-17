@@ -21,6 +21,7 @@ export class DealerProfilePage {
               private alertCtrl: AlertController,
               private camera: Camera,
               private apiService: ApiProvider) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

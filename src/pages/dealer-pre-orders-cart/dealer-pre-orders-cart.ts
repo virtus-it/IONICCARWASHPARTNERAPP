@@ -26,6 +26,7 @@ export class DealerPreOrdersCartPage {
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
     this.user = this.navParams.get('user');
     this.alertUtils.showLog(this.user);
   }

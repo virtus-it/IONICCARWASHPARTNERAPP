@@ -21,6 +21,7 @@ export class DealerOrdersCompletedPage {
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
               private appCtrl:App) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

@@ -25,6 +25,7 @@ import {Push} from "@ionic-native/push";
 // import {LoginPage} from "../pages/login/login";
 import {HomePage} from "../pages/home/home";
 import {ListPage} from "../pages/list/list";
+import {NativeStorage} from "@ionic-native/native-storage";
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -48,7 +49,7 @@ import {ListPage} from "../pages/list/list";
 // import {DealerOrderDetailsPageModule} from "../pages/dealer-order-details/dealer-order-details.module";
 // import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
 // import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
-const config: SocketIoConfig = {url: ApiProvider.SOCKET_DEV_URL, options: {}};
+const config: SocketIoConfig = {url: ApiProvider.SOCKET_DEMO_URL, options: {}};
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -134,6 +135,7 @@ export function createTranslateLoader(http: HttpClient) {
     UniqueDeviceID,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
+    NativeStorage,
     Camera,
     Push,
     UtilsProvider,

@@ -46,6 +46,8 @@ export class DealerOrderDetailsPage {
               public alertCtrl: AlertController,
               private apiService: ApiProvider) {
 
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     translateService.setDefaultLang('en');
     translateService.use('en');
 

@@ -34,6 +34,7 @@ export class DealerDashBoardPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
   }
 

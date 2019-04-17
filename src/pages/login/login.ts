@@ -87,8 +87,8 @@ export class LoginPage {
 
       if(res.result == this.alertUtils.RESULT_SUCCESS){
         if(res.data && res.data.user){
-          let input = res.data.user;
-          let uType=input.USERTYPE;
+          let output = res.data.user;
+          let uType=output.USERTYPE;
 
           if(uType == UserType.DEALER ||
             uType == UserType.SUPPLIER ||
@@ -96,30 +96,12 @@ export class LoginPage {
             uType == UserType.SALES ||
             uType == UserType.CUSTOMER_CARE){
 
-            let uId,uName,uPhno,uAddr,uDealerId,uDealerName,uDealerPhno,uDealerAddr;
-
-            uId = input.userid;
-            uName = input.first_name+" "+input.last_name;
-            uPhno = input.mobileno;
-            uAddr = input.address;
-
-            if(uType == UserType.DEALER && input.issuperdealer){
-              uDealerId = uId;
-              uDealerName = uName;
-              uDealerPhno = uPhno;
-              uDealerAddr = uAddr;
-            }else{
-              uDealerId = input.sdealers.dealerid;
-              uDealerName = input.sdealers.firstname +' '+input.sdealers.lastname;
-              uDealerPhno = input.sdealers.mobileno;
-              uDealerAddr = '';
-            }
-
-            UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
+            this.alertUtils.initUser(output);
+            //UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 
 
             if(uType == UserType.DEALER||uType == UserType.CUSTOMER_CARE){
-              if(input.issuperdealer == 'true')
+              if(output.issuperdealer == 'true')
               this.navCtrl.setRoot('DealerOrdersHomePage');
               else
                 this.navCtrl.setRoot('DealerSuppliersPage',{from:'loginPage'});
@@ -246,6 +228,7 @@ export class LoginPage {
         "gcm_mailid": this.username,
         "gcm_regid": UtilsProvider.getGCM_ID(),
         "gcm_name": APP_USER_TYPE,
+        "apptype": APP_TYPE,
         "mobileno": this.username
       }
     };

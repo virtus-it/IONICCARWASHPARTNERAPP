@@ -26,6 +26,7 @@ export class DealerSuppliersPage {
               private menuCtrl: MenuController,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
     this.from = this.navParams.get('from');
   }
 

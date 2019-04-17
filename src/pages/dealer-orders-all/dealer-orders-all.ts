@@ -24,6 +24,8 @@ export class DealerOrdersAllPage {
               private network: NetworkProvider,
               private  apiService: ApiProvider,
               private menuCtrl: MenuController) {
+
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

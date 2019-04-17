@@ -36,7 +36,7 @@ export class SupplierOrdersHomePage {
               private geolocation: Geolocation,
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
-
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   onTabSelect(ev: any) {

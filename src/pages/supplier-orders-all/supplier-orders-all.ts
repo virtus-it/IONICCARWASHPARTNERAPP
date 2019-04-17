@@ -28,6 +28,8 @@ export class SupplierOrdersAllPage {
     private socket: Socket,
     private camera: Camera,
     private appCtrl: App) {
+
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
   }
 
   ionViewDidLoad() {

@@ -96,6 +96,7 @@ export class LoginPage {
             uType == UserType.SALES ||
             uType == UserType.CUSTOMER_CARE){
 
+            UtilsProvider.setUSER_INFO(output);
             this.alertUtils.initUser(output);
             //UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 

@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AlertController, LoadingController, ToastController} from "ionic-angular";
+import {AlertController, LoadingController, Platform, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
 import * as moment from "moment";
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
@@ -71,10 +71,11 @@ export class UtilsProvider {
   private static _USER_TYPE: string = "";
   private static _GCM_ID: string = "";
 
-  private static _USER_DEALER_ID: string = "";
+  private static _USER_DEALER_ID: string  = "";
   private static _USER_DEALER_NAME: string = "";
   private static _USER_DEALER_PHNO: string = "";
   private static _USER_DEALER_ADDR: string = "";
+  private static _USER_INFO: string = "";
 
   static get USER_ID(): string {
     return this._USER_ID;
@@ -104,8 +105,20 @@ export class UtilsProvider {
     return this._GCM_ID;
   }
 
+  static setUSER_INFO(userInfo){
+    this._USER_INFO = userInfo;
+  }
+
+  static get USER_INFO():string{
+    return this._USER_INFO;
+  }
+
   initUser(user:any){
     try {
+      if(user){
+        user = UtilsProvider.USER_INFO;
+      }
+
       if(user) {
         this.showLog(user);
 
@@ -143,7 +156,13 @@ export class UtilsProvider {
         UtilsProvider._USER_DEALER_ADDR  = '';
       }
 
-      this.setSecureValue(KEY_USER_INFO,user);
+      try {
+       // this.platform.ready().then(() => {
+          this.setSecureValue(KEY_USER_INFO,user);
+        //});
+      }catch (e) {
+        this.showLog(e);
+      }
 
     }catch (e) {
       this.showLog(e);
@@ -157,8 +176,8 @@ export class UtilsProvider {
               private geolocation: Geolocation,
               private uniqueDeviceID: UniqueDeviceID,
               private nativeStorage: NativeStorage,
+              private platform: Platform,
               public loadingCtrl: LoadingController) {
-
   }
 
   //storage

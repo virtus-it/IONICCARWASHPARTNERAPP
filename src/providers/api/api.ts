@@ -22,7 +22,7 @@ export class ApiProvider {
 
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
-    this.baseUrl = ApiProvider.DEMO_URL;
+    this.baseUrl = ApiProvider.DEVELOPMENT_URL;
     this.http = http;
   }
 

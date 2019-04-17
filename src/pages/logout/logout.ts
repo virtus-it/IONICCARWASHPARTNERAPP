@@ -10,7 +10,9 @@ import {LoginPage} from "../login/login";
 })
 export class LogoutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public alertUtils: UtilsProvider) {
   }
 
   ionViewDidLoad() {
@@ -18,8 +20,8 @@ export class LogoutPage {
   }
 
   logout(){
-    //UtilsProvider.setValues('','','','','','','','','');
-    UtilsProvider.initUser('');
+    UtilsProvider.setUSER_INFO('');
+    this.alertUtils.initUser('');
     this.navCtrl.setRoot(LoginPage)
   }
 

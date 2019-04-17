@@ -10,7 +10,7 @@ import {ApiProvider} from '../providers/api/api';
 import {UtilsProvider} from '../providers/utils/utils';
 import {NetworkProvider} from '../providers/network/network';
 import {HttpModule} from "@angular/http";
-import {SuperTabsModule} from "ionic2-super-tabs";
+// import {SuperTabsModule} from "ionic2-super-tabs";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
@@ -89,7 +89,7 @@ export function createTranslateLoader(http: HttpClient) {
     HttpModule,
     // DealerOrderDetailsPageModule,
     IonicModule.forRoot(MyApp),
-    SuperTabsModule.forRoot(),
+    // SuperTabsModule.forRoot(),
     SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
       loader: {

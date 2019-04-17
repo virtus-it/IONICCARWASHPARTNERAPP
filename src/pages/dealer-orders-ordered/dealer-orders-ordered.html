@@ -13,10 +13,10 @@
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let order of response">
 
-      <ion-card>
+      <ion-card class="colomn_main">
 
-        <ion-card-header>
-          {{order.statusUpdated}}
+        <ion-card-header class="jobid_header">
+          <span class="jobassign_no">#{{order.order_id}}</span> <span class="order_heading">{{order.statusUpdated}}</span>
         </ion-card-header>
 
         <ion-row>
@@ -37,7 +37,7 @@
           <ion-col>{{order.slotdate}}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>{{order.orderby_address}}</ion-col>
+          <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address">{{order.orderby_address}}</span></ion-col>
         </ion-row>
 
         <ion-row>

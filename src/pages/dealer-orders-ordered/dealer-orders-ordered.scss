@@ -5,4 +5,29 @@ page-dealer-orders-ordered {
     width: 100%;
     margin-bottom: 20px;
   }
+  .jobid_header.card-header {
+    background: none !important;
+    color: #408f98 !important;
+    text-align: left;
+    display: flex;
+    .jobassign_no {
+      background: #ededed;
+      padding: 14px;
+      font-size: 18px;
+    }
+    .order_heading {
+      line-height: 42px;
+      margin-left: 12px;
+
+    }
+  }
+  .ion-md-pin {
+       float: left;
+     }
+
+  .ord_address{
+     float: left;
+     width: 92%;
+     margin-left: 5px;
+   }
 }

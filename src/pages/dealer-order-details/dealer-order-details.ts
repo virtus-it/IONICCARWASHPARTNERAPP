@@ -57,7 +57,7 @@ export class DealerOrderDetailsPage {
     if (this.orderId)
       this.fetchOrderDetails();
     else
-      this.alertUtils.showLog('order id is not found');
+      this.alertUtils.showLog('job id is not found');
 
   }
 
@@ -129,7 +129,7 @@ export class DealerOrderDetailsPage {
           if (this.item.status == "onhold") {
             this.item["orderstatus"] = "Onhold";
             this.item["statusColor"] = "warning";
-            this.item["trackingmessage"] = "We have put your order on-hold as our supplier can't deliver, sorry for the inconvenience caused";
+            this.item["trackingmessage"] = "We have put your job on-hold as our Service Engineer can't deliver, sorry for the inconvenience caused";
           } else if (this.item.status == "Cancelled" || this.item.status == "cancelled") {
             this.item["orderstatus"] = "Cancelled";
             this.item["statusColor"] = "danger";
@@ -163,7 +163,7 @@ export class DealerOrderDetailsPage {
           } else if (this.item.status == "cannot_deliver" || this.item.status == "Cant Deliver") {
             this.item["orderstatus"] = "Cant Deliver";
             this.item["statusColor"] = "warning";
-            this.item["trackingmessage"] = "We have put your order on-hold as our supplier can't deliver, sorry for the inconvenience caused";
+            this.item["trackingmessage"] = "We have put your Job on-hold as our supplier can't deliver, sorry for the inconvenience caused";
             this.item["assigncolor"] = "warning";
             this.item["completedcolor"] = "warning";
           } else if (this.item.status == "Not Reachable" || this.item.status == "not_reachable") {
@@ -171,7 +171,7 @@ export class DealerOrderDetailsPage {
             this.item["statusColor"] = "warning";
             this.item["assigncolor"] = "warning";
             this.item["completedcolor"] = "warning";
-            this.item["trackingmessage"] = "Your order is unable to deliver due to your un-availablity";
+            this.item["trackingmessage"] = "Your Job is unable to deliver due to your un-availablity";
           } else if (this.item.status == "pending") {
             this.item["orderstatus"] = "Pending";
             this.item["statusColor"] = "primary";
@@ -219,7 +219,7 @@ export class DealerOrderDetailsPage {
             this.item["statusUpdated"] = "Order Cancelled";
           } else if (this.item.status == OrderTypes.ONHOLD) {
             this.item["orderstatus"] = "ON HOLD";
-            this.item["statusUpdated"] = "Order is On Hold";
+            this.item["statusUpdated"] = "Job is On Hold";
           }
 
           //updating bill amount
@@ -295,9 +295,9 @@ export class DealerOrderDetailsPage {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
 
           if (data.actionType == 'assign')
-            this.alertUtils.showToast('Order assignment completed');
+            this.alertUtils.showToast('Job assignment completed');
           else
-            this.alertUtils.showToast('Order Forward completed');
+            this.alertUtils.showToast('Job Forward completed');
 
           this.fetchOrderDetails();
 

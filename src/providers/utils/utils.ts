@@ -5,10 +5,14 @@ import "rxjs/add/operator/map";
 import * as moment from "moment";
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { Geolocation } from '@ionic-native/geolocation';
+import { AppVersion } from "@ionic-native/app-version";
+import { Network } from "@ionic-native/network";
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
-const KEY_USER_INFO = 'secure_storage_user_app_first_info';
+const KEY_USER_INFO       = 'secure_storage_user_info';
+const KEY_GCM_ID          = 'secure_storage_user_info';
+const KEY_LOGIN_STATUS    = 'secure_storage_user_info';
 
 export const APP_TYPE: string = "carwash";
 export const APP_USER_TYPE: string = "admin";
@@ -76,6 +80,18 @@ export class UtilsProvider {
   private static _USER_DEALER_PHNO: string = "";
   private static _USER_DEALER_ADDR: string = "";
   private static _USER_INFO: string = "";
+
+  constructor(public http: HttpClient,
+              public toast: ToastController,
+              public alertCtrl: AlertController,
+              private geolocation: Geolocation,
+              private uniqueDeviceID: UniqueDeviceID,
+              private nativeStorage: NativeStorage,
+              private platform: Platform,
+              private network: Network,
+              private appVersion: AppVersion,
+              public loadingCtrl: LoadingController) {
+  }
 
   static get USER_ID(): string {
     return this._USER_ID;
@@ -170,15 +186,7 @@ export class UtilsProvider {
 
   }
 
-  constructor(public http: HttpClient,
-              public toast: ToastController,
-              public alertCtrl: AlertController,
-              private geolocation: Geolocation,
-              private uniqueDeviceID: UniqueDeviceID,
-              private nativeStorage: NativeStorage,
-              private platform: Platform,
-              public loadingCtrl: LoadingController) {
-  }
+
 
   //storage
   setSecureValue(keyName: string, keyValue: any) {
@@ -187,12 +195,23 @@ export class UtilsProvider {
           error => console.error('Error storing data', error));
 
   }
+
+  saveGcmId(keyValue: any) {
+    this.nativeStorage.setItem(KEY_GCM_ID, keyValue)
+      .then(() => console.log('Stored  Data!'),
+        error => console.error('Error storing data', error));
+
+  }
   getSecValue(keyName: string) {
     return this.nativeStorage.getItem(keyName);
   }
 
   getUserInfo() {
     return this.nativeStorage.getItem(KEY_USER_INFO);
+  }
+
+  getGcmId() {
+    return this.nativeStorage.getItem(KEY_GCM_ID);
   }
 
   setSubscription(sub){
@@ -426,6 +445,22 @@ export class UtilsProvider {
 
   getDeviceUUID() {
     return this.uniqueDeviceID.get();
+  }
+
+  getVersionCode() {
+    return this.appVersion.getVersionCode();
+  }
+
+  getUserId() {
+    this.initUser(this.getUserInfo());
+    return UtilsProvider.USER_ID;
+  }
+
+  networkStatus() {
+    if (this.network.type == "none")
+      return false;
+    else
+      return true;
   }
 
   getCurrentLocation(){

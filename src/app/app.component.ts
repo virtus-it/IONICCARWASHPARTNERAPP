@@ -133,7 +133,7 @@ export class MyApp {
       pushObject.on('registration').subscribe((data: any) => {
         this.alertUtils.showLog('device token -> ' + data.registrationId);
         UtilsProvider.setGCM(data.registrationId);
-        //this.alertUtils.saveGcmId(data.registrationId);
+        this.alertUtils.saveGcmId(data.registrationId);
       });
       pushObject.on('notification').subscribe((notification: any) => {
           this.alertUtils.showLog('Received a notification');

@@ -623,7 +623,6 @@ export class ApiProvider {
 
 
   getPoints() {
-
     return this.baseUrl + "points";
   }
 

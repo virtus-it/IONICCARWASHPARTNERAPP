@@ -16,32 +16,30 @@
       <ion-card class="colomn_main">
 
         <ion-card-header class="jobid_header">
-          <span class="jobassign_no">#{{order.order_id}}</span> <span class="order_heading">{{order.statusUpdated}}</span>
+          <span class="jobassign_no">#{{order.order_id}}</span> <div class="order_heading"> <label>Status</label><span>{{order.statusUpdated}}</span></div>
         </ion-card-header>
 
         <ion-row>
-          <ion-col>#{{order.order_id}} </ion-col>
-          <ion-col>AED {{order.billamt_updated}}</ion-col>
+
+
         </ion-row>
 
-        <ion-row>
-          <ion-col>Cart ID</ion-col>
-          <ion-col>Delivery Time</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>{{order.cart_id}}</ion-col>
-          <ion-col>{{order.delivery_exceptedtime}}</ion-col>
-        </ion-row>
 
         <ion-row>
-          <ion-col>{{order.slotdate}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Cart ID</span>{{order.cart_id}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Delivery Time</span>{{order.delivery_exceptedtime}}</ion-col>
         </ion-row>
+        <ion-row class="border_b">
+          <ion-col><span class="job_mgm_lbl">Last Updated</span>{{order?.timestamp | utcDate}}</ion-col>
+          <ion-col class="amount_aed"><span class="job_mgm_lbl">Amount</span>AED {{order.billamt_updated}}</ion-col>
+        </ion-row>
+
         <ion-row>
           <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address">{{order.orderby_address}}</span></ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>{{order?.timestamp | utcDate}}</ion-col>
+
           <ion-col>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
               VIEW DETAILS

@@ -63,10 +63,10 @@
         </ion-row>
 
         <ion-row>
-          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="create($event, user);">
+          <ion-col class="edit_bg"><span class="header_icon" (click)="create($event, user);">Edit</span>
           </ion-col>
-          <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
-                        (click)="showPromptForDelete($event, user);"></ion-col>
+          <ion-col class="delet_bg"><span class="header_icon"
+                                          (click)="showPromptForDelete($event, user);">Delete</span></ion-col>
           <!--<ion-col><img src="assets/imgs/img_delivery.png" class="header_icon" (click)="showPromptForTracking($event, user);"></ion-col>
  -->       </ion-row>
 

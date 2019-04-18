@@ -6,7 +6,7 @@ page-dealer-orders-ordered {
     margin-bottom: 20px;
   }
   .jobid_header.card-header {
-    background: none !important;
+
     color: #408f98 !important;
     text-align: left;
     display: flex;
@@ -16,9 +16,21 @@ page-dealer-orders-ordered {
       font-size: 18px;
     }
     .order_heading {
-      line-height: 42px;
+      color:#fff;
       margin-left: 12px;
-
+      span {
+        display: block;
+      }
+    }
+    label {
+      background: #2f5154;
+      border-radius: 19px;
+      padding: 3px 5px;
+      color: #fff;
+      font-size: 12px;
+      margin: 8px 0 0 0;
+      display: inline-block;
+      letter-spacing: 1px;
     }
   }
   .ion-md-pin {
@@ -30,4 +42,9 @@ page-dealer-orders-ordered {
      width: 92%;
      margin-left: 5px;
    }
+  .job_mgm_lbl {
+    width: 100%;
+    display: inline-block;
+    color: #a2a2a2;line-height: 26px;
+  }
 }

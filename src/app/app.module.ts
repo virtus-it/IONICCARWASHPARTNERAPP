@@ -26,6 +26,8 @@ import {Push} from "@ionic-native/push";
 import {HomePage} from "../pages/home/home";
 import {ListPage} from "../pages/list/list";
 import {NativeStorage} from "@ionic-native/native-storage";
+import {Network} from "@ionic-native/network";
+import {AppVersion} from "@ionic-native/app-version";
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -136,6 +138,8 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
     NativeStorage,
+    Network,
+    AppVersion,
     Camera,
     Push,
     UtilsProvider,

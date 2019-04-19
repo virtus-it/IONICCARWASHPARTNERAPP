@@ -115,6 +115,31 @@ export class WelcomePage {
       let data = JSON.stringify(input);
       this.showLoading = true;
 
+      this.apiService.postReq(this.apiService.getAppFirstCall(),data)
+        .then(res=>{
+          if (res.result == RES_SUCCESS) {
+            if (res.data) {
+              this.alertUtils.showLog(res.data.appversion);
+              let apiV = parseInt(res.data.appversion);
+              let appV = parseInt(this.verCode);
+              this.alertUtils.showLog(apiV);
+              this.alertUtils.showLog(appV);
+
+              if (apiV < appV) {
+                if (res.data.userdetails) {
+
+
+                }
+                this.moveToNextScreen();
+              } else {
+                //this.showConfirm();
+              }
+            }
+          }
+        },error=>{
+
+        })
+
       /*this.apiService.postReq(this.apiService.appFirstCall(), data).then(res => {
         this.showLoading = false;
 
@@ -148,14 +173,14 @@ export class WelcomePage {
         this.moveToNextScreen();
       });*/
 
-      setTimeout(() => {
+     /* setTimeout(() => {
         this.alertUtils.showLog("setTimeout called :" + this.showScreen);
         if (!this.showScreen) {
           this.showLoading = false;
           this.noInternet = false;
           this.showScreen = true;
         }
-      }, 5000)
+      }, 5000)*/
     } catch (error) {
       this.showLoading = false;
       this.noInternet = false;

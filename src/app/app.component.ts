@@ -49,25 +49,25 @@ export class MyApp {
     // used for an example of ngFor and navigation
 
     this.pagesDealer = [
-      {title: 'DASH BOARD', component: 'DealerDashBoardPage', icon: "md-home"},
-      {title: 'JOBS', component: 'DealerOrdersHomePage', icon: "md-home"},
-      {title: 'CUSTOMERS', component: 'DealerCustomersPage', icon: "md-home"},
-      {title: 'SERVICES', component: 'DealerProductsPage', icon: "md-home"},
+      {title: 'DASH BOARD', component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'JOBS',       component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
+      {title: 'CUSTOMERS',  component: 'DealerCustomersPage',   icon: "assets/imgs/img_user.png"},
+      {title: 'SERVICES',   component: 'DealerProductsPage',    icon: "assets/imgs/img_repairing_service.png"},
       //{ title: 'PAYMENTS',              component: DealerPaymentsHomePage,              icon:"md-home" },
       //{ title: 'SCHEDULE ORDERS',       component: DealerScheduleOrdersPage,            icon:"md-home" },
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "md-home"},
-      {title: 'VENDORS', component: 'DealerDistributorsPage', icon: "md-home"},
-      {title: 'CUSTOMER CARE', component: 'DealerUsersCustomercarePage', icon: "md-home"},
-      {title: 'FEEDBACK', component: 'FeedbackPage', icon: "md-home"},
+      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'VENDORS', component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
+      {title: 'CUSTOMER CARE', component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png"},
+      {title: 'FEEDBACK', component: 'FeedbackPage', icon: "assets/imgs/img_rating.png"},
       //{ title: 'STOCK NOTIFICATIONS',   component: DealerStockNotificationsHomePage,    icon:"md-home" },
       //{ title: 'SALES REPORT',          component: DealerSalesReportHomePage,           icon:"md-home" },
-      {title: 'CATEGORY', component: 'DealerCategoryHomePage', icon: "md-home"},
+      {title: 'CATEGORY', component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png"},
       //{ title: 'MARKET PLACE',   l̥l̥       component: DealerMarketPlacePage,               icon:"md-home" },
       //{ title: 'TRACK SUPPLIER',        component: DealerTrackSupplierPage,             icon:"md-home" },
       //{ title: 'PROMO CODES',           component: DealerPromoCodesPage,                icon:"md-home" },
-      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
-      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
-      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
+      {title: 'PROFILE', component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
+      {title: 'ABOUT US', component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
+      {title: 'LOGOUT', component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesSupplier = [

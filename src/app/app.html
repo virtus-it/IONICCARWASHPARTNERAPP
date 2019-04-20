@@ -8,7 +8,8 @@
   <ion-content>
     <ion-list>
       <button  style="padding: 5px" menuClose ion-item *ngFor="let p of pagesDealer" (click)="openPage(p)">
-        <ion-icon [name]="p.icon"></ion-icon>
+        <!--<ion-icon [name]="p.icon"></ion-icon>-->
+        <img [src]="p.icon"  style="width: 10%" [alt]="p.icon">
         {{p.title}}
       </button>
     </ion-list>

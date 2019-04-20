@@ -35,7 +35,7 @@ ion-icon {
   }
   &[class*="dashboard"] {
     mask-image: url(../assets/imgs/img_dashboard.png);
-  }
+  }}
   .menu_left_icon img {
     width: 7% !important;
     /*! min-height: auto !important; */
@@ -59,4 +59,4 @@ ion-icon {
     line-height: 20px !important;
 
     padding: 6px 0 !important;}
-}
+

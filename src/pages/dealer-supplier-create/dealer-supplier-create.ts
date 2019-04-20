@@ -16,13 +16,16 @@ export class DealerSupplierCreatePage {
   USER_TYPE;
   DEALER_ID;
   DEALER_PHNO;
+  showProgress = true;
   pageTitle: string;
   buttonTitle: string;
   user: any;
   isUpdate: boolean = true;
+  distributorsList: any=[];
 
 
-  input = {firstname: "", phno1: "", phno2: "", id:"", vechicleNumber:"", addr:"", flottingCash:""};
+  input = {firstname: "", phno1: "", phno2: "", id:"", vechicleNumber:"",
+    addr:"", flottingCash:"", distributor:"", distributorId:""};
 
   output = {"result": "", "actionType": "", "data": ""};
 
@@ -56,15 +59,22 @@ export class DealerSupplierCreatePage {
       this.input.phno1 = this.user.mobileno;
       this.input.phno2 = this.user.mobileno_one;
       this.input.id = this.user.id;
-      this.input.vechicleNumber = this.user.vechicle_number;
-      this.input.flottingCash = JSON.stringify(this.user.flotting_cash);
-      this.input.addr = this.user.address;
+      this.input.vechicleNumber = this.validate(JSON.stringify(this.user.vechicle_number));
+      this.input.flottingCash = this.validate(JSON.stringify(this.user.flotting_cash));
+      this.input.addr = this.validate(this.user.address);
     }
 
     this.USER_ID = UtilsProvider.USER_ID;
     this.USER_TYPE = UtilsProvider.USER_TYPE;
     this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
     this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+    this.getDistributors();
+  }
+
+  updateDistributorDetails(event, distributor) {
+    this.input.distributor    = distributor.firstname+' '+distributor.lastname;
+    this.input.distributorId  = distributor.userid;
   }
 
   dismiss() {
@@ -119,6 +129,7 @@ export class DealerSupplierCreatePage {
           "vechicle_number": this.input.vechicleNumber,
           "flotting_cash": this.input.flottingCash,
           "address": this.input.addr,
+          "distributor": this.input.distributorId,
           "issuppersupplier": false,
           "pwd": 'paani',
           "loginid": this.USER_ID,
@@ -165,11 +176,12 @@ export class DealerSupplierCreatePage {
           "mobileno": this.input.phno1,
           "altmobileno": this.input.phno2,
           "issuppersupplier": false,
-          "pwd": 'paani',
+          "pwd": this.input.phno1,
           "id": this.input.id,
           "vechicle_number": this.input.vechicleNumber,
           "flotting_cash": this.input.flottingCash,
           "address": this.input.addr,
+          "distributor": this.input.distributorId,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
           "framework": FRAMEWORK,
@@ -201,6 +213,50 @@ export class DealerSupplierCreatePage {
     } catch (e) {
 
     }
+  }
+
+  getDistributors() {
+
+    try {
+      let input = {
+        "root": {
+          "userid": UtilsProvider.USER_DEALER_ID,
+          "usertype": UserType.DEALER,
+          "loginid": UtilsProvider.USER_ID,
+          "lastuserid": '0',
+          "apptype": APP_TYPE,
+        }
+      };
+
+      this.alertUtils.showLog(JSON.stringify(input));
+
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.distributors(),JSON.stringify(input)).then(res=>{
+        this.alertUtils.showLog(res);
+        this.showProgress = false;
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i]["firstname"]  = this.validate(res.data[i].firstname);
+            res.data[i]["lastname"]   = this.validate(res.data[i].lastname);
+            this.distributorsList.push(res.data[i]);
+          }
+
+          //this.openAssignForwardModal();
+        }
+      }, error => {
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
+      this.alertUtils.hideLoading();
+    }
+  }
+
+  validate(s) {
+    if (s == null || s == 'null')
+      return '';
+    else
+      return s;
   }
 
 }

@@ -64,7 +64,7 @@
 
     <div align="center" *ngIf="isUpdate">
       <img style="width: 40%;" class="profile-image"
-           [src]="imgUrl"
+           [src]="person.imgUrl"
            (error)="assetImg();"
            (click)="promptPickImage(person);">
     </div>

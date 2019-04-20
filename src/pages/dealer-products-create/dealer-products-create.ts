@@ -265,6 +265,7 @@ export class DealerProductsCreatePage {
 
   getCategories() {
 
+    this.categoryList = []
     let url = this.apiService.getProductCategory() + this.USER_ID + "/" + this.USER_TYPE + "/" + APP_TYPE;
 
     this.alertUtils.showLog(url);

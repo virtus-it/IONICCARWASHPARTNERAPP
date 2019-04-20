@@ -16,7 +16,8 @@ export class DealerCategoryHomePage {
   type: string = "1";
   page1: boolean = true;
   page2: boolean = false;
-  person = { "category": "", "priority": "", "desp": "", "categoryid": "" };
+  person = { "category": "", "priority": "",
+    "desp": "", "categoryid": "",imgUrl:"" };
   btnText: string = "Save";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
@@ -30,7 +31,7 @@ export class DealerCategoryHomePage {
   }
 
   assetImg(){
-    this.imgUrl = 'assets/imgs/img_user.png';
+    this.imgUrl = 'assets/imgs/img_repairing_service.png';
   }
 
   ionViewDidLoad() {
@@ -59,7 +60,7 @@ export class DealerCategoryHomePage {
     this.person.priority = item.priority;
     this.person.desp = item.category_desc;
     this.person.categoryid = item.categoryid;
-
+    this.person.imgUrl = this.apiService.getImg() + "category_" + item.categoryid+".png";
     this.btnText = "Update";
   }
   back() {
@@ -72,6 +73,7 @@ export class DealerCategoryHomePage {
     this.person.desp = "";
     this.page1 = !this.page1;
     this.page2 = !this.page2;
+    this.person.imgUrl = this.imgUrl;
     this.btnText = "Save";
   }
 

@@ -119,7 +119,7 @@ export class DealerProfilePage {
         let base64Image =  imageData;
 
         if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,UtilsProvider.USER_TYPE+'_'+UtilsProvider.USER_ID+'.png');
+          this.uploadImg(base64Image,UtilsProvider.USER_TYPE+'_'+UtilsProvider.USER_ID);
         }
 
       }, (err) => {
@@ -145,7 +145,7 @@ export class DealerProfilePage {
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
 
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
-
+        this.getUserInfo();
       } else
         this.alertUtils.showToast(res.result);
 

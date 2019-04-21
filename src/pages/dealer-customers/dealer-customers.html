@@ -30,10 +30,11 @@
       <ion-card class="customer_mgmnt">
 
         <ion-row>
-          <ion-col>
+          <ion-col><span class="job_mgm_lbl">User Name</span>
             {{validate(user.firstname) + " " + validate(user.lastname)}}
           </ion-col>
           <ion-col>
+            <span class="job_mgm_lbl">Mobile</span>
             {{user.mobileno}}
           </ion-col>
         </ion-row>
@@ -45,10 +46,10 @@
         </ion-row>
 
         <ion-row>
-          <ion-col><img src="assets/imgs/img_edit.png" class="header_icon" (click)="createCustomer($event, user);">
+          <ion-col class="edit_bg"><span class="header_icon" (click)="createCustomer($event, user);">Edit</span>
           </ion-col>
-          <ion-col><img src="assets/imgs/img_delete.png" class="header_icon"
-                        (click)="showPromptForDeleteCustomer($event, user);"></ion-col>
+          <ion-col class="delet_bg"><span class="header_icon"
+                         (click)="showPromptForDeleteCustomer($event, user);"></span>Delete</ion-col>
         </ion-row>
 
       </ion-card>

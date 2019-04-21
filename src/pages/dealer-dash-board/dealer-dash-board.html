@@ -16,10 +16,10 @@
   <!--users-->
   <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openUsers();">
-      <ion-col col-4 style="background: #009abf">
-        <ion-icon name="md-contacts" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-contacts" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #00c0ef">
+      <ion-col >
         <h2>{{response?.USER?.user}}</h2>
         <h5>USERS</h5>
       </ion-col>
@@ -28,12 +28,12 @@
   </ion-card>
 
   <!--car washers-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openCarWashers();">
-      <ion-col col-4 style="background: #c27d0e">
-        <ion-icon name="md-body" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-body" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #f39c12">
+      <ion-col >
         <h2>{{response?.CARWASHER?.serviceengineers}}</h2>
         <h5>CAR WASHERS</h5>
       </ion-col>
@@ -41,12 +41,12 @@
   </ion-card>
 
   <!--vendors/companies-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openCompanies();">
-      <ion-col col-4 style="background: #b13c2e">
-        <ion-icon name="md-paper" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-paper" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #dd4b39">
+      <ion-col >
         <h2>{{response?.COMPANIES?.company}}</h2>
         <h5>VENDORS</h5>
       </ion-col>
@@ -54,12 +54,12 @@
   </ion-card>
 
   <!--total earnings-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row>
-      <ion-col col-4 style="background: #008548">
-        <ion-icon name="md-cash" color="white"></ion-icon>
+      <ion-col col-4>
+        <ion-icon name="md-cash" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #00a65a">
+      <ion-col >
         <h2>{{response?.TOTALEARNINGS?.totalamount}}</h2>
         <h5>TOTAL EARNINGS</h5>
       </ion-col>
@@ -70,12 +70,12 @@
   <br><br>
 
   <!--total bookings-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openBookings();">
-      <ion-col col-4 style="background: #009abf">
-        <ion-icon name="md-stats" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-stats" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #00c0ef">
+      <ion-col >
         <h2>{{response?.TOTALBOOKING?.totalbookings}}</h2>
         <h5>TOTAL BOOKINGS</h5>
       </ion-col>
@@ -83,12 +83,12 @@
   </ion-card>
 
   <!--total on going jobs-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openBookings();">
-      <ion-col col-4 style="background: #c27d0e">
-        <ion-icon name="md-download" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-download" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #f39c12">
+      <ion-col >
         <h2>{{response?.ONGOINGJOBS?.ongoingjobs}}</h2>
         <h5>ON GOING JOBS</h5>
       </ion-col>
@@ -96,12 +96,12 @@
   </ion-card>
 
   <!--total cancel jobs-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openBookings();">
-      <ion-col col-4 style="background: #b13c2e">
-        <ion-icon name="md-close" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-close" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #dd4b39">
+      <ion-col >
         <h2>{{response?.CANCEL?.canceljobs}}</h2>
         <h5>CANCELLED JOBS</h5>
       </ion-col>
@@ -110,12 +110,12 @@
 
 
   <!--total completed jobs-->
-  <ion-card style="text-align: center">
+  <ion-card style="text-align: center" class="dashboard_card">
     <ion-row (click)="openBookings();">
-      <ion-col col-4 style="background: #008548">
-        <ion-icon name="md-checkmark" color="white"></ion-icon>
+      <ion-col col-4 >
+        <ion-icon name="md-checkmark" class="left-icon"></ion-icon>
       </ion-col>
-      <ion-col style="background: #00a65a">
+      <ion-col >
         <h2>{{response?.completed?.completedjobs}}</h2>
         <h5>COMPLETED JOBS</h5>
       </ion-col>

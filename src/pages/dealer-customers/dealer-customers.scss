@@ -10,8 +10,27 @@ page-dealer-customers {
     bottom: 20px;
     right: 20px;
   }
-  .customer_mgmnt{padding:8px;}
+
   .customer_btnedit{display: flex;
     float: right;
     width: 23%;}
+  .edit_bg {
+    background: #408f98;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .delet_bg {
+    background: #666;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .job_mgm_lbl {
+    width: 100%;
+    display: inline-block;
+    color: #a2a2a2;
+    line-height: 26px;
+  }
 }

@@ -28,31 +28,21 @@
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let product of response">
       <ion-card>
-
+        <ion-row>
+          <ion-col >
+            <div class="prod_cat">{{product.category}} </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-2>
         <ion-avatar>
           <img [src]="product.imgUrl" style="height: 40px; width: 40px">
         </ion-avatar>
-
-        <ion-row>
-          <ion-col>Category</ion-col>
-          <ion-col>Brand Name</ion-col>
-          <ion-col>Type</ion-col>
+          </ion-col>
+          <ion-col><div class="prod_cost"> {{product.brandname}}</div> <div class="prod_type">{{product.ptype}}</div>
+          <div class="prod_cost">{{product.pcost}}</div>
+          </ion-col>
         </ion-row>
-
-        <ion-row>
-          <ion-col>{{product.category}}</ion-col>
-          <ion-col>{{product.brandname}}</ion-col>
-          <ion-col>{{product.ptype}}</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>Service Cost</ion-col>
-          <ion-col>{{product.pcost}}</ion-col>
-        </ion-row>
-
-
-
-
         <ion-row>
           <ion-col class="edit_bg"><span class="header_icon" (click)="create($event, product);">Edit</span>
           </ion-col>

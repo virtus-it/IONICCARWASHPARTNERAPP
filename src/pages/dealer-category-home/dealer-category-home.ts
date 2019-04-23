@@ -16,7 +16,7 @@ export class DealerCategoryHomePage {
   type: string = "1";
   page1: boolean = true;
   page2: boolean = false;
-  person = { "category": "", "priority": "",
+  person = { "type":"category","category": "", "priority": "",
     "desp": "", "categoryid": "",imgUrl:"" };
   btnText: string = "Save";
 
@@ -56,6 +56,7 @@ export class DealerCategoryHomePage {
     this.isUpdate = true;
     this.page1 = !this.page1;
     this.page2 = !this.page2;
+    this.person.type= item.type;
     this.person.category = item.category;
     this.person.priority = item.priority;
     this.person.desp = item.category_desc;
@@ -68,6 +69,7 @@ export class DealerCategoryHomePage {
     this.page2 = !this.page2;
   }
   add() {
+    this.person.type= "";
     this.person.category = "";
     this.person.priority = "";
     this.person.desp = "";
@@ -95,7 +97,7 @@ export class DealerCategoryHomePage {
     }
 
 
-    let input = { "product": { "cname": this.person.category, "cdesc": this.person.desp, "priority": this.person.priority, "loginid": UtilsProvider.USER_ID, "apptype": UtilsProvider.USER_TYPE } };
+    let input = { "product": { "type": this.person.type,"cname": this.person.category, "cdesc": this.person.desp, "priority": this.person.priority, "loginid": UtilsProvider.USER_ID, "apptype": UtilsProvider.USER_TYPE } };
 
 
 

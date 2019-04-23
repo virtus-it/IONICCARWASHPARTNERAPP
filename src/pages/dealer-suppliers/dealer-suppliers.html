@@ -31,35 +31,38 @@
 
         <ion-row>
           <ion-col>
+            <span class="job_mgm_lbl">User Id</span>
+            {{validate(user.id)}}
+          </ion-col>
+          <ion-col>
+            <span class="job_mgm_lbl">Mobile </span>
+            {{user.mobileno}}
+          </ion-col>
+          <ion-col>
+            <span class="job_mgm_lbl">Cash </span> {{validate(user.flotting_cash)}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <span class="job_mgm_lbl">Name </span>
             {{validate(user.firstname) +' '+ validate(user.lastname)}}
           </ion-col>
           <ion-col>
-            {{user.mobileno}}
+
           </ion-col>
         </ion-row>
 
         <ion-row *ngIf="user.address">
           <ion-col>
-            Address : {{validate(user.address)}}
+            <ion-icon name="pin"></ion-icon> {{validate(user.address)}}
           </ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col>
-            ID : {{validate(user.id)}}
-          </ion-col>
-          <ion-col>
-            Cash : {{validate(user.flotting_cash)}}
-          </ion-col>
-        </ion-row>
+
 
         <ion-row>
-          <ion-col>Vechicle</ion-col>
-          <ion-col>Tracking</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>{{validate(user.vechicle_number)}}</ion-col>
-          <ion-col>{{user.tracking}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Vechicle </span>{{validate(user.vechicle_number)}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Tracking </span>{{user.tracking}}</ion-col>
         </ion-row>
 
         <ion-row>

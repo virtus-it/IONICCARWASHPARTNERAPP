@@ -27,17 +27,17 @@
       <ion-card>
 
         <ion-row>
-          <ion-col>
+          <ion-col><span class="job_mgm_lbl">User name</span>
             {{user.firstname + " " + user.lastname}}
           </ion-col>
-          <ion-col>
+          <ion-col><span class="job_mgm_lbl">Mobile</span>
             {{user.mobileno}}
           </ion-col>
         </ion-row>
 
         <ion-row *ngIf="user.address">
           <ion-col>
-            Address : {{user.address}}
+            <ion-icon name="pin"></ion-icon>  {{user.address}}
           </ion-col>
         </ion-row>
 

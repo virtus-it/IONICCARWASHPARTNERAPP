@@ -93,6 +93,7 @@ export class ApiProvider {
     this.alertUtils.showLog(JSON.stringify(headers));
     let options = new RequestOptions({headers: headers});
 
+    this.alertUtils.showLog(url);
     this.alertUtils.showLog(input);
     return this.http.put(url, input, options).map(res => res.json())
       .toPromise();

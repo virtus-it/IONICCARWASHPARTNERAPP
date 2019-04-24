@@ -65,13 +65,16 @@
           <ion-col><span class="job_mgm_lbl">Tracking </span>{{user.tracking}}</ion-col>
         </ion-row>
 
+        <ion-row *ngIf="user.associateddealer">
+          <ion-col><span class="job_mgm_lbl">Associated </span></ion-col>
+          <ion-col>{{validate(user.associateddealer.firstname)+' '+validate(user.associateddealer.lastname)}}</ion-col>
+        </ion-row>
+
         <ion-row>
-          <ion-col class="edit_bg"><span class="header_icon" (click)="create($event, user);">Edit</span>
+          <ion-col class="edit_bg" (click)="create($event, user);"><span class="header_icon" >Edit</span>
           </ion-col>
-          <ion-col class="delet_bg"><span class="header_icon"
-                                          (click)="showPromptForDelete($event, user);">Delete</span></ion-col>
-          <!--<ion-col><img src="assets/imgs/img_delivery.png" class="header_icon" (click)="showPromptForTracking($event, user);"></ion-col>
- -->       </ion-row>
+          <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span class="header_icon"
+                                          >Delete</span></ion-col></ion-row>
 
       </ion-card>
     </div>

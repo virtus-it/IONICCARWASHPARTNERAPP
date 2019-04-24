@@ -43,7 +43,7 @@ export class WelcomePage {
           this.alertUtils.showLog(reason);
         });
 
-        this.userID   = UtilsProvider.USER_ID;
+        this.userID = UtilsProvider.USER_ID;
         this.dealerID = UtilsProvider.USER_DEALER_ID;
 
         this.appFirstCall();
@@ -115,8 +115,8 @@ export class WelcomePage {
       let data = JSON.stringify(input);
       this.showLoading = true;
 
-      this.apiService.postReq(this.apiService.getAppFirstCall(),data)
-        .then(res=>{
+      this.apiService.postReq(this.apiService.getAppFirstCall(), data)
+        .then(res => {
           if (res.result == RES_SUCCESS) {
             if (res.data) {
               this.alertUtils.showLog(res.data.appversion);
@@ -136,51 +136,10 @@ export class WelcomePage {
               }
             }
           }
-        },error=>{
+        }, error => {
 
         })
 
-      /*this.apiService.postReq(this.apiService.appFirstCall(), data).then(res => {
-        this.showLoading = false;
-
-        this.alertUtils.showLog(res);
-        if (res.result == RES_SUCCESS) {
-          if (res.data) {
-            this.alertUtils.showLog(res.data.appversion);
-            let apiV = parseInt(res.data.appversion);
-            let appV = parseInt(this.verCode);
-            this.alertUtils.showLog(apiV);
-            this.alertUtils.showLog(appV);
-
-            if (apiV < appV) {
-              if (res.data.userdetails) {
-
-
-              }
-              this.moveToNextScreen();
-            } else {
-              this.showConfirm();
-            }
-          } else {
-            this.moveToNextScreen();
-          }
-        } else {
-          this.moveToNextScreen();
-        }
-      }, err => {
-        this.showLoading = false;
-        this.alertUtils.showLog(1);
-        this.moveToNextScreen();
-      });*/
-
-     /* setTimeout(() => {
-        this.alertUtils.showLog("setTimeout called :" + this.showScreen);
-        if (!this.showScreen) {
-          this.showLoading = false;
-          this.noInternet = false;
-          this.showScreen = true;
-        }
-      }, 5000)*/
     } catch (error) {
       this.showLoading = false;
       this.noInternet = false;
@@ -192,16 +151,23 @@ export class WelcomePage {
 
   moveToNextScreen() {
     let uType, output;
-    if (uType == UserType.DEALER || uType == UserType.CUSTOMER_CARE) {
-      if (output.issuperdealer == 'true')
-        this.navCtrl.setRoot('DealerOrdersHomePage');
-      else {
-        //vendor login - no need show Orders pages
-        this.navCtrl.setRoot('DealerSuppliersPage', {from: 'loginPage'});
+    output = this.alertUtils.getUserInfo();
+    uType = output.USERTUPE;
+
+    if (output != null) {
+      if (uType == UserType.DEALER || uType == UserType.CUSTOMER_CARE) {
+        if ((uType == UserType.DEALER && output.issuperdealer == 'true')
+          || uType == UserType.CUSTOMER_CARE)
+          this.navCtrl.setRoot('DealerOrdersHomePage');
+        else {
+          //vendor login - no need show Orders pages
+          this.navCtrl.setRoot('DealerSuppliersPage', {from: 'loginPage'});
+        }
+      } else if (uType == UserType.SUPPLIER) {
+        this.navCtrl.setRoot('SupplierOrdersHomePage');
       }
-    } else if (uType == UserType.SUPPLIER) {
-      this.navCtrl.setRoot('SupplierOrdersHomePage');
-    }
+    } else
+      this.loadLoginPage();
   }
 
 }

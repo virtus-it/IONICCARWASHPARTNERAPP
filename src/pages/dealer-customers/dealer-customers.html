@@ -7,8 +7,8 @@
       <img class="header_icon" src="assets/imgs/img_user.png">
       <span class="title-style">CUSTOMERS MGMT</span>
     </ion-title>
-    <ion-buttons end (click)="createCustomer($event, '')">
-      <button ion-button icon-end >
+    <ion-buttons (click)="createCustomer($event, '')" end>
+      <button icon-end ion-button>
         <ion-icon name="md-add"></ion-icon>
       </button>
     </ion-buttons>
@@ -17,8 +17,8 @@
 
 <ion-content padding>
 
-  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
-               item-center></ion-spinner>
+  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+               name="crescent"></ion-spinner>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content>
     </ion-refresher-content>
@@ -46,14 +46,16 @@
         </ion-row>
 
         <ion-row>
-          <ion-col class="edit_bg"><span class="header_icon" (click)="createCustomer($event, user);">Edit</span>
+          <ion-col (click)="createCustomer($event, user);" class="edit_bg"><span class="header_icon">Edit</span>
           </ion-col>
-          <ion-col class="delet_bg"><span class="header_icon"
-                         (click)="showPromptForDeleteCustomer($event, user);"></span>Delete</ion-col>
+          <ion-col (click)="showPromptForDeleteCustomer($event, user);" class="delet_bg"><span class="header_icon"
+          ></span>Delete
+          </ion-col>
         </ion-row>
 
       </ion-card>
     </div>
+    L̥
   </ion-list>
 
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">

@@ -8,7 +8,7 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Category</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="add()" *ngIf="page1">
         <ion-icon name="add-circle"></ion-icon>
@@ -19,7 +19,7 @@
 
 <ion-content padding>
   <div *ngIf="page1">
-    <ion-segment [(ngModel)]="type">
+    <ion-segment [(ngModel)]="type" (ionChange)="onSegmentChange()" >
       <ion-segment-button value="1">
         Category
       </ion-segment-button>
@@ -71,7 +71,7 @@
 
     <ion-list>
       <ion-item>
-        <ion-label floating>Category Name</ion-label>
+        <ion-label floating>Name</ion-label>
         <ion-input type="text" [(ngModel)]="person.category" name="name" required></ion-input>
       </ion-item>
       <ion-item>
@@ -79,13 +79,13 @@
         <ion-input type="tel" [(ngModel)]="person.priority" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Category Description</ion-label>
+        <ion-label floating>Description</ion-label>
         <ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label floating>Category Description</ion-label>
-        <ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>
-      </ion-item>
+      <!--<ion-item>-->
+        <!--<ion-label floating>Category Description</ion-label>-->
+        <!--<ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>-->
+      <!--</ion-item>-->
     </ion-list>
     <button color="secondary" ion-button block (click)="save()">{{btnText}}</button>
   </div>

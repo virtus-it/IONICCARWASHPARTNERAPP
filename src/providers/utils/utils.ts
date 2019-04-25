@@ -178,6 +178,8 @@ export class UtilsProvider {
       try {
         this.platform.ready().then(() => {
           this.setSecureValue(KEY_USER_INFO,user);
+        },err =>{
+          console.log(err);
         });
       }catch (e) {
         this.showLog(e);

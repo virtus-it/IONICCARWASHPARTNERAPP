@@ -101,8 +101,8 @@ export class LoginPage {
             //UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 
 
-            if(uType == UserType.DEALER||uType == UserType.CUSTOMER_CARE){
-              if(output.issuperdealer == 'true')
+            if(uType == UserType.DEALER ||uType == UserType.CUSTOMER_CARE){
+              if((uType == UserType.DEALER && output.issuperdealer == 'true')||uType == UserType.CUSTOMER_CARE)
               this.navCtrl.setRoot('DealerOrdersHomePage');
               else
                 this.navCtrl.setRoot('DealerSuppliersPage',{from:'loginPage'});

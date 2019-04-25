@@ -154,6 +154,7 @@ export class DealerCustomersPage {
   }
 
   showPromptForDeleteCustomer(event, user) {
+    this.alertUtils.showLog('delete user clicked');
     let prompt = this.alertCtrl.create({
       title: 'DELETE CUSTOMER',
       message: 'Are you sure. You want delete customer?',

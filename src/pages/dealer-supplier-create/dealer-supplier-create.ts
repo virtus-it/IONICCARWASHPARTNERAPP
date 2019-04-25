@@ -21,11 +21,15 @@ export class DealerSupplierCreatePage {
   buttonTitle: string;
   user: any;
   isUpdate: boolean = true;
-  distributorsList: any=[];
+  distributorsList: any = [];
+  USER_INFO: any;
+  showVendor: boolean = false;
 
 
-  input = {firstname: "", phno1: "", phno2: "", id:"", vechicleNumber:"",
-    addr:"", flottingCash:"", distributor:"", distributorId:""};
+  input = {
+    firstname: "", phno1: "", phno2: "", id: "", vechicleNumber: "",
+    addr: "", flottingCash: "", distributor: "", distributorId: ""
+  };
 
   output = {"result": "", "actionType": "", "data": ""};
 
@@ -39,6 +43,15 @@ export class DealerSupplierCreatePage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
+    this.USER_INFO = UtilsProvider.USER_INFO;
+
+    if ((this.USER_INFO.USERTYPE == UserType.DEALER && this.USER_INFO.issuperdealer == "true")
+      || this.USER_INFO.USERTYPE == UserType.CUSTOMER_CARE) {
+      this.showVendor = true;
+    }
+
+    this.alertUtils.showLog('showVendor : ' + this.showVendor);
 
     this.user = navParams.get('item');
 
@@ -62,6 +75,8 @@ export class DealerSupplierCreatePage {
       this.input.vechicleNumber = this.validate(JSON.stringify(this.user.vechicle_number));
       this.input.flottingCash = this.validate(JSON.stringify(this.user.flotting_cash));
       this.input.addr = this.validate(this.user.address);
+      this.input.distributorId = JSON.stringify(this.user.associateddealer.user_id);
+      this.input.distributor = this.validate(this.user.associateddealer.firstname)+' '+this.validate(this.user.associateddealer.lastname);
     }
 
     this.USER_ID = UtilsProvider.USER_ID;
@@ -69,12 +84,13 @@ export class DealerSupplierCreatePage {
     this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
     this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
 
-    this.getDistributors();
+    if (this.showVendor)
+      this.getDistributors();
   }
 
   updateDistributorDetails(event, distributor) {
-    this.input.distributor    = distributor.firstname+' '+distributor.lastname;
-    this.input.distributorId  = distributor.userid;
+    this.input.distributor = distributor.firstname + ' ' + distributor.lastname;
+    this.input.distributorId = distributor.userid;
   }
 
   dismiss() {
@@ -89,21 +105,21 @@ export class DealerSupplierCreatePage {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
-        if(this.alertUtils.validateNumber(this.input.id, 'ID',2,10)){
-          if(this.alertUtils.validateText(this.input.vechicleNumber, "Vechicle Number", 4, 10)){
-            if(this.alertUtils.validateText(this.input.flottingCash,"Flotting Cash", 1, 8)){
-              if(this.alertUtils.validateText(this.input.addr, "Address", 4, 100)){
+        if (this.alertUtils.validateNumber(this.input.id, 'ID', 2, 10)) {
+          if (this.alertUtils.validateText(this.input.vechicleNumber, "Vechicle Number", 4, 10)) {
+            if (this.alertUtils.validateText(this.input.flottingCash, "Flotting Cash", 1, 8)) {
+              if (this.alertUtils.validateText(this.input.addr, "Address", 4, 100)) {
                 if (this.isUpdate)
                   this.doUpdate();
                 else
                   this.doCreate();
-              }else
+              } else
                 this.showToast = true;
-            }else
+            } else
               this.showToast = true;
-          }else
+          } else
             this.showToast = true;
-        }else
+        } else
           this.showToast = true;
       } else
         this.showToast = true;
@@ -131,7 +147,7 @@ export class DealerSupplierCreatePage {
           "address": this.input.addr,
           "distributor": this.input.distributorId,
           "issuppersupplier": false,
-          "pwd": 'paani',
+          "pwd": this.input.phno1,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
           "framework": FRAMEWORK,
@@ -231,14 +247,14 @@ export class DealerSupplierCreatePage {
       this.alertUtils.showLog(JSON.stringify(input));
 
       this.showProgress = true;
-      this.apiService.postReq(this.apiService.distributors(),JSON.stringify(input)).then(res=>{
+      this.apiService.postReq(this.apiService.distributors(), JSON.stringify(input)).then(res => {
         this.alertUtils.showLog(res);
         this.showProgress = false;
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           for (let i = 0; i < res.data.length; i++) {
-            res.data[i]["firstname"]  = this.validate(res.data[i].firstname);
-            res.data[i]["lastname"]   = this.validate(res.data[i].lastname);
+            res.data[i]["firstname"] = this.validate(res.data[i].firstname);
+            res.data[i]["lastname"] = this.validate(res.data[i].lastname);
             this.distributorsList.push(res.data[i]);
           }
 
@@ -246,7 +262,7 @@ export class DealerSupplierCreatePage {
         }
       }, error => {
       })
-    }catch (e) {
+    } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
     }

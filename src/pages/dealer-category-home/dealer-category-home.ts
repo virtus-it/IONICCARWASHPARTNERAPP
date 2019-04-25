@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
-import { UtilsProvider, APP_TYPE } from '../../providers/utils/utils';
-import { ApiProvider } from '../../providers/api/api';
+import {ChangeDetectorRef, Component} from '@angular/core';
+import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {APP_TYPE, INTERNET_ERR_MSG, UtilsProvider} from '../../providers/utils/utils';
+import {ApiProvider} from '../../providers/api/api';
 import {Camera, CameraOptions} from "@ionic-native/camera";
 
 @IonicPage()
@@ -10,27 +10,35 @@ import {Camera, CameraOptions} from "@ionic-native/camera";
   templateUrl: 'dealer-category-home.html',
 })
 export class DealerCategoryHomePage {
+  currentSeg: string;
   isUpdate: any = false;
   imgUrl: any;
   list: any;
   type: string = "1";
   page1: boolean = true;
   page2: boolean = false;
-  person = { "type":"category","category": "", "priority": "",
-    "desp": "", "categoryid": "",imgUrl:"" };
+  person = {
+    "type": "category", "category": "", "priority": "",
+    "desp": "", "categoryid": "", imgUrl: ""
+  };
   btnText: string = "Save";
+  title: string = "Category";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
-    private apiService: ApiProvider,
-              private camera: Camera,
-    private modalCtrl: ModalController,
-    private alertCtrl: AlertController) {
+              private apiService: ApiProvider,
+              private camera: Camera, private ref: ChangeDetectorRef, private modalCtrl: ModalController,
+              private alertCtrl: AlertController) {
 
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    } catch (e) {
+      console.log(e);
+    }
+
 
   }
 
-  assetImg(){
+  assetImg() {
     this.imgUrl = 'assets/imgs/img_repairing_service.png';
   }
 
@@ -43,33 +51,94 @@ export class DealerCategoryHomePage {
   }
 
   delete(item) {
-    let input = { "product": { "transtype": "delete", "categoryid": item.categoryid } };
-    this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
-      console.log(res);
-      if (res && res.data) {
-        this.alertUtils.showToast("Category deleted successfully");
-        this.fetchCategories();
-      }
-    })
+    console.log(item);
+
+    let alert = this.alertCtrl.create({
+      title: 'WARNING',
+      message: 'Are you sure you want to delete ?',
+      buttons: [
+        {
+          text: 'NO',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'YES',
+          handler: () => {
+            if (this.alertUtils.networkStatus()) {
+
+              let input = {"product": {"transtype": "delete", "categoryid": item.categoryid}};
+              this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
+                console.log(res);
+                if (res && res.data) {
+                  this.alertUtils.showToast("Category deleted successfully");
+                  this.fetchCategories();
+                }
+              });
+            } else {
+              this.alertUtils.showAlert("INTERNET CONNECTION", INTERNET_ERR_MSG, "OK");
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+
+  }
+  onSegmentChange()
+  {
+    this.currentSeg = JSON.stringify(JSON.parse(this.type))
+    if (this.currentSeg == "1") {
+      this.title = "Category";
+    } else {
+      this.title = "Package";
+    }
+
   }
   update(item) {
+    if (this.currentSeg == "1") {
+      this.title = "Update category";
+    } else {
+      this.title = "Update package";
+
+    }
+    console.log(this.currentSeg);
     this.isUpdate = true;
     this.page1 = !this.page1;
     this.page2 = !this.page2;
-    this.person.type= item.type;
+    this.person.type = item.type;
     this.person.category = item.category;
     this.person.priority = item.priority;
     this.person.desp = item.category_desc;
     this.person.categoryid = item.categoryid;
-    this.person.imgUrl = this.apiService.getImg() + "category_" + item.categoryid+".png";
+    this.person.imgUrl = this.apiService.getImg() + "category_" + item.categoryid + ".png";
     this.btnText = "Update";
+
+    this.ref.detectChanges();
   }
+
   back() {
+    console.log(this.currentSeg);
+
     this.page1 = !this.page1;
     this.page2 = !this.page2;
+    if (this.currentSeg == "1") {
+      this.title = "Category";
+    } else {
+      this.title = "Package";
+    }
   }
+
   add() {
-    this.person.type= "";
+    if (this.currentSeg == "1") {
+      this.title = "Create category";
+    } else {
+      this.title = "Create package";
+
+    }
+    this.person.type = "";
     this.person.category = "";
     this.person.priority = "";
     this.person.desp = "";
@@ -77,12 +146,15 @@ export class DealerCategoryHomePage {
     this.page2 = !this.page2;
     this.person.imgUrl = this.imgUrl;
     this.btnText = "Save";
+
+    this.ref.detectChanges();
+
   }
 
   save() {
 
     console.log(this.person);
-    if (!this.alertUtils.validateText(this.person.category, "category", 2, 50)) {
+    if (!this.alertUtils.validateText(this.person.category, "name", 2, 50)) {
       this.alertUtils.showToast(this.alertUtils.ERROR_MES);
       return false;
     }
@@ -97,8 +169,16 @@ export class DealerCategoryHomePage {
     }
 
 
-    let input = { "product": { "type": this.person.type,"cname": this.person.category, "cdesc": this.person.desp, "priority": this.person.priority, "loginid": UtilsProvider.USER_ID, "apptype": UtilsProvider.USER_TYPE } };
-
+    let input = {
+      "product": {
+        "type": this.person.type,
+        "cname": this.person.category,
+        "cdesc": this.person.desp,
+        "priority": this.person.priority,
+        "loginid": UtilsProvider.USER_ID,
+        "apptype": UtilsProvider.USER_TYPE
+      }
+    };
 
 
     if (this.btnText == "Update") {
@@ -111,6 +191,8 @@ export class DealerCategoryHomePage {
           this.page2 = !this.page2;
           this.fetchCategories();
         }
+      }, err => {
+        console.log(err);
       })
 
     } else {
@@ -122,24 +204,32 @@ export class DealerCategoryHomePage {
           this.page2 = !this.page2;
           this.fetchCategories();
         }
+      }, err => {
+        console.log(err);
       })
     }
 
 
   }
+
   onImageError(item) {
     item.url = "http://placehold.it/500x200";
   }
+
   fetchCategories() {
     this.apiService.getReq(this.apiService.getProductCategory() + UtilsProvider.USER_ID + "/" + UtilsProvider.USER_TYPE + "/" + APP_TYPE).then(res => {
       console.log(res);
       if (res && res.data) {
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
-          element["url"] = this.apiService.getImg() + "category_" + element.categoryid+".png";
+          element["url"] = this.apiService.getImg() + "category_" + element.categoryid + ".png";
         }
         this.list = res.data;
+        this.title = "Category";
+
       }
+    }, err => {
+      console.log(err);
     });
   }
 
@@ -151,13 +241,13 @@ export class DealerCategoryHomePage {
         {
           text: 'Gallery',
           handler: data => {
-            this.pickImage(item,0);
+            this.pickImage(item, 0);
           }
         },
         {
           text: 'Camera',
           handler: data => {
-            this.pickImage(item,1);
+            this.pickImage(item, 1);
           }
         }
       ]
@@ -165,7 +255,7 @@ export class DealerCategoryHomePage {
     prompt.present();
   }
 
-  pickImage(item,sourceType) {
+  pickImage(item, sourceType) {
 
     try {
       const options: CameraOptions = {
@@ -175,15 +265,15 @@ export class DealerCategoryHomePage {
         mediaType: this.camera.MediaType.PICTURE,
         targetWidth: 256,
         targetHeight: 256,
-        sourceType:sourceType
+        sourceType: sourceType
       };
 
 
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image =  imageData;
+        let base64Image = imageData;
 
-        if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,'category_'+item.categoryid);
+        if (base64Image && base64Image.length > 0) {
+          this.uploadImg(base64Image, 'category_' + item.categoryid);
         }
 
       }, (err) => {
@@ -195,7 +285,7 @@ export class DealerCategoryHomePage {
     }
   }
 
-  uploadImg(s,fileName){
+  uploadImg(s, fileName) {
     let input = {
       "image": {
         "filename": fileName,

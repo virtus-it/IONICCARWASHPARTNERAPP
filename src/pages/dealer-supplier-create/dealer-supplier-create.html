@@ -51,7 +51,7 @@
       <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="10" ></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="showVendor">
       <ion-label>Vendor</ion-label>
       <ion-select [(ngModel)]="input.distributor" name="distributor">
         <ion-option value={{distributor.firstname}} *ngFor="let distributor of distributorsList"

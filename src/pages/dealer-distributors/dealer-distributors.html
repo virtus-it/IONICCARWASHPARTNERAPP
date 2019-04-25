@@ -46,10 +46,10 @@
         </ion-row>
 
         <ion-row *ngIf="isDealer">
-          <ion-col class="edit_bg" ><span class="header_icon" (click)="create($event, user,'');">Edit</span>
+          <ion-col class="edit_bg"  (click)="create($event, user,'');"><span class="header_icon">Edit</span>
           </ion-col>
-          <ion-col class="delet_bg"><span  class="header_icon"
-                                          (click)="showPromptForDelete($event, user);">Delete</span></ion-col>
+          <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span  class="header_icon"
+                                          >Delete</span></ion-col>
         </ion-row>
 
         <button ion-button block *ngIf="!isDealer" (click)="create($event, user, 'view');">View More</button>

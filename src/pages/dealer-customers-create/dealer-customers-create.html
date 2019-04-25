@@ -60,11 +60,6 @@
       <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="50" required></ion-input>
     </ion-item>
 
-    <!--<ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Advance Amount</ion-label>
-      <ion-input class="" type="text" [(ngModel)]="input.advAmt" name="advAmt" maxlength="50" required></ion-input>
-    </ion-item>-->
-
     <ion-label>Payment Type</ion-label>
     <ion-list radio-group [(ngModel)]="input.paymentType" name="paymentType">
 
@@ -80,32 +75,12 @@
 
     </ion-list>
 
-    <!--<ion-label>Customer Type</ion-label>
-    <ion-list radio-group [(ngModel)]="input.customerType" name="customerType">
-
-      <ion-item>
-        <ion-label>Residential</ion-label>
-        <ion-radio value="residential"></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Commercial</ion-label>
-        <ion-radio value="commercial"></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Corporate</ion-label>
-        <ion-radio value="corporate"></ion-radio>
-      </ion-item>
-
-    </ion-list>-->
-
     <ion-row class="">
-      <ion-col align-self-center="">
+      <ion-col align-self-center="" >
         <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
       </ion-col>
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
+        <button ion-button class="wd-100pc" (click)="doValidation();">{{buttonTitle}}</button>
       </ion-col>
     </ion-row>
 

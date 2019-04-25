@@ -58,7 +58,7 @@ export enum OrderTypes {
 @Injectable()
 export class UtilsProvider {
 
-  private static _USER_IS_SUPER_DEALER: boolean = false;
+
   RESULT_SUCCESS: string = "success";
   public ERROR_MES = "";
   DIGITS = "[0-9]*";
@@ -80,6 +80,7 @@ export class UtilsProvider {
   private static _USER_DEALER_PHNO: string = "";
   private static _USER_DEALER_ADDR: string = "";
   private static _USER_INFO: string = "";
+  private static _USER_IS_SUPER_DEALER: boolean = false;
 
   constructor(public http: HttpClient,
               public toast: ToastController,
@@ -129,6 +130,7 @@ export class UtilsProvider {
     return this._USER_INFO;
   }
 
+
   initUser(user:any){
     try {
       if(user){
@@ -137,6 +139,7 @@ export class UtilsProvider {
 
       if(user) {
         this.showLog(user);
+        UtilsProvider.setUSER_INFO(user);
 
         //user info
         UtilsProvider._USER_ID   = user.userid;
@@ -173,9 +176,11 @@ export class UtilsProvider {
       }
 
       try {
-       // this.platform.ready().then(() => {
+        this.platform.ready().then(() => {
           this.setSecureValue(KEY_USER_INFO,user);
-        //});
+        },err =>{
+          console.log(err);
+        });
       }catch (e) {
         this.showLog(e);
       }

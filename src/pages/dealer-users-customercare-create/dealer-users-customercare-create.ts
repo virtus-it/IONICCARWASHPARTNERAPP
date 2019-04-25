@@ -49,11 +49,11 @@ export class DealerUsersCustomercareCreatePage {
 
     if (this.user == '') {
       this.isUpdate = false;
-      this.pageTitle = 'CREATE VENDOR';
+      this.pageTitle = 'CREATE CUSTOMER CARE';
       this.buttonTitle = 'CREATE';
     } else {
       this.isUpdate = true;
-      this.pageTitle = 'EDIT VENDOR';
+      this.pageTitle = 'EDIT CUSTOMER CARE';
       this.buttonTitle = 'UPDATE';
 
       //updating values

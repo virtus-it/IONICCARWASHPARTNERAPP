@@ -229,7 +229,7 @@ export class MyApp {
                     });
                   } else {
                     this.showProgress = false;
-                    this.rootPage = WelcomePage;
+                    this.rootPage = LoginPage;
                   }*!/
                 }
               }

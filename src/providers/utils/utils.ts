@@ -9,7 +9,7 @@ import { AppVersion } from "@ionic-native/app-version";
 import { Network } from "@ionic-native/network";
 
 export const SHOW_ALL = false;
-export const IS_WEBSITE: boolean = false;
+export const IS_WEBSITE: boolean = true;
 const KEY_USER_INFO       = 'secure_storage_user_info';
 const KEY_GCM_ID          = 'secure_storage_user_info';
 const KEY_LOGIN_STATUS    = 'secure_storage_user_info';

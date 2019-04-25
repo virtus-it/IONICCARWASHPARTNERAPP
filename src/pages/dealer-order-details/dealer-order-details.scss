@@ -1,6 +1,11 @@
 
   page-chat {
-
+    .pgid {
+      padding: 10px 0 0 10px;
+      font-size: 14px;
+    }.orderid {
+      color: #1c464b;
+    }
     $userBackgroundColor: #ffffff;
     $toUserBackgroundColor: #387ef5;
     .img-rupee{
@@ -394,3 +399,31 @@
   }
 
 
+  .pgid {
+    float:left;width:70%;
+  }.orderid {
+     color: #1c464b;
+    font-size:12px;
+       float: left;width: 100%;
+   }
+  .statusupdt {
+    float: left;
+    font-size: 14px;
+  }.total_cost  {
+       float: right;
+       width: 28%;
+       background: #f2bd09;
+       color: #fff;
+       padding: 0 3px;
+
+     }
+
+
+  .cardtop_heading.card-header.card-header-md {
+    background-color: #fff !important;
+    color: #555 !important;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 5px 4px 5px 12px !important;
+
+  }

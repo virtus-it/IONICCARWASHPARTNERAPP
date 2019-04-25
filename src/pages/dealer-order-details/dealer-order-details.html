@@ -14,36 +14,30 @@
 <ion-content class="page_bg">
   <ion-spinner block name="crescent" class="spinner_center" color="primary" *ngIf="showProgress" item-center></ion-spinner>
   <div class="no_padding prdct_main_container order_details_pg" *ngIf="!showProgress">
+
+
     <ion-card class="no_padding">
-      <ion-card-header>
-        {{item.statusUpdated}}
-      </ion-card-header>
+<ion-card-header class="cardtop_heading"><div class="pgid"><span class="orderid">#{{item?.order_id}}</span> <span class="statusupdt"> {{item.statusUpdated}} </span>
+</div>
+  <div class="total_cost"><span class="orderid">Bill Amount</span><span class="statusupdt"> {{item?.billamt_updated}}</span></div>
+</ion-card-header>
       <ion-card-content>
         <ion-row>
           <ion-col>
             <div class="corner-ribbon" *ngIf="item.promocodeapplied && item.promocodeapplied=='true'">Promocode Applied</div>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> #{{item?.order_id}}</span>
-          </ion-col>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> Total: {{item?.billamt_updated}}</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>DELIVERY</ion-col>
-          <ion-col>TYPE</ion-col>
+                <ion-row>
+          <ion-col><span class="job_mgm_lbl">DELIVERY</span>{{item?.delivery_exceptedtime}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">TYPE</span> {{item?.orderby_paymenttype}}</ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-            <span class="gray8" item-start>{{item?.delivery_exceptedtime}}</span>
+            <span class="gray8" item-start></span>
           </ion-col>
           <ion-col>
-            <span class="no_padding no_margin  text_highlight"> {{item?.orderby_paymenttype}}</span>
+            <span class="no_padding no_margin  text_highlight"> </span>
           </ion-col>
         </ion-row>
 
@@ -57,7 +51,8 @@
     </ion-card>
 
     <!--Product Details-->
-    <ion-card>
+    <ion-card class="cardtop_heading">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Services Details</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
         <ion-row>
           <ion-col>SERVICE DETAILS</ion-col>
@@ -79,8 +74,9 @@
 
     <!--order status-->
     <ion-card>
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Status</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
-      JOB STATUS
+
       <ion-row>
         <ion-col>Created</ion-col>
         <ion-col>Assigned</ion-col>
@@ -134,10 +130,11 @@
     </ion-card>
 
     <ion-card class="dealer_contnr">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt"> {{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
-            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}
+
           </ion-col>
           <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
           </ion-col>
@@ -160,10 +157,12 @@
     </ion-card>
 
     <ion-card>
+
       <ion-card-content class="no_padding no_margin">
+        <ion-card-header class="cardtop_heading"><span class="statusupdt">  {{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}</span></ion-card-header>
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
-            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}
+
           </ion-col>
         </ion-row>
         <div class="message-wrap">

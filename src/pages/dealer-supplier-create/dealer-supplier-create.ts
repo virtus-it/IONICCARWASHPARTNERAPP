@@ -75,6 +75,8 @@ export class DealerSupplierCreatePage {
       this.input.vechicleNumber = this.validate(JSON.stringify(this.user.vechicle_number));
       this.input.flottingCash = this.validate(JSON.stringify(this.user.flotting_cash));
       this.input.addr = this.validate(this.user.address);
+      this.input.distributorId = JSON.stringify(this.user.associateddealer.user_id);
+      this.input.distributor = this.validate(this.user.associateddealer.firstname)+' '+this.validate(this.user.associateddealer.lastname);
     }
 
     this.USER_ID = UtilsProvider.USER_ID;

@@ -7,8 +7,8 @@
       <img class="header_icon" src="assets/imgs/img_repairing_service.png">
       <span class="title-style">SERVICES</span>
     </ion-title>
-    <ion-buttons end (click)="create($event, '')">
-      <button ion-button icon-end >
+    <ion-buttons (click)="create($event, '')" end>
+      <button icon-end ion-button>
         <ion-icon name="md-add"></ion-icon>
       </button>
     </ion-buttons>
@@ -17,8 +17,8 @@
 
 <ion-content padding>
 
-  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
-               item-center></ion-spinner>
+  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+               name="crescent"></ion-spinner>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content>
     </ion-refresher-content>
@@ -29,26 +29,27 @@
     <div *ngFor="let product of response">
       <ion-card>
         <ion-row>
-          <ion-col >
+          <ion-col>
             <div class="prod_cat">{{product.category}} </div>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>
-        <ion-avatar>
-          <img [src]="product.imgUrl" style="height: 40px; width: 40px">
-        </ion-avatar>
+            <ion-avatar>
+              <img [src]="product.imgUrl" style="height: 40px; width: 40px">
+            </ion-avatar>
           </ion-col>
-          <ion-col><div class="prod_cost"> {{product.brandname}}</div> <div class="prod_type">{{product.ptype}}</div>
-          <div class="prod_cost">{{product.pcost}}</div>
+          <ion-col>
+            <div class="prod_cost"> {{product.brandname}}</div>
+            <div class="prod_type">{{product.ptype}}</div>
+            <div class="prod_cost">{{product.pcost}}</div>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="edit_bg"><span class="header_icon" (click)="create($event, product);">Edit</span>
+          <ion-col (click)="create($event, product);" class="edit_bg"><span class="header_icon">Edit</span>
           </ion-col>
-          <ion-col class="delet_bg"><span class="header_icon"
-                                          (click)="showPromptForDelete($event, product);">Delete</span></ion-col>
-
+          <ion-col (click)="showPromptForDelete($event, product);"
+                   class="delet_bg"><span class="header_icon">Delete</span></ion-col>
 
         </ion-row>
 

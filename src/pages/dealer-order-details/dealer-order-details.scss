@@ -418,12 +418,58 @@
 
      }
 
-
+.col{font-size:13px}
   .cardtop_heading.card-header.card-header-md {
     background-color: #fff !important;
     color: #555 !important;
     text-align: left;
     border-bottom: 1px solid #e5e5e5;
     padding: 5px 4px 5px 12px !important;
+
+  }
+
+  .jb_status {
+    padding: 0;
+    margin: 0 0 0 3px;
+    border-left: 1px dashed #ccc;
+
+    .jb_sts_dls {
+      list-style: none;
+      width: 100%;
+      display: inline-block;
+      margin-left: -12px;
+      margin-bottom: 10px;
+      .icon {
+        width: 30px;
+        height: 30px;
+        display: list-item;
+        float: left;
+        background: #ffd800;
+        border-radius: 58px;
+        padding: 5px 7px 3px 7px;
+        text-align: center;
+        margin: 0;
+      }
+      .status_right_block {
+        width: 85%;
+        float: left;
+        margin-left: 4px;
+        margin-top: -5px;
+        font-size: 13px;
+      }
+    }}
+  .check.icon.icon-md.ion-md-checkmark {
+
+    background: #00aeff;
+
+  }
+ .order_details_pg .icon::before {
+     font-size: 20px;
+     margin: 0;
+   color:#fff;
+   }
+  .thumb.icon.icon-md.ion-md-thumbs-up {
+
+    background: #076515;
 
   }

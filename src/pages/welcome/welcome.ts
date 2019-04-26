@@ -152,7 +152,7 @@ export class WelcomePage {
   moveToNextScreen() {
     let uType, output;
     output = this.alertUtils.getUserInfo();
-    uType = output.USERTYPE;
+    uType = output.USERTUPE;
 
     if (output != null) {
       if (uType == UserType.DEALER || uType == UserType.CUSTOMER_CARE) {

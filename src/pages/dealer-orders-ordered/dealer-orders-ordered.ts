@@ -22,7 +22,6 @@ export class DealerOrdersOrderedPage {
               private  apiService: ApiProvider,
               private appCtrl: App) {
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
-    this.fetchOrders(false, false, true, "", "");
   }
 
   ionViewDidLoad() {

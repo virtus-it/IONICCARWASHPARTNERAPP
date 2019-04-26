@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {AlertController, IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
+import { Component } from '@angular/core';
+import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {NetworkProvider} from "../../providers/network/network";
@@ -7,8 +7,8 @@ import {NetworkProvider} from "../../providers/network/network";
 // import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
-import {Subscription} from "rxjs";
-import {Socket} from 'ng-socket-io';
+import {Observable, Subscription} from "rxjs";
+import { Socket } from 'ng-socket-io';
 // import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
 // import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
 
@@ -21,8 +21,8 @@ import {Socket} from 'ng-socket-io';
 export class LoginPage {
 
   //development
-  username: string = '9863636314';
-  password: any = '9863636314';
+  username:string='9863636314';
+  password:any='9863636314';
   public type = 'password';
   public showPass = false;
   errorText: string = "";
@@ -30,50 +30,33 @@ export class LoginPage {
   sub: Subscription;
 
   //production
-  /*   username:string='9863636315';
-     password:any='98498';*/
+/*   username:string='9863636315';
+   password:any='98498';*/
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private networkProvider: NetworkProvider,
               private menuCtrl: MenuController,
               private alertUtils: UtilsProvider,
-              private apiUrl: ApiProvider,
+              private apiUrl : ApiProvider,
               private alertCtrl: AlertController,
-              private apiService: ApiProvider,
+              private apiService:ApiProvider,
               private socket: Socket,
-              public platform: Platform,
               private translateService: TranslateService) {
 
     translateService.setDefaultLang('en');
     translateService.use('en');
 
-    try {
-      this.platform.ready().then(ready => {
-        this.alertUtils.getSecValue('secure_storage_user_info').then((value) => {
-          this.alertUtils.showLog(value);
-          if (value && value.hasOwnProperty('USERTYPE')) {
-            UtilsProvider.setUSER_INFO(value);
-            this.alertUtils.initUser(value);
-            if (UtilsProvider.USER_TYPE != null) {
-              this.moveToNextPage(UtilsProvider.USER_TYPE, value);
-            }
-          }
-        }, (error) => {
-
-        });
-      });
-    } catch (e) {
-      this.alertUtils.showLog(e);
-    }
-
+    //supplier
+/*    this.username = '9774937711';
+    this.password = '9774937711';*/
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad LogInPage');
+   // console.log('ionViewDidLoad LogInPage');
     this.menuCtrl.enable(false);
   }
 
-  logIn() {
+  logIn(){
 
     //this.utils.showToastSnackBar('clicked');
 
@@ -93,52 +76,41 @@ export class LoginPage {
     let data = JSON.stringify(input);
     //input.User["useruniqueid"] = this.getUUID();
 
-    this.alertUtils.showLog("data", data);
+    this.alertUtils.showLog("data",data);
 
     this.alertUtils.showLoading();
-    this.networkProvider.postReq(this.apiUrl.login(), data).then(res => {
+    this.networkProvider.postReq(this.apiUrl.login(),data).then(res=>{
       this.alertUtils.hideLoading();
-      this.alertUtils.showLog("res", res.data);
+      this.alertUtils.showLog("res",res.data);
 
       this.setGCMDetails(res.data);
 
-      if (res.result == this.alertUtils.RESULT_SUCCESS) {
-        if (res.data && res.data.user) {
+      if(res.result == this.alertUtils.RESULT_SUCCESS){
+        if(res.data && res.data.user){
           let output = res.data.user;
-          let uType = output.USERTYPE;
+          let uType=output.USERTYPE;
 
-          if (uType == UserType.DEALER ||
+          if(uType == UserType.DEALER ||
             uType == UserType.SUPPLIER ||
-            uType == UserType.CUSTOMER_CARE) {
-
-            //billing adminstrator  - billing
-            //job assigner          - job assign, slider vendor
-            //customer care         -
+            uType == UserType.SALES_TEAM ||
+            uType == UserType.SALES ||
+            uType == UserType.CUSTOMER_CARE){
 
             UtilsProvider.setUSER_INFO(output);
             this.alertUtils.initUser(output);
-
-            try {
-              this.platform.ready().then(ready => {
-                this.alertUtils.setUserInfo(output).then((success) => {
-                  this.alertUtils.showLog(success);
-                  this.alertUtils.showLog('User Info Updated : ' + success);
-                  this.moveToNextPage(uType, output);
-                }, error => {
-                  this.alertUtils.showLog(error);
-                  this.alertUtils.showLog('User Info Updated : ' + error);
-                  this.moveToNextPage(uType, output);
-                });
-              });
-            } catch (e) {
-              this.moveToNextPage(uType, output);
-              this.alertUtils.showLog(e);
-            }
-
             //UtilsProvider.setValues(uId,uName,uPhno,uAddr,uType,uDealerId,uDealerName,uDealerPhno,uDealerAddr);
 
 
-          } else {
+            if(uType == UserType.DEALER ||uType == UserType.CUSTOMER_CARE){
+              if((uType == UserType.DEALER && output.issuperdealer == 'true')||uType == UserType.CUSTOMER_CARE)
+              this.navCtrl.setRoot('DealerOrdersHomePage');
+              else
+                this.navCtrl.setRoot('DealerSuppliersPage',{from:'loginPage'});
+            }else if(uType == UserType.SUPPLIER){
+              this.navCtrl.setRoot('SupplierOrdersHomePage');
+            }
+
+          }else {
             //show alert
             //Its Admin Application
             //please use customer application
@@ -147,27 +119,16 @@ export class LoginPage {
           }
 
         }
-      } else {
+      }else{
         alert(JSON.stringify(res.data));
       }
 
 
-    }, error => {
+    },error=>{
       this.alertUtils.showLog(error);
       this.alertUtils.hideLoading();
     })
 
-  }
-
-  moveToNextPage(uType: string, output: any) {
-    if (uType == UserType.DEALER || uType == UserType.CUSTOMER_CARE) {
-      if ((uType == UserType.DEALER && output.issuperdealer == 'true') || uType == UserType.CUSTOMER_CARE)
-        this.navCtrl.setRoot('DealerOrdersHomePage');
-      else
-        this.navCtrl.setRoot('DealerSuppliersPage', {from: 'loginPage'});
-    } else if (uType == UserType.SUPPLIER) {
-      this.navCtrl.setRoot('SupplierOrdersHomePage');
-    }
   }
 
   showPassword() {
@@ -238,19 +199,19 @@ export class LoginPage {
 
     try {
       /*if (this.alertUtils.networkStatus()) {*/
-      this.alertUtils.showLoading();
-      this.apiService.getReq(this.apiService.getForgotPwdUrl() + data.mobileno).then(res => {
-        this.alertUtils.showLog(res);
-        this.alertUtils.hideLoading();
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.alertUtils.showAlert("Success", "Password sent to your registered phone number", "OK")
-        } else {
-          this.alertUtils.showAlert("Warning", "Phone number not found in database", "OK")
-        }
-      }, err => {
-        this.alertUtils.hideLoading();
-        this.alertUtils.showLog(err);
-      });
+        this.alertUtils.showLoading();
+        this.apiService.getReq(this.apiService.getForgotPwdUrl() + data.mobileno).then(res => {
+          this.alertUtils.showLog(res);
+          this.alertUtils.hideLoading();
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.alertUtils.showAlert("Success", "Password sent to your registered phone number", "OK")
+          } else {
+            this.alertUtils.showAlert("Warning", "Phone number not found in database", "OK")
+          }
+        }, err => {
+          this.alertUtils.hideLoading();
+          this.alertUtils.showLog(err);
+        });
       /*} else {
         this.alertUtils.showAlert("INTERNET CONNECTION", INTERNET_ERR_MSG, "OK");
       }*/
@@ -273,7 +234,7 @@ export class LoginPage {
       }
     };
     let gcmData = JSON.stringify(input);
-    this.alertUtils.showLog('gcmData : ' + gcmData);
+    this.alertUtils.showLog('gcmData : '+gcmData);
     this.apiService.postReq(this.apiService.setGCMRegister(), gcmData).then(gcm => {
       this.alertUtils.showLog(gcmData);
       if (gcm.result == this.alertUtils.RESULT_SUCCESS) {

@@ -16,15 +16,6 @@
 
   <form>
 
-    <ion-item>
-      <ion-label>User</ion-label>
-      <ion-select [(ngModel)]="input.userType" name="userType">
-        <ion-option value={{user.value}} *ngFor="let user of usersList"
-                    (ionSelect)="updateDetails($event, user.value)">
-                    {{user.name}}</ion-option>
-      </ion-select>
-    </ion-item>
-
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>First Name</ion-label>
       <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
@@ -39,6 +30,61 @@
       <ion-label floating>Phone Number</ion-label>
       <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" maxlength="50" required></ion-input>
     </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input class="" name="phno2" type="text" [(ngModel)]="input.phno2" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input class="" name="phno3" type="text" [(ngModel)]="input.phno3" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Company Name</ion-label>
+      <ion-input class="" name="companyName" type="text" [(ngModel)]="input.companyName" maxlength="50"></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Reference Code</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.referenceCode" name="referenceCode"
+                 maxlength="10"></ion-input>
+    </ion-item>
+
+    <ion-label>Phone Type</ion-label>
+    <ion-list radio-group [(ngModel)]="input.phoneType" name="paymentType">
+
+      <ion-item>
+        <ion-label>ANDROID</ion-label>
+        <ion-radio value="android"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>IOS</ion-label>
+        <ion-radio value="ios" text="CREDIT"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>NO SMARTPHONE</ion-label>
+        <ion-radio value="nosmartphone" text="CREDIT"></ion-radio>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Address</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="10"></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>GST Number</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.gstNumber" name="gstNumber" maxlength="50"
+                 required></ion-input>
+    </ion-item>
+
+    <!-- <ion-checkbox checked value="{{input.acceptOnlinePayments}}" (click)="updateCbValue();"></ion-checkbox>
+     Accept Online Payments-->
 
     <ion-row class="">
       <ion-col align-self-center="">

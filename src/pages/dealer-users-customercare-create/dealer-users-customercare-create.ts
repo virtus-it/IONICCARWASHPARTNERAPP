@@ -20,13 +20,14 @@ export class DealerUsersCustomercareCreatePage {
   buttonTitle: string;
   user: any;
   isUpdate: boolean = true;
-  usersList = [{"name":"Customer Care", "value":"customercare"},
-    {"name":"Job Assigner", "value":"job_assigner"},
-    {"name":"Billing Administrator", "value":"billing_administrator"}];
   input = {
     firstname: "", lastname: "", phno1: "", phno2: "",phno3: "", companyName: "", referenceCode: "",
-    phoneType: "android", addr: "", gstNumber: "", acceptOnlinePayments: false, userType:'customercare'
+    phoneType: "android", addr: "", gstNumber: "", acceptOnlinePayments: false
   };
+
+  updateCbValue(){
+    this.input.acceptOnlinePayments = !this.input.acceptOnlinePayments;
+  }
 
   output = {"result": "", "actionType": "", "data": ""};
 
@@ -48,11 +49,11 @@ export class DealerUsersCustomercareCreatePage {
 
     if (this.user == '') {
       this.isUpdate = false;
-      this.pageTitle = 'CREATE USER';
+      this.pageTitle = 'CREATE CUSTOMER CARE';
       this.buttonTitle = 'CREATE';
     } else {
       this.isUpdate = true;
-      this.pageTitle = 'EDIT USER';
+      this.pageTitle = 'EDIT CUSTOMER CARE';
       this.buttonTitle = 'UPDATE';
 
       //updating values
@@ -82,21 +83,14 @@ export class DealerUsersCustomercareCreatePage {
     this.viewCtrl.dismiss();
   }
 
-  updateDetails(event, userType){
-    this.input.userType = userType;
-    /*this.alertUtils.showLog(userType);
-    this.alertUtils.showLog(this.input);
-    this.alertUtils.showLog(this.input.userType);*/
-  }
-
   doValidation() {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateText(this.input.lastname, 'Last name', 1, 50)) {
         if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
-          //if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 10)) {
+          if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 10)) {
             //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
-            //if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
+            if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
               //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
               if (this.isUpdate)
                 this.doUpdate();
@@ -104,12 +98,12 @@ export class DealerUsersCustomercareCreatePage {
                 this.doCreate();
               /*} else
                 this.showToast = true;*/
+            } else
+              this.showToast = true;
             /*} else
               this.showToast = true;*/
-            /*} else
-              this.showToast = true;*/
-          /*} else
-            this.showToast = true;*/
+          } else
+            this.showToast = true;
           /*} else
             this.alertUtils.showToast('Invalid mobile number');*/
         } else
@@ -135,19 +129,19 @@ export class DealerUsersCustomercareCreatePage {
       let input = {
         "User": {
           "TransType": 'create',
-          "user_type": this.input.userType,
+          "user_type": UserType.CUSTOMER_CARE,
           "firstname": this.input.firstname,
           "lastname": this.input.lastname,
           "mobileno": this.input.phno1,
-         /* "mobileno_one": this.input.phno2,
-          "mobileno_two": this.input.phno3,*/
-          "pwd": this.input.phno1,
-         // "phonetype": this.input.phoneType,
-         // "address": this.input.addr,
-          //"companyname": this.input.companyName,
-          //"company_logo": 'company_logo_'+this.input.phno1,
-          //"referCode": this.input.referenceCode,
-          //"gstnumber": this.input.gstNumber,
+          "mobileno_one": this.input.phno2,
+          "mobileno_two": this.input.phno3,
+          "pwd": 'paani',
+          "phonetype": this.input.phoneType,
+          "address": this.input.addr,
+          "companyname": this.input.companyName,
+          "company_logo": 'company_logo_'+this.input.phno1,
+          "referCode": this.input.referenceCode,
+          "gstnumber": this.input.gstNumber,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
           "framework": FRAMEWORK,

@@ -23,15 +23,6 @@ export class LogoutPage {
   logout(){
     UtilsProvider.setUSER_INFO('');
     this.alertUtils.initUser('');
-    try {
-      this.alertUtils.setUserInfo('').then((success) => {
-        this.alertUtils.showLog('User Info Updated : '+success);
-      }, error => {
-        this.alertUtils.showLog('User Info Updated : '+error);
-      });
-    }catch (e) {
-      this.alertUtils.showLog(e);
-    }
     this.navCtrl.setRoot('LoginPage')
   }
 

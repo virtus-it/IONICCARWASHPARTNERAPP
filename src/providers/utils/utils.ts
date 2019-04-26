@@ -3,18 +3,16 @@ import {Injectable} from '@angular/core';
 import {AlertController, LoadingController, Platform, ToastController} from "ionic-angular";
 import "rxjs/add/operator/map";
 import * as moment from "moment";
-import {UniqueDeviceID} from '@ionic-native/unique-device-id';
-import {Geolocation} from '@ionic-native/geolocation';
-import {AppVersion} from "@ionic-native/app-version";
-import {Network} from "@ionic-native/network";
-import {Subscription} from "rxjs";
-import {NativeStorage} from '@ionic-native/native-storage';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id';
+import { Geolocation } from '@ionic-native/geolocation';
+import { AppVersion } from "@ionic-native/app-version";
+import { Network } from "@ionic-native/network";
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
-const KEY_USER_INFO = 'secure_storage_user_info';
-const KEY_GCM_ID = 'secure_storage_user_gcm_id';
-const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';
+const KEY_USER_INFO       = 'secure_storage_user_info';
+const KEY_GCM_ID          = 'secure_storage_user_info';
+const KEY_LOGIN_STATUS    = 'secure_storage_user_info';
 
 export const APP_TYPE: string = "carwash";
 export const APP_USER_TYPE: string = "admin";
@@ -25,6 +23,8 @@ export const INTERNET_ERR_MSG = "Please check internet connectivity and try agai
 export const GEN_ERR_MSG = "Something went wrong please check internet connectivity and try again";
 export const TRY_AGAIN_ERR_MSG = "Something went wrong please try again";
 export const VALIDATE_EMAIL = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import {Subscription} from "rxjs";
+import { NativeStorage } from '@ionic-native/native-storage';
 
 export enum UserType {
   SALES = 'sales',
@@ -38,20 +38,20 @@ export enum UserType {
 }
 
 export enum OrderTypes {
-  ORDERED = 'ordered',
-  ASSIGNED = 'assigned',
-  ACCEPT = 'accept',
-  DELIVERED = 'delivered',
-  CANCELLED = 'cancelled',
+  ORDERED         = 'ordered',
+  ASSIGNED        = 'assigned',
+  ACCEPT          = 'accept',
+  DELIVERED       = 'delivered',
+  CANCELLED       = 'cancelled',
 
-  ORDER_STARTED = 'orderstarted',
-  JOB_STARTED = 'jobstarted',
-  DOORLOCK = 'doorlock',
-  CANNOT_DELIVER = 'cannot_deliver',
-  NOT_REACHABLE = 'not_reachable',
-  BACKTODEALER = 'backtodealer',
-  ONHOLD = 'onhold',
-  REJECTED = 'rejected',
+  ORDER_STARTED   = 'orderstarted',
+  JOB_STARTED     = 'jobstarted',
+  DOORLOCK        = 'doorlock',
+  CANNOT_DELIVER  = 'cannot_deliver',
+  NOT_REACHABLE   = 'not_reachable',
+  BACKTODEALER    = 'backtodealer',
+  ONHOLD          = 'onhold',
+  REJECTED        = 'rejected',
   NOT_BROADCASTED = 'not_broadcasted'
 }
 
@@ -59,19 +59,28 @@ export enum OrderTypes {
 export class UtilsProvider {
 
 
-  private static _USER_PHNO: string = "";
-  private static _USER_ADDR: string = "";
-  private static _GCM_ID: string = "";
-  private static _USER_DEALER_NAME: string = "";
-  private static _USER_DEALER_ADDR: string = "";
-  private static _USER_IS_SUPER_DEALER: boolean = false;
   RESULT_SUCCESS: string = "success";
   public ERROR_MES = "";
   DIGITS = "[0-9]*";
-  sub: Subscription;
-  location = {latitude: '', longitude: ''};
   private pd;
   private START_STR = "Please enter ";
+  sub: Subscription;
+  location = {latitude:'',longitude:''};
+
+
+  private static _USER_ID: string = "";
+  private static _USER_NAME: string = "";
+  private static _USER_PHNO: string = "";
+  private static _USER_ADDR: string = "";
+  private static _USER_TYPE: string = "";
+  private static _GCM_ID: string = "";
+
+  private static _USER_DEALER_ID: string  = "";
+  private static _USER_DEALER_NAME: string = "";
+  private static _USER_DEALER_PHNO: string = "";
+  private static _USER_DEALER_ADDR: string = "";
+  private static _USER_INFO: string = "";
+  private static _USER_IS_SUPER_DEALER: boolean = false;
 
   constructor(public http: HttpClient,
               public toast: ToastController,
@@ -85,73 +94,55 @@ export class UtilsProvider {
               public loadingCtrl: LoadingController) {
   }
 
-  private static _USER_ID: string = "";
-
   static get USER_ID(): string {
     return this._USER_ID;
   }
-
-  private static _USER_NAME: string = "";
 
   static get USER_NAME(): string {
     return this._USER_NAME;
   }
 
-  private static _USER_TYPE: string = "";
-
   static get USER_TYPE(): string {
     return this._USER_TYPE;
   }
-
-  private static _USER_DEALER_ID: string = "";
 
   static get USER_DEALER_ID(): string {
     return this._USER_DEALER_ID;
   }
 
-  private static _USER_DEALER_PHNO: string = "";
-
   static get USER_DEALER_PHNO(): string {
     return this._USER_PHNO;
   }
 
-  private static _USER_INFO: string = "";
-
-  static get USER_INFO(): string {
-    return this._USER_INFO;
-  }
-
-  static setGCM(gcmID: string) {
+  static setGCM(gcmID:string){
     this._GCM_ID = gcmID;
   }
 
-  static getGCM_ID(): string {
+  static  getGCM_ID(): string{
     return this._GCM_ID;
   }
 
-  static setUSER_INFO(userInfo) {
+  static setUSER_INFO(userInfo){
     this._USER_INFO = userInfo;
   }
 
-  static formatDateToDDMMYYYY(date) {
-    let d = new Date(date);
-    return moment(d).format('DD-MM-YYYY');
+  static get USER_INFO():string{
+    return this._USER_INFO;
   }
 
-  static formatDateToYYYYMMDD(date) {
-    let d = new Date(date);
-    return moment(d).format('YYYY-MM-DD');
-  }
 
-  initUser(user: any) {
+  initUser(user:any){
     try {
+      if(user){
+        user = UtilsProvider.USER_INFO;
+      }
 
-      if (user) {
+      if(user) {
         this.showLog(user);
         UtilsProvider.setUSER_INFO(user);
 
         //user info
-        UtilsProvider._USER_ID = user.userid;
+        UtilsProvider._USER_ID   = user.userid;
         UtilsProvider._USER_NAME = user.first_name + " " + user.last_name;
         UtilsProvider._USER_PHNO = user.mobileno;
         UtilsProvider._USER_ADDR = user.address;
@@ -159,32 +150,32 @@ export class UtilsProvider {
 
         //dealer info
         if (user.USERTYPE == UserType.DEALER && user.issuperdealer) {
-          UtilsProvider._USER_DEALER_ID = UtilsProvider._USER_ID;
+          UtilsProvider._USER_DEALER_ID   = UtilsProvider._USER_ID;
           UtilsProvider._USER_DEALER_NAME = UtilsProvider._USER_NAME;
           UtilsProvider._USER_DEALER_PHNO = UtilsProvider._USER_PHNO;
           UtilsProvider._USER_DEALER_ADDR = UtilsProvider._USER_TYPE;
         } else {
-          UtilsProvider._USER_DEALER_ID = user.sdealers.dealerid;
-          UtilsProvider._USER_DEALER_NAME = user.sdealers.firstname + ' ' + user.sdealers.lastname;
-          UtilsProvider._USER_DEALER_PHNO = user.sdealers.mobileno;
-          UtilsProvider._USER_DEALER_ADDR = '';
+          UtilsProvider._USER_DEALER_ID    = user.sdealers.dealerid;
+          UtilsProvider._USER_DEALER_NAME  = user.sdealers.firstname + ' ' + user.sdealers.lastname;
+          UtilsProvider._USER_DEALER_PHNO  = user.sdealers.mobileno;
+          UtilsProvider._USER_DEALER_ADDR  = '';
         }
 
-      } else {
+      }else {
         this.showLog('logout');
-        UtilsProvider._USER_ID = '';
+        UtilsProvider._USER_ID   = '';
         UtilsProvider._USER_NAME = '';
         UtilsProvider._USER_PHNO = '';
         UtilsProvider._USER_ADDR = '';
         UtilsProvider._USER_TYPE = '';
 
-        UtilsProvider._USER_DEALER_ID = '';
-        UtilsProvider._USER_DEALER_NAME = '';
-        UtilsProvider._USER_DEALER_PHNO = '';
-        UtilsProvider._USER_DEALER_ADDR = '';
+        UtilsProvider._USER_DEALER_ID    = '';
+        UtilsProvider._USER_DEALER_NAME  = '';
+        UtilsProvider._USER_DEALER_PHNO  = '';
+        UtilsProvider._USER_DEALER_ADDR  = '';
       }
 
-      /*try {
+      try {
         this.platform.ready().then(() => {
           this.setSecureValue(KEY_USER_INFO,user);
         },err =>{
@@ -192,29 +183,21 @@ export class UtilsProvider {
         });
       }catch (e) {
         this.showLog(e);
-      }*/
+      }
 
-    } catch (e) {
+    }catch (e) {
       this.showLog(e);
     }
 
   }
 
+
+
   //storage
   setSecureValue(keyName: string, keyValue: any) {
     this.nativeStorage.setItem(keyName, keyValue)
       .then(() => console.log('Stored  Data!'),
-        error => console.error('Error storing data', error));
-
-  }
-
-  setValue(keyName: string, keyValue: any) {
-    return this.nativeStorage.setItem(keyName, keyValue);
-
-  }
-
-  setUserInfo(keyValue: any) {
-    return this.nativeStorage.setItem(KEY_USER_INFO, keyValue);
+          error => console.error('Error storing data', error));
 
   }
 
@@ -224,42 +207,42 @@ export class UtilsProvider {
         error => console.error('Error storing data', error));
 
   }
-
   getSecValue(keyName: string) {
     return this.nativeStorage.getItem(keyName);
   }
 
-  getUserInfo(initCall?: boolean) {
-    try {
-      if (initCall) {
-        this.nativeStorage.getItem(KEY_USER_INFO).then((success) => {
-          // return storage value
-          return success;
-        }, error => {
-          // return static value if there is no value
-          // for browser
-          return UtilsProvider.USER_INFO;
-        })
-      } else
-        return UtilsProvider.USER_INFO;
-    } catch (e) {
-      this.showLog(e);
-      //return static value if any expection
-      return UtilsProvider.USER_INFO;
-    }
+  getUserInfo() {
+    return this.nativeStorage.getItem(KEY_USER_INFO);
   }
 
   getGcmId() {
     return this.nativeStorage.getItem(KEY_GCM_ID);
   }
 
-  setSubscription(sub) {
+  setSubscription(sub){
     this.sub = sub;
   }
 
-  stopSubscription() {
-    if (this.sub)
+  stopSubscription(){
+    if(this.sub)
       this.sub.unsubscribe();
+  }
+
+
+
+
+
+
+
+
+  static formatDateToDDMMYYYY(date) {
+    let d = new Date(date);
+    return moment(d).format('DD-MM-YYYY');
+  }
+
+  static formatDateToYYYYMMDD(date) {
+    let d = new Date(date);
+    return moment(d).format('YYYY-MM-DD');
   }
 
   showLog(val, lineNumber?, pageName?) {
@@ -485,7 +468,7 @@ export class UtilsProvider {
       return true;
   }
 
-  getCurrentLocation() {
+  getCurrentLocation(){
     try {
 
       return this.geolocation.getCurrentPosition();

@@ -171,16 +171,16 @@ export class DealerDistributorsPage {
 
   showPromptForDelete(event, user) {
     let prompt = this.alertCtrl.create({
-      title: 'DELETE VENDOR',
+      title: 'WARNING',
       message: 'Are you sure. You want delete vendor?',
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           handler: data => {
           }
         },
         {
-          text: 'Sure',
+          text: 'Yes',
           handler: data => {
             let input = {
               "User": {
@@ -196,7 +196,6 @@ export class DealerDistributorsPage {
 
             this.apiService.postReq(this.apiService.createCustomer(), inputData).then(res => {
               this.alertUtils.showLog(res);
-
               if (res.result == this.alertUtils.RESULT_SUCCESS) {
                 this.alertUtils.showToast('User successfully deleted');
                 this.fetchList(false, false, false, '', '');

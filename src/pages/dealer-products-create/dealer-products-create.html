@@ -27,7 +27,7 @@
   <form>
 
     <ion-item>
-      <ion-label>Category</ion-label>
+      <ion-label>Select Category / Package</ion-label>
       <ion-select [(ngModel)]="input.category" name="category">
         <ion-option value={{cat.category}} *ngFor="let cat of categoryList"
                     (ionSelect)="updateCategoryDetails($event, cat)">{{cat.category}}</ion-option>

@@ -16,6 +16,16 @@ export class DealerUsersCustomercarePage {
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+  searchInput = {
+    "userid":this.USER_ID,
+    "status":"globalsearch",
+    "pagesize":"10",
+    "last_orderid":"117",
+    "searchtext":"",
+    "searchtype":"name",
+    "searchfor":"users",
+    "apptype":APP_TYPE
+  };
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -39,7 +49,7 @@ export class DealerUsersCustomercarePage {
       let input = {
         "root": {
           "userid": UtilsProvider.USER_ID,
-          "usertype": UserType.DEALER,
+          "usertype": UtilsProvider.USER_TYPE,
           "transtype":"getall",
           "loginid": UtilsProvider.USER_ID,
           "lastuserid": '0',
@@ -61,10 +71,12 @@ export class DealerUsersCustomercarePage {
 
       this.apiService.postReq(this.apiService.distributors(),JSON.stringify(input)).then(res=>{
         this.alertUtils.showLog("POST (SUCCESS)=> DISTRIBUTORS: "+JSON.stringify(res.data));
-        this.response = res.data;
+
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          this.response = res.data;
+
           this.noRecords = false;
 
           if (!isPaging)
@@ -90,6 +102,28 @@ export class DealerUsersCustomercarePage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+  search(event){
+
+    try {
+
+      let input ={
+        "order":this.searchInput
+      };
+
+      let data = JSON.stringify(input);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.searchOrders(),data).then((res)=>{
+        this.showProgress = false;
+        this.alertUtils.showLog(res.data);
+        this.response = res.data;
+      },(error)=>{
+
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   doRefresh(refresher) {

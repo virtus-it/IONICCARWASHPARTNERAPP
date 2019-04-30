@@ -12,7 +12,18 @@ import {DealerOrderDetailsPage} from "../dealer-order-details/dealer-order-detai
 })
 export class DealerOrdersOrderedPage {
 
+  public static statusUpdated = false;
   showProgress = true;
+  searchInput = {
+    "userid": UtilsProvider.USER_ID,
+    "status": "globalsearch",
+    "pagesize": "10",
+    "last_orderid": "117",
+    "searchtext": "",
+    "searchtype": "name",
+    "searchfor": "order",
+    "apptype": APP_TYPE
+  };
   private response: any;
   private noRecords = false;
 
@@ -60,64 +71,7 @@ export class DealerOrdersOrderedPage {
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
         this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + JSON.stringify(res));
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.noRecords = false;
-
-          if (!isPaging)
-            this.response = res.data;
-          for (let i = 0; i < res.data.length; i++) {
-
-
-            if (res.data[i].status == OrderTypes.ORDERED ||
-                res.data[i].status == OrderTypes.ASSIGNED ||
-                res.data[i].status == OrderTypes.ACCEPT ||
-                res.data[i].status == OrderTypes.ORDER_STARTED ||
-                res.data[i].status == OrderTypes.JOB_STARTED ||
-                res.data[i].status == OrderTypes.BACKTODEALER ||
-                res.data[i].status == OrderTypes.NOT_BROADCASTED) {
-
-              res.data[i]["orderstatus"] = "ASSIGN";
-
-              if (res.data[i].status == OrderTypes.ORDERED ||
-                res.data[i].status == OrderTypes.BACKTODEALER ||
-                res.data[i].status == OrderTypes.NOT_BROADCASTED)
-                res.data[i]["statusUpdated"] = "Job Created";
-              else if (res.data[i].status == OrderTypes.ASSIGNED)
-                res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
-              else if(res.data[i].status == OrderTypes.ACCEPT)
-                res.data[i]["statusUpdated"] = "Job Accepted";
-              else if(res.data[i].status == OrderTypes.ORDER_STARTED)
-                res.data[i]["statusUpdated"] = "Engineer started from his loc";
-              else if(res.data[i].status == OrderTypes.JOB_STARTED)
-                res.data[i]["statusUpdated"] = "Job Started";
-            } else if (res.data[i].status == OrderTypes.DELIVERED) {
-              res.data[i]["orderstatus"] = "DELIVERED";
-              res.data[i]["statusUpdated"] = "Job Completed";
-            } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
-              res.data[i]["orderstatus"] = "CANT DELIVER";
-            } else if (res.data[i].status == OrderTypes.DOORLOCK) {
-              res.data[i]["orderstatus"] = "DOORLOCK";
-            } else if (res.data[i].status == OrderTypes.NOT_REACHABLE) {
-              res.data[i]["orderstatus"] = "NOT REACHABLE";
-            } else if (res.data[i].status == OrderTypes.CANCELLED) {
-              res.data[i]["orderstatus"] = "CANCELLED";
-              res.data[i]["statusUpdated"] = "Job Cancelled";
-            } else if (res.data[i].status == OrderTypes.ONHOLD) {
-              res.data[i]["orderstatus"] = "ON HOLD";
-              res.data[i]["statusUpdated"] = "Job is On Hold";
-            }
-
-            //updating bill amount
-            if(res.data[i].status == OrderTypes.DELIVERED){
-              res.data[i]["billamt_updated"] = res.data[i].bill_amount;
-            }else
-              res.data[i]["billamt_updated"] = res.data[i].orderamt;
-
-            if (isPaging)
-              this.response.push(res.data[i]);
-          }
-        }
-
+        this.processData(res, isPaging);
       }, error => {
         this.alertUtils.hideLoading();
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
@@ -127,6 +81,94 @@ export class DealerOrdersOrderedPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+
+  processData(res, isPaging) {
+    try {
+      if (res.result == this.alertUtils.RESULT_SUCCESS) {
+        this.noRecords = false;
+
+        if (!isPaging)
+          this.response = res.data;
+        for (let i = 0; i < res.data.length; i++) {
+
+
+          if (res.data[i].status == OrderTypes.ORDERED ||
+            res.data[i].status == OrderTypes.ASSIGNED ||
+            res.data[i].status == OrderTypes.ACCEPT ||
+            res.data[i].status == OrderTypes.ORDER_STARTED ||
+            res.data[i].status == OrderTypes.JOB_STARTED ||
+            res.data[i].status == OrderTypes.BACKTODEALER ||
+            res.data[i].status == OrderTypes.NOT_BROADCASTED) {
+
+            res.data[i]["orderstatus"] = "ASSIGN";
+
+            if (res.data[i].status == OrderTypes.ORDERED ||
+              res.data[i].status == OrderTypes.BACKTODEALER ||
+              res.data[i].status == OrderTypes.NOT_BROADCASTED)
+              res.data[i]["statusUpdated"] = "Job Created";
+            else if (res.data[i].status == OrderTypes.ASSIGNED)
+              res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
+            else if (res.data[i].status == OrderTypes.ACCEPT)
+              res.data[i]["statusUpdated"] = "Job Accepted";
+            else if (res.data[i].status == OrderTypes.ORDER_STARTED)
+              res.data[i]["statusUpdated"] = "Engineer started from his loc";
+            else if (res.data[i].status == OrderTypes.JOB_STARTED)
+              res.data[i]["statusUpdated"] = "Job Started";
+          } else if (res.data[i].status == OrderTypes.DELIVERED) {
+            res.data[i]["orderstatus"] = "DELIVERED";
+            res.data[i]["statusUpdated"] = "Job Completed";
+          } else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
+            res.data[i]["orderstatus"] = "CANT DELIVER";
+          } else if (res.data[i].status == OrderTypes.DOORLOCK) {
+            res.data[i]["orderstatus"] = "DOORLOCK";
+          } else if (res.data[i].status == OrderTypes.NOT_REACHABLE) {
+            res.data[i]["orderstatus"] = "NOT REACHABLE";
+          } else if (res.data[i].status == OrderTypes.CANCELLED) {
+            res.data[i]["orderstatus"] = "CANCELLED";
+            res.data[i]["statusUpdated"] = "Job Cancelled";
+          } else if (res.data[i].status == OrderTypes.ONHOLD) {
+            res.data[i]["orderstatus"] = "ON HOLD";
+            res.data[i]["statusUpdated"] = "Job is On Hold";
+          }
+
+          //updating bill amount
+          if (res.data[i].status == OrderTypes.DELIVERED) {
+            res.data[i]["billamt_updated"] = res.data[i].bill_amount;
+          } else
+            res.data[i]["billamt_updated"] = res.data[i].orderamt;
+
+          if (isPaging)
+            this.response.push(res.data[i]);
+        }
+      }
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+  }
+
+  search(event) {
+
+    try {
+
+      let input = {
+        "order": this.searchInput
+      };
+
+      let data = JSON.stringify(input);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.searchOrders(), data).then((res) => {
+        this.showProgress = false;
+
+        this.processData(res, false);
+
+      }, (error) => {
+
+      })
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   doRefresh(refresher) {

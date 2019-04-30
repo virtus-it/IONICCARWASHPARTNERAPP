@@ -9,6 +9,30 @@
 
   <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">jobs not found</h5>
 
+  <!--Search Functionality-->
+  <ion-card class="customer_mgmnt">
+    <ion-item>
+      <ion-label>Search Type</ion-label>
+      <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype">
+        <ion-option true value="name">Name</ion-option>
+        <ion-option value="mobile">Phone No</ion-option>
+        <ion-option value="orderid">OrderID</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-row>
+      <ion-col col-10="true">
+        <ion-item class="no_bg no_shadow input_container ">
+          <ion-label floating>Search</ion-label>
+          <ion-input [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-icon (click)="search($event);" name="search"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let order of response">

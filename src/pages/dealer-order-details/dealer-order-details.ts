@@ -11,6 +11,7 @@ import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
 import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assign-forward/dealer-order-details-assign-forward";
 import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
+import {DealerOrdersOrderedPage} from "../dealer-orders-ordered/dealer-orders-ordered";
 
 @IonicPage()
 @Component({
@@ -260,7 +261,7 @@ export class DealerOrderDetailsPage {
   getSuppliers() {
 
     try {
-      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE;
+      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE+"/"+UtilsProvider.USER_TYPE;
 
       this.alertUtils.showLog(url);
 
@@ -305,6 +306,8 @@ export class DealerOrderDetailsPage {
             this.alertUtils.showToast('Job assignment completed');
           else
             this.alertUtils.showToast('Job Forward completed');
+
+          DealerOrdersOrderedPage.statusUpdated = true;
 
           this.fetchOrderDetails();
 

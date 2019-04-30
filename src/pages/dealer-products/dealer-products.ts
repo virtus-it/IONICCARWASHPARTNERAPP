@@ -40,7 +40,7 @@ export class DealerProductsPage {
 
       this.baseImgUrl = this.apiService.imageDownload()+'product_';
 
-      let url = this.apiService.getProducts()+UtilsProvider.USER_ID+"/"+APP_TYPE;
+      let url = this.apiService.getProducts()+UtilsProvider.USER_ID+"/"+APP_TYPE+"/"+UtilsProvider.USER_TYPE;
 
       this.apiService.getReq(url).then(res=>{
         this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));

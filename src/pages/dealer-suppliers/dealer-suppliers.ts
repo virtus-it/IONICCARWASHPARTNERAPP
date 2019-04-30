@@ -17,6 +17,16 @@ export class DealerSuppliersPage {
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+  searchInput = {
+    "userid":this.USER_ID,
+    "status":"globalsearch",
+    "pagesize":"10",
+    "last_orderid":"117",
+    "searchtext":"",
+    "searchtype":"name",
+    "searchfor":"supplier",
+    "apptype":APP_TYPE
+  };
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -36,6 +46,8 @@ export class DealerSuppliersPage {
       this.menuCtrl.enable(false,'menu1');
       this.menuCtrl.enable(false,'menu2');
       this.menuCtrl.enable(true,'menu3');
+      this.menuCtrl.enable(true,'menu4');
+      this.menuCtrl.enable(true,'menu5');
     }
 
     this.fetchSuppliers(false, false, true, "", "");
@@ -45,7 +57,7 @@ export class DealerSuppliersPage {
   fetchSuppliers(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {
 
-      let url = this.apiService.getSuppliers()+UtilsProvider.USER_ID+"/"+APP_TYPE;
+      let url = this.apiService.getSuppliers()+UtilsProvider.USER_ID+"/"+APP_TYPE+"/"+UtilsProvider.USER_TYPE;
 
       this.alertUtils.showLog(url);
 
@@ -83,6 +95,29 @@ export class DealerSuppliersPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+
+  search(event){
+
+    try {
+
+      let input ={
+        "order":this.searchInput
+      };
+
+      let data = JSON.stringify(input);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.searchOrders(),data).then((res)=>{
+        this.showProgress = false;
+        this.alertUtils.showLog(res.data);
+        this.response = res.data;
+      },(error)=>{
+
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   validate(s){

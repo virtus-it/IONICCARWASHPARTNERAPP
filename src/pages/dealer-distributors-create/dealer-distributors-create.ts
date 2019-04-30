@@ -70,16 +70,16 @@ export class DealerDistributorsCreatePage {
       }
 
       //updating values
-      this.input.firstname = this.user.firstname;
-      this.input.lastname = this.user.lastname;
+      this.input.firstname = this.validate(this.user.firstname);
+      this.input.lastname = this.validate(this.user.lastname);
       this.input.phno1 = this.user.mobileno;
       this.input.phno2 = this.user.mobileno_one;
       this.input.phno3 = this.user.mobileno_two;
       this.input.addr = this.user.address;
-      this.input.companyName = this.user.companyname;
+      this.input.companyName = this.validate(this.user.companyname);
       this.input.phoneType = this.user.phonetype;
-      this.input.referenceCode = this.user.reference_code;
-      this.input.gstNumber = this.user.gstno;
+      this.input.referenceCode = this.validate(this.user.reference_code);
+      this.input.gstNumber = this.validate(this.user.gstno);
     }
 
     this.USER_ID = UtilsProvider.USER_ID;
@@ -186,6 +186,13 @@ export class DealerDistributorsCreatePage {
     } catch (e) {
 
     }
+  }
+
+  validate(s) {
+    if (s == null || s == 'null')
+      return '';
+    else
+      return s;
   }
 
   doUpdate() {

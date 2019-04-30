@@ -109,7 +109,9 @@ export class LoginPage {
 
           if (uType == UserType.DEALER ||
             uType == UserType.SUPPLIER ||
-            uType == UserType.CUSTOMER_CARE) {
+            uType == UserType.CUSTOMER_CARE||
+            uType == UserType.Job_Assigner||
+            uType == UserType.Billing_Administrator) {
 
             //billing adminstrator  - billing
             //job assigner          - job assign, slider vendor
@@ -162,11 +164,15 @@ export class LoginPage {
   moveToNextPage(uType: string, output: any) {
     if (uType == UserType.DEALER || uType == UserType.CUSTOMER_CARE) {
       if ((uType == UserType.DEALER && output.issuperdealer == 'true') || uType == UserType.CUSTOMER_CARE)
-        this.navCtrl.setRoot('DealerOrdersHomePage');
+        this.navCtrl.setRoot('DealerOrdersHomePage',{uType:uType});
       else
         this.navCtrl.setRoot('DealerSuppliersPage', {from: 'loginPage'});
     } else if (uType == UserType.SUPPLIER) {
       this.navCtrl.setRoot('SupplierOrdersHomePage');
+    }else if (uType == UserType.Job_Assigner) {
+      this.navCtrl.setRoot('DealerOrdersHomePage',{uType:uType});
+    }else if (uType == UserType.Billing_Administrator) {
+      this.navCtrl.setRoot('DealerOrdersHomePage', {uType:uType});
     }
   }
 

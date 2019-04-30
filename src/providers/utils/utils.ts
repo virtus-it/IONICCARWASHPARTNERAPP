@@ -34,7 +34,9 @@ export enum UserType {
   CUSTOMER = 'customer',
   CUSTOMER_CARE = 'customercare',
   SUPER_SUPPLIER = 'supersupplier',
-  SUPPLIER = 'supplier'
+  SUPPLIER = 'supplier',
+  Job_Assigner = 'job_assigner',
+  Billing_Administrator = 'billing_administrator'
 }
 
 export enum OrderTypes {

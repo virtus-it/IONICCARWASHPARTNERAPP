@@ -24,7 +24,7 @@
          (click)="promptPickImage($event);">
   </div>
 
-  <form>
+  <form class="customer_poptxt" >
 
     <ion-item>
       <ion-label>Select Category / Package</ion-label>
@@ -71,14 +71,17 @@
     </ion-item>
 
     <!--<ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Min Qty</ion-label>
-      <ion-input class="" name="minorderqty" type="text" [(ngModel)]="input.minorderqty" maxlength="50"
-                 required></ion-input>
+      <ion-label floating>Priority</ion-label>
+      <ion-input class="" name="priority" type="text" [(ngModel)]="input.priority" maxlength="50"></ion-input>
     </ion-item>-->
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Priority</ion-label>
-      <ion-input class="" name="priority" type="text" [(ngModel)]="input.priority" maxlength="50"></ion-input>
+      <ion-label>Priority</ion-label>
+      <ion-select name="priority" [(ngModel)]="input.priority">
+        <ion-option value={{priority1}}
+                    *ngFor="let priority1 of priorityList">
+          {{ priority1 }}</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-row class="">

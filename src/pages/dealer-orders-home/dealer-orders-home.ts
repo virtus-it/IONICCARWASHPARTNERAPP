@@ -1,8 +1,9 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {UtilsProvider} from "../../providers/utils/utils";
+import {UserType, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
+
 // import {SuperTabs} from "ionic2-super-tabs";
 
 
@@ -14,8 +15,8 @@ import {ApiProvider} from "../../providers/api/api";
 export class DealerOrdersHomePage {
 
   pages = [
-    {pageName: 'DealerOrdersOrderedPage',     title: 'ORDERED',     icon: 'cloud-download', id: 'orderedTab'},
-    {pageName: 'DealerOrdersCompletedPage',   title: 'COMPLETED',   icon: 'cloud-upload',   id: 'completedTab'}
+    {pageName: 'DealerOrdersOrderedPage', title: 'ORDERED', icon: 'cloud-download', id: 'orderedTab'},
+    {pageName: 'DealerOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-upload', id: 'completedTab'}
   ];
 
   selectedTab = 0;
@@ -25,6 +26,7 @@ export class DealerOrdersHomePage {
   orders: string[] = [];
   baseImgUrl: string;
   extensionPng: string = '.png';
+  uType: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -35,6 +37,7 @@ export class DealerOrdersHomePage {
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    this.uType = this.navParams.get('uType');
   }
 
 
@@ -69,9 +72,28 @@ export class DealerOrdersHomePage {
 
   ionViewDidLoad() {
 
-     this.menuCtrl.enable(true,'menu1');
-     this.menuCtrl.enable(false,'menu2');
-     this.menuCtrl.enable(false,'menu3');
+    if (this.uType == UserType.DEALER || this.uType == UserType.CUSTOMER_CARE) {
+      this.menuCtrl.enable(true, 'menu1');
+
+      this.menuCtrl.enable(false, 'menu2');
+      this.menuCtrl.enable(false, 'menu3');
+      this.menuCtrl.enable(false, 'menu4');
+      this.menuCtrl.enable(false, 'menu5');
+    } else if (this.uType == UserType.Job_Assigner) {
+      this.menuCtrl.enable(true, 'menu4');
+
+      this.menuCtrl.enable(false, 'menu1');
+      this.menuCtrl.enable(false, 'menu2');
+      this.menuCtrl.enable(false, 'menu3');
+      this.menuCtrl.enable(false, 'menu5');
+    } else if (this.uType == UserType.Billing_Administrator) {
+      this.menuCtrl.enable(true, 'menu5');
+
+      this.menuCtrl.enable(false, 'menu1');
+      this.menuCtrl.enable(false, 'menu2');
+      this.menuCtrl.enable(false, 'menu3');
+      this.menuCtrl.enable(false, 'menu4');
+    }
 
     /* this.baseImgUrl = this.apiUrl.imageDownload()+'product_';
 
@@ -101,6 +123,6 @@ export class DealerOrdersHomePage {
        //this.utils.hideLoading();
      })*/
 
-   }
-
   }
+
+}

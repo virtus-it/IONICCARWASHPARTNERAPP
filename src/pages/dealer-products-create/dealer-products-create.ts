@@ -27,11 +27,12 @@ export class DealerProductsCreatePage {
   categorySelected: boolean = false;
   categoryList: string[];
   categoryProductsList: string[];
+  priorityList = [1,2,3,4,5,6,7,8,9,10];
   categoryPos: number = -1;
 
   input = {
     category: "", categoryid: "", currency: "aed", brandname: "", pname: "", ptype: "", pcost: "",
-    minorderqty: "", priority: "", iscanreturnable: false, servicecharge: "",
+    minorderqty: "", priority: "1", iscanreturnable: false, servicecharge: "",
     expressdeliverycharges: "", isauthorized: false
   };
   output = {"result": "", "actionType": "", "data": ""};
@@ -130,7 +131,7 @@ export class DealerProductsCreatePage {
           if (this.alertUtils.validateText(this.input.currency, "Currency", 3, 20)) {
             if (this.alertUtils.validateNumber(this.input.pcost, "Product Cost", 1, 4)) {
               //if (this.alertUtils.validateNumber(this.input.minorderqty, 'Min Order Qty', 1, 3)) {
-              if (this.alertUtils.validateNumber(this.input.priority, 'Priority', 1, 3)) {
+              //if (this.alertUtils.validateNumber(this.input.priority, 'Priority', 1, 3)) {
               // (this.alertUtils.validateNumber(this.input.expressdeliverycharges, 'Express Delivery Charge', 1, 4)) {
                 // if (this.alertUtils.validateNumber(this.input.servicecharge, 'Service Charge', 1, 4)) {
 
@@ -143,7 +144,7 @@ export class DealerProductsCreatePage {
                 /* }
                }
              }*/
-              }
+             // }
             }
           }
         }

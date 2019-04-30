@@ -67,7 +67,7 @@ export class DealerProfilePage {
     this.apiService.getReq(this.apiService.getProfile() + UtilsProvider.USER_ID + "/" + APP_TYPE).then(res => {
       console.log(res);
       this.person = res.data.user;
-      this.imgUrl = this.apiService.getImg()+UtilsProvider.USER_TYPE+'_'+this.person.userid+'.png';
+      this.imgUrl = this.apiService.getImg()+UtilsProvider.USER_TYPE+'_'+this.person.userid+'.png?random'+ Math.random();
       this.alertUtils.showLog('Img Url : '+this.imgUrl);
     })
   }

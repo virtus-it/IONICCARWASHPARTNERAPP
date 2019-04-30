@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
-import {NetworkProvider} from "../../providers/network/network";
+import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 
 
@@ -12,52 +11,134 @@ import {ApiProvider} from "../../providers/api/api";
 })
 export class DealerPaymentsHomePage {
 
-  orders: string[] =[];
-  baseImgUrl:string;
-  extensionPng:string='.png';
+  showProgress = true;
+  private response: any;
+  private noRecords = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private utils: UtilsProvider,
-              private network:NetworkProvider,
-              private  apiUrl: ApiProvider,
               private alertUtils: UtilsProvider,
-              private menuCtrl: MenuController) {
+              private  apiService: ApiProvider,
+              private appCtrl: App) {
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    this.fetchOrders(false, false, true, "", "");
   }
 
   ionViewDidLoad() {
+    this.fetchOrders(false, false, true, "", "");
+  }
 
-    this.menuCtrl.enable(true);
+  fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
+    try {
 
-    this.baseImgUrl = this.apiUrl.imageDownload()+'product_';
+      let input = {
+        "order": {
+          "userid": UtilsProvider.USER_ID,
+          "usertype": UtilsProvider.USER_TYPE,
+          "status": 'all',
+          "pagesize": '10',
+          "framework": FRAMEWORK,
+          "apptype": APP_TYPE
+        }
+      };
 
-    let url = this.apiUrl.orderByStatus();
-
-    let input = {
-      "order": {
-        "userid": UtilsProvider.USER_ID,
-        "usertype": UtilsProvider.USER_TYPE,
-        "status": 'all',
-        "pagesize": '10',
-        "last_orderid": '0',
-        "framework": FRAMEWORK,
-        "apptype": APP_TYPE
+      if (isPaging) {
+        input.order["last_paymentid"] = this.response[this.response.length - 1].paymentid;
+      } else {
+        input.order["last_paymentid"] = '0';
       }
-    };
 
-    let data = JSON.stringify(input);
+      let data = JSON.stringify(input);
+      if (isFirst) {
+        this.showProgress = true;
+      }
 
-    //this.utils.showLoading();
-    this.network.postReq(url,data).then(res=>{
-      //this.utils.hideLoading();
-      this.utils.showLog("POST (SUCCESS)=> ORDERS: ALL : "+JSON.stringify(res));
-      this.orders = res.data;
-    },error=>{
-      this.utils.showLog("POST (ERROR)=> ORDERS: ALL : "+error);
-      //this.utils.hideLoading();
+      //this.alertUtils.showLoading();
+      this.apiService.postReq(this.apiService.getPaymentDetailsByUserID(), data).then(res => {
+        this.alertUtils.hideLoading();
+        this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+        this.alertUtils.showLog("POST (SUCCESS)=> PAYMENTS: ALL : " + JSON.stringify(res));
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          this.noRecords = false;
+
+          if (!isPaging)
+            this.response = res.data;
+          for (let i = 0; i < res.data.length; i++) {
+
+
+            //updating bill amount
+            if(res.data[i].status == OrderTypes.DELIVERED){
+              res.data[i]["billamt_updated"] = res.data[i].bill_amount;
+            }else
+              res.data[i]["billamt_updated"] = res.data[i].orderamt;
+
+            if (isPaging)
+              this.response.push(res.data[i]);
+          }
+        }
+
+      }, error => {
+        this.alertUtils.hideLoading();
+        this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+      });
+
+    } catch (e) {
+      this.alertUtils.hideLoading();
+      this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+    }
+  }
+
+  doRefresh(refresher) {
+    this.fetchOrders(false, true, false, "", refresher);
+    setTimeout(() => {
+      refresher.complete();
+    }, 30000);
+  }
+
+  doInfinite(paging): Promise<any> {
+    if (this.response) {
+      if (this.response.length > 0)
+        this.fetchOrders(true, false, false, paging, "");
+      else
+        paging.complete();
+    } else {
+      paging.complete();
+    }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 30000);
     })
+  }
 
+  hideProgress(isFirst, isRefresh, isPaging, paging, refresher) {
+    if (isFirst) {
+      this.showProgress = false;
+    }
+    if (isPaging) {
+      paging.complete();
+    }
+    if (isRefresh) {
+      refresher.complete();
+    }
+
+  }
+
+  viewDetails(event, orderID, categoryID) {
+    if (orderID) {
+      this.appCtrl.getRootNav().push('DealerOrderDetailsPage', {
+        orderid: orderID,
+        categoryid: categoryID,
+      });
+    }
+  }
+
+  validate(s) {
+    if (s == null || s == 'null')
+      return '';
+    else
+      return s;
   }
 
 }

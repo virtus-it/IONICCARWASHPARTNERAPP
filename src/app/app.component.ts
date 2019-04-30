@@ -2,23 +2,10 @@ import {Component, ViewChild} from '@angular/core';
 import {Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-// import {DealerCategoryHomePage} from "../pages/dealer-category-home/dealer-category-home";
-// import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
-// import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
-// import {DealerCustomersPage} from "../pages/dealer-customers/dealer-customers";
-// import {DealerProductsPage} from "../pages/dealer-products/dealer-products";
-// import {DealerSuppliersPage} from "../pages/dealer-suppliers/dealer-suppliers";
-// import {DealerDistributorsPage} from "../pages/dealer-distributors/dealer-distributors";
-// import {FeedbackPage} from "../pages/feedback/feedback";
-// import {DealerProfilePage} from "../pages/dealer-profile/dealer-profile";
-// import {AboutUsPage} from "../pages/about-us/about-us";
-// import {LogoutPage} from "../pages/logout/logout";
 import {TranslateService} from "@ngx-translate/core";
 import {UtilsProvider} from "../providers/utils/utils";
-// import {LoginPage} from "../pages/login/login";
-// import {SupplierOrdersHomePage} from "../pages/supplier-orders-home/supplier-orders-home";
 import {Push, PushObject, PushOptions} from "@ionic-native/push";
-// import {DealerUsersCustomercarePage} from "../pages/dealer-users-customercare/dealer-users-customercare";
+
 
 
 @Component({
@@ -51,7 +38,6 @@ export class MyApp {
     // used for an example of ngFor and navigation
 
     this.pagesDealer = [
-      //pages
       {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
       {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
       {title: 'CUSTOMERS',      component: 'DealerCustomersPage',   icon: "assets/imgs/img_user.png"},
@@ -59,6 +45,7 @@ export class MyApp {
       {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
       {title: 'USERS',          component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png"},
+      {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_customer_care.png"},
       {title: 'FEEDBACK',       component: 'FeedbackPage', icon: "assets/imgs/img_rating.png"},
       {title: 'CATEGORY',       component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
@@ -67,38 +54,37 @@ export class MyApp {
     ];
 
     this.pagesSupplier = [
-      {title: 'ORDERS', component: 'SupplierOrdersHomePage', icon: "md-home"},
-      {title: 'VENDOR', component: 'DealerDistributorsPage', icon: "md-home"},
-      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
-      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
-      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
+      {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
+      {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
+      {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
+      {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
+      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesVendor = [
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "md-home"},
-      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
-      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
-      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
+      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
+      {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
+      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesJobAssigner = [
+      {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
       {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "md-home"},
-      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
-      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
-      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
+      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
+      {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
+      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesBilling = [
-      //jobs
-      //vendors
-      //payments
-      {title: 'JOBS',   component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
-      {title: 'VENDOR', component: 'DealerDistributorsPage', icon: "md-home"},
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "md-home"},
-      {title: 'PROFILE', component: 'DealerProfilePage', icon: "md-home"},
-      {title: 'ABOUT US', component: 'AboutUsPage', icon: "md-home"},
-      {title: 'LOGOUT', component: 'LogoutPage', icon: "md-home"}
+      {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
+      {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
+      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
+      {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
+      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
     ];
 
   }

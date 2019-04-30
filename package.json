@@ -41,7 +41,6 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "call-number": "^1.0.1",
     "chart.js": "^2.8.0",
-    "cordova-android": "6.3.0",
     "cordova-android-support-gradle-release": "^2.0.1",
     "cordova-open-native-settings": "^1.5.2",
     "cordova-plugin-advanced-http": "^2.0.6",
@@ -107,8 +106,6 @@
       },
       "cordova-plugin-app-version": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }

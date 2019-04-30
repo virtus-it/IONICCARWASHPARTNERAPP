@@ -18,6 +18,16 @@ export class DealerDistributorsPage {
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+  searchInput = {
+    "userid":this.USER_ID,
+    "status":"globalsearch",
+    "pagesize":"10",
+    "last_orderid":"117",
+    "searchtext":"",
+    "searchtype":"name",
+    "searchfor":"distributor",
+    "apptype":APP_TYPE
+  };
 
 
   constructor(public navCtrl: NavController,
@@ -47,8 +57,8 @@ export class DealerDistributorsPage {
 
       let input = {
         "root": {
-          "userid": UtilsProvider.USER_DEALER_ID,
-          "usertype": UserType.DEALER,
+          "userid": UtilsProvider.USER_ID,
+          "usertype": UtilsProvider.USER_TYPE,
           "loginid": UtilsProvider.USER_ID,
           "lastuserid": '0',
           "apptype": APP_TYPE,
@@ -101,6 +111,29 @@ export class DealerDistributorsPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+
+  search(event){
+
+    try {
+
+      let input ={
+        "order":this.searchInput
+      };
+
+      let data = JSON.stringify(input);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.searchOrders(),data).then((res)=>{
+        this.showProgress = false;
+        this.alertUtils.showLog(res.data);
+        this.response = res.data;
+      },(error)=>{
+
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   doRefresh(refresher) {

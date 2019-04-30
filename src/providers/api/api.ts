@@ -18,8 +18,6 @@ export class ApiProvider {
   private baseUrl: string;
   http: any;
 
-
-
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
     this.baseUrl = ApiProvider.DEVELOPMENT_URL;

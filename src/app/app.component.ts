@@ -46,6 +46,7 @@ export class MyApp {
       {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
       {title: 'USERS',          component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png"},
       {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_customer_care.png"},
+      {title: 'PACKAGE',       component: 'DealerPackagePage', icon: "assets/imgs/img_customer_care.png"},
       {title: 'FEEDBACK',       component: 'FeedbackPage', icon: "assets/imgs/img_rating.png"},
       {title: 'CATEGORY',       component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},

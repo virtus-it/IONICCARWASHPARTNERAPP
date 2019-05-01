@@ -44,6 +44,16 @@
       </ion-select>
     </ion-item>
 
+    <ion-item class="ion-selector">
+      <ion-label>Set Vechicles</ion-label>
+      <ion-select [(ngModel)]="input.id" name="id"  multiple="true">
+        <ion-option value={{vechicle.id}}
+          *ngFor="let vechicle of vechicleTypes">
+          {{vechicle.vehicletype}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>Service Name</ion-label>
       <ion-input name="pname" class="" type="text" [(ngModel)]="input.pname" required></ion-input>
@@ -57,8 +67,8 @@
     <ion-item>
       <ion-label>Currency Type</ion-label>
       <ion-select name="currency" [(ngModel)]="input.currency">
-	   <ion-option value="aed" true>AED</ion-option>
-        <ion-option value="inr" >INR</ion-option>
+	      <ion-option value="aed" true>AED</ion-option>
+        <ion-option value="inr">INR</ion-option>
         <ion-option value="usd">USD</ion-option>
         <ion-option value="eur">EUR</ion-option>
         <ion-option value="sar">SAR</ion-option>
@@ -70,10 +80,11 @@
       <ion-input class="" name="pcost" type="text" [(ngModel)]="input.pcost" maxlength="50" required></ion-input>
     </ion-item>
 
-    <!--<ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Priority</ion-label>
-      <ion-input class="" name="priority" type="text" [(ngModel)]="input.priority" maxlength="50"></ion-input>
-    </ion-item>-->
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>Discount</ion-label>
+      <ion-input class="" name="discount" type="text" [(ngModel)]="input.discount" maxlength="50" required></ion-input>
+    </ion-item>
+
 
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label>Priority</ion-label>

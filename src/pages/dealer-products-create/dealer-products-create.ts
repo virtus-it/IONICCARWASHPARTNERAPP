@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -27,12 +27,13 @@ export class DealerProductsCreatePage {
   categorySelected: boolean = false;
   categoryList: string[];
   categoryProductsList: string[];
-  priorityList = [1,2,3,4,5,6,7,8,9,10];
+  vechicleTypes = [];
+  priorityList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   categoryPos: number = -1;
 
   input = {
     category: "", categoryid: "", currency: "aed", brandname: "", pname: "", ptype: "", pcost: "",
-    minorderqty: "", priority: "1", iscanreturnable: false, servicecharge: "",
+    minorderqty: "", priority: "1", iscanreturnable: false, servicecharge: "", discount: "", id: "",
     expressdeliverycharges: "", isauthorized: false
   };
   output = {"result": "", "actionType": "", "data": ""};
@@ -76,7 +77,7 @@ export class DealerProductsCreatePage {
       this.input.iscanreturnable = this.user.iscanreturnable;
       this.input.isauthorized = this.user.isauthorized;
 
-      this.imgUrl = this.apiService.getImg()+'product_'+this.user.productid+'.png'
+      this.imgUrl = this.apiService.getImg() + 'product_' + this.user.productid + '.png'
     }
 
     this.USER_ID = UtilsProvider.USER_ID;
@@ -87,7 +88,7 @@ export class DealerProductsCreatePage {
     this.getCategories();
   }
 
-  assetImg(){
+  assetImg() {
     this.imgUrl = 'assets/imgs/img_user.png';
   }
 
@@ -133,18 +134,18 @@ export class DealerProductsCreatePage {
               //if (this.alertUtils.validateNumber(this.input.minorderqty, 'Min Order Qty', 1, 3)) {
               //if (this.alertUtils.validateNumber(this.input.priority, 'Priority', 1, 3)) {
               // (this.alertUtils.validateNumber(this.input.expressdeliverycharges, 'Express Delivery Charge', 1, 4)) {
-                // if (this.alertUtils.validateNumber(this.input.servicecharge, 'Service Charge', 1, 4)) {
+              // if (this.alertUtils.validateNumber(this.input.servicecharge, 'Service Charge', 1, 4)) {
 
-                this.showToast = false;
+              this.showToast = false;
 
-                if (this.isUpdate)
-                  this.doUpdate();
-                else
-                  this.doCreate();
-                /* }
-               }
-             }*/
-             // }
+              if (this.isUpdate)
+                this.doUpdate();
+              else
+                this.doCreate();
+              /* }
+             }
+           }*/
+              // }
             }
           }
         }
@@ -160,6 +161,14 @@ export class DealerProductsCreatePage {
 
   doCreate() {
     try {
+      let vechicles = [];
+      if (this.input.id && this.input.id.length > 0) {
+        for (let i = 0; i < this.input.id.length; i++) {
+          let innerInput = {"id": this.input.id[i]};
+          vechicles[i] = innerInput;
+        }
+      }
+
       let input = {
         "product": {
           "category": this.input.category,
@@ -169,11 +178,13 @@ export class DealerProductsCreatePage {
           "pname": this.input.pname,
           "ptype": this.input.ptype,
           "pcost": this.input.pcost,
+          "discount": this.input.discount,
           "minorderqty": this.input.minorderqty,
           "priority": this.input.priority,
           "iscanreturnable": this.input.iscanreturnable,
           "servicecharge": this.input.servicecharge,
           "expressdeliverycharges": this.input.expressdeliverycharges,
+          "vechicles": vechicles,
           "isauthorized": this.input.isauthorized,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
@@ -277,7 +288,8 @@ export class DealerProductsCreatePage {
       this.alertUtils.hideLoading();
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
         this.categoryList = res.data;
-      }else
+        this.vechicleTypes = res.data[0].VEHICLE;
+      } else
         this.categoryList = [];
     }, error => {
 
@@ -344,17 +356,17 @@ export class DealerProductsCreatePage {
         mediaType: this.camera.MediaType.PICTURE,
         targetWidth: 256,
         targetHeight: 256,
-        sourceType:sourceType
+        sourceType: sourceType
       };
 
 
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image =  imageData;
+        let base64Image = imageData;
 
-        if(base64Image && base64Image.length>0){
-          if(this.isUpdate){
-            this.uploadImg(base64Image,'product_'+this.user.productid);
-          }else{
+        if (base64Image && base64Image.length > 0) {
+          if (this.isUpdate) {
+            this.uploadImg(base64Image, 'product_' + this.user.productid);
+          } else {
             this.b64Image = base64Image;
           }
         }
@@ -368,7 +380,7 @@ export class DealerProductsCreatePage {
     }
   }
 
-  uploadImg(s,fileName){
+  uploadImg(s, fileName) {
     let input = {
       "image": {
         "filename": fileName,

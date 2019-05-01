@@ -19,14 +19,14 @@
 
 <ion-content padding>
   <div *ngIf="page1">
-    <ion-segment [(ngModel)]="type" (ionChange)="onSegmentChange()" >
+    <!--<ion-segment [(ngModel)]="type" (ionChange)="onSegmentChange()" >
       <ion-segment-button value="1">
         Category
       </ion-segment-button>
       <ion-segment-button value="2">
         Packages
       </ion-segment-button>
-    </ion-segment>
+    </ion-segment>-->
     <div [ngSwitch]="type">
       <div *ngFor="let item of list">
         <div *ngSwitchCase=item.type>
@@ -82,10 +82,6 @@
         <ion-label floating>Description</ion-label>
         <ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>
       </ion-item>
-      <!--<ion-item>-->
-        <!--<ion-label floating>Category Description</ion-label>-->
-        <!--<ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>-->
-      <!--</ion-item>-->
     </ion-list>
     <button color="secondary" ion-button block (click)="save()">{{btnText}}</button>
   </div>

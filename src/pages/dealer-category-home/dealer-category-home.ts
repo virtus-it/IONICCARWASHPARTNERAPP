@@ -176,7 +176,7 @@ export class DealerCategoryHomePage {
         "cdesc": this.person.desp,
         "priority": this.person.priority,
         "loginid": UtilsProvider.USER_ID,
-        "apptype": UtilsProvider.USER_TYPE
+        "apptype": APP_TYPE
       }
     };
 

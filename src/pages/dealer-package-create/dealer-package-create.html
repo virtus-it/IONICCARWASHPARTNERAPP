@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="closeModal()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
+      <span class="title-style">{{pageTitle}}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form>
+    <ion-item class="ion-selector">
+      <ion-label>Vechicle Type</ion-label>
+      <ion-select [(ngModel)]="input.packageIDs" name="packageIDs">
+        <ion-option (ionSelect)="ionSelect($event,vechicle,packages[i])"
+                    *ngFor="let vechicle of vechicleTypes;let i=index;"
+                    value={{vechicle.id}}>
+          {{vechicle.vehicletype}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="ion-selector">
+      <ion-label>Set Products</ion-label>
+      <ion-select [(ngModel)]="input.productIDs" multiple="true" name="productIDs">
+        <ion-option *ngFor="let product of products"
+                    value={{product.productid}}>
+          {{product.brandname +' - '+product.producttype}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-row class="">
+      <ion-col align-self-center="">
+        <button (click)="closeModal()" class="wd-100pc bg-gray" ion-button>Cancel</button>
+      </ion-col>
+      <ion-col align-self-center="">
+        <button (click)="doValidation();" class="wd-100pc" ion-button type="Create">{{buttonTitle}}</button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+</ion-content>

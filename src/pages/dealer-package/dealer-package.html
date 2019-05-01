@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <button *ngIf="page1" ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons left>
+      <button (click)="back()" *ngIf="page2" ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>PACKAGES</ion-title>
+    <ion-buttons end>
+      <button (click)="createPackage($event,'')" *ngIf="page1" ion-button>
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div *ngFor="let item of list">
+
+    <ion-card>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <h2>{{item.category}}</h2>
+            <p>Priority: {{item.priority}}</p>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-buttons class="right">
+            <button (click)="update(item)" ion-button>
+              <ion-icon name="md-create"></ion-icon>
+            </button>
+            <button (click)="delete(item)" ion-button>
+              <ion-icon name="md-trash"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+      </ion-row>
+      <img (error)="onImageError(item)" src="{{item.url}}" style="width: 10%"/>
+
+      <ion-card-content>
+        {{item.category_desc}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

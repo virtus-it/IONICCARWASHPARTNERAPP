@@ -27,14 +27,14 @@
   <form class="customer_poptxt" >
 
     <ion-item>
-      <ion-label>Select Category / Package</ion-label>
+      <ion-label>Select Category</ion-label>
       <ion-select [(ngModel)]="input.category" name="category">
         <ion-option value={{cat.category}} *ngFor="let cat of categoryList"
                     (ionSelect)="updateCategoryDetails($event, cat)">{{cat.category}}</ion-option>
       </ion-select>
     </ion-item>
 
-    <ion-item *ngIf="categorySelected" class="no_bg no_shadow input_container ">
+    <!--<ion-item *ngIf="categorySelected" class="no_bg no_shadow input_container ">
       <ion-label>Service</ion-label>
       <ion-select>
         <ion-option value={{catProduct.productid}}
@@ -42,7 +42,7 @@
                     (ionSelect)="updateProductDetails($event, catProduct);">
           {{ catProduct.pname }}</ion-option>
       </ion-select>
-    </ion-item>
+    </ion-item>-->
 
     <ion-item class="ion-selector">
       <ion-label>Set Vechicles</ion-label>

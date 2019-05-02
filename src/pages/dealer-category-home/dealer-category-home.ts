@@ -96,6 +96,8 @@ export class DealerCategoryHomePage {
       this.title = "Package";
     }
 
+    this.title = "Category";
+
   }
   update(item) {
     if (this.currentSeg == "1") {
@@ -105,6 +107,8 @@ export class DealerCategoryHomePage {
 
     }
     console.log(this.currentSeg);
+
+    this.title = "Update category";
     this.isUpdate = true;
     this.page1 = !this.page1;
     this.page2 = !this.page2;
@@ -129,15 +133,20 @@ export class DealerCategoryHomePage {
     } else {
       this.title = "Package";
     }
+
+    this.title = "Category";
   }
 
   add() {
+
     if (this.currentSeg == "1") {
       this.title = "Create category";
     } else {
       this.title = "Create package";
 
     }
+    this.title = "Create category";
+
     this.person.type = "";
     this.person.category = "";
     this.person.priority = "";

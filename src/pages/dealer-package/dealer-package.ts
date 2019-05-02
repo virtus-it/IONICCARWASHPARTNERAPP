@@ -3,6 +3,7 @@ import {AlertController, IonicPage, ModalController, NavController, NavParams} f
 import {APP_TYPE, INTERNET_ERR_MSG, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {Camera, CameraOptions} from "@ionic-native/camera";
+import {p} from "@angular/core/src/render3";
 
 @IonicPage()
 @Component({
@@ -24,9 +25,13 @@ export class DealerPackagePage {
   };
   btnText: string = "Save";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
-              private camera: Camera, private ref: ChangeDetectorRef, private modalCtrl: ModalController,
+              private camera: Camera,
+              private ref: ChangeDetectorRef,
+              private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
 
     try {
@@ -50,7 +55,7 @@ export class DealerPackagePage {
     this.fetchPackages();
   }
 
-  update(item) {
+  /*update(item) {
     console.log(this.currentSeg);
     this.isUpdate = true;
     this.page1 = !this.page1;
@@ -64,7 +69,7 @@ export class DealerPackagePage {
     this.btnText = "Update";
 
     this.ref.detectChanges();
-  }
+  }*/
 
   onImageError(item) {
     item.url = "http://placehold.it/500x200";
@@ -98,67 +103,18 @@ export class DealerPackagePage {
     }
   }
 
-  pickImage(item, sourceType) {
-
-    try {
-      const options: CameraOptions = {
-        quality: 50,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.PNG,
-        mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: 256,
-        targetHeight: 256,
-        sourceType: sourceType
-      };
-
-
-      this.camera.getPicture(options).then((imageData) => {
-        let base64Image = imageData;
-
-        if (base64Image && base64Image.length > 0) {
-          this.uploadImg(base64Image, 'category_' + item.categoryid);
-        }
-
-      }, (err) => {
-        // Handle error
-        this.alertUtils.showLog(err);
-      });
-    } catch (e) {
-      this.alertUtils.showLog(e);
-    }
-  }
-
-  uploadImg(s, fileName) {
-    let input = {
-      "image": {
-        "filename": fileName,
-        "base64string": s,
-      }
-    };
-
-
-    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
-      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
-
-      if (res.result == this.alertUtils.RESULT_SUCCESS) {
-        this.alertUtils.showToast('success');
-      } else
-        this.alertUtils.showToast(res.result);
-
-    }, error => {
-      this.alertUtils.showLog("POST (ERROR)=> IMAGE UPLOAD: " + error);
-    })
-  }
-
   createPackage(event, package1) {
+
+    this.alertUtils.showLog(package1);
+    this.alertUtils.showLog('package1 : '+package1);
+
     if (package1 == '')
       this.alertUtils.showLog('package : create');
     else
       this.alertUtils.showLog('package : update');
     let model = this.modalCtrl.create('DealerPackageCreatePage', {
       from: 'package',
-      item: package1,
-      payments: package1.payments,
+      data: package1,
     })
 
     model.onDidDismiss(data => {
@@ -177,6 +133,57 @@ export class DealerPackagePage {
       }
     })
     model.present();
+  }
+
+  showPromptForDelete(item) {
+    let prompt = this.alertCtrl.create({
+      title: 'DELETE PACKAGE',
+      message: 'Are you sure. You want delete package?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Sure',
+          handler: data => {
+            try {
+
+              let input = {
+                "product": {
+                  "transtype": "deletepackage",
+                  "categoryid": item.categoryid,
+                  "loginid": UtilsProvider.USER_ID,
+                  "apptype": APP_TYPE
+                }
+              };
+
+              let data = JSON.stringify(input);
+
+              this.alertUtils.showLoading();
+              this.apiService.postReq(this.apiService.createCategory(), data).then(res => {
+                this.alertUtils.hideLoading();
+                this.alertUtils.showLog(res);
+                this.alertUtils.showLog(res.data);
+
+                if (res.result == this.alertUtils.RESULT_SUCCESS) {
+                  this.alertUtils.showToast('Package successfully deleted');
+                  this.fetchPackages();
+                } else
+                  this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+              }, error => {
+
+              })
+            } catch (e) {
+
+            }
+
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
 }

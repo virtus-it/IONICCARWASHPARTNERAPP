@@ -17,7 +17,7 @@
   <form>
     <ion-item class="ion-selector">
       <ion-label>Vechicle Type</ion-label>
-      <ion-select [(ngModel)]="input.packageIDs" name="packageIDs">
+      <ion-select [(ngModel)]="input.vehicleID" name="packageIDs">
         <ion-option (ionSelect)="ionSelect($event,vechicle,packages[i])"
                     *ngFor="let vechicle of vechicleTypes;let i=index;"
                     value={{vechicle.id}}>

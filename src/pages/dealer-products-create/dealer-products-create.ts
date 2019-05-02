@@ -33,7 +33,7 @@ export class DealerProductsCreatePage {
 
   input = {
     category: "", categoryid: "", currency: "aed", brandname: "", pname: "", ptype: "", pcost: "",
-    minorderqty: "", priority: "1", iscanreturnable: false, servicecharge: "", discount: "", id: "",
+    minorderqty: "", priority: "1", iscanreturnable: false, servicecharge: "", discount: "", id: [],
     expressdeliverycharges: "", isauthorized: false
   };
   output = {"result": "", "actionType": "", "data": ""};
@@ -52,6 +52,7 @@ export class DealerProductsCreatePage {
     this.user = navParams.get('item');
 
     alertUtils.showLog(this.user);
+    alertUtils.showLog("this.user :" + this.user);
 
 
     if (this.user == '') {
@@ -70,12 +71,11 @@ export class DealerProductsCreatePage {
       this.input.brandname = this.user.brandname;
       this.input.categoryid = this.user.categoryid;
       this.input.category = this.user.category;
-      //this.input.minorderqty = JSON.stringify(this.user.minorderqty);
+      this.input.discount = this.user.discount;
       this.input.priority = JSON.stringify(this.user.priority);
-      //this.input.servicecharge = JSON.stringify(this.user.servicecharge);
-      //this.input.expressdeliverycharges = JSON.stringify(this.user.expressdeliverycharges);
       this.input.iscanreturnable = this.user.iscanreturnable;
       this.input.isauthorized = this.user.isauthorized;
+      this.input.id = JSON.parse(this.user.vechiclesid);
 
       this.imgUrl = this.apiService.getImg() + 'product_' + this.user.productid + '.png'
     }
@@ -89,7 +89,7 @@ export class DealerProductsCreatePage {
   }
 
   assetImg() {
-    this.imgUrl = 'assets/imgs/img_user.png';
+    this.imgUrl = 'assets/imgs/img_repairing_service.png';
   }
 
   isAuthorized() {
@@ -185,6 +185,7 @@ export class DealerProductsCreatePage {
           "servicecharge": this.input.servicecharge,
           "expressdeliverycharges": this.input.expressdeliverycharges,
           "vechicles": vechicles,
+          "vechiclesid": this.input.id,
           "isauthorized": this.input.isauthorized,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
@@ -226,6 +227,15 @@ export class DealerProductsCreatePage {
   doUpdate() {
 
     try {
+
+      let vechicles = [];
+      if (this.input.id && this.input.id.length > 0) {
+        for (let i = 0; i < this.input.id.length; i++) {
+          let innerInput = {"id": this.input.id[i]};
+          vechicles[i] = innerInput;
+        }
+      }
+
       let input = {
         "product": {
           "pid": this.user.productid,
@@ -236,11 +246,14 @@ export class DealerProductsCreatePage {
           "pname": this.input.pname,
           "ptype": this.input.ptype,
           "pcost": this.input.pcost,
+          "discount": this.input.discount,
           "minorderqty": this.input.minorderqty,
           "priority": this.input.priority,
           "iscanreturnable": this.input.iscanreturnable,
           "servicecharge": this.input.servicecharge,
           "expressdeliverycharges": this.input.expressdeliverycharges,
+          "vechicles": vechicles,
+          "vechiclesid": this.input.id,
           "isauthorized": this.input.isauthorized,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,

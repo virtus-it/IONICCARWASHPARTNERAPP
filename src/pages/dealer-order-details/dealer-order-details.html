@@ -12,6 +12,7 @@
 </ion-header>
 
 <ion-content class="page_bg">
+  <div class="fixscrollcontainer">
   <ion-spinner block name="crescent" class="spinner_center" color="primary" *ngIf="showProgress" item-center></ion-spinner>
   <div class="no_padding prdct_main_container order_details_pg" *ngIf="!showProgress">
 
@@ -192,7 +193,7 @@
       </ion-card-content>
     </ion-card>
   </div>
-
+  </div>
 </ion-content>
 <ion-footer no-border>
   <ion-grid class="input-wrap">

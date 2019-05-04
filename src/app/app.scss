@@ -67,3 +67,13 @@ ion-icon {
   line-height: 10px;
   font-size: 12px;
 }
+@media (min-width: 400px) {
+  .fixscrollcontainer
+  {width :100%}
+
+}
+@media (min-width: 400px) {
+  .fixscrollcontainer
+  {width :550px; margin:0 auto;}
+
+}

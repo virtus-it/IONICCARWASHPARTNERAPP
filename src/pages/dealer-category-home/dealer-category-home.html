@@ -18,6 +18,7 @@
 </ion-header>
 
 <ion-content padding>
+  <div class="fixscrollcontainer">
   <div *ngIf="page1">
     <ion-segment [(ngModel)]="type" (ionChange)="onSegmentChange()" >
       <ion-segment-button value="1">
@@ -90,5 +91,5 @@
     <button color="secondary" ion-button block (click)="save()">{{btnText}}</button>
   </div>
 
-
+  </div>
 </ion-content>

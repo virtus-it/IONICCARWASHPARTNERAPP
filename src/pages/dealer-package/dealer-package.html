@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>PACKAGES</ion-title>
+    <ion-buttons end>
+      <button (click)="createPackage($event,'')"  ion-button>
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div *ngFor="let item of list">
+
+    <ion-card>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <h2>{{item.category_name}}</h2>
+            <p>ID: {{item.categoryid}}</p>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-buttons class="right">
+            <button (click)="createPackage($event,item)" ion-button>
+              <ion-icon name="md-create"></ion-icon>
+            </button>
+            <button (click)="showPromptForDelete(item)" ion-button>
+              <ion-icon name="md-trash"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+      </ion-row>
+      <img (error)="onImageError(item)" src="{{item.url}}" style="width: 10%"/>
+
+    </ion-card>
+  </div>
+</ion-content>

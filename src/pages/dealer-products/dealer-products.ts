@@ -44,6 +44,7 @@ export class DealerProductsPage {
 
       this.apiService.getReq(url).then(res=>{
         this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));
+        this.alertUtils.showLog(res);
         this.response = res.data;
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 

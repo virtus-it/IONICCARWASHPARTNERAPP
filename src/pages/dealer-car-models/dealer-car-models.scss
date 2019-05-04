@@ -1,0 +1,25 @@
+page-dealer-car-models {
+  .card-md {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .dialogcustomstyle {
+    height: 50% !important;
+    margin-top: 35% !important;
+  }
+  .edit_bg{background: #408f98; color: #fff;text-align: center;
+    padding: 10px 0;}
+  .delet_bg{background: #666;color: #fff;text-align: center;
+    padding: 10px 0;}
+  .prod_cat {
+    border-bottom: 1px dashed #ccc;
+    padding: 0 0 7px 0;
+  }
+  .prod_cost {
+    color: #8a8a8a;
+    font-size: 12px;
+  }
+}

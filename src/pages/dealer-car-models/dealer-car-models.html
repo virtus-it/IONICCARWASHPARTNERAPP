@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/img_car.png">
+      <span class="title-style">CAR MODELS</span>
+    </ion-title>
+    <ion-buttons (click)="create($event, '')" end>
+      <button icon-end ion-button>
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+               name="crescent"></ion-spinner>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Services not found</h5>
+  <ion-list *ngIf="!noRecords">
+    <div *ngFor="let carModel of response">
+      <ion-card>
+        <ion-row>
+            <div>Model: {{carModel.model}} </div>
+        </ion-row>
+        <ion-row>
+            <div class="prod_cat">Manufacturer: {{carModel.manufacturer}} </div>
+        </ion-row>
+
+        <ion-row>
+          <ion-col (click)="create($event, carModel);" class="edit_bg"><span class="header_icon">Edit</span>
+          </ion-col>
+          <ion-col (click)="showPromptForDelete($event, carModel);"
+                   class="delet_bg"><span class="header_icon">Delete</span></ion-col>
+        </ion-row>
+
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

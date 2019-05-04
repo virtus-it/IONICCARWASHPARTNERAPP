@@ -168,6 +168,10 @@ export class ApiProvider {
 
   }
 
+  getEntities() {
+    return this.baseUrl + "entities";
+  }
+
 
   updateScheduleOrder() {
     return this.baseUrl + "scheduler";

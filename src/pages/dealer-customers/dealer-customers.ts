@@ -52,7 +52,17 @@ export class DealerCustomersPage {
             this.fetchCustomers(false, false, true, "", "");
           }
         }, (error) => {
-          UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchCustomers(false, false, true, "", "");
+          }
         });
       });
     } catch (e) {

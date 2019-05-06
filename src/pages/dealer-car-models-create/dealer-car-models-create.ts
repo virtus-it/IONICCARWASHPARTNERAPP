@@ -72,7 +72,16 @@ export class DealerCarModelsCreatePage {
             this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
           }
         }, (error) => {
-          UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+          }
         });
       });
     } catch (e) {

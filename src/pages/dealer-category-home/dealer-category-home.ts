@@ -42,7 +42,14 @@ export class DealerCategoryHomePage {
             this.fetchCategories();
           }
         }, (error) => {
-          UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchCategories();
+          }
         });
       });
     } catch (e) {

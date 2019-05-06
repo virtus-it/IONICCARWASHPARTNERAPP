@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 
@@ -38,8 +38,8 @@ export class DealerUsersCustomercareCreatePage {
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private formBuilder: FormBuilder) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.user = navParams.get('item');
 
@@ -68,10 +68,37 @@ export class DealerUsersCustomercareCreatePage {
       this.input.gstNumber = this.user.gstno;
     }
 
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.USER_TYPE = UtilsProvider.USER_TYPE;
-    this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
-    this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   dismiss() {

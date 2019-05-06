@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, UtilsProvider} from "../../providers/utils/utils";
+import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 
 
@@ -24,11 +24,38 @@ export class DealerPreOrdersCartPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef,
+              private platform: Platform,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
     this.user = this.navParams.get('user');
     this.alertUtils.showLog(this.user);
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchProductList(false, false, true, "", "");
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchProductList(false, false, true, "", "");
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   ionViewDidLoad() {

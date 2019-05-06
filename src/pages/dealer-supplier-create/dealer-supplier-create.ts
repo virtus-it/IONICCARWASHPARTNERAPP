@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 
@@ -41,15 +41,8 @@ export class DealerSupplierCreatePage {
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private formBuilder: FormBuilder) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
-
-    this.USER_INFO = UtilsProvider.USER_INFO;
-
-    if ((this.USER_INFO.USERTYPE == UserType.DEALER && this.USER_INFO.issuperdealer == "true")
-      || this.USER_INFO.USERTYPE == UserType.CUSTOMER_CARE) {
-      this.showVendor = true;
-    }
 
     this.alertUtils.showLog('showVendor : ' + this.showVendor);
 
@@ -79,13 +72,58 @@ export class DealerSupplierCreatePage {
       this.input.distributor = this.validate(this.user.associateddealer.firstname)+' '+this.validate(this.user.associateddealer.lastname);
     }
 
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.USER_TYPE = UtilsProvider.USER_TYPE;
-    this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
-    this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
 
-    if (this.showVendor)
-      this.getDistributors();
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+            this.USER_INFO = UtilsProvider.USER_INFO;
+
+            if ((this.USER_INFO.USERTYPE == UserType.DEALER && this.USER_INFO.issuperdealer == "true")
+              || this.USER_INFO.USERTYPE == UserType.CUSTOMER_CARE) {
+              this.showVendor = true;
+            }
+
+            //initial call
+            if (this.showVendor)
+              this.getDistributors();
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+            this.USER_INFO = UtilsProvider.USER_INFO;
+
+            if ((this.USER_INFO.USERTYPE == UserType.DEALER && this.USER_INFO.issuperdealer == "true")
+              || this.USER_INFO.USERTYPE == UserType.CUSTOMER_CARE) {
+              this.showVendor = true;
+            }
+
+            //initial call
+            if (this.showVendor)
+              this.getDistributors();
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   updateDistributorDetails(event, distributor) {

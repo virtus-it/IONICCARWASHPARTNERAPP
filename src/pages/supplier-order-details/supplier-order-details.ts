@@ -1,8 +1,17 @@
 import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {AlertController, App, IonicPage, ModalController, NavController, NavParams, Content} from 'ionic-angular';
+import {
+  AlertController,
+  App,
+  IonicPage,
+  ModalController,
+  NavController,
+  NavParams,
+  Content,
+  Platform
+} from 'ionic-angular';
 import {
   APP_TYPE,
-  APP_USER_TYPE,
+  APP_USER_TYPE, KEY_USER_INFO,
   OrderTypes,
   RES_SUCCESS, UserType,
   UtilsProvider
@@ -41,9 +50,9 @@ export class SupplierOrderDetailsPage {
               private translateService: TranslateService,
               public alertCtrl: AlertController,
               private camera: Camera,
+              private platform: Platform,
               private apiService: ApiProvider) {
 
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     translateService.setDefaultLang('en');
     translateService.use('en');
@@ -51,14 +60,48 @@ export class SupplierOrderDetailsPage {
     this.callFrom = this.param.get("callfrom");
     this.orderId = this.param.get("orderid");
     this.categoryID = this.param.get("categoryid");
-    this.userID = UtilsProvider.USER_ID;
-    this.dealerID = UtilsProvider.USER_DEALER_ID;
 
 
-    if (this.orderId)
-      this.fetchOrderDetails();
-    else
-      this.alertUtils.showLog('order id is not found');
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.userID = UtilsProvider.USER_ID;
+            this.dealerID = UtilsProvider.USER_DEALER_ID;
+
+
+            if (this.orderId)
+              this.fetchOrderDetails();
+            else
+              this.alertUtils.showLog('order id is not found');
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.userID = UtilsProvider.USER_ID;
+            this.dealerID = UtilsProvider.USER_DEALER_ID;
+
+
+            if (this.orderId)
+              this.fetchOrderDetails();
+            else
+              this.alertUtils.showLog('order id is not found');
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
+
+
 
   }
 

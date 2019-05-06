@@ -39,7 +39,15 @@ export class DealerOrdersAllPage {
             this.fetchOrders(false,false,false,true,true);
           }
         }, (error) => {
-          UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+
+            //initial call
+            this.fetchOrders(false,false,false,true,true);
+          }
         });
       });
     } catch (e) {

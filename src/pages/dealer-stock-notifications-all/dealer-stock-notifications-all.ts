@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, ModalController, Platform} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerStockNotificationsConfirmStockPage} from "../dealer-stock-notifications-confirm-stock/dealer-stock-notifications-confirm-stock";
@@ -24,18 +24,46 @@ export class DealerStockNotificationsAllPage {
               private alertUtils: UtilsProvider,
               private network: NetworkProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private modalCtrl: ModalController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     try {
       this.from = this.navParams.get('from');
     }catch (e) {
       this.from = '';
     }
 
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchOrders(false,false,true,"","");
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchOrders(false,false,true,"","");
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   ionViewDidLoad() {
-    this.fetchOrders(false,false,true,"","");
+    //this.fetchOrders(false,false,true,"","");
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFrist: boolean, paging, refresher) {

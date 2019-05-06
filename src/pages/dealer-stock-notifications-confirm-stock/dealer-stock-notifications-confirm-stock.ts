@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 
@@ -25,15 +25,10 @@ export class DealerStockNotificationsConfirmStockPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private viewCtrl: ViewController,
+              private platform: Platform,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
-
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
-
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
-
 
     this.req = navParams.get('req');
     this.status = navParams.get('status');
@@ -52,8 +47,41 @@ export class DealerStockNotificationsConfirmStockPage {
       this.input.totalCost  = '0';
     }
 
-    if(this.status == 'stockrequested')
-    this.getSuppliers();
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+            //initial call
+            if(this.status == 'stockrequested')
+              this.getSuppliers();
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+            //initial call
+            if(this.status == 'stockrequested')
+              this.getSuppliers();
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
+
 
   }
 

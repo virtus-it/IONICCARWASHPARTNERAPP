@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {Observable, Subscription} from "rxjs";
 import 'rxjs/add/observable/interval';
@@ -28,13 +28,42 @@ export class SupplierOrdersPendingPage {
               private geolocation: Geolocation,
               private socket: Socket,
               private camera: Camera,
+              private platform: Platform,
               private appCtrl: App) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
+    this.showProgress = false;
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchOrders(false, false, true, "", "");
+
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchOrders(false, false, true, "", "");
+
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   ionViewDidLoad() {
-    this.fetchOrders(false, false, true, "", "");
-  }
+     }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {

@@ -27,7 +27,7 @@
   <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Customers not found</h5>
 
   <!--Search Functionality-->
-  <ion-card class="customer_mgmnt">
+  <ion-card class="customer_mgmnttop">
     <ion-item>
       <ion-label>Search Type</ion-label>
       <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype">
@@ -36,15 +36,15 @@
       </ion-select>
     </ion-item>
 
-    <ion-row>
+    <ion-row class="tp_searachbox">
       <ion-col col-10="true">
         <ion-item class="no_bg no_shadow input_container ">
-          <ion-label floating>Search</ion-label>
-          <ion-input [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
+
+          <ion-input placeholder="search" [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
           </ion-input>
         </ion-item>
       </ion-col>
-      <ion-col>
+      <ion-col class="top_srch_icon">
         <ion-icon (click)="search($event);" name="search"></ion-icon>
       </ion-col>
     </ion-row>

@@ -33,4 +33,17 @@ page-dealer-customers {
     color: #a2a2a2;
     line-height: 26px;
   }
+  .customer_mgmnttop {
+    background: transparent !important;
+    box-shadow: none;
+
+    .tp_searachbox {
+      background: #fff;
+      margin-top: 6px;
+    }
+    .top_srch_icon {
+      text-align: center;
+      margin-top: 15px;
+    }
+  }
 }

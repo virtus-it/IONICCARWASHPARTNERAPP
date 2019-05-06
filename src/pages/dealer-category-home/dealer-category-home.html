@@ -33,29 +33,28 @@
         <div *ngSwitchCase=item.type>
           <ion-card>
             <ion-row>
+              <ion-col col-2>
+                <ion-avatar>
+              <img src="{{item.url}}"  style="height: 40px; width: 40px" (error)="onImageError(item)"/>
+                </ion-avatar>
+              </ion-col>
               <ion-col>
                 <ion-item>
                   <h2>{{item.category}}</h2>
                   <p>Priority: {{item.priority}}</p>
+                  <p>{{item.category_desc}}</p>
                 </ion-item>
               </ion-col>
-              <ion-col>
-                <ion-buttons class="right">
-                  <button ion-button (click)="update(item)">
-                    <ion-icon name="md-create"></ion-icon>
-                  </button>
-                  <button ion-button (click)="delete(item)">
-                    <ion-icon name="md-trash"></ion-icon>
-                  </button>
-                </ion-buttons>
-              </ion-col>
+
 
             </ion-row>
-            <img src="{{item.url}}"  style="width: 10%" (error)="onImageError(item)"/>
+            <ion-row>
+              <ion-col (click)="update(item)" class="edit_bg"><span class="header_icon">Update</span>
+              </ion-col>
+              <ion-col (click)="delete(item)"
+                       class="delet_bg"><span class="header_icon">Delete</span></ion-col>
+            </ion-row>
 
-            <ion-card-content>
-              {{item.category_desc}}
-            </ion-card-content>
           </ion-card>
         </div>
       </div>

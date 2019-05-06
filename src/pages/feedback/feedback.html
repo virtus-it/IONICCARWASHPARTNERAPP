@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content padding>
-
+  <div class="fixscrollcontainer">
   <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
                item-center></ion-spinner>
   <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -73,4 +73,5 @@
       </ion-card>
     </div>
   </ion-list>
+  </div>
 </ion-content>

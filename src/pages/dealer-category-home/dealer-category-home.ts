@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, INTERNET_ERR_MSG, UtilsProvider} from '../../providers/utils/utils';
+import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, INTERNET_ERR_MSG, KEY_USER_INFO, UtilsProvider} from '../../providers/utils/utils';
 import {ApiProvider} from '../../providers/api/api';
 import {Camera, CameraOptions} from "@ionic-native/camera";
 
@@ -26,13 +26,27 @@ export class DealerCategoryHomePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private camera: Camera, private ref: ChangeDetectorRef, private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
 
     try {
-      this.alertUtils.initUser(this.alertUtils.getUserInfo());
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchCategories();
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
     } catch (e) {
-      console.log(e);
+      this.alertUtils.showLog(e);
     }
 
 
@@ -47,7 +61,7 @@ export class DealerCategoryHomePage {
   }
 
   ngOnInit() {
-    this.fetchCategories();
+    //this.fetchCategories();
   }
 
   delete(item) {

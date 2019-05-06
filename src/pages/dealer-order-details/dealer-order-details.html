@@ -86,6 +86,14 @@
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
             {{item?.order_assigneddate | utcDate}}</div>
           </li>
+          <li class="jb_sts_dls"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Started to Visit</span>
+            {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
+            {{item?.order_assigneddate | utcDate}}</div>
+          </li>
+          <li class="jb_sts_dls"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Job Started</span>
+            {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
+            {{item?.order_assigneddate | utcDate}}</div>
+          </li>
           <li class="jb_sts_dls"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
             {{item?.order_delivereddate | utcDate}}</div>

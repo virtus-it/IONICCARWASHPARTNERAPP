@@ -1,8 +1,17 @@
 import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {AlertController, App, IonicPage, ModalController, NavController, NavParams, Content} from 'ionic-angular';
+import {
+  AlertController,
+  App,
+  IonicPage,
+  ModalController,
+  NavController,
+  NavParams,
+  Content,
+  Platform
+} from 'ionic-angular';
 import {
   APP_TYPE,
-  APP_USER_TYPE,
+  APP_USER_TYPE, KEY_USER_INFO,
   OrderTypes,
   RES_SUCCESS,
   UtilsProvider
@@ -43,6 +52,7 @@ export class DealerOrderDetailsPage {
               public navCtrl: NavController,
               public param: NavParams,
               public alertUtils: UtilsProvider,
+              private platform: Platform,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
               private apiService: ApiProvider) {
@@ -55,16 +65,36 @@ export class DealerOrderDetailsPage {
     this.callFrom = this.param.get("callfrom");
     this.orderId = this.param.get("orderid");
     this.categoryID = this.param.get("categoryid");
-    this.userID = UtilsProvider.USER_ID;
-    this.dealerID = UtilsProvider.USER_DEALER_ID;
+
 
     this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
     this.imgUrlPost = this.apiService.getImg()+'post_'+this.orderId+'.png';
 
-    if (this.orderId)
-      this.fetchOrderDetails();
-    else
-      this.alertUtils.showLog('job id is not found');
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.userID = UtilsProvider.USER_ID;
+            this.dealerID = UtilsProvider.USER_DEALER_ID;
+
+            //initial call
+            if (this.orderId)
+              this.fetchOrderDetails();
+            else
+              this.alertUtils.showLog('job id is not found');
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
 
   }
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 
@@ -22,14 +22,33 @@ export class DealerOrdersAllPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private network: NetworkProvider,
+              private platform: Platform,
               private  apiService: ApiProvider,
               private menuCtrl: MenuController) {
 
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+
+            //initial call
+            this.fetchOrders(false,false,false,true,true);
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   ionViewDidLoad() {
-    this.fetchOrders(false,false,false,true,true);
+   /* this.fetchOrders(false,false,false,true,true);*/
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFrist: boolean, paging, refresher) {

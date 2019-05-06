@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 
@@ -40,6 +40,7 @@ export class DealerOrderDetailsAssignForwardPage {
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private formBuilder: FormBuilder) {
 
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
@@ -57,10 +58,29 @@ export class DealerOrderDetailsAssignForwardPage {
     this.alertUtils.showLog("List: MainList: " + this.mainList);*/
 
     alertUtils.showLog(this.user);
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.USER_TYPE = UtilsProvider.USER_TYPE;
-    this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
-    this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   dismiss() {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 
@@ -39,6 +39,7 @@ export class DealerDistributorsCreatePage {
               public navParams: NavParams,
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
+              private platform: Platform,
               private apiService: ApiProvider,
               private formBuilder: FormBuilder) {
 
@@ -82,10 +83,28 @@ export class DealerDistributorsCreatePage {
       this.input.gstNumber = this.validate(this.user.gstno);
     }
 
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.USER_TYPE = UtilsProvider.USER_TYPE;
-    this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
-    this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
+
   }
 
   dismiss() {
@@ -101,7 +120,7 @@ export class DealerDistributorsCreatePage {
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateText(this.input.lastname, 'Last name', 1, 50)) {
         if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
-          if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 10)) {
+          if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 50)) {
             //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
               if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
                 //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
@@ -148,8 +167,8 @@ export class DealerDistributorsCreatePage {
           "mobileno": this.input.phno1,
           "mobileno_one": this.input.phno2,
           "mobileno_two": this.input.phno3,
-          "pwd": 'paani',
-          "phonetype": this.input.phoneType,
+          "pwd": this.input.phno1,
+          //"phonetype": this.input.phoneType,
           "address": this.input.addr,
           "companyname": this.input.companyName,
           "company_logo": 'company_logo_'+this.input.phno1,

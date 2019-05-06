@@ -37,7 +37,7 @@
         <ion-row>
           <ion-col col-2>
             <ion-avatar>
-              <img [src]="product.imgUrl" style="height: 40px; width: 40px">
+              <img [src]="product.imgUrl" style="height: 40px; width: 40px" (error)="assetImg();">
             </ion-avatar>
           </ion-col>
           <ion-col>

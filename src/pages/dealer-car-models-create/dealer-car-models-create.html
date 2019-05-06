@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/img_car.png">
+      <span class="title-style">{{pageTitle}}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="fixscrollcontainer">
+    <form class="customer_poptxt" >
+
+      <ion-item class="no_bg no_shadow input_container customer_poptxt ">
+        <ion-label floating>Manufacturer</ion-label>
+        <ion-input name="manufacturer" class="" type="text" [(ngModel)]="input.manufacturer" required></ion-input>
+      </ion-item>
+
+      <ion-item class="no_bg no_shadow input_container ">
+        <ion-label floating>Model</ion-label>
+        <ion-input name="model" class="" type="text" [(ngModel)]="input.model" required></ion-input>
+      </ion-item>
+
+
+      <ion-row class="">
+        <ion-col align-self-center="" >
+          <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+        </ion-col>
+        <ion-col align-self-center="">
+          <button ion-button class="wd-100pc" (click)="doValidation();">{{buttonTitle}}</button>
+        </ion-col>
+      </ion-row>
+
+    </form>
+  </div>
+</ion-content>

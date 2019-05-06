@@ -1,6 +1,14 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {AlertController, IonicPage, MenuController, ModalController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {
+  AlertController,
+  IonicPage,
+  MenuController,
+  ModalController,
+  NavController,
+  NavParams,
+  Platform
+} from 'ionic-angular';
+import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerDistributorsCreatePage} from "../dealer-distributors-create/dealer-distributors-create";
 
@@ -16,8 +24,8 @@ export class DealerDistributorsPage {
   showProgress = true;
   private response: any;
   private noRecords = false;
-  private USER_ID = UtilsProvider.USER_ID;
-  private USER_TYPE = UtilsProvider.USER_TYPE;
+  private USER_ID ;
+  private USER_TYPE ;
   searchInput = {
     "userid":this.USER_ID,
     "status":"globalsearch",
@@ -35,10 +43,32 @@ export class DealerDistributorsPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef,
+              private platform: Platform,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
 
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchList(false, false, true, "", "");
+
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
 
     if(UtilsProvider.USER_TYPE == UserType.SUPPLIER)
       this.isDealer = false;
@@ -48,7 +78,7 @@ export class DealerDistributorsPage {
 
   ionViewDidLoad() {
 
-    this.fetchList(false, false, true, "", "");
+    //this.fetchList(false, false, true, "", "");
 
   }
 

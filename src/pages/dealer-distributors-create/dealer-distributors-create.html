@@ -31,7 +31,7 @@
       <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" maxlength="50" required [disabled]="disable"></ion-input>
     </ion-item>
 
-    <ion-item class="no_bg no_shadow input_container ">
+    <!--<ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>Phone Number</ion-label>
       <ion-input class="" name="phno2" type="text" [(ngModel)]="input.phno2" maxlength="50" required [disabled]="disable"></ion-input>
     </ion-item>
@@ -39,20 +39,20 @@
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>Phone Number</ion-label>
       <ion-input class="" name="phno3" type="text" [(ngModel)]="input.phno3" maxlength="50" required [disabled]="disable"></ion-input>
-    </ion-item>
+    </ion-item>-->
 
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>Company Name</ion-label>
       <ion-input class="" name="companyName" type="text" [(ngModel)]="input.companyName" maxlength="50" [disabled]="disable"></ion-input>
     </ion-item>
 
-    <ion-item class="no_bg no_shadow input_container ">
+    <!--<ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>Reference Code</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.referenceCode" name="referenceCode"
                  maxlength="10" [disabled]="disable"></ion-input>
-    </ion-item>
+    </ion-item>-->
 
-    <ion-label>Phone Type</ion-label>
+    <!--<ion-label>Phone Type</ion-label>
     <ion-list radio-group [(ngModel)]="input.phoneType" name="paymentType" [disabled]="disable">
 
       <ion-item>
@@ -70,7 +70,7 @@
         <ion-radio value="nosmartphone" text="CREDIT"></ion-radio>
       </ion-item>
 
-    </ion-list>
+    </ion-list>-->
 
     <ion-item class="no_bg no_shadow input_container " >
       <ion-label floating>Address</ion-label>
@@ -88,10 +88,10 @@
 
     <ion-row *ngIf="type != 'view'">
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
       </ion-col>
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+        <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>
       </ion-col>
     </ion-row>
 

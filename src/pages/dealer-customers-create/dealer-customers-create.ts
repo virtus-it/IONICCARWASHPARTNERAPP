@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {IonicPage, NavController, NavParams, ViewController} from "ionic-angular";
-import {APP_TYPE, FRAMEWORK, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from "ionic-angular";
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {FormBuilder} from "@angular/forms";
 import {ApiProvider} from "../../providers/api/api";
 
@@ -36,9 +36,8 @@ export class DealerCustomersCreatePage {
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private formBuilder: FormBuilder) {
-
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.user = navParams.get('item');
 
@@ -69,10 +68,29 @@ export class DealerCustomersCreatePage {
       this.input.customerType = this.user.registertype;
     }
 
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.USER_TYPE = UtilsProvider.USER_TYPE;
-    this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
-    this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
+            this.DEALER_ID = UtilsProvider.USER_DEALER_ID;
+            this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
+          }
+        }, (error) => {
+          UtilsProvider.USER_INFO
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
+
   }
 
   dismiss() {
@@ -135,7 +153,7 @@ export class DealerCustomersCreatePage {
           "mobileno_one": this.input.phno2,
           "mobileno_two": this.input.phno3,
           "emailid": this.input.email,
-          "pwd": 'paani',
+          "pwd": this.input.phno1,
           //"advamt": this.input.advAmt,
           "paymenttype": this.input.paymentType,
           /*"areaname": this.input.name,

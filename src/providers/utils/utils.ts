@@ -12,7 +12,7 @@ import {NativeStorage} from '@ionic-native/native-storage';
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = true;
-const KEY_USER_INFO = 'secure_storage_user_info';
+export const KEY_USER_INFO = 'secure_storage_user_info';
 const KEY_GCM_ID = 'secure_storage_user_gcm_id';
 const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';
 

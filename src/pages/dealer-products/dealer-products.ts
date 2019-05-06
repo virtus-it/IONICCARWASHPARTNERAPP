@@ -14,6 +14,7 @@ export class DealerProductsPage {
   baseImgUrl:string;
   extensionPng:string='.png';
   showProgress = true;
+  imgUrl:string;
   private response: any;
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
@@ -33,6 +34,10 @@ export class DealerProductsPage {
 
     this.fetchList(false, false, true, "", "");
 
+  }
+
+  assetImg(){
+    this.imgUrl = 'assets/imgs/img_user.png';
   }
 
   fetchList(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {

@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerPointsDetailsPage} from "../dealer-points-details/dealer-points-details";
 import {DealerPointsSearchPage} from "../dealer-points-search/dealer-points-search";
@@ -19,8 +19,8 @@ export class DealerPointsPage {
   showProgress = true;
   private response: any;
   private noRecords = false;
-  private USER_ID = UtilsProvider.USER_ID;
-  private USER_TYPE = UtilsProvider.USER_TYPE;
+  private USER_ID ;
+  private USER_TYPE;
 
   type:string = 'all';
   filterBy: string = 'filterby';
@@ -30,13 +30,45 @@ export class DealerPointsPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private platform: Platform,
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchList(false,false, true, '','');
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchList(false,false, true, '','');
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   ionViewDidLoad() {
-    this.fetchList(false,false, true, '','');
+   // this.fetchList(false,false, true, '','');
   }
 
 

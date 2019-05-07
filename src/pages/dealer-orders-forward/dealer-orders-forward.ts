@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
+import {App, IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 
@@ -19,13 +19,40 @@ export class DealerOrdersForwardPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
+              private platform: Platform,
               private  apiService: ApiProvider,
               private appCtrl:App) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+
+            //initial call
+            this.fetchOrders(false,false,false,true,true);
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+
+            //initial call
+            this.fetchOrders(false,false,false,true,true);
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   ionViewDidLoad() {
-    this.fetchOrders(false,false,true,"","");
+    //this.fetchOrders(false,false,true,"","");
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {

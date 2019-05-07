@@ -88,7 +88,20 @@ export class DealerOrderDetailsPage {
               this.alertUtils.showLog('job id is not found');
           }
         }, (error) => {
-          UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.userID = UtilsProvider.USER_ID;
+            this.dealerID = UtilsProvider.USER_DEALER_ID;
+
+            //initial call
+            if (this.orderId)
+              this.fetchOrderDetails();
+            else
+              this.alertUtils.showLog('job id is not found');
+          }
         });
       });
     } catch (e) {

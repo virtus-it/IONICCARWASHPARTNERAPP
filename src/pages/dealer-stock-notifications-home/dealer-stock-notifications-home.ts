@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
 // import {SuperTabs} from "ionic2-super-tabs";
-import {UtilsProvider} from "../../providers/utils/utils";
+import {KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerStockNotificationsAllPage} from "../dealer-stock-notifications-all/dealer-stock-notifications-all";
@@ -34,9 +34,30 @@ export class DealerStockNotificationsHomePage {
               private network: NetworkProvider,
               private  apiUrl: ApiProvider,
               private menuCtrl: MenuController,
+              private platform: Platform,
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
 
   }
 

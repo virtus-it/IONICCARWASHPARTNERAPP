@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 
@@ -21,14 +21,43 @@ export class DealerStockNotificationsPendingPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
+              private platform: Platform,
               private network: NetworkProvider,
               private  apiService: ApiProvider,
               private modalCtrl:ModalController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
     try {
       this.from = this.navParams.get('from');
     }catch (e) {
       this.from = '';
+    }
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchOrders(false,false,true,'','');
+
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.fetchOrders(false,false,true,'','');
+
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
     }
 
   }

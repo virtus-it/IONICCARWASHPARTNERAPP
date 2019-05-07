@@ -48,7 +48,9 @@ export class DealerDistributorsPage {
               private alertCtrl: AlertController) {
 
     try {
+      let isPlatformReady = false;
       this.platform.ready().then(ready => {
+        isPlatformReady = true;
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -63,11 +65,21 @@ export class DealerDistributorsPage {
 
           }
         }, (error) => {
-          UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchList(false, false, true, "", "");
+
+          }
         });
       });
     } catch (e) {
-      this.alertUtils.showLog(e);
+      this.alertUtils.showLog('e'+e);
     }
 
     if(UtilsProvider.USER_TYPE == UserType.SUPPLIER)
@@ -112,11 +124,12 @@ export class DealerDistributorsPage {
 
       this.apiService.postReq(this.apiService.distributors(),JSON.stringify(input)).then(res=>{
         this.alertUtils.showLog(res.data);
-        this.response = res.data;
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
+
+          this.response = res.data;
 
           if (!isPaging)
             this.response = res.data;

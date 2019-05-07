@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {APP_TYPE, UtilsProvider} from "../../providers/utils/utils";
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {APP_TYPE, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 
 
@@ -31,12 +31,8 @@ export class DealerPackageCreatePage {
               public navParams: NavParams,
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
+              private platform: Platform,
               private apiService: ApiProvider) {
-
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
-
-    this.USER_ID = UtilsProvider.USER_ID;
-    this.USER_TYPE = UtilsProvider.USER_TYPE;
 
     this.package = navParams.get('data');
     this.alertUtils.showLog(this.package);
@@ -56,8 +52,41 @@ export class DealerPackageCreatePage {
       this.buttonTitle = 'CREATE';
     }
 
-    this.getCategories();
-    this.fetchVechicleProducts();
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.getCategories();
+            this.fetchVechicleProducts();
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.getCategories();
+            this.fetchVechicleProducts();
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
+
   }
 
   ionViewDidLoad() {

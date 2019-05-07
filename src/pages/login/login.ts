@@ -3,14 +3,10 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams, Pl
 import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {NetworkProvider} from "../../providers/network/network";
-// import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
-// import {SupplierOrdersHomePage} from "../supplier-orders-home/supplier-orders-home";
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
 import {Subscription} from "rxjs";
-import {Socket} from 'ng-socket-io';
-// import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
-// import {DealerSuppliersPage} from "../dealer-suppliers/dealer-suppliers";
+
 
 
 @IonicPage()
@@ -29,10 +25,6 @@ export class LoginPage {
   showLogin = true;
   sub: Subscription;
 
-  //production
-  /*   username:string='9863636315';
-     password:any='98498';*/
-
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private networkProvider: NetworkProvider,
               private menuCtrl: MenuController,
@@ -40,9 +32,13 @@ export class LoginPage {
               private apiUrl: ApiProvider,
               private alertCtrl: AlertController,
               private apiService: ApiProvider,
-              private socket: Socket,
               public platform: Platform,
               private translateService: TranslateService) {
+
+/*    //supplier
+    this.username = '0000222251';
+    this.password = '0000222251';*/
+
 
     translateService.setDefaultLang('en');
     translateService.use('en');
@@ -267,7 +263,6 @@ export class LoginPage {
 
 
   setGCMDetails(data) {
-    let registrationId = this.alertUtils.getDeviceUUID();
     let input = {
       "User": {
         "userid": data.userid,

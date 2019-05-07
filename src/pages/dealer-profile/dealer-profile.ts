@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
-import {UtilsProvider, APP_TYPE, APP_USER_TYPE, RES_SUCCESS, UserType} from '../../providers/utils/utils';
+import {
+  UtilsProvider,
+  APP_TYPE,
+  APP_USER_TYPE,
+  RES_SUCCESS,
+  UserType,
+  KEY_USER_INFO
+} from '../../providers/utils/utils';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
@@ -20,8 +27,33 @@ export class DealerProfilePage {
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController,
               private camera: Camera,
+              private platform: Platform,
               private apiService: ApiProvider) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.getUserInfo();
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            //initial call
+            this.getUserInfo();
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   ionViewDidLoad() {
@@ -72,7 +104,7 @@ export class DealerProfilePage {
     })
   }
   ngOnInit() {
-    this.getUserInfo();
+    /*this.getUserInfo();*/
   }
 
   assetImg(){

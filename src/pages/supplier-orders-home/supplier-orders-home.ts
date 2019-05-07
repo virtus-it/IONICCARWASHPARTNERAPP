@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
-import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {UserType, UtilsProvider} from "../../providers/utils/utils";
+import {AlertController, IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
+import {KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 // import {SuperTabs} from "ionic2-super-tabs";
@@ -14,9 +14,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 export class SupplierOrdersHomePage {
 
   pages = [
-    {pageName: 'SupplierOrdersAllPage',       title: 'ALL',       icon: 'cloud-download', id: 'allTab'},
-    {pageName: 'SupplierOrdersPendingPage',   title: 'PENDING',   icon: 'cloud-upload',   id: 'pendingTab'},
-    {pageName: 'SupplierOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-done',     id: 'completedTab'}
+    {pageName: 'SupplierOrdersPendingPage',   title: 'PENDING',   icon: 'cloud-download',   id: 'pendingTab'},
+    {pageName: 'SupplierOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-upload',     id: 'completedTab'}
   ];
 
   selectedTab = 0;
@@ -34,9 +33,31 @@ export class SupplierOrdersHomePage {
               private  apiUrl: ApiProvider,
               private menuCtrl: MenuController,
               private geolocation: Geolocation,
+              private platform: Platform,
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   onTabSelect(ev: any) {

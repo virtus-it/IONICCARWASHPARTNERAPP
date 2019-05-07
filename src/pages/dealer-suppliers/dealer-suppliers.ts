@@ -1,6 +1,14 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import {IonicPage, NavController, NavParams, ModalController, AlertController, MenuController} from 'ionic-angular';
-import {APP_TYPE, UtilsProvider, UserType, FRAMEWORK} from "../../providers/utils/utils";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ModalController,
+  AlertController,
+  MenuController,
+  Platform
+} from 'ionic-angular';
+import {APP_TYPE, UtilsProvider, UserType, FRAMEWORK, KEY_USER_INFO} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplier-create";
 
@@ -34,10 +42,44 @@ export class DealerSuppliersPage {
               private apiService: ApiProvider,
               private ref: ChangeDetectorRef,
               private menuCtrl: MenuController,
+              private platform: Platform,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
     this.from = this.navParams.get('from');
+
+    try {
+      this.platform.ready().then(ready => {
+        this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
+          this.alertUtils.showLog(value);
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchSuppliers(false, false, true, "", "");
+
+          }
+        }, (error) => {
+          let value = UtilsProvider.USER_INFO
+          if (value && value.hasOwnProperty('USERTYPE')) {
+            UtilsProvider.setUSER_INFO(value);
+            this.alertUtils.initUser(value);
+
+            this.USER_ID = UtilsProvider.USER_ID;
+            this.USER_TYPE = UtilsProvider.USER_TYPE
+
+            //initial call
+            this.fetchSuppliers(false, false, true, "", "");
+
+          }
+        });
+      });
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
   ionViewDidLoad() {
@@ -49,8 +91,6 @@ export class DealerSuppliersPage {
       this.menuCtrl.enable(true,'menu4');
       this.menuCtrl.enable(true,'menu5');
     }
-
-    this.fetchSuppliers(false, false, true, "", "");
 
   }
 

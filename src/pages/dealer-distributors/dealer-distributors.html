@@ -27,7 +27,7 @@
   <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Vendors not found</h5>
 
   <!--Search Functionality-->
-  <ion-card class="customer_mgmnttop">
+  <ion-card class="customer_mgmnttop" *ngIf="isDealer">
     <ion-item>
       <ion-label>Search Type</ion-label>
       <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype">

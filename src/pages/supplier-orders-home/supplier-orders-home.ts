@@ -14,9 +14,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 export class SupplierOrdersHomePage {
 
   pages = [
-    {pageName: 'SupplierOrdersAllPage',       title: 'ALL',       icon: 'cloud-download', id: 'allTab'},
-    {pageName: 'SupplierOrdersPendingPage',   title: 'PENDING',   icon: 'cloud-upload',   id: 'pendingTab'},
-    {pageName: 'SupplierOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-done',     id: 'completedTab'}
+    {pageName: 'SupplierOrdersPendingPage',   title: 'PENDING',   icon: 'cloud-download',   id: 'pendingTab'},
+    {pageName: 'SupplierOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-upload',     id: 'completedTab'}
   ];
 
   selectedTab = 0;

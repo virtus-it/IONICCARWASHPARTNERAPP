@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content padding>
-
+  <div class="fixscrollcontainer">
   <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
                item-center>
   </ion-spinner>
@@ -82,5 +82,5 @@
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
+  </div>
 </ion-content>

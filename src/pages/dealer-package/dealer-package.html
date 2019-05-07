@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content padding>
-
+  <div class="fixscrollcontainer">
   <div *ngFor="let item of list">
 
     <ion-card>
@@ -42,5 +42,6 @@
       <img (error)="onImageError(item)" src="{{item.url}}" style="width: 10%"/>
 
     </ion-card>
+  </div>
   </div>
 </ion-content>

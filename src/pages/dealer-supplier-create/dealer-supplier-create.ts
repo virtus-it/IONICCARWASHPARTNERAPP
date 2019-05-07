@@ -171,7 +171,15 @@ export class DealerSupplierCreatePage {
   }
 
   doCreate() {
+
     try {
+      let dID;
+
+      if(this.input.distributorId)
+        dID = this.input.distributorId;
+      else
+        dID = this.USER_ID;
+
       let input = {
         "User": {
           "TransType": 'create',
@@ -183,7 +191,7 @@ export class DealerSupplierCreatePage {
           "vechicle_number": this.input.vechicleNumber,
           "flotting_cash": this.input.flottingCash,
           "address": this.input.addr,
-          "distributor": this.input.distributorId,
+          "distributor": dID,
           "issuppersupplier": false,
           "pwd": this.input.phno1,
           "loginid": this.USER_ID,
@@ -201,16 +209,19 @@ export class DealerSupplierCreatePage {
         this.alertUtils.showLog(res.data);
         this.alertUtils.showLog(res.data.message);
 
-        this.output.result = res.result;
-        this.output.actionType = 'create';
-        this.output.data = res.data;
+        if (res.data.code) {
+          this.alertUtils.showToast(res.data.message);
+        } else {
+          this.output.result = res.result;
+          this.output.actionType = 'create';
+          this.output.data = res.data;
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.viewCtrl.dismiss(this.output);
-          //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
-        } else
-          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
-
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.viewCtrl.dismiss(this.output);
+            //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
+          } else
+            this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+        }
       }, error => {
 
       })
@@ -250,17 +261,20 @@ export class DealerSupplierCreatePage {
       this.alertUtils.showLoading();
       this.apiService.putReq(this.apiService.updateProfile(), data).then(res => {
         this.alertUtils.hideLoading();
-        this.alertUtils.showLog(res.data);
+        this.alertUtils.showLog(res);
 
-        this.output.result = res.result;
-        this.output.actionType = 'update';
-        this.output.data = res.data;
+        if (res.data.code) {
+          this.alertUtils.showToast(res.data.message);
+        } else {
+          this.output.result = res.result;
+          this.output.actionType = 'update';
+          this.output.data = res.data;
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.viewCtrl.dismiss(this.output);
-        } else
-          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
-
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.viewCtrl.dismiss(this.output);
+          } else
+            this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+        }
       }, error => {
 
       })

@@ -17,13 +17,13 @@
   <form class="customer_poptxt">
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>First Name</ion-label>
+      <ion-label floating>Name</ion-label>
       <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>Phone Number</ion-label>
-      <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" maxlength="50" required></ion-input>
+      <ion-input class="" name="phno1" type="tel" [(ngModel)]="input.phno1" maxlength="10" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">

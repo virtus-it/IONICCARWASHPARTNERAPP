@@ -7,6 +7,48 @@ page-chat {
     width: 100%;
     margin-bottom: 20px;
   }
+  .jobid_header.card-header {
+
+    color: #408f98 !important;
+    text-align: left;
+    display: flex;
+    .jobassign_no {
+      background: #ededed;
+      padding: 14px;
+      font-size: 18px;
+    }
+    .order_heading {
+      color:#fff;
+      margin-left: 12px;
+      span {
+        display: block;
+      }
+    }
+    label {
+      background: #2f5154;
+      border-radius: 19px;
+      padding: 3px 5px;
+      color: #fff;
+      font-size: 12px;
+      margin: 8px 0 0 0;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+  }
+  .ion-md-pin {
+    float: left;
+  }
+
+  .ord_address{
+    float: left;
+    width: 92%;
+    margin-left: 5px;
+  }
+  .job_mgm_lbl {
+    width: 100%;
+    display: inline-block;
+    color: #a2a2a2;line-height: 26px;
+  }
 }
 
 

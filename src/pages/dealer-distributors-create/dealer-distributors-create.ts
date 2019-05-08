@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
@@ -22,17 +22,10 @@ export class DealerDistributorsCreatePage {
   disable: any = false;
   isUpdate: boolean = true;
   input = {
-    firstname: "", lastname: "", phno1: "", phno2: "",phno3: "", companyName: "", referenceCode: "",
+    firstname: "", lastname: "", phno1: "", phno2: "", phno3: "", companyName: "", referenceCode: "",
     phoneType: "android", addr: "", gstNumber: "", acceptOnlinePayments: false
   };
-
-  updateCbValue(){
-   this.input.acceptOnlinePayments = !this.input.acceptOnlinePayments;
-  }
-
   output = {"result": "", "actionType": "", "data": ""};
-
-
   showToast: boolean = false;
 
   constructor(public navCtrl: NavController,
@@ -48,7 +41,7 @@ export class DealerDistributorsCreatePage {
     this.user = navParams.get('item');
     this.type = navParams.get('type');
 
-    if(this.type == 'view')
+    if (this.type == 'view')
       this.disable = true;
     else
       this.disable = false;
@@ -62,9 +55,9 @@ export class DealerDistributorsCreatePage {
       this.buttonTitle = 'CREATE';
     } else {
 
-      if(this.type == 'view'){
+      if (this.type == 'view') {
         this.pageTitle = 'VIEW VENDOR';
-      }else{
+      } else {
         this.isUpdate = true;
         this.pageTitle = 'EDIT VENDOR';
         this.buttonTitle = 'UPDATE';
@@ -116,6 +109,10 @@ export class DealerDistributorsCreatePage {
 
   }
 
+  updateCbValue() {
+    this.input.acceptOnlinePayments = !this.input.acceptOnlinePayments;
+  }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }
@@ -131,16 +128,16 @@ export class DealerDistributorsCreatePage {
         if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
           if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 50)) {
             //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
-              if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
-                //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
-                  if (this.isUpdate)
-                    this.doUpdate();
-                  else
-                    this.doCreate();
-                /*} else
-                  this.showToast = true;*/
-              } else
-                this.showToast = true;
+            if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
+              //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
+              if (this.isUpdate)
+                this.doUpdate();
+              else
+                this.doCreate();
+              /*} else
+                this.showToast = true;*/
+            } else
+              this.showToast = true;
             /*} else
               this.showToast = true;*/
           } else
@@ -180,7 +177,7 @@ export class DealerDistributorsCreatePage {
           //"phonetype": this.input.phoneType,
           "address": this.input.addr,
           "companyname": this.input.companyName,
-          "company_logo": 'company_logo_'+this.input.phno1,
+          "company_logo": 'company_logo_' + this.input.phno1,
           "referCode": this.input.referenceCode,
           "gstnumber": this.input.gstNumber,
           "loginid": this.USER_ID,
@@ -195,19 +192,23 @@ export class DealerDistributorsCreatePage {
       this.alertUtils.showLoading();
       this.apiService.postReq(this.apiService.createCustomer(), data).then(res => {
         this.alertUtils.hideLoading();
+        this.alertUtils.showLog(res);
         this.alertUtils.showLog(res.data);
         this.alertUtils.showLog(res.data.message);
 
-        this.output.result = res.result;
-        this.output.actionType = 'create';
-        this.output.data = res.data;
+        if (res.data.code) {
+          this.alertUtils.showToast(res.data.message);
+        } else {
+          this.output.result = res.result;
+          this.output.actionType = 'create';
+          this.output.data = res.data;
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.viewCtrl.dismiss(this.output);
-          //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
-        } else
-          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
-
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.viewCtrl.dismiss(this.output);
+            //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
+          } else
+            this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+        }
       }, error => {
 
       })

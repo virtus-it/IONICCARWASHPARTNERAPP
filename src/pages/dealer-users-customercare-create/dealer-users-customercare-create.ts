@@ -190,16 +190,19 @@ export class DealerUsersCustomercareCreatePage {
         this.alertUtils.showLog(res.data);
         this.alertUtils.showLog(res.data.message);
 
-        this.output.result = res.result;
-        this.output.actionType = 'create';
-        this.output.data = res.data;
+        if (res.data.code) {
+          this.alertUtils.showToast(res.data.message);
+        } else {
+          this.output.result = res.result;
+          this.output.actionType = 'create';
+          this.output.data = res.data;
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.viewCtrl.dismiss(this.output);
-          //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
-        } else
-          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
-
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.viewCtrl.dismiss(this.output);
+            //this.alertUtils.showToastWithButton("User successfully created", true, 'OK');
+          } else
+            this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+        }
       }, error => {
 
       })

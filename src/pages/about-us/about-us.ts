@@ -8,6 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
   templateUrl: 'about-us.html',
 })
 export class AboutUsPage {
+  test;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,

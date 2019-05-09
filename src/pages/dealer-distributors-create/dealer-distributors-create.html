@@ -17,17 +17,17 @@
   <form class="customer_poptxt">
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>First Name</ion-label>
+      <ion-label floating>First Name *</ion-label>
       <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required [disabled]="disable"></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Last Name</ion-label>
+      <ion-label floating>Last Name *</ion-label>
       <ion-input name="lastname" class="" type="text" [(ngModel)]="input.lastname" required [disabled]="disable"></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phone Number</ion-label>
+      <ion-label floating>Phone Number *</ion-label>
       <ion-input class="" name="phno1" type="tel" maxlength="10" minlength="10" [(ngModel)]="input.phno1" required [disabled]="disable"></ion-input>
     </ion-item>
 
@@ -42,7 +42,7 @@
     </ion-item>-->
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Company Name</ion-label>
+      <ion-label floating>Company Name *</ion-label>
       <ion-input class="" name="companyName" type="text" [(ngModel)]="input.companyName" maxlength="50" [disabled]="disable"></ion-input>
     </ion-item>
 
@@ -73,8 +73,8 @@
     </ion-list>-->
 
     <ion-item class="no_bg no_shadow input_container " >
-      <ion-label floating>Address</ion-label>
-      <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="10" [disabled]="disable"></ion-input>
+      <ion-label floating>Address *</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="250" [disabled]="disable"></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">

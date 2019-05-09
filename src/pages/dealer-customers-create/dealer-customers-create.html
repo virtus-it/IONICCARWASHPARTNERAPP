@@ -17,17 +17,17 @@
   <form class="customer_poptxt" >
 
     <ion-item class="no_bg no_shadow input_container customer_poptxt ">
-      <ion-label floating>First Name</ion-label>
+      <ion-label floating>First Name *</ion-label>
       <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Last Name</ion-label>
+      <ion-label floating>Last Name *</ion-label>
       <ion-input name="lastname" class="" type="text" [(ngModel)]="input.lastname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phone Number</ion-label>
+      <ion-label floating>Phone Number *</ion-label>
       <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" minlength="10" maxlength="10" required></ion-input>
     </ion-item>
     <ion-item class="no_bg no_shadow input_container ">
@@ -41,23 +41,23 @@
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phono Number3</ion-label>
+      <ion-label floating>Phone Number3</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.phno3" name="phno3" maxlength="10" ></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Flat Number</ion-label>
+      <ion-label floating>Flat Number *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.platNo" name="platNo" maxlength="50" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Locality</ion-label>
+      <ion-label floating>Locality *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.locality" name="locality" maxlength="50" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Address</ion-label>
-      <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="50" required></ion-input>
+      <ion-label floating>Address *</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="250" required></ion-input>
     </ion-item>
 
     <ion-label>Payment Type</ion-label>

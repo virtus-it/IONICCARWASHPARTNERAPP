@@ -25,43 +25,49 @@
       <ion-card>
         <h2 *ngIf="res.status == 'close' ">CLOSED</h2>
         <ion-row>
-          <ion-col>{{res.createdby.firstname}}</ion-col>
-          <ion-col>{{res.createddate|date:'dd-MM-yyyy HH:mm'}}</ion-col>
+          <ion-col class="usercommentnm">{{res.createdby.firstname}}</ion-col>
+          <ion-col class="comentstdate">{{res.createddate|date:'dd-MM-yyyy HH:mm'}}</ion-col>
         </ion-row>
 
-        Subject:
+
         <ion-row>
-          <ion-col>{{res.subject}}</ion-col>
+          <ion-col class="comentsub">{{res.subject}}</ion-col>
         </ion-row>
 
-        <ion-row>{{res.details}}</ion-row>
+        <ion-row>
+          <ion-col class="comentsubcont">
+          {{res.details}}
+        </ion-col>
+        </ion-row>
 
-        <div *ngIf="res.reply">
+        <div *ngIf="res.reply" class="recivecntr">
           <div *ngFor="let re of res.reply">
 
-            <ion-card class="card-md1">
+            <ion-card class="card-md1" >
               <ion-row>
-                <ion-col>Reply from {{re.createdby.mobileno}}</ion-col>
+                <ion-col class="usercommentnm "><span class="recivefrom">Reply from</span> {{re.createdby.mobileno}}</ion-col>
               </ion-row>
-              <ion-row>{{re.message}}</ion-row>
+              <ion-row>
+                <ion-col class="comentsubcont">
+                {{re.message}}
+                </ion-col>
+              </ion-row>
             </ion-card>
           </div>
 
         </div>
 
-        <ion-row>
+        <ion-row class="feedbk_btns">
 
-            <ion-col>
-              <img src="assets/imgs/img_reply.png"
-                   class="header_icon"
-                   *ngIf="res.status != 'close' "
-                   (click)="showPromptForCreateIssue($event, res);">
+            <ion-col class="edit_bg">
+              <span class="header_icon " *ngIf="res.status != 'close' "
+                   (click)="showPromptForCreateIssue($event, res);">Reply</span>
             </ion-col>
 
-            <ion-col><img src="assets/imgs/img_close.png"
-                          class="header_icon"
+            <ion-col class="delet_bg">
+              <span class="header_icon "
                           *ngIf="res.status != 'close' "
-                          (click)="changeIssueStatus($event, res, 'close');">
+                           (click)="changeIssueStatus($event, res, 'close');">Close</span>
             </ion-col>
 
           <ion-col><img src="assets/imgs/img_tick.png"

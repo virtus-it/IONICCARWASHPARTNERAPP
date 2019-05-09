@@ -11,7 +11,7 @@
     <ion-title>{{title}}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="add()" *ngIf="page1">
-        <ion-icon name="add-circle"></ion-icon>
+        <ion-icon name="md-add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -38,7 +38,7 @@
               <img src="{{item.url}}"  style="height: 40px; width: 40px" (error)="onImageError(item)"/>
                 </ion-avatar>
               </ion-col>
-              <ion-col>
+              <ion-col col-10>
                 <ion-item>
                   <h2>{{item.category}}</h2>
                   <p>Priority: {{item.priority}}</p>

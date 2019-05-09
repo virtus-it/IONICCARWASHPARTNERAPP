@@ -9,7 +9,7 @@
     </ion-title>
     <ion-buttons end>
       <button (click)="createPackage($event,'')"  ion-button>
-        <ion-icon name="add-circle"></ion-icon>
+        <ion-icon name="md-add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -21,25 +21,28 @@
 
     <ion-card>
       <ion-row>
-        <ion-col>
+        <ion-col col-2>
+          <ion-avatar>
+            <img (error)="onImageError(item)" src="{{item.url}}"/>
+          </ion-avatar>
+        </ion-col>
+        <ion-col col-10>
           <ion-item>
             <h2>{{item.category_name}}</h2>
             <p>ID: {{item.categoryid}}</p>
           </ion-item>
         </ion-col>
-        <ion-col>
-          <ion-buttons class="right">
-            <button (click)="createPackage($event,item)" ion-button>
-              <ion-icon name="md-create"></ion-icon>
-            </button>
-            <button (click)="showPromptForDelete(item)" ion-button>
-              <ion-icon name="md-trash"></ion-icon>
-            </button>
-          </ion-buttons>
+      </ion-row>
+      <ion-row>
+        <ion-col class="edit_bg" (click)="createPackage($event,item)">
+          <span class="header_icon">Edit</span>
+        </ion-col>
+        <ion-col class="delet_bg" (click)="showPromptForDelete(item)">
+          <span class="header_icon">Delete</span>
         </ion-col>
 
       </ion-row>
-      <img (error)="onImageError(item)" src="{{item.url}}" style="width: 10%"/>
+
 
     </ion-card>
   </div>

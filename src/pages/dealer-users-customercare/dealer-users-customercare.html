@@ -6,8 +6,12 @@
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_customer_care.png">
       <span class="title-style">USERS</span>
-      <img (click)="create($event, '')" class="header_icon" src="assets/imgs/img_add.png">
     </ion-title>
+      <ion-buttons (click)="create($event, '')" end>
+        <button icon-end ion-button>
+          <ion-icon name="md-add"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -59,7 +63,9 @@
         </ion-row>
 
         <ion-row>
-          <span class="job_mgm_lbl">User Type : {{user.usertype}}</span>
+          <ion-col>
+          <span class="job_mgm_lbl">User Type :</span> {{user.usertype}}
+          </ion-col>
         </ion-row>
 
         <ion-row *ngIf="user.address">

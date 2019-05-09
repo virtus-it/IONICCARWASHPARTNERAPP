@@ -1,5 +1,5 @@
 <ion-content padding>
-
+  <div class="fixscrollcontainer">
   <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
                name="crescent"></ion-spinner>
   <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -16,7 +16,7 @@
       <ion-card>
 
         <ion-card-header>
-          {{order.statusUpdated}}
+          {{order.statusUpdated}}dfdgd
         </ion-card-header>
 
         <ion-row>
@@ -70,9 +70,9 @@
         <ion-row>
           <ion-col>{{order?.timestamp | utcDate}}</ion-col>
           <ion-col>
-          <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
-            VIEW DETAILS
-          </button>
+            <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
+              VIEW DETAILS
+            </button>
           </ion-col>
         </ion-row>
 
@@ -83,4 +83,5 @@
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+  </div>
 </ion-content>

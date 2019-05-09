@@ -58,7 +58,7 @@ export class DealerDistributorsPage {
             this.alertUtils.initUser(value);
 
             this.USER_ID = UtilsProvider.USER_ID;
-            this.USER_TYPE = UtilsProvider.USER_TYPE
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
 
             //initial call
             this.fetchList(false, false, true, "", "");
@@ -86,6 +86,12 @@ export class DealerDistributorsPage {
       this.isDealer = false;
     else
       this.isDealer = true;
+
+    if(UtilsProvider.ISSUPER_DEALER){
+      this.isDealer = true;
+    }else{
+      this.isDealer = false;
+    }
   }
 
   ionViewDidLoad() {

@@ -99,6 +99,12 @@ export class UtilsProvider {
     return this._USER_NAME;
   }
 
+  private static _ISSUPER_DEALER: boolean = false;
+
+  static get ISSUPER_DEALER(): boolean {
+    return this._ISSUPER_DEALER;
+  }
+
   private static _USER_TYPE: string = "";
 
   static get USER_TYPE(): string {
@@ -121,6 +127,10 @@ export class UtilsProvider {
 
   static get USER_INFO(): string {
     return this._USER_INFO;
+  }
+
+  static setIsSuperDealer(id: boolean) {
+    this._ISSUPER_DEALER = id;
   }
 
   static setGCM(gcmID: string) {
@@ -158,6 +168,12 @@ export class UtilsProvider {
         UtilsProvider._USER_PHNO = user.mobileno;
         UtilsProvider._USER_ADDR = user.address;
         UtilsProvider._USER_TYPE = user.USERTYPE;
+
+        if (user.issuperdealer && user.issuperdealer == "true") {
+          UtilsProvider.setIsSuperDealer(true);
+        } else {
+          UtilsProvider.setIsSuperDealer(false);
+        }
 
         //dealer info
         if (user.USERTYPE == UserType.DEALER && user.issuperdealer) {

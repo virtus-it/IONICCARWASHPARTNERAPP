@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform} from 'ionic-angular';
+import {AlertController, Nav, NavController, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from "@ngx-translate/core";
@@ -26,6 +26,8 @@ export class MyApp {
   constructor(public platform: Platform,
               public push: Push,
               public statusBar: StatusBar,
+              private alertCtrl: AlertController,
+              //public navCtrl: NavController,
               public alertUtils: UtilsProvider,
               private translateService: TranslateService,
               public splashScreen: SplashScreen) {
@@ -142,111 +144,6 @@ export class MyApp {
       pushObject.on('notification').subscribe((notification: any) => {
           this.alertUtils.showLog('Received a notification');
           this.isNotification = true;
-          //this.alertUtils.updateStaticValue();
-          /*this.alertUtils.getLoginState().then(value => {
-            if (value) {
-              this.showProgress = false;
-              this.splashScreen.hide();
-              this.alertUtils.showLog(this.isNotification);
-              let data = JSON.stringify(notification);
-              this.alertUtils.showLog(data);
-              if (notification.additionalData.foreground) {
-
-              } else {
-                this.alertUtils.showLog('Push notification clicked');
-                //if user NOT using app and push notification comes
-                if (notification.additionalData.status == "createmessage") {
-                  if (notification.additionalData.obj.message.order.orderid) {
-                    this.nav.push('OrderDetails', {
-                      callfrom: "pushnotification",
-                      orderid: notification.additionalData.obj.message.order.orderid
-                    }).then(res => {
-                      this.updateNotificationStatus(notification);
-                    });
-                  /!*} else {
-                    this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                      this.updateNotificationStatus(notification);
-                    });
-                  }*!/
-                } /!*else if (notification.additionalData.status == "ordered") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "delivered") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "doorlock") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "rejected") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "not_reachable") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "cannot_deliver") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "confirm") {
-                  this.nav.push('MyPaymentPage', {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "orderupdated") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "assigned") {
-                  this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else if (notification.additionalData.status == "notification") {
-                  this.nav.push(NotificationPage, {
-                    callfrom: "pushnotification",
-                    data: notification
-                  }).then(res => {
-                    this.updateNotificationStatus(notification);
-                  });
-                } else {
-                  if (notification.additionalData.redirectpage == "AboutPage") {
-                    this.nav.push(AboutPage, {callfrom: "pushnotification"}).then(res => {
-                      this.updateNotificationStatus(notification);
-                    });
-                  } else if (notification.additionalData.redirectpage == "HomePage") {
-                    this.nav.push(HomePage, {callfrom: "pushnotification"}).then(res => {
-                      this.updateNotificationStatus(notification);
-                    });
-                  } else if (notification.additionalData.redirectpage == "ContactPage") {
-                    this.nav.push(ContactPage, {callfrom: "pushnotification"}).then(res => {
-                      this.updateNotificationStatus(notification);
-                    });
-                  } else if (notification.additionalData.redirectpage == "OrderDetails") {
-                    this.nav.push('OrderDetails', {
-                      callfrom: "pushnotification",
-                      orderid: notification.additionalData.obj.message.order.orderid
-                    }).then(res => {
-                      this.updateNotificationStatus(notification);
-                    });
-                  } else {
-                    this.showProgress = false;
-                    this.rootPage = LoginPage;
-                  }*!/
-                }
-              }
-            } else {
-              this.splashScreen.hide();
-              this.showProgress = false;
-              this.rootPage = Login;
-            }
-          }).catch(reason => {
-            this.splashScreen.hide();
-            this.showProgress = false;
-            this.rootPage = Login;
-          });*/
         }, error2 => {
           this.splashScreen.hide();
           this.showProgress = false;
@@ -273,45 +170,39 @@ export class MyApp {
     }
   }
 
-  updateNotificationStatus(notification) {
-    /*try {
-      let input = {
-        "User": {
-          "transtype": "updatenotificationstatus",
-          "apptype": APP_TYPE,
-          "user_type": APP_USER_TYPE
+  showPromptForLogout() {
+    let prompt = this.alertCtrl.create({
+      title: 'LOGOUT',
+      message: 'Are you sure. You want to logout?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Sure',
+          handler: data => {
+            this.logout();
+          }
         }
-      };
-      if (Utils.APP_USER_ID) {
-        input["customerid"] = Utils.APP_USER_ID;
-        input["createdby"] = Utils.APP_USER_ID;
-      }
-      if (Utils.APP_USER_DEALERID) {
-        input["dealerid"] = Utils.APP_USER_DEALERID;
-      }
-      if (notification && notification.additionalData && notification.additionalData.obj && notification.additionalData.obj.title) {
-        input["notificationtag"] = notification.additionalData.obj.title;
-      }
-      if (notification && notification.additionalData && notification.additionalData.obj && notification.additionalData.obj.type) {
-        input["notificationtype"] = notification.additionalData.obj.type;
-      }
-      if (notification && notification.additionalData && notification.additionalData.obj && notification.additionalData.obj.notifyuniqueid) {
-        input["notifyuniqueid"] = notification.additionalData.obj.notifyuniqueid;
-      }
-      if (this.alertUtils.getDeviceUUID()) {
-        input["useruniqueid"] = this.alertUtils.getDeviceUUID();
-      }
-      let data = JSON.stringify(input);
-      this.alertUtils.showLog(data);
-      this.apiService.postReq(GetService.notificationResponse(), data).then(response => {
-        if (response)
-          this.alertUtils.showLog(response);
-      }, err => {
-        this.alertUtils.showLog(err);
-      });
-    } catch (e) {
-      this.alertUtils.showLog(e);
-    }*/
+      ]
+    });
+    prompt.present();
+  }
 
+  logout(){
+    UtilsProvider.setUSER_INFO('');
+    this.alertUtils.initUser('');
+    try {
+      this.alertUtils.setUserInfo('').then((success) => {
+        this.alertUtils.showLog('User Info Updated : '+success);
+      }, error => {
+        this.alertUtils.showLog('User Info Updated : '+error);
+      });
+    }catch (e) {
+      this.alertUtils.showLog(e);
+    }
+    //this.navCtrl.setRoot('LoginPage')
   }
 }

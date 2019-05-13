@@ -237,10 +237,13 @@ export class SupplierOrdersPendingPage {
 
         this.alertUtils.showLog(JSON.stringify(input));
 
-        this.alertUtils.showLoading();
+        //this.alertUtils.showLoading();
+        this.showProgress = true;
         this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
+          this.alertUtils.showLog(res);
           this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
-          this.alertUtils.hideLoading();
+          //this.alertUtils.hideLoading();
+          this.showProgress = false;
 
           if (res.result == this.alertUtils.RESULT_SUCCESS) {
             if (status == 'accept')
@@ -265,7 +268,8 @@ export class SupplierOrdersPendingPage {
       }
     } catch (e) {
       this.alertUtils.showLog(e);
-      this.alertUtils.hideLoading();
+      this.showProgress = false;
+      //this.alertUtils.hideLoading();
     }
   }
 

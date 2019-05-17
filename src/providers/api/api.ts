@@ -12,7 +12,7 @@ export class ApiProvider {
   private static LOCALHOST_URL    = "http://localhost:2221/";
   private static TESTING_URL      = "http://104.211.247.42:2250/";
   private static PRODUCTION_URL   = "http://moya.online/";
-  public static SOCKET_DEV_URL    = "http://192.168.1.50:1900";
+  // public static SOCKET_DEV_URL    = "http://192.168.1.50:1900";
   public static SOCKET_DEMO_URL   = "http://52.138.217.177:1900";
 
   private baseUrl: string;
@@ -20,7 +20,7 @@ export class ApiProvider {
 
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
-    this.baseUrl = ApiProvider.DEVELOPMENT_URL;
+    this.baseUrl = ApiProvider.DEMO_URL;
     this.http = http;
   }
 
@@ -32,8 +32,8 @@ export class ApiProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "moyacustomer");
-      headers.append("framework", "moyaioniccustomer");
+      headers.append("module", "woncustomer");
+      headers.append("framework", "wonioniccustomer");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
@@ -58,8 +58,8 @@ export class ApiProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "moyacustomer");
-      headers.append("framework", "moyaioniccustomer");
+      headers.append("module", "woncustomer");
+      headers.append("framework", "wonioniccustomer");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
@@ -80,8 +80,8 @@ export class ApiProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "moyacustomer");
-      headers.append("framework", "moyaioniccustomer");
+      headers.append("module", "woncustomer");
+      headers.append("framework", "wonioniccustomer");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);

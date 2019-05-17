@@ -18,7 +18,7 @@ export class DealerOrderDetailsEditStatusPage {
     delivered_qty: '', product_type: 'cans'
   };
   output = {"result": "", "actionType": "", "data": ""};
-  order:    any;
+  order: any;
 
 
   constructor(public navCtrl: NavController,
@@ -29,16 +29,32 @@ export class DealerOrderDetailsEditStatusPage {
               private platform: Platform,
               private formBuilder: FormBuilder) {
 
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    try {
+      this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
-    this.order = navParams.get('order');
-    this.input.orderid = this.order.order_id;
-    this.input.received_amt = this.order.orderamt;
-    this.input.adv_amt = this.order.customerpaymentdts.advance_amount;
-    this.input.return_cans = this.order.return_cans;
-    this.input.empty_cans = '0';
-    this.input.delivered_qty = this.order.delivered_quantity;
-    this.alertUtils.showLog('Order : ' + JSON.stringify(this.order));
+      this.order = navParams.get('order');
+      if (this.order) {
+        if (this.order.order_id)
+          this.input.orderid = this.order.order_id;
+        if (this.order.orderamt)
+          this.input.received_amt = this.order.orderamt;
+        if (this.order && this.order.customerpaymentdts && this.order.customerpaymentdts.advance_amount)
+          this.input.adv_amt = this.order.customerpaymentdts.advance_amount;
+        else
+          this.input.adv_amt = '0';
+        if (this.order.return_cans)
+          this.input.return_cans = this.order.return_cans;
+        else
+          this.input.return_cans = '0';
+
+        this.input.empty_cans = '0';
+        if (this.order.delivered_quantity)
+          this.input.delivered_qty = this.order.delivered_quantity;
+        this.alertUtils.showLog(this.order);
+      }
+    } catch (e) {
+      console.log(e);
+    }
 
     try {
       this.platform.ready().then(ready => {
@@ -113,7 +129,7 @@ export class DealerOrderDetailsEditStatusPage {
 
       })
     } catch (e) {
-
+      this.alertUtils.showLog(e);
     }
   }
 

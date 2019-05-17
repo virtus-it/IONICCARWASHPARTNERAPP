@@ -76,7 +76,7 @@ export class DealerOrdersOrderedPage {
         "order": {
           "userid": UtilsProvider.USER_ID,
           "usertype": UtilsProvider.USER_TYPE,
-          "status": 'ordered',
+          "status": 'pending',
           "pagesize": '10',
           "framework": FRAMEWORK,
           "apptype": APP_TYPE

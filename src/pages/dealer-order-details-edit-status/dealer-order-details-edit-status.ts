@@ -14,7 +14,7 @@ export class DealerOrderDetailsEditStatusPage {
 
   input = {
     orderStatus: "delivered", orderid: '', paymentype: 'cod', received_amt: '',
-    paymentstatus: 'confirm', adv_amt: '', return_cans: '', empty_cans: '',
+    paymentstatus: 'received', adv_amt: '', return_cans: '', empty_cans: '',
     delivered_qty: '', product_type: 'cans'
   };
   output = {"result": "", "actionType": "", "data": ""};

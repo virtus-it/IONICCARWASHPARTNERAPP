@@ -20,17 +20,8 @@
 <ion-content padding>
   <div class="fixscrollcontainer">
   <div *ngIf="page1">
-    <!--<ion-segment [(ngModel)]="type" (ionChange)="onSegmentChange()" >
-      <ion-segment-button value="1">
-        Category
-      </ion-segment-button>
-      <ion-segment-button value="2">
-        Packages
-      </ion-segment-button>
-    </ion-segment>-->
-    <div [ngSwitch]="type">
       <div *ngFor="let item of list">
-        <div *ngSwitchCase=item.type>
+        <div>
           <ion-card>
             <ion-row>
               <ion-col col-2>
@@ -53,6 +44,8 @@
               </ion-col>
               <ion-col (click)="delete(item)"
                        class="delet_bg"><span class="header_icon">Delete</span></ion-col>
+              <ion-col (click)="viewServices(item)"
+                       class="edit_bg"><span class="header_icon">View Services</span></ion-col>
             </ion-row>
 
           </ion-card>
@@ -84,7 +77,5 @@
       </ion-item>
     </ion-list>
     <button color="secondary" ion-button block (click)="save()">{{btnText}}</button>
-  </div>
-
   </div>
 </ion-content>

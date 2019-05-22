@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -19,21 +19,21 @@ import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplie
 })
 export class DealerSuppliersPage {
 
-  from:any;
+  from: any;
   showProgress = true;
   private response: any;
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
   searchInput = {
-    "userid":this.USER_ID,
-    "status":"globalsearch",
-    "pagesize":"10",
-    "last_orderid":"117",
-    "searchtext":"",
-    "searchtype":"name",
-    "searchfor":"supplier",
-    "apptype":APP_TYPE
+    "userid": this.USER_ID,
+    "status": "globalsearch",
+    "pagesize": "10",
+    "last_orderid": "117",
+    "searchtext": "",
+    "searchtype": "name",
+    "searchfor": "supplier",
+    "apptype": APP_TYPE
   };
 
   constructor(public navCtrl: NavController,
@@ -84,12 +84,12 @@ export class DealerSuppliersPage {
 
   ionViewDidLoad() {
 
-    if(this.from && this.from == 'loginPage'){
-      this.menuCtrl.enable(false,'menu1');
-      this.menuCtrl.enable(false,'menu2');
-      this.menuCtrl.enable(true,'menu3');
-      this.menuCtrl.enable(true,'menu4');
-      this.menuCtrl.enable(true,'menu5');
+    if (this.from && this.from == 'loginPage') {
+      this.menuCtrl.enable(false, 'menu1');
+      this.menuCtrl.enable(false, 'menu2');
+      this.menuCtrl.enable(true, 'menu3');
+      this.menuCtrl.enable(true, 'menu4');
+      this.menuCtrl.enable(true, 'menu5');
     }
 
   }
@@ -97,7 +97,7 @@ export class DealerSuppliersPage {
   fetchSuppliers(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {
 
-      let url = this.apiService.getSuppliers()+UtilsProvider.USER_ID+"/"+APP_TYPE+"/"+UtilsProvider.USER_TYPE;
+      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE + "/" + UtilsProvider.USER_TYPE;
 
       this.alertUtils.showLog(url);
 
@@ -116,7 +116,12 @@ export class DealerSuppliersPage {
             this.response = res.data;
 
           for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].tracking && res.data[i].tracking == 'true') {
+              res.data[i].tracking = "ON";
+            } else {
+              res.data[i].tracking = "OFF";
 
+            }
 
             if (isPaging)
               this.response.push(res.data[i]);
@@ -137,36 +142,39 @@ export class DealerSuppliersPage {
     }
   }
 
-  search(event){
+  search(event) {
 
     try {
-
-      let input ={
-        "order":this.searchInput
+      if(!this.searchInput.searchtext){
+        this.alertUtils.showToast("Please type "+ this.searchInput.searchtype);
+        return false;
+      }
+      let input = {
+        "order": this.searchInput
       };
 
       let data = JSON.stringify(input);
       this.showProgress = true;
-      this.apiService.postReq(this.apiService.searchOrders(),data).then((res)=>{
+      this.apiService.postReq(this.apiService.searchOrders(), data).then((res) => {
         this.showProgress = false;
         this.alertUtils.showLog(res.data);
         this.response = res.data;
-      },(error)=>{
+      }, (error) => {
 
       })
-    }catch (e) {
+    } catch (e) {
       this.alertUtils.showLog(e);
     }
 
   }
 
-  validate(s){
-    if(s){
-      if(s == null || s == 'null')
+  validate(s) {
+    if (s) {
+      if (s == null || s == 'null')
         return '';
       else
         return s;
-    }else
+    } else
       return '';
   }
 

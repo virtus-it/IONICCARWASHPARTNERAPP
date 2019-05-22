@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-export const APP_VER_CODE: string = "2";
+export const APP_VER_CODE: string = "3";
 import "rxjs/add/operator/map";
 import {APP_TYPE, APP_USER_TYPE, IS_WEBSITE, UtilsProvider} from "../utils/utils";
 import {Http, RequestOptions, Headers} from "@angular/http";
@@ -23,8 +23,8 @@ export class NetworkProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "moyacustomer");
-      headers.append("framework", "moyaioniccustomer");
+      headers.append("module", "woccustomer");
+      headers.append("framework", "wocioniccustomer");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
@@ -49,8 +49,8 @@ export class NetworkProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "moyacustomer");
-      headers.append("framework", "moyaioniccustomer");
+      headers.append("module", "woccustomer");
+      headers.append("framework", "wocioniccustomer");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
@@ -71,8 +71,8 @@ export class NetworkProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "moyacustomer");
-      headers.append("framework", "moyaioniccustomer");
+      headers.append("module", "woccustomer");
+      headers.append("framework", "wocioniccustomer");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);

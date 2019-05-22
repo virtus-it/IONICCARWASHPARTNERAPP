@@ -17,8 +17,8 @@ import {Subscription} from "rxjs";
 export class LoginPage {
 
   //development
-  username: string = '9863636314';
-  password: any = '9863636314';
+  username: string = '';
+  password: any = '';
   public type = 'password';
   public showPass = false;
   errorText: string = "";
@@ -95,11 +95,9 @@ export class LoginPage {
     this.networkProvider.postReq(this.apiUrl.login(), data).then(res => {
       this.alertUtils.hideLoading();
       this.alertUtils.showLog("res", res.data);
-
-      this.setGCMDetails(res.data);
-
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
         if (res.data && res.data.user) {
+          this.setGCMDetails(res.data);
           let output = res.data.user;
           let uType = output.USERTYPE;
 
@@ -141,9 +139,11 @@ export class LoginPage {
             //Its Admin Application
             //please use customer application
 
-            alert('Its Admin application\n please use customer application');
+            this.alertUtils.showToast('Its Admin application\n please use customer application');
           }
 
+        }else{
+          this.alertUtils.showToast("login failed");
         }
       } else {
         alert(JSON.stringify(res.data));

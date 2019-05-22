@@ -64,8 +64,12 @@ export class DealerCustomersCreatePage {
       this.input.locality = this.alertUtils.validate(this.user.locality);
       this.input.addr = this.alertUtils.validate(this.user.address);
       //this.input.advAmt = JSON.stringify(this.user.payments.advance_amount);
-      this.input.paymentType = this.user.paymenttype;
+      if (this.user.paymenttype)
+        this.input.paymentType = this.user.paymenttype;
+
       this.input.customerType = this.user.registertype;
+
+      this.alertUtils.showLog(this.user);
     }
 
 
@@ -114,7 +118,7 @@ export class DealerCustomersCreatePage {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateText(this.input.lastname, 'Last name', 1, 50)) {
-        if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
+        if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 9, 9)) {
           /* if (this.alertUtils.isValidMobile(this.input.phno1)) {*/
           if (this.alertUtils.validateText(this.input.platNo, "Plat No", 1, 10)) {
             if (this.alertUtils.validateText(this.input.locality, "Locality", 3, 50)) {

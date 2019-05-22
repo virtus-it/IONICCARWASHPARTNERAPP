@@ -11,14 +11,15 @@ import {ApiProvider} from "../../providers/api/api";
 export class DealerProductsPage {
 
 
-  baseImgUrl:string;
-  extensionPng:string='.png';
+  baseImgUrl: string;
+  extensionPng: string = '.png';
   showProgress = true;
-  imgUrl:string;
+  imgUrl: string;
   private response: any;
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+  private categoryItem: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -37,24 +38,30 @@ export class DealerProductsPage {
             this.alertUtils.initUser(value);
 
             this.USER_ID = UtilsProvider.USER_ID;
-            this.USER_TYPE = UtilsProvider.USER_TYPE
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
 
             //initial call
             this.fetchList(false, false, true, "", "");
           }
         }, (error) => {
-          let value = UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO;
           if (value && value.hasOwnProperty('USERTYPE')) {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
 
             this.USER_ID = UtilsProvider.USER_ID;
-            this.USER_TYPE = UtilsProvider.USER_TYPE
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
 
             //initial call
             this.fetchList(false, false, true, "", "");
           }
         });
+
+        this.categoryItem = this.navParams.get('item');
+        console.log(this.categoryItem);
+        if (this.categoryItem)
+          this.getProducts(this.categoryItem,'');
+
       });
     } catch (e) {
       this.alertUtils.showLog(e);
@@ -63,54 +70,94 @@ export class DealerProductsPage {
 
   ionViewDidLoad() {
 
-    this.fetchList(false, false, true, "", "");
+    // this.fetchList(false, false, true, "", "");
 
   }
 
-  assetImg(){
-    this.imgUrl = 'assets/imgs/img_user.png';
+  assetImg(item) {
+    item.imgUrl = 'assets/imgs/img_user.png';
   }
 
-  fetchList(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
+  getProducts(item,refresher) {
     try {
-
-      this.baseImgUrl = this.apiService.imageDownload()+'product_';
-
-      let url = this.apiService.getProducts()+UtilsProvider.USER_ID+"/"+APP_TYPE+"/"+UtilsProvider.USER_TYPE;
-
-      this.apiService.getReq(url).then(res=>{
-        this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));
-        this.alertUtils.showLog(res);
-        this.response = res.data;
-        this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
-
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.noRecords = false;
-
-          for (let i = 0; i < res.data.length; i++) {
-            res.data[i]['imgUrl'] = this.apiService.getImg()+'product_'+res.data[i].productid+'.png';
-            if(res.data.isactive)
-              this.response.push(res.data[i]);
-
-          }
-        } else {
-          if (!isPaging)
-            this.noRecords = true;
+      let input = {
+        "root": {
+          "userid": UtilsProvider.USER_ID,
+          "usertype": UtilsProvider.USER_TYPE,
+          "category": item.category,
+          "categoryid": item.categoryid,
+          "apptype": APP_TYPE
         }
-        this.ref.detectChanges();
+      };
+      let data = JSON.stringify(input);
+      this.alertUtils.showLog('input : ' + data);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.getProductsByCategory(), data).then(res => {
+        this.showProgress = false;
+        if(refresher){
+          refresher.complete();
+        }
+        this.alertUtils.showLog(res);
+        if (res.result == this.alertUtils.RESULT_SUCCESS && res.data) {
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i]['imgUrl'] = this.apiService.getImg() + 'product_' + res.data[i].productid + '.png';
+          }
+          this.response = res.data;
+        }
       }, error => {
-        this.alertUtils.showLog("GET (ERROR)=> PRODUCTS: " + error);
-        this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-      })
-
+        this.alertUtils.showLog(error);
+        this.showProgress = false;
+        if(refresher){
+          refresher.complete();
+        }
+      });
     } catch (e) {
-      this.alertUtils.hideLoading();
-      this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+      this.alertUtils.showLog(e);
     }
   }
 
+  fetchList(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
+
+    // try {
+    //
+    //   this.baseImgUrl = this.apiService.imageDownload()+'product_';
+    //
+    //   let url = this.apiService.getProducts()+UtilsProvider.USER_ID+"/"+APP_TYPE+"/"+UtilsProvider.USER_TYPE;
+    //
+    //   this.apiService.getReq(url).then(res=>{
+    //     this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));
+    //     this.alertUtils.showLog(res);
+    //     this.response = res.data;
+    //     this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
+    //
+    //     if (res.result == this.alertUtils.RESULT_SUCCESS) {
+    //       this.noRecords = false;
+    //
+    //       for (let i = 0; i < res.data.length; i++) {
+    //         res.data[i]['imgUrl'] = this.apiService.getImg()+'product_'+res.data[i].productid+'.png';
+    //         if(res.data.isactive)
+    //           this.response.push(res.data[i]);
+    //
+    //       }
+    //     } else {
+    //       if (!isPaging)
+    //         this.noRecords = true;
+    //     }
+    //     this.ref.detectChanges();
+    //   }, error => {
+    //     this.alertUtils.showLog("GET (ERROR)=> PRODUCTS: " + error);
+    //     this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+    //   })
+    //
+    // } catch (e) {
+    //   this.alertUtils.hideLoading();
+    //   this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+    // }
+  }
+
   doRefresh(refresher) {
-    this.fetchList(false, true, false, "", refresher);
+    // this.fetchList(false, true, false, "", refresher);
+      this.getProducts(this.categoryItem,refresher);
     setTimeout(() => {
       refresher.complete();
     }, 30000);
@@ -144,9 +191,9 @@ export class DealerProductsPage {
     }
   }
 
-  callStockHistoryView(event, product){
+  callStockHistoryView(event, product) {
     // this.navCtrl.push(DealerProductsStockHistoryPage, {
-      // item:product
+    // item:product
     // });
   }
 
@@ -159,15 +206,18 @@ export class DealerProductsPage {
     let model = this.modalCtrl.create('DealerProductsCreatePage', {
       from: 'customer',
       item: user,
+      categoryitem:this.categoryItem,
       payments: user.payments,
-    },{
+    }, {
       cssClass: 'dialogcustomstyle',
-    })
+    });
     model.present();
 
     model.onDidDismiss(data => {
       if (data && data.hasOwnProperty('result')) {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
+          this.getProducts(this.categoryItem,'');
+
           if (data.actionType == 'create')
             this.alertUtils.showToast('User successfully created');
           else
@@ -229,39 +279,39 @@ export class DealerProductsPage {
     prompt.present();
   }
 
-  get(){
+  get() {
     return new Date();
   }
 
   showPromptForAddStock(event, product) {
     let prompt = this.alertCtrl.create({
       title: 'ADD STOCK',
-      inputs:[
+      inputs: [
         {
-          name:'invoiceDate',
-          placeholder:'Invoice Date',
+          name: 'invoiceDate',
+          placeholder: 'Invoice Date',
           type: "text",
           value: '2019-03-27'
         },
         {
-          name:'stockQty',
-          placeholder:'Stock/Quantity',
+          name: 'stockQty',
+          placeholder: 'Stock/Quantity',
           type: "number"
         },
         {
-          name:'eachItemCost',
-          placeholder:'Each Item Cost',
-          type:"number"
+          name: 'eachItemCost',
+          placeholder: 'Each Item Cost',
+          type: "number"
         },
         {
-          name:'paidAmt',
-          placeholder:'Paid Amount',
-          type:"number",
+          name: 'paidAmt',
+          placeholder: 'Paid Amount',
+          type: "number",
         },
         {
-          name:'returnCans',
-          placeholder:'Return Cans',
-          type:"number"
+          name: 'returnCans',
+          placeholder: 'Return Cans',
+          type: "number"
         }
       ],
 

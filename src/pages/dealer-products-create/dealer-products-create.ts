@@ -27,7 +27,7 @@ export class DealerProductsCreatePage {
   categorySelected: boolean = false;
   categoryList: string[];
   categoryProductsList: string[];
-  vechicleTypes = [];
+  // vechicleTypes = [];
   priorityList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   categoryPos: number = -1;
 
@@ -38,6 +38,7 @@ export class DealerProductsCreatePage {
   };
   output = {"result": "", "actionType": "", "data": ""};
   showToast: boolean = true;
+  private categoryitem: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -50,8 +51,10 @@ export class DealerProductsCreatePage {
               private formBuilder: FormBuilder) {
 
     this.user = navParams.get('item');
+    this.categoryitem = navParams.get('categoryitem');
 
     alertUtils.showLog(this.user);
+    alertUtils.showLog(this.categoryitem);
     alertUtils.showLog("this.user :" + this.user);
 
 
@@ -75,7 +78,7 @@ export class DealerProductsCreatePage {
       this.input.priority = JSON.stringify(this.user.priority);
       this.input.iscanreturnable = this.user.iscanreturnable;
       this.input.isauthorized = this.user.isauthorized;
-      this.input.id = JSON.parse(this.user.vechiclesid);
+      // this.input.id = JSON.parse(this.user.vechiclesid);
 
       this.imgUrl = this.apiService.getImg() + 'product_' + this.user.productid + '.png'
     }
@@ -94,7 +97,7 @@ export class DealerProductsCreatePage {
             this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
 
             //initial call
-            this.getCategories();
+            // this.getCategories();
           }
         }, (error) => {
           let value = UtilsProvider.USER_INFO
@@ -108,7 +111,7 @@ export class DealerProductsCreatePage {
             this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
 
             //initial call
-            this.getCategories();
+            // this.getCategories();
           }
         });
       });
@@ -156,9 +159,9 @@ export class DealerProductsCreatePage {
 
     this.alertUtils.showLog(JSON.stringify(this.input));
 
-    if (this.alertUtils.validateText(this.input.category, 'Category', 2, 50)) {
-      if (this.alertUtils.validateText(this.input.pname, 'Product Name', 3, 50)) {
-        if (this.alertUtils.validateText(this.input.ptype, "ProductType", 1, 50)) {
+    // if (this.alertUtils.validateText(this.input.category, 'Category', 2, 50)) {
+      if (this.alertUtils.validateText(this.input.pname, 'Service Name', 3, 50)) {
+        if (this.alertUtils.validateText(this.input.ptype, "Service Type", 1, 50)) {
           if (this.alertUtils.validateText(this.input.currency, "Currency", 3, 20)) {
             if (this.alertUtils.validateNumber(this.input.pcost, "Product Cost", 1, 4)) {
               //if (this.alertUtils.validateNumber(this.input.minorderqty, 'Min Order Qty', 1, 3)) {
@@ -179,7 +182,7 @@ export class DealerProductsCreatePage {
             }
           }
         }
-      }
+      // }
     }
 
     if (this.showToast) {
@@ -201,8 +204,8 @@ export class DealerProductsCreatePage {
 
       let input = {
         "product": {
-          "category": this.input.category,
-          "categoryid": this.input.categoryid,
+          "category": this.categoryitem.category,
+          "categoryid": this.categoryitem.categoryid,
           "currency": this.input.currency,
           "brandname": this.input.pname,
           "pname": this.input.pname,
@@ -331,7 +334,7 @@ export class DealerProductsCreatePage {
       this.alertUtils.hideLoading();
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
         this.categoryList = res.data;
-        this.vechicleTypes = res.data[0].VEHICLE;
+        // this.vechicleTypes = res.data[0].VEHICLE;
       } else
         this.categoryList = [];
     }, error => {

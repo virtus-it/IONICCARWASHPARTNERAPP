@@ -27,15 +27,15 @@
       <ion-card class="colomn_main">
 
         <ion-card-header class="jobid_header">
-          Status: {{payment.status}}
+          Status: {{payment.statustext}}
         </ion-card-header>
 
         <ion-row>
-          <ion-col>Payment ID</ion-col>
+          <ion-col>Transaction ID</ion-col>
           <ion-col>Received Date</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>{{payment.paymentid}}</ion-col>
+          <ion-col>#{{payment.paymentid}}</ion-col>
           <ion-col>{{payment.amount_receiveddate | utcDate}}</ion-col>
         </ion-row>
 
@@ -46,6 +46,16 @@
         <ion-row>
           <ion-col>{{validate(payment.customer.firstname) +' '+validate(payment.customer.lastname)}}</ion-col>
           <ion-col>{{validate(payment.supplier.firstname) +' '+validate(payment.supplier.lastname)}}</ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="payment.status == 'received' && userType=='dealer'">
+          <ion-col (click)="changeStatus('reject',payment)">
+            <button ion-button full>Reject</button>
+          </ion-col>
+          <ion-col (click)="changeStatus('confirm',payment)">
+            <button ion-button full>Confirm</button>
+          </ion-col>
+
         </ion-row>
 
       </ion-card>

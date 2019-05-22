@@ -59,6 +59,11 @@ export class DealerCategoryHomePage {
 
   }
 
+  viewServices(item){
+    console.log(item);
+    this.navCtrl.push('DealerProductsPage',{item:item});
+  }
+
   assetImg() {
     this.imgUrl = 'assets/imgs/img_repairing_service.png';
   }

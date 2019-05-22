@@ -56,8 +56,8 @@
 
         <ion-row>
           <ion-col>
-            <span class="job_mgm_lbl">User Id</span>
-            {{validate(user.id)}}
+            <span class="job_mgm_lbl">Name </span>
+            {{validate(user.firstname) +' '+ validate(user.lastname)}}
           </ion-col>
           <ion-col>
             <span class="job_mgm_lbl">Mobile </span>
@@ -67,16 +67,6 @@
             <span class="job_mgm_lbl">Cash </span> {{validate(user.flotting_cash)}}
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <span class="job_mgm_lbl">Name </span>
-            {{validate(user.firstname) +' '+ validate(user.lastname)}}
-          </ion-col>
-          <ion-col>
-
-          </ion-col>
-        </ion-row>
-
         <ion-row *ngIf="user.address">
           <ion-col>
             <ion-icon name="pin"></ion-icon> {{validate(user.address)}}
@@ -86,13 +76,12 @@
 
 
         <ion-row>
-          <ion-col><span class="job_mgm_lbl">Vechicle </span>{{validate(user.vechicle_number)}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Vehicle No </span>{{validate(user.vechicle_number)}}</ion-col>
           <ion-col><span class="job_mgm_lbl">Tracking </span>{{user.tracking}}</ion-col>
         </ion-row>
 
         <ion-row *ngIf="user.associateddealer">
-          <ion-col><span class="job_mgm_lbl">Associated </span></ion-col>
-          <ion-col>{{validate(user.associateddealer.firstname)+' '+validate(user.associateddealer.lastname)}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Associated </span> {{validate(user.associateddealer.firstname)+' '+validate(user.associateddealer.lastname)}}</ion-col>
         </ion-row>
 
         <ion-row>

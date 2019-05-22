@@ -126,7 +126,10 @@ export class DealerCustomersPage {
   search(event){
 
     try {
-
+      if(!this.searchInput.searchtext){
+        this.alertUtils.showToast("Please type "+ this.searchInput.searchtype);
+        return false;
+      }
       let input ={
         "order":this.searchInput
       };

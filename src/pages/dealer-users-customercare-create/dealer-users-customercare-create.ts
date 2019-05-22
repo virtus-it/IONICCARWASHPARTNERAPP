@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
@@ -20,12 +20,12 @@ export class DealerUsersCustomercareCreatePage {
   buttonTitle: string;
   user: any;
   isUpdate: boolean = true;
-  usersList = [{"name":"Customer Care", "value":"customercare"},
-    {"name":"Job Assigner", "value":"job_assigner"},
-    {"name":"Billing Administrator", "value":"billing_administrator"}];
+  usersList = [{"name": "Customer Care", "value": "customercare"},
+    {"name": "Job Assigner", "value": "job_assigner"},
+    {"name": "Billing Administrator", "value": "billing_administrator"}];
   input = {
-    firstname: "", lastname: "", phno1: "", phno2: "",phno3: "", companyName: "", referenceCode: "",
-    phoneType: "android", addr: "", gstNumber: "", acceptOnlinePayments: false, userType:'customercare'
+    firstname: "", lastname: "", phno1: "", phno2: "", phno3: "", companyName: "", referenceCode: "",
+    phoneType: "android", addr: "", gstNumber: "", acceptOnlinePayments: false, userType: 'customercare'
   };
 
   output = {"result": "", "actionType": "", "data": ""};
@@ -66,6 +66,9 @@ export class DealerUsersCustomercareCreatePage {
       this.input.phoneType = this.user.phonetype;
       this.input.referenceCode = this.user.reference_code;
       this.input.gstNumber = this.user.gstno;
+      if (this.user.usertype)
+        this.input.userType = this.user.usertype;
+
     }
 
 
@@ -109,7 +112,7 @@ export class DealerUsersCustomercareCreatePage {
     this.viewCtrl.dismiss();
   }
 
-  updateDetails(event, userType){
+  updateDetails(event, userType) {
     this.input.userType = userType;
     /*this.alertUtils.showLog(userType);
     this.alertUtils.showLog(this.input);
@@ -120,21 +123,21 @@ export class DealerUsersCustomercareCreatePage {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateText(this.input.lastname, 'Last name', 1, 50)) {
-        if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
+        if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 9, 9)) {
           //if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 10)) {
-            //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
-            //if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
-              //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
-              if (this.isUpdate)
-                this.doUpdate();
-              else
-                this.doCreate();
-              /*} else
-                this.showToast = true;*/
-            /*} else
-              this.showToast = true;*/
-            /*} else
-              this.showToast = true;*/
+          //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
+          //if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
+          //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
+          if (this.isUpdate)
+            this.doUpdate();
+          else
+            this.doCreate();
+          /*} else
+            this.showToast = true;*/
+          /*} else
+            this.showToast = true;*/
+          /*} else
+            this.showToast = true;*/
           /*} else
             this.showToast = true;*/
           /*} else
@@ -166,11 +169,12 @@ export class DealerUsersCustomercareCreatePage {
           "firstname": this.input.firstname,
           "lastname": this.input.lastname,
           "mobileno": this.input.phno1,
-         /* "mobileno_one": this.input.phno2,
-          "mobileno_two": this.input.phno3,*/
+          "distributor":this.USER_ID,
+          /* "mobileno_one": this.input.phno2,
+           "mobileno_two": this.input.phno3,*/
           "pwd": this.input.phno1,
-         // "phonetype": this.input.phoneType,
-         // "address": this.input.addr,
+          // "phonetype": this.input.phoneType,
+          // "address": this.input.addr,
           //"companyname": this.input.companyName,
           //"company_logo": 'company_logo_'+this.input.phno1,
           //"referCode": this.input.referenceCode,
@@ -217,8 +221,9 @@ export class DealerUsersCustomercareCreatePage {
       let input = {
         "User": {
           "userid": this.user.userid,
-          "user_type": UserType.DEALER,
+          "user_type": this.input.userType,
           "firstname": this.input.firstname,
+          "distributor":this.USER_ID,
           "lastname": this.input.lastname,
           "aliasname": this.input.firstname,
           "mobileno": this.input.phno1,

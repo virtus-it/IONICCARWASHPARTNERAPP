@@ -98,7 +98,7 @@ export class DealerOrdersOrderedPage {
       this.apiService.postReq(this.apiService.orderByStatus(), data).then(res => {
         this.alertUtils.hideLoading();
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + JSON.stringify(res));
+        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + res);
 
         this.processData(res, isPaging);
       }, error => {
@@ -179,7 +179,10 @@ export class DealerOrdersOrderedPage {
   search(event) {
 
     try {
-
+      if(!this.searchInput.searchtext){
+        this.alertUtils.showToast("Please type "+ this.searchInput.searchtype);
+        return false;
+      }
       let input = {
         "order": this.searchInput
       };

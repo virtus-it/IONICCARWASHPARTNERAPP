@@ -65,7 +65,7 @@ export class DealerSupplierCreatePage {
       this.input.phno1 = this.user.mobileno;
       this.input.phno2 = this.user.mobileno_one;
       this.input.id = this.user.id;
-      this.input.vechicleNumber = this.validate(JSON.stringify(this.user.vechicle_number));
+      this.input.vechicleNumber = this.validate(this.user.vechicle_number);
       this.input.flottingCash = this.validate(JSON.stringify(this.user.flotting_cash));
       this.input.addr = this.validate(this.user.address);
       this.input.distributorId = JSON.stringify(this.user.associateddealer.user_id);
@@ -142,7 +142,7 @@ export class DealerSupplierCreatePage {
   doValidation() {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
-      if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
+      if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 9, 9)) {
         if (this.alertUtils.validateNumber(this.input.id, 'ID', 2, 10)) {
           if (this.alertUtils.validateText(this.input.vechicleNumber, "Vechicle Number", 4, 10)) {
             if (this.alertUtils.validateText(this.input.flottingCash, "Flotting Cash", 1, 8)) {

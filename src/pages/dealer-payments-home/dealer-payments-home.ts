@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, RES_SUCCESS, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 
 
@@ -14,7 +14,7 @@ export class DealerPaymentsHomePage {
   showProgress = true;
   private response: any;
   private noRecords = false;
-
+  private userType= UtilsProvider.USER_TYPE;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
@@ -47,10 +47,44 @@ export class DealerPaymentsHomePage {
     } catch (e) {
       this.alertUtils.showLog(e);
     }
-      }
+  }
 
   ionViewDidLoad() {
     /*this.fetchOrders(false, false, true, "", "");*/
+  }
+
+  changeStatus(action, item) {
+    try {
+      if (UtilsProvider.USER_ID) {
+        let input = {
+          "root": {
+            "paymentid": item.paymentid,
+            "received_amt": item.amount_received,
+            "orderid": item.orderid,
+            "customerid": item.customer.userid,
+            "status": "confirm",
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UtilsProvider.USER_TYPE,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
+          }
+        };
+        if (action != 'confirm') {
+          input.root.status = "rejected";
+        }
+        this.apiService.postReq(this.apiService.changePaymentStatus(), input).then(res => {
+          if (res.result == RES_SUCCESS && res.data) {
+            this.alertUtils.showToast("Payment status updated successfully");
+            this.fetchOrders(false, false, true, "", "");
+
+          }
+        });
+      }
+
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
@@ -91,11 +125,19 @@ export class DealerPaymentsHomePage {
             this.response = res.data;
           for (let i = 0; i < res.data.length; i++) {
 
-
+            if (res.data[i].status == 'confirm') {
+              res.data[i]['statustext'] = "Payment Confirmed"
+            }else if(res.data[i].status == 'rejected'){
+              res.data[i]['statustext'] = "Payment Rejected"
+            }else if(res.data[i].status == 'received'){
+              res.data[i]['statustext'] = "Payment Received"
+            }else{
+              res.data[i]['statustext'] = res.data[i].status;
+            }
             //updating bill amount
-            if(res.data[i].status == OrderTypes.DELIVERED){
+            if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["billamt_updated"] = res.data[i].bill_amount;
-            }else
+            } else
               res.data[i]["billamt_updated"] = res.data[i].orderamt;
 
             if (isPaging)

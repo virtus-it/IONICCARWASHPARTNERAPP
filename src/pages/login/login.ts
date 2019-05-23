@@ -72,7 +72,14 @@ export class LoginPage {
   logIn() {
 
     //this.utils.showToastSnackBar('clicked');
-
+    if(!this.username){
+      this.alertUtils.showToast("Please enter mobile number");
+      return false;
+    }
+    if(!this.password){
+      this.alertUtils.showToast("Please enter password");
+      return false;
+    }
     let input = {
       "User": {
         "emailid": this.username,

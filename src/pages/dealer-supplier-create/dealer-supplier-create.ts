@@ -147,6 +147,7 @@ export class DealerSupplierCreatePage {
           if (this.alertUtils.validateText(this.input.vechicleNumber, "Vechicle Number", 4, 10)) {
             if (this.alertUtils.validateText(this.input.flottingCash, "Flotting Cash", 1, 8)) {
               if (this.alertUtils.validateText(this.input.addr, "Address", 4, 100)) {
+                this.showToast = false;
                 if (this.isUpdate)
                   this.doUpdate();
                 else

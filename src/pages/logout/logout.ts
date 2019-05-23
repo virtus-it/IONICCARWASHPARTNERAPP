@@ -37,7 +37,7 @@ export class LogoutPage {
 
   showPromptForDelete() {
     let prompt = this.alertCtrl.create({
-      title: 'LOGOUT',
+      title: 'Logout',
       message: 'Are you sure. You want to logout?',
       buttons: [
         {

@@ -125,11 +125,12 @@ export class DealerDistributorsCreatePage {
 
     if (this.alertUtils.validateText(this.input.firstname, 'First name', 3, 50)) {
       if (this.alertUtils.validateText(this.input.lastname, 'Last name', 1, 50)) {
-        if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 10, 10)) {
+        if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 9, 9)) {
           if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 50)) {
             //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
             if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
               //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
+              this.showToast = false;
               if (this.isUpdate)
                 this.doUpdate();
               else
@@ -239,6 +240,7 @@ export class DealerDistributorsCreatePage {
           "mobileno_two": this.input.phno3,
           "phonetype": this.input.phoneType,
           "address": this.input.addr,
+          "distributor": this.USER_ID,
           "companyname": this.input.companyName,
           "referCode": this.input.referenceCode,
           "gstnumber": this.input.gstNumber,

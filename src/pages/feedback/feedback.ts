@@ -160,7 +160,7 @@ export class FeedbackPage {
 
   showPromptForCreateIssue(event, feedback) {
     let prompt = this.alertCtrl.create({
-      title: 'REPLY',
+      title: 'Reply',
       message: 'Please write your reply',
       inputs: [
         {

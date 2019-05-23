@@ -226,6 +226,7 @@ export class DealerCustomersCreatePage {
           "advamt": this.input.advAmt,
           "paymenttype": this.input.paymentType,
           "address": this.input.addr,
+          "distributor": this.USER_ID,
           "locality": this.input.locality,
           "buildingname": this.input.platNo,
           "loginid": this.USER_ID,

@@ -490,6 +490,9 @@ export class UtilsProvider {
   getVersionCode() {
     return this.appVersion.getVersionCode();
   }
+  getVersionNumber() {
+    return this.appVersion.getVersionNumber();
+  }
 
   getUserId() {
     this.initUser(this.getUserInfo());

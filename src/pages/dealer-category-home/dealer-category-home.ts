@@ -23,6 +23,7 @@ export class DealerCategoryHomePage {
   };
   btnText: string = "Save";
   title: string = "Category";
+  private base64Image: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
@@ -66,6 +67,7 @@ export class DealerCategoryHomePage {
 
   assetImg() {
     this.imgUrl = 'assets/imgs/img_repairing_service.png';
+    this.person.imgUrl = 'assets/imgs/img_repairing_service.png';
   }
 
   ionViewDidLoad() {
@@ -224,6 +226,9 @@ export class DealerCategoryHomePage {
           this.alertUtils.showToast("Category update successfully");
           this.page1 = !this.page1;
           this.page2 = !this.page2;
+          if (this.base64Image && this.base64Image.length > 0) {
+            this.uploadImg(this.base64Image, 'category_' + this.person.categoryid);
+          }
           this.fetchCategories();
         }
       }, err => {
@@ -237,6 +242,9 @@ export class DealerCategoryHomePage {
           this.alertUtils.showToast("Category created successfully");
           this.page1 = !this.page1;
           this.page2 = !this.page2;
+          if (this.base64Image && this.base64Image.length > 0) {
+            this.uploadImg(this.base64Image, 'category_' + res.data.categoryid);
+          }
           this.fetchCategories();
         }
       }, err => {
@@ -308,7 +316,11 @@ export class DealerCategoryHomePage {
         let base64Image = imageData;
 
         if (base64Image && base64Image.length > 0) {
-          this.uploadImg(base64Image, 'category_' + item.categoryid);
+          this.base64Image = base64Image;
+          this.person.imgUrl= "data:image/jpeg;base64,"+this.base64Image;
+
+          // this.person.imgUrl = this.base64Image;l
+          // this.uploadImg(base64Image, 'category_' + item.categoryid);
         }
 
       }, (err) => {

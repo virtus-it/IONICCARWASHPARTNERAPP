@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-export const APP_VER_CODE: string = "3";
+export const APP_VER_CODE: string = "4";
 import "rxjs/add/operator/map";
 import {APP_TYPE, APP_USER_TYPE, IS_WEBSITE, UtilsProvider} from "../utils/utils";
 import {Http, RequestOptions, Headers} from "@angular/http";

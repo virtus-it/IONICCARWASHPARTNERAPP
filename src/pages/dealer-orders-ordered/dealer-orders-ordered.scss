@@ -7,12 +7,15 @@ page-dealer-orders-ordered {
   }
   .jobid_header.card-header {
 
-    color: #38b7fe !important;
+    background: #38b7fe !important;
     text-align: left;
     display: flex;
+    color:#fff;
+    padding: 0 0 0 10px;
+
     .jobassign_no {
-      background: #ededed;
-      padding: 14px;
+     color:#fff;
+      padding: 14px 14px 14px 0;
       font-size: 18px;
     }
     .order_heading {
@@ -38,9 +41,10 @@ page-dealer-orders-ordered {
      }
 
   .ord_address{
-     float: left;
+
      width: 92%;
      margin-left: 5px;
+    line-height: 18px;
    }
   .job_mgm_lbl {
     width: 100%;

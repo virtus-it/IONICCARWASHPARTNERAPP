@@ -37,18 +37,11 @@
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let order of response">
 
-      <ion-card class="colomn_main">
+      <ion-card class="colomn_main card_lst_cntr">
 
         <ion-card-header class="jobid_header">
           <span class="jobassign_no">#{{order.order_id}}</span> <div class="order_heading"> <label>Status</label><span>{{order.statusUpdated}}</span></div>
         </ion-card-header>
-
-        <ion-row>
-
-
-        </ion-row>
-
-
         <ion-row>
           <ion-col><span class="job_mgm_lbl">Cart ID</span>{{order.cart_id}}</ion-col>
           <ion-col><span class="job_mgm_lbl">Delivery Time</span>{{order.delivery_exceptedtime}}</ion-col>

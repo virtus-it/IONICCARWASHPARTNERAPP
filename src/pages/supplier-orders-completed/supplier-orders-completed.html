@@ -13,7 +13,7 @@
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let order of response; let i = index;">
 
-      <ion-card class="colomn_main">
+      <ion-card class="colomn_main ">
 
         <ion-card-header class="jobid_header">
           <span class="jobassign_no">#{{order?.order_id}}</span> <div class="order_heading"> <label>Status</label><span>{{order.statusUpdated}}</span></div>

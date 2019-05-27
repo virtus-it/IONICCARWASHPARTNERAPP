@@ -388,6 +388,8 @@ page-chat {
 .statusupdt {
   float: left;
   font-size: 14px;
+  padding: 4px 0;
+  font-weight: 600;
 }.total_cost  {
    float: right;
    width: 28%;
@@ -440,6 +442,9 @@ page-chat {
 
   background: #00aeff;
 
+}
+.order_details_pg .dealer_contnr .icon::before {
+  color: inherit;
 }
 .order_details_pg .icon::before {
   font-size: 20px;

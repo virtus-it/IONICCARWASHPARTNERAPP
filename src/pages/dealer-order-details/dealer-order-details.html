@@ -127,19 +127,20 @@
     </ion-card>
 
     <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
-      <ion-card-content class="no_margin no_padding">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'ORDER_DETAILS_PAGE.LABELS.lb_supplier_details' | translate }}</span></ion-card-header>
+      <ion-card-content class="no_margin no_padding" >
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
-            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_supplier_details' | translate }}
+
           </ion-col>
           <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
           </ion-col>
         </ion-row>
-        <ion-item class="no_margin no_padding">
+        <ion-item class="no_margin no_padding" style="padding: 0;">
           <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
           <span *ngIf="item?.suppliername" class="text_output no_margin pdleft12-nopadding">{{item?.suppliername }}</span>
         </ion-item>
-        <ion-item class="no_margin no_padding logo-color" (click)="callNow(item?.supplierdetails.mobileno)" *ngIf="item?.supplierdetails">
+        <ion-item class="no_margin no_padding logo-color" (click)="callNow(item?.supplierdetails.mobileno)" *ngIf="item?.supplierdetails" style="padding: 0;">
           <ion-icon name="call" small class="no_margin no_padding"></ion-icon>
           <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.supplierdetails.mobileno}}</span>
         </ion-item>
@@ -156,7 +157,7 @@
           <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
           </ion-col>
         </ion-row>
-        <ion-item class="no_margin no_padding">
+        <ion-item class="no_margin no_padding" style="padding: 0;">
           <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
           <span class="text_output no_margin pdleft12-nopadding">{{item?.dealerdetails.firstname + " "+item?.dealerdetails.lastname }}</span>
         </ion-item>
@@ -166,7 +167,7 @@
             <span>{{item?.dealerdetails.address+", "+item?.dealerdetails.city+", "+item?.dealerdetails.state + "," + item?.dealerdetails.pincode}}</span>
           </ion-card-content>
         </ion-row>
-        <ion-item (click)="callNow(item?.dealerdetails.mobileno)" class=" no_padding no_margin logo-color">
+        <ion-item (click)="callNow(item?.dealerdetails.mobileno)" class=" no_padding no_margin logo-color" style="padding: 0;">
           <ion-icon name="call" small></ion-icon>
           <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.dealerdetails.mobileno}}</span>
         </ion-item>
@@ -174,9 +175,9 @@
     </ion-card>
 
     <ion-card>
-
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">  {{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}</span></ion-card-header>
       <ion-card-content class="no_padding no_margin">
-        <ion-card-header class="cardtop_heading"><span class="statusupdt">  {{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}</span></ion-card-header>
+
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
 

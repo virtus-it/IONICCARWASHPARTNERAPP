@@ -11,8 +11,8 @@ page-supplier-orders-pending {
     text-align: left;
     display: flex;
     .jobassign_no {
-      background: #ededed;
-      padding: 14px;
+      color:#fff;
+      padding: 14px 14px 14px 0;
       font-size: 18px;
     }
     .order_heading {
@@ -38,9 +38,10 @@ page-supplier-orders-pending {
   }
 
   .ord_address{
-    float: left;
+
     width: 92%;
     margin-left: 5px;
+    line-height: 18px;
   }
   .job_mgm_lbl {
     width: 100%;

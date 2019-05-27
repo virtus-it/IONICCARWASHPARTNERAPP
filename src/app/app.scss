@@ -70,6 +70,8 @@ ion-icon {
 .customer_mgmnttop {
   background: transparent !important;
   box-shadow: none;
+  margin: 0;
+  width: 100%;
 
   .tp_searachbox {
     background: #fff;
@@ -94,13 +96,25 @@ ion-icon {
   padding: 10px 0;
   cursor: pointer;
 }
-@media (min-width: 400px) {
+@media (min-width: 300px) {
   .fixscrollcontainer
-  {width :100%}
+  {width :100%; display: inline; }
+  .loginapp_icon .logo_container{ padding:25px 0 !important;}
 
 }
-@media (min-width: 400px) {
+@media (min-width: 550px) {
   .fixscrollcontainer
-  {width :550px; margin:0 auto;}
-
+  {width :550px; margin:0 auto; display: block;}
 }
+.platform-ios .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+.platform-ios .item-md.item-input.input-has-focus .item-inner {
+  border: 1px solid #fff !important;
+  -webkit-box-shadow:none !important;
+  box-shadow :none !important;
+}
+.card_lst_cntr.card-ios{margin: 12px 0 0 0;
+  width: 100%;}
+.alert-ios .alert-wrapper{color: #444;}

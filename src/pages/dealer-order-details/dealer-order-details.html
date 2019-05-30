@@ -53,7 +53,7 @@
     </ion-card>
 
     <!--Product Details-->
-    <ion-card class="cardtop_heading">
+    <ion-card class="">
       <ion-card-header class="cardtop_heading"><span class="statusupdt">Services Details</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
 
@@ -73,7 +73,7 @@
     </ion-card>
 
     <!--order status-->
-    <ion-card>
+    <ion-card class="card_status">
       <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Status</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
 
@@ -99,16 +99,7 @@
             {{item?.order_delivereddate | utcDate}}</div>
           </li>
         </ul>
-        <ion-row>
-          <ion-col></ion-col>
-          <ion-col></ion-col>
-          <ion-col></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col></ion-col>
-          <ion-col></ion-col>
-          <ion-col></ion-col>
-        </ion-row>
+
       </ion-card-content>
     </ion-card>
 
@@ -208,7 +199,7 @@
   <ion-grid class="input-wrap">
     <ion-row>
       <ion-col col-10>
-        <ion-textarea #chat_input placeholder="Type a message here" (focusin)="onFocus()" [(ngModel)]="editorMsg" (keyup.enter)="sendMessage(item)">
+        <ion-textarea class="type_chat_text" #chat_input placeholder="Type a message here" (focusin)="onFocus()" [(ngModel)]="editorMsg" (keyup.enter)="sendMessage(item)">
         </ion-textarea>
       </ion-col>
       <ion-col col-2>

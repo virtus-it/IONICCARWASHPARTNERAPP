@@ -7,6 +7,9 @@ page-chat {
   }.orderid {
      color: #1c464b;
    }
+  ion-card-header.cardtop_heading.card-header.card-header-ios {
+    padding: 5px 4px 5px 12px !important;
+  }
   $userBackgroundColor: #ffffff;
   $toUserBackgroundColor: #387ef5;
   .img-rupee{
@@ -377,6 +380,11 @@ page-chat {
   font-size: 14px !important;
 }
 
+.platform-ios {.job_mgm_lbl { line-height:26px;}
+  .jb_status {
+    margin: 0 0 0 10px;}
+  .type_chat_text{margin-left:4px; }
+}
 
 .pgid {
   float:left;width:70%;
@@ -400,7 +408,7 @@ page-chat {
  }
 
 .col{font-size:13px}
-.cardtop_heading.card-header.card-header-md {
+.cardtop_heading.card-header {
   background-color: #fff !important;
   color: #555 !important;
   text-align: left;

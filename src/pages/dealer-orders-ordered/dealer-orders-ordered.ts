@@ -98,7 +98,8 @@ export class DealerOrdersOrderedPage {
       this.apiService.postReq(this.apiService.orderByStatus(), data).then(res => {
         this.alertUtils.hideLoading();
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + res);
+        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : ");
+        this.alertUtils.showLog(res);
 
         this.processData(res, isPaging);
       }, error => {

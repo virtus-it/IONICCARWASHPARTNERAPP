@@ -7,12 +7,12 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class ApiProvider {
 
-  // private static DEVELOPMENT_URL  = "http://192.168.1.50:2250/";
+  private static DEVELOPMENT_URL  = "http://192.168.1.50:2250/";
   private static DEMO_URL         = "http://52.138.217.177:2250/";
   // private static LOCALHOST_URL    = "http://localhost:2221/";
   // private static TESTING_URL      = "http://104.211.247.42:2250/";
   // private static PRODUCTION_URL   = "http://moya.online/";
-  // public static SOCKET_DEV_URL    = "http://192.168.1.50:1900";
+   public static SOCKET_DEV_URL    = "http://192.168.1.50:1900";
   public static SOCKET_DEMO_URL   = "http://52.138.217.177:1900";
 
   private baseUrl: string;

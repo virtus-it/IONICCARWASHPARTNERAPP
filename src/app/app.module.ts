@@ -28,6 +28,9 @@ import {ListPage} from "../pages/list/list";
 import {NativeStorage} from "@ionic-native/native-storage";
 import {Network} from "@ionic-native/network";
 import {AppVersion} from "@ionic-native/app-version";
+import {BackgroundMode} from "@ionic-native/background-mode";
+import {BackgroundGeolocation} from "@ionic-native/background-geolocation";
+import {LocationTracker} from '../providers/tracker/tracker';
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -138,12 +141,15 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
     NativeStorage,
+    LocationTracker,
     Network,
     AppVersion,
     Camera,
     Push,
     UtilsProvider,
     NetworkProvider,
+    BackgroundMode,
+    BackgroundGeolocation,
     Geolocation
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

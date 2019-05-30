@@ -10,6 +10,10 @@
   <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Orders not found</h5>
 
 
+    <button (click)="getLocation(0);"  ion-button hidden>
+      TRACKING
+    </button>
+
   <ion-list *ngIf="!noRecords">
     <div *ngFor="let order of response; let i = index;">
 

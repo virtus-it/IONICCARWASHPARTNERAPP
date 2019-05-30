@@ -58,7 +58,7 @@ export class MyApp {
     ];
 
     this.pagesSupplier = [
-      {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
+      {title: 'JOBS',           component: 'SupplierOrdersHomePage',  icon: "assets/imgs/img_job.png"},
       {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png"},
       {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},

@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ion
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
+import {LocationTracker} from "../../providers/tracker/tracker";
 
 
 @IonicPage()
@@ -26,6 +27,7 @@ export class DealerOrderDetailsEditStatusPage {
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
+              private tracket: LocationTracker,
               private platform: Platform,
               private formBuilder: FormBuilder) {
 
@@ -123,6 +125,8 @@ export class DealerOrderDetailsEditStatusPage {
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.viewCtrl.dismiss(this.output);
           this.alertUtils.stopSubscription();
+          this.tracket.disconnectSocket();
+          this.tracket.stopTracking();
         } else
           this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
       }, error => {

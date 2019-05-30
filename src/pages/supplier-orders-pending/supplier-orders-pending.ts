@@ -7,6 +7,9 @@ import 'rxjs/add/observable/interval';
 import {Geolocation} from "@ionic-native/geolocation";
 import {Socket} from "ng-socket-io";
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
+import {LocationTracker} from "../../providers/tracker/tracker";
 
 
 @IonicPage()
@@ -28,7 +31,10 @@ export class SupplierOrdersPendingPage {
               private geolocation: Geolocation,
               private socket: Socket,
               private camera: Camera,
+              private tracker: LocationTracker,
               private platform: Platform,
+              private backgroundMode: BackgroundMode,
+              private backgroundGeolocation: BackgroundGeolocation,
               private appCtrl: App) {
 
     this.showProgress = false;
@@ -57,9 +63,13 @@ export class SupplierOrdersPendingPage {
           }
         });
       });
+
+
     } catch (e) {
       this.alertUtils.showLog(e);
     }
+
+   // this.getLocation(0);
   }
 
   ionViewDidLoad() {
@@ -252,6 +262,7 @@ export class SupplierOrdersPendingPage {
               this.alertUtils.showToast('Order rejected');
             else if (status == 'orderstarted') {
               this.alertUtils.showLog('order started');
+              this.tracker.connectSocket();
               this.getLocation(i);
             } else if (status == 'jobstarted') {
               this.alertUtils.showLog('job started');
@@ -275,38 +286,31 @@ export class SupplierOrdersPendingPage {
 
   getLocation(i) {
     this.alertUtils.showToast('Tracking Initialized');
-    this.sub = Observable.interval(10000).subscribe((val) => {
-      try {
-        let watch = this.geolocation.watchPosition({ maximumAge: 0, timeout: 10000, enableHighAccuracy: true });
-        watch.subscribe((data) => {
-          try {
-            if (data && data.coords && data.coords.latitude && data.coords.longitude) {
-              this.alertUtils.showLog("lat : " + data.coords.latitude + "\nlog : " + data.coords.longitude + "\n" + new Date());
-              this.trackingUpdate(data, i);
-            }
-          } catch (e) {
-            this.alertUtils.showLog(e);
-          }
-        });
 
-      } catch (e) {
-        this.alertUtils.showLog(e);
+    this.tracker.startTracking();
+
+   /* this.backgroundMode.enable();
+    this.backgroundMode.on('activate');
+    this.backgroundMode.disableWebViewOptimizations();*/
+
+    this.sub = Observable.interval(10000).subscribe((val) => {
+      if(this.tracker.lat && this.tracker.lng){
+        this.trackingUpdate(this.tracker.lat,this.tracker.lng,i);
       }
-      this.alertUtils.setSubscription(this.sub);
-    }, (error) => {
-      this.alertUtils.showLog("error");
-    })
+    });
+
+    this.alertUtils.setSubscription(this.sub);
+
   }
 
-  trackingUpdate(data, i) {
+  trackingUpdate(lat,lng, i) {
     try {
-      this.socket.connect();
-      this.socket.emit("carwashserviceenginerstarted",
+      this.tracker.socketInit.emit("carwashserviceenginerstarted",
         {
           "order":{
-            "orderid": this.response[i].order_id,
-            "lat": data.coords.latitude,
-            "lng": data.coords.longitude,
+           "orderid": this.response[i].order_id,
+            "lat": lat,
+            "lng": lng,
             "uuid": this.response[i].useruniqueid,
             "userid": UtilsProvider.USER_ID,
             "usertype": UserType.SUPPLIER,

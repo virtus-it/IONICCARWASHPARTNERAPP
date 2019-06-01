@@ -56,13 +56,15 @@
         </ion-row>
 
         <ion-row *ngIf="order.orderstatus == 'orderstarted'">
-          <button (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
+          <ion-buttons>
+          <button class="btn-lg" (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
             JOB START
           </button>
+          </ion-buttons>
         </ion-row>
 
         <ion-row>
-          <ion-col>{{order?.timestamp | utcDate}}</ion-col>
+
           <ion-col>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
               VIEW DETAILS

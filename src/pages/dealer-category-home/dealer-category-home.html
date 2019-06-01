@@ -19,33 +19,44 @@
 
 <ion-content padding>
   <div class="fixscrollcontainer">
-  <div *ngIf="page1">
+
+    <div *ngIf="page1">
+      <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content>
+        </ion-refresher-content>
+      </ion-refresher>
       <div *ngFor="let item of list">
         <div>
           <ion-card>
             <ion-row>
               <ion-col col-2>
                 <ion-avatar>
-              <img src="{{item.url}}"  style="height: 40px; width: 40px" (error)="onImageError(item)"/>
+                  <img src="{{item.url}}" style="height: 40px; width: 40px" (error)="onImageError(item)" />
                 </ion-avatar>
               </ion-col>
-              <ion-col col-10>
+              <ion-col col-8>
                 <ion-item>
                   <h2>{{item.category}}</h2>
                   <p>Priority: {{item.priority}}</p>
                   <p>{{item.category_desc}}</p>
                 </ion-item>
               </ion-col>
-
+              <ion-col col-2 *ngIf="item.isactive == 0">
+                <b class="danger">In-Active</b>
+              </ion-col>
 
             </ion-row>
             <ion-row>
               <ion-col (click)="update(item)" class="edit_bg"><span class="header_icon">Update</span>
               </ion-col>
-              <ion-col (click)="delete(item)"
-                       class="delet_bg"><span class="header_icon">Delete</span></ion-col>
-              <ion-col (click)="viewServices(item)"
-                       class="edit_bg"><span class="header_icon">View Services</span></ion-col>
+
+              <ion-col (click)="delete(item)" class="delet_bg">
+                <span class="header_icon" *ngIf="item.isactive == 0">Enable</span>
+                <span class="header_icon" *ngIf="item.isactive == 1">Disable</span>
+
+              </ion-col>
+
+              <ion-col (click)="viewServices(item)" class="edit_bg"><span class="header_icon">View Services</span></ion-col>
             </ion-row>
 
           </ion-card>
@@ -55,11 +66,8 @@
   </div>
   <div *ngIf="page2">
 
-    <div align="center" >
-      <img style="width: 40%;" class="profile-image"
-           [src]="person.imgUrl"
-           (error)="assetImg();"
-           (click)="promptPickImage(person);">
+    <div align="center">
+      <img style="width: 40%;" class="profile-image" [src]="person.imgUrl" (error)="assetImg();" (click)="promptPickImage(person);">
     </div>
 
     <ion-list>

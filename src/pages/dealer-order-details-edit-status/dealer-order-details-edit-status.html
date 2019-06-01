@@ -127,7 +127,11 @@
 
 <ion-footer>
   <ion-row>
-    <button ion-button color="primary" (click)="closeModal($event);">CANCEL</button>
-    <button ion-button color="primary" (click)="submitOrder($event);">SUBMIT</button>
+    <ion-col>
+    <button ion-button full color="primary" (click)="closeModal($event);">CANCEL</button>
+    </ion-col>
+    <ion-col>
+    <button ion-button full color="primary" (click)="submitOrder($event);">SUBMIT</button>
+    </ion-col>
   </ion-row>
 </ion-footer>

@@ -1,8 +1,8 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
-import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, INTERNET_ERR_MSG, KEY_USER_INFO, UtilsProvider} from '../../providers/utils/utils';
-import {ApiProvider} from '../../providers/api/api';
-import {Camera, CameraOptions} from "@ionic-native/camera";
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { AlertController, IonicPage, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
+import { APP_TYPE, INTERNET_ERR_MSG, KEY_USER_INFO, UtilsProvider } from '../../providers/utils/utils';
+import { ApiProvider } from '../../providers/api/api';
+import { Camera, CameraOptions } from "@ionic-native/camera";
 
 @IonicPage()
 @Component({
@@ -26,10 +26,10 @@ export class DealerCategoryHomePage {
   private base64Image: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
-              private apiService: ApiProvider,
-              private platform: Platform,
-              private camera: Camera, private ref: ChangeDetectorRef, private modalCtrl: ModalController,
-              private alertCtrl: AlertController) {
+    private apiService: ApiProvider,
+    private platform: Platform,
+    private camera: Camera, private ref: ChangeDetectorRef, private modalCtrl: ModalController,
+    private alertCtrl: AlertController) {
 
     try {
       this.platform.ready().then(ready => {
@@ -40,7 +40,7 @@ export class DealerCategoryHomePage {
             this.alertUtils.initUser(value);
 
             //initial call
-            this.fetchCategories();
+            this.fetchCategories('');
           }
         }, (error) => {
           let value = UtilsProvider.USER_INFO
@@ -49,7 +49,7 @@ export class DealerCategoryHomePage {
             this.alertUtils.initUser(value);
 
             //initial call
-            this.fetchCategories();
+            this.fetchCategories('');
           }
         });
       });
@@ -60,9 +60,17 @@ export class DealerCategoryHomePage {
 
   }
 
-  viewServices(item){
+
+  doRefresh(refresher) {
+    this.fetchCategories(refresher);
+    setTimeout(() => {
+      refresher.complete();
+    }, 30000);
+  }
+
+  viewServices(item) {
     console.log(item);
-    this.navCtrl.push('DealerProductsPage',{item:item});
+    this.navCtrl.push('DealerProductsPage', { item: item });
   }
 
   assetImg() {
@@ -83,7 +91,7 @@ export class DealerCategoryHomePage {
 
     let alert = this.alertCtrl.create({
       title: 'WARNING',
-      message: 'Are you sure you want to delete ?',
+      message: 'Are you sure you want to do this operation?',
       buttons: [
         {
           text: 'NO',
@@ -97,12 +105,15 @@ export class DealerCategoryHomePage {
           handler: () => {
             if (this.alertUtils.networkStatus()) {
 
-              let input = {"product": {"transtype": "delete", "categoryid": item.categoryid}};
+              let input = { "product": { "transtype": "delete", "isactive": 0, "categoryid": item.categoryid } };
+              if (item.isactive == 0 || item.isactive == null) {
+                input.product.isactive = 1
+              }
               this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
                 console.log(res);
                 if (res && res.data) {
                   this.alertUtils.showToast("Category deleted successfully");
-                  this.fetchCategories();
+                  this.fetchCategories('');
                 }
               });
             } else {
@@ -115,8 +126,7 @@ export class DealerCategoryHomePage {
     alert.present();
 
   }
-  onSegmentChange()
-  {
+  onSegmentChange() {
     this.currentSeg = JSON.stringify(JSON.parse(this.type))
     if (this.currentSeg == "1") {
       this.title = "Category";
@@ -229,7 +239,7 @@ export class DealerCategoryHomePage {
           if (this.base64Image && this.base64Image.length > 0) {
             this.uploadImg(this.base64Image, 'category_' + this.person.categoryid);
           }
-          this.fetchCategories();
+          this.fetchCategories('');
         }
       }, err => {
         console.log(err);
@@ -245,7 +255,7 @@ export class DealerCategoryHomePage {
           if (this.base64Image && this.base64Image.length > 0) {
             this.uploadImg(this.base64Image, 'category_' + res.data.categoryid);
           }
-          this.fetchCategories();
+          this.fetchCategories('');
         }
       }, err => {
         console.log(err);
@@ -259,19 +269,28 @@ export class DealerCategoryHomePage {
     item.url = "http://placehold.it/500x200";
   }
 
-  fetchCategories() {
+  fetchCategories(refresher) {
     this.apiService.getReq(this.apiService.getProductCategory() + UtilsProvider.USER_ID + "/" + UtilsProvider.USER_TYPE + "/" + APP_TYPE).then(res => {
       console.log(res);
+      if (refresher) {
+        refresher.complete();
+      }
       if (res && res.data) {
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
           element["url"] = this.apiService.getImg() + "category_" + element.categoryid + ".png";
+          if (!element.isactive) {
+            element.isactive = 0;
+          }
         }
         this.list = res.data;
         this.title = "Category";
 
       }
     }, err => {
+      if (refresher) {
+        refresher.complete();
+      }
       console.log(err);
     });
   }
@@ -317,7 +336,7 @@ export class DealerCategoryHomePage {
 
         if (base64Image && base64Image.length > 0) {
           this.base64Image = base64Image;
-          this.person.imgUrl= "data:image/jpeg;base64,"+this.base64Image;
+          this.person.imgUrl = "data:image/jpeg;base64," + this.base64Image;
 
           // this.person.imgUrl = this.base64Image;l
           // this.uploadImg(base64Image, 'category_' + item.categoryid);

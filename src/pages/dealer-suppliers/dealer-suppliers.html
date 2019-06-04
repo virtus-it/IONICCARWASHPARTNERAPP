@@ -5,10 +5,10 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_engineer.png">
-      <span class="title-style">SERVICE ENGINEERS</span>
+      <span class="title-style">Service Engineers</span>
     </ion-title>
-    <ion-buttons end (click)="create($event, '')">
-      <button ion-button icon-end >
+    <ion-buttons *ngIf="isDealer" end (click)="create($event, '')">
+      <button ion-button icon-end>
         <ion-icon name="md-add"></ion-icon>
       </button>
     </ion-buttons>
@@ -17,81 +17,82 @@
 
 <ion-content padding>
   <div class="fixscrollcontainer">
-  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
-               item-center></ion-spinner>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content>
-    </ion-refresher-content>
-  </ion-refresher>
+    <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress" item-center></ion-spinner>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Service Engineers not found</h5>
+    <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Service Engineers not found</h5>
 
-  <!--Search Functionality-->
-  <ion-card class="customer_mgmnttop">
-    <ion-item>
-      <ion-label>Search Type</ion-label>
-      <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype">
-        <ion-option true value="name">Name</ion-option>
-        <ion-option value="mobile">Phone No</ion-option>
-      </ion-select>
-    </ion-item>
+    <!--Search Functionality-->
+    <ion-card class="customer_mgmnttop">
+      <ion-item>
+        <ion-label>Search Type</ion-label>
+        <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype">
+          <ion-option true value="name">Name</ion-option>
+          <ion-option value="mobile">Phone No</ion-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-row class="tp_searachbox">
-      <ion-col col-10="true">
-        <ion-item class="no_bg no_shadow input_container ">
+      <ion-row class="tp_searachbox">
+        <ion-col col-10="true">
+          <ion-item class="no_bg no_shadow input_container ">
 
-          <ion-input [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
-          </ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col class="top_srch_icon">
-        <ion-icon (click)="search($event);" name="search"></ion-icon>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+            <ion-input [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col class="top_srch_icon">
+          <ion-icon (click)="search($event);" name="search"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card>
 
-  <ion-list *ngIf="!noRecords">
-    <div *ngFor="let user of response">
-      <ion-card class="customer_mgmnt">
+    <ion-list *ngIf="!noRecords">
+      <div *ngFor="let user of response">
+        <ion-card class="customer_mgmnt">
 
-        <ion-row>
-          <ion-col>
-            <span class="job_mgm_lbl">Name </span>
-            {{validate(user.firstname) +' '+ validate(user.lastname)}}
-          </ion-col>
-          <ion-col>
-            <span class="job_mgm_lbl">Mobile </span>
-            {{user.mobileno}}
-          </ion-col>
-          <ion-col>
-            <span class="job_mgm_lbl">Cash </span> {{validate(user.flotting_cash)}}
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="user.address">
-          <ion-col>
-            <ion-icon name="pin"></ion-icon> {{validate(user.address)}}
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="job_mgm_lbl">Name </span>
+              {{validate(user.firstname) +' '+ validate(user.lastname)}}
+            </ion-col>
+            <ion-col>
+              <span class="job_mgm_lbl">Mobile </span>
+              {{user.mobileno}}
+            </ion-col>
+            <ion-col>
+              <span class="job_mgm_lbl">Cash </span> {{validate(user.flotting_cash)}}
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="user.address">
+            <ion-col>
+              <ion-icon name="pin"></ion-icon>
+              {{validate(user.address)}}
+            </ion-col>
+          </ion-row>
 
 
+          <ion-row>
+            <ion-col><span class="job_mgm_lbl">Vehicle No </span>{{validate(user.vechicle_number)}}</ion-col>
+            <ion-col><span class="job_mgm_lbl">Tracking </span>{{user.tracking}}</ion-col>
+          </ion-row>
 
-        <ion-row>
-          <ion-col><span class="job_mgm_lbl">Vehicle No </span>{{validate(user.vechicle_number)}}</ion-col>
-          <ion-col><span class="job_mgm_lbl">Tracking </span>{{user.tracking}}</ion-col>
-        </ion-row>
+          <ion-row *ngIf="user.associateddealer">
+            <ion-col><span class="job_mgm_lbl">Associated </span>
+              {{validate(user.associateddealer.firstname)+''+validate(user.associateddealer.lastname)}}
+            </ion-col>
+          </ion-row>
 
-        <ion-row *ngIf="user.associateddealer">
-          <ion-col><span class="job_mgm_lbl">Associated </span> {{validate(user.associateddealer.firstname)+' '+validate(user.associateddealer.lastname)}}</ion-col>
-        </ion-row>
+          <ion-row *ngIf="isDealer">
+            <ion-col class="edit_bg" (click)="create($event, user);"><span class="header_icon">Edit</span>
+            </ion-col>
+            <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span class="header_icon">Delete</span></ion-col>
+          </ion-row>
 
-        <ion-row>
-          <ion-col class="edit_bg" (click)="create($event, user);"><span class="header_icon" >Edit</span>
-          </ion-col>
-          <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span class="header_icon"
-                                          >Delete</span></ion-col></ion-row>
-
-      </ion-card>
-    </div>
-  </ion-list>
+        </ion-card>
+      </div>
+    </ion-list>
   </div>
 </ion-content>

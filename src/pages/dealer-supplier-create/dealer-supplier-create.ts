@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
-import {ApiProvider} from "../../providers/api/api";
-import {FormBuilder} from "@angular/forms";
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
+import { APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider } from "../../providers/utils/utils";
+import { ApiProvider } from "../../providers/api/api";
+import { FormBuilder } from "@angular/forms";
 
 
 @IonicPage()
@@ -28,21 +28,21 @@ export class DealerSupplierCreatePage {
 
   input = {
     firstname: "", phno1: "", phno2: "", id: "", vechicleNumber: "",
-    addr: "", flottingCash: "", distributor: "", distributorId: ""
+    addr: "", flottingCash: "", distributor: "", distributorId: "", tracking: "OFF"
   };
 
-  output = {"result": "", "actionType": "", "data": ""};
+  output = { "result": "", "actionType": "", "data": "" };
 
 
   showToast: boolean = false;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private viewCtrl: ViewController,
-              private alertUtils: UtilsProvider,
-              private apiService: ApiProvider,
-              private platform: Platform,
-              private formBuilder: FormBuilder) {
+    public navParams: NavParams,
+    private viewCtrl: ViewController,
+    private alertUtils: UtilsProvider,
+    private apiService: ApiProvider,
+    private platform: Platform,
+    private formBuilder: FormBuilder) {
 
     this.alertUtils.showLog('showVendor : ' + this.showVendor);
 
@@ -55,6 +55,7 @@ export class DealerSupplierCreatePage {
       this.isUpdate = false;
       this.pageTitle = 'CREATE SERVICE ENGINEER';
       this.buttonTitle = 'CREATE';
+      this.input.tracking = "ON";
     } else {
       this.isUpdate = true;
       this.pageTitle = 'EDIT SERVICE ENGINEER';
@@ -68,8 +69,11 @@ export class DealerSupplierCreatePage {
       this.input.vechicleNumber = this.validate(this.user.vechicle_number);
       this.input.flottingCash = this.validate(JSON.stringify(this.user.flotting_cash));
       this.input.addr = this.validate(this.user.address);
+      if (this.user.tracking) {
+        this.input.tracking = this.user.tracking;
+      }
       this.input.distributorId = JSON.stringify(this.user.associateddealer.user_id);
-      this.input.distributor = this.validate(this.user.associateddealer.firstname)+' '+this.validate(this.user.associateddealer.lastname);
+      this.input.distributor = this.validate(this.user.associateddealer.firstname) + ' ' + this.validate(this.user.associateddealer.lastname);
     }
 
     try {
@@ -176,7 +180,7 @@ export class DealerSupplierCreatePage {
     try {
       let dID;
 
-      if(this.input.distributorId)
+      if (this.input.distributorId)
         dID = this.input.distributorId;
       else
         dID = this.USER_ID;
@@ -192,6 +196,7 @@ export class DealerSupplierCreatePage {
           "vechicle_number": this.input.vechicleNumber,
           "flotting_cash": this.input.flottingCash,
           "address": this.input.addr,
+          "tracking": this.input.tracking,
           "distributor": dID,
           "issuppersupplier": false,
           "pwd": this.input.phno1,
@@ -246,6 +251,7 @@ export class DealerSupplierCreatePage {
           "id": this.input.id,
           "vechicle_number": this.input.vechicleNumber,
           "flotting_cash": this.input.flottingCash,
+          "tracking": this.input.tracking,
           "address": this.input.addr,
           "distributor": this.input.distributorId,
           "loginid": this.USER_ID,

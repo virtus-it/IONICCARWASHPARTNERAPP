@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_rating.png">
-      <span class="title-style">FEEDBACK MGMT</span>
+      <span class="title-style">Feedback Mgmt</span>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -70,11 +70,11 @@
                            (click)="changeIssueStatus($event, res, 'close');">Close</span>
             </ion-col>
 
-          <ion-col><img src="assets/imgs/img_tick.png"
-                        class="header_icon"
-                        *ngIf="res.status == 'close' "
-                        (click)="changeIssueStatus($event, res, 'open');">
-          </ion-col>
+          <!--<ion-col><img src="assets/imgs/img_tick.png"-->
+                        <!--class="header_icon"-->
+                        <!--*ngIf="res.status == 'close' "-->
+                        <!--(click)="changeIssueStatus($event, res, 'open');">-->
+          <!--</ion-col>-->
         </ion-row>
       </ion-card>
     </div>

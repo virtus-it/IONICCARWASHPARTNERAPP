@@ -1,14 +1,14 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {
+  AlertController,
   IonicPage,
+  MenuController,
+  ModalController,
   NavController,
   NavParams,
-  ModalController,
-  AlertController,
-  MenuController,
   Platform
 } from 'ionic-angular';
-import {APP_TYPE, UtilsProvider, UserType, FRAMEWORK, KEY_USER_INFO} from "../../providers/utils/utils";
+import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplier-create";
 
@@ -24,7 +24,6 @@ export class DealerSuppliersPage {
   private response: any;
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
-  private USER_TYPE = UtilsProvider.USER_TYPE;
   searchInput = {
     "userid": this.USER_ID,
     "status": "globalsearch",
@@ -35,6 +34,8 @@ export class DealerSuppliersPage {
     "searchfor": "supplier",
     "apptype": APP_TYPE
   };
+  private USER_TYPE = UtilsProvider.USER_TYPE;
+  private isDealer: boolean = true;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -56,7 +57,7 @@ export class DealerSuppliersPage {
             this.alertUtils.initUser(value);
 
             this.USER_ID = UtilsProvider.USER_ID;
-            this.USER_TYPE = UtilsProvider.USER_TYPE
+            this.USER_TYPE = UtilsProvider.USER_TYPE;
 
             //initial call
             this.fetchSuppliers(false, false, true, "", "");
@@ -77,6 +78,12 @@ export class DealerSuppliersPage {
           }
         });
       });
+
+      if(UtilsProvider.ISSUPER_DEALER){
+        this.isDealer = true;
+      }else{
+        this.isDealer = false;
+      }
     } catch (e) {
       this.alertUtils.showLog(e);
     }
@@ -93,6 +100,8 @@ export class DealerSuppliersPage {
     }
 
   }
+
+
 
   fetchSuppliers(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {
@@ -119,7 +128,11 @@ export class DealerSuppliersPage {
             if (res.data[i].tracking && res.data[i].tracking == 'true') {
               res.data[i].tracking = "ON";
             } else {
-              res.data[i].tracking = "OFF";
+              if (i == 0)
+                res.data[i].tracking = "ON";
+              else
+                res.data[i].tracking = "OFF";
+
 
             }
 
@@ -145,8 +158,8 @@ export class DealerSuppliersPage {
   search(event) {
 
     try {
-      if(!this.searchInput.searchtext){
-        this.alertUtils.showToast("Please type "+ this.searchInput.searchtype);
+      if (!this.searchInput.searchtext) {
+        this.alertUtils.showToast("Please type " + this.searchInput.searchtype);
         return false;
       }
       let input = {

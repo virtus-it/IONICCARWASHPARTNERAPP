@@ -50,27 +50,25 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="order.orderstatus == 'accepted'">
-          <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
-            START TO VISIT
-          </button>
-        </ion-row>
-
-        <ion-row *ngIf="order.orderstatus == 'orderstarted'">
-          <button (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
-            JOB START
-          </button>
-        </ion-row>
-
-        <ion-row>
-
+        <ion-row >
+          <ion-col *ngIf="order.orderstatus == 'accepted'">
+            <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
+              START TO VISIT
+            </button>
+          </ion-col>
+          <ion-col *ngIf="order.orderstatus == 'orderstarted'">
+            <ion-buttons>
+              <button class="btn-lg" (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
+                JOB START
+              </button>
+            </ion-buttons>
+          </ion-col>
           <ion-col>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
               VIEW DETAILS
             </button>
           </ion-col>
         </ion-row>
-
       </ion-card>
     </div>
   </ion-list>

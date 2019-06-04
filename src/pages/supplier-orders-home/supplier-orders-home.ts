@@ -1,10 +1,17 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
-import {KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {
+  KEY_TRACKING_ORDER,
+  KEY_TRACKING_STATUS,
+  KEY_USER_INFO,
+  UserType,
+  UtilsProvider
+} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
 // import {SuperTabs} from "ionic2-super-tabs";
-import { Geolocation } from '@ionic-native/geolocation';
+import {Geolocation} from '@ionic-native/geolocation';
+import {LocationTracker} from "../../providers/tracker/tracker";
 
 @IonicPage()
 @Component({
@@ -14,8 +21,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 export class SupplierOrdersHomePage {
 
   pages = [
-    {pageName: 'SupplierOrdersPendingPage',   title: 'PENDING',   icon: 'cloud-download',   id: 'pendingTab'},
-    {pageName: 'SupplierOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-upload',     id: 'completedTab'}
+    {pageName: 'SupplierOrdersPendingPage', title: 'PENDING', icon: 'cloud-download', id: 'pendingTab'},
+    {pageName: 'SupplierOrdersCompletedPage', title: 'COMPLETED', icon: 'cloud-upload', id: 'completedTab'}
   ];
 
   selectedTab = 0;
@@ -34,6 +41,7 @@ export class SupplierOrdersHomePage {
               private menuCtrl: MenuController,
               private geolocation: Geolocation,
               private platform: Platform,
+              private tracker: LocationTracker,
               private alertUtils: UtilsProvider,
               private alertCtrl: AlertController) {
 
@@ -45,6 +53,14 @@ export class SupplierOrdersHomePage {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
 
+            this.alertUtils.getSecValue(KEY_TRACKING_STATUS).then((value1) => {
+              if(value1==true){
+                this.alertUtils.getSecValue(KEY_TRACKING_ORDER).then((value2)=>{
+                  if(value2)
+                  this.tracker.startTracking(value2);
+                });
+              }
+            });
           }
         }, (error) => {
           let value = UtilsProvider.USER_INFO
@@ -66,14 +82,14 @@ export class SupplierOrdersHomePage {
   }
 
   ionViewDidLoad() {
-    this.menuCtrl.enable(false,'menu1');
-    this.menuCtrl.enable(true,'menu2');
-    this.menuCtrl.enable(false,'menu3');
-    this.menuCtrl.enable(false,'menu4');
-    this.menuCtrl.enable(false,'menu5');
+    this.menuCtrl.enable(false, 'menu1');
+    this.menuCtrl.enable(true, 'menu2');
+    this.menuCtrl.enable(false, 'menu3');
+    this.menuCtrl.enable(false, 'menu4');
+    this.menuCtrl.enable(false, 'menu5');
 
     try {
-      let watch = this.geolocation.watchPosition({ maximumAge: 0, timeout: 10000, enableHighAccuracy: true });
+      let watch = this.geolocation.watchPosition({maximumAge: 0, timeout: 10000, enableHighAccuracy: true});
       watch.subscribe((data) => {
         try {
           if (data && data.coords && data.coords.latitude && data.coords.longitude) {

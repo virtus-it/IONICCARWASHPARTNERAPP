@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-import {Observable, Subscription} from "rxjs";
 import 'rxjs/add/observable/interval';
 import {Geolocation} from "@ionic-native/geolocation";
-import {Socket} from "ng-socket-io";
+
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
@@ -20,7 +19,6 @@ import {LocationTracker} from "../../providers/tracker/tracker";
 export class SupplierOrdersPendingPage {
 
   showProgress = true;
-  sub: Subscription;
   private response: any;
   private noRecords = false;
 
@@ -29,7 +27,6 @@ export class SupplierOrdersPendingPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private geolocation: Geolocation,
-              private socket: Socket,
               private camera: Camera,
               private tracker: LocationTracker,
               private platform: Platform,
@@ -262,11 +259,13 @@ export class SupplierOrdersPendingPage {
               this.alertUtils.showToast('Order rejected');
             else if (status == 'orderstarted') {
               this.alertUtils.showLog('order started');
-              this.tracker.connectSocket();
-              this.getLocation(i);
+              this.alertUtils.showToast('Tracking Initialized');
+              this.tracker.startTracking(this.response[i]);
             } else if (status == 'jobstarted') {
               this.alertUtils.showLog('job started');
               this.alertUtils.stopSubscription();
+              this.tracker.stopTracking();
+              this.tracker.disconnectSocket();
             }
           } else
             this.alertUtils.showToast(res.result);
@@ -281,45 +280,6 @@ export class SupplierOrdersPendingPage {
       this.alertUtils.showLog(e);
       this.showProgress = false;
       //this.alertUtils.hideLoading();
-    }
-  }
-
-  getLocation(i) {
-    this.alertUtils.showToast('Tracking Initialized');
-
-    this.tracker.startTracking();
-
-   /* this.backgroundMode.enable();
-    this.backgroundMode.on('activate');
-    this.backgroundMode.disableWebViewOptimizations();*/
-
-    this.sub = Observable.interval(10000).subscribe((val) => {
-      if(this.tracker.lat && this.tracker.lng){
-        this.trackingUpdate(this.tracker.lat,this.tracker.lng,i);
-      }
-    });
-
-    this.alertUtils.setSubscription(this.sub);
-
-  }
-
-  trackingUpdate(lat,lng, i) {
-    try {
-      this.tracker.socketInit.emit("carwashserviceenginerstarted",
-        {
-          "order":{
-           "orderid": this.response[i].order_id,
-            "lat": lat,
-            "lng": lng,
-            "uuid": this.response[i].useruniqueid,
-            "userid": UtilsProvider.USER_ID,
-            "usertype": UserType.SUPPLIER,
-            "loginid": UtilsProvider.USER_ID,
-            "apptype": APP_TYPE
-          }
-        });
-    } catch (e) {
-      this.alertUtils.showLog(e);
     }
   }
 

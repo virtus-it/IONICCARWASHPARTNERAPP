@@ -16,6 +16,9 @@ export const KEY_USER_INFO = 'secure_storage_user_info';
 const KEY_GCM_ID = 'secure_storage_user_gcm_id';
 const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';
 
+export const KEY_TRACKING_STATUS = 'secure_storage_tracking_status';
+export const KEY_TRACKING_ORDER = 'secure_storage_tracking_order';
+
 export const APP_TYPE: string = "carwash";
 export const APP_USER_TYPE: string = "admin";
 export const MOBILE_TYPE: string = "android";

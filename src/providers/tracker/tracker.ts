@@ -28,7 +28,7 @@ export class LocationTracker {
       desiredAccuracy: 0,
       stationaryRadius: 20,
       distanceFilter: 0,
-      debug: true,
+      debug: false, //sound turn off
       interval: 100
     };
 

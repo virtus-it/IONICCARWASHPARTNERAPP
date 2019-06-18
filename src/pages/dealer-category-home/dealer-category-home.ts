@@ -24,6 +24,7 @@ export class DealerCategoryHomePage {
   btnText: string = "Save";
   title: string = "Category";
   private base64Image: any;
+  private isDealer: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertUtils: UtilsProvider,
     private apiService: ApiProvider,
@@ -53,6 +54,12 @@ export class DealerCategoryHomePage {
           }
         });
       });
+
+      if(UtilsProvider.ISSUPER_DEALER){
+        this.isDealer = true;
+      }else{
+        this.isDealer = false;
+      }
     } catch (e) {
       this.alertUtils.showLog(e);
     }

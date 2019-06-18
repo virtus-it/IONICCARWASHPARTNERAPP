@@ -164,6 +164,9 @@ export class DealerOrdersCompletedPage {
           if (isPaging)
             this.response.push(res.data[i]);
         }
+      }else{
+        if (!isPaging)
+          this.noRecords = true;
       }
     } catch (e) {
       this.alertUtils.showLog(e);

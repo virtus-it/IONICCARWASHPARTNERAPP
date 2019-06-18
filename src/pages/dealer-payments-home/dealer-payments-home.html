@@ -18,7 +18,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Jobs not found</h5>
+  <h5 *ngIf="noRecords" >Payments not found</h5>
 
 
   <ion-list *ngIf="!noRecords">
@@ -46,6 +46,11 @@
         <ion-row>
           <ion-col>{{validate(payment.customer.firstname) +' '+validate(payment.customer.lastname)}}</ion-col>
           <ion-col>{{validate(payment.supplier.firstname) +' '+validate(payment.supplier.lastname)}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>Payment Type</ion-col>
+          <ion-col>{{payment.payment_type}}</ion-col>
         </ion-row>
 
         <ion-row *ngIf="payment.status == 'received' && userType=='dealer'">

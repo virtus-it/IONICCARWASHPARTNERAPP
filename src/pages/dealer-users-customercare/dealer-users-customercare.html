@@ -7,7 +7,7 @@
       <img class="header_icon" src="assets/imgs/img_customer_care.png">
       <span class="title-style">Users</span>
     </ion-title>
-      <ion-buttons (click)="create($event, '')" end>
+      <ion-buttons *ngIf="isDealer" (click)="create($event, '')" end>
         <button icon-end ion-button>
           <ion-icon name="md-add"></ion-icon>
         </button>

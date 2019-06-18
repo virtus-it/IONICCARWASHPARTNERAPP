@@ -107,6 +107,7 @@ export class DealerOrdersOrderedPage {
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
       });
 
+
     } catch (e) {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
@@ -171,6 +172,10 @@ export class DealerOrdersOrderedPage {
           if (isPaging)
             this.response.push(res.data[i]);
         }
+
+      }else{
+          if (!isPaging)
+            this.noRecords = true;
       }
     } catch (e) {
       this.alertUtils.showLog(e);

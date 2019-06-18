@@ -1,15 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-import { ApiProvider } from '../../providers/api/api';
-import {
-  UtilsProvider,
-  APP_TYPE,
-  APP_USER_TYPE,
-  RES_SUCCESS,
-  UserType,
-  KEY_USER_INFO
-} from '../../providers/utils/utils';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import {ApiProvider} from '../../providers/api/api';
+import {APP_TYPE, KEY_USER_INFO, RES_SUCCESS, UserType, UtilsProvider} from '../../providers/utils/utils';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -20,6 +13,7 @@ export class DealerProfilePage {
   person: any;
   imgUrl: any;
   showProgress: any;
+  showFlottingCash:boolean = false;
 
 
   constructor(public navCtrl: NavController,
@@ -99,6 +93,11 @@ export class DealerProfilePage {
     this.apiService.getReq(this.apiService.getProfile() + UtilsProvider.USER_ID + "/" + APP_TYPE).then(res => {
       console.log(res);
       this.person = res.data.user;
+      if(res.data.user.user_type== UserType.SUPPLIER)
+        this.showFlottingCash = true;
+
+      this.alertUtils.showLog('showFlottingCash '+this.showFlottingCash);
+
       this.imgUrl = this.apiService.getImg()+UtilsProvider.USER_TYPE+'_'+this.person.userid+'.png?random'+ Math.random();
       this.alertUtils.showLog('Img Url : '+this.imgUrl);
     })

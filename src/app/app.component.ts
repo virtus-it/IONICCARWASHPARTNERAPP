@@ -43,7 +43,7 @@ export class MyApp {
       {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
       {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
       {title: 'CUSTOMERS',      component: 'DealerCustomersPage',   icon: "assets/imgs/img_user.png"},
-      // {title: 'SERVICES',       component: 'DealerProductsPage',    icon: "assets/imgs/img_repairing_service.png"},
+      //{title: 'SERVICES',       component: 'DealerProductsPage',    icon: "assets/imgs/img_repairing_service.png"},
       // {title: 'PACKAGE',        component: 'DealerPackagePage', icon: "assets/imgs/img_package.png"},
       {title: 'CATEGORY',       component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png"},
       {title: 'MODELS',        component: 'DealerCarModelsPage', icon: "assets/imgs/img_car.png"},
@@ -52,6 +52,7 @@ export class MyApp {
       {title: 'USERS',          component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png"},
       {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png"},
       {title: 'FEEDBACK',       component: 'FeedbackPage', icon: "assets/imgs/img_rating.png"},
+      //{title: 'SERVICE AREAS',  component: 'ServiceAreasPage', icon: "assets/imgs/img_rating.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
       {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}

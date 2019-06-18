@@ -8,19 +8,21 @@ import "rxjs/add/operator/map";
 export class ApiProvider {
 
   private static DEVELOPMENT_URL  = "http://192.168.1.50:2250/";
+  private static PROD_URL         = "http://13.68.223.203:2250/";
   private static DEMO_URL         = "http://52.138.217.177:2250/";
   // private static LOCALHOST_URL    = "http://localhost:2221/";
   // private static TESTING_URL      = "http://104.211.247.42:2250/";
   // private static PRODUCTION_URL   = "http://moya.online/";
    public static SOCKET_DEV_URL    = "http://192.168.1.50:1900";
   public static SOCKET_DEMO_URL   = "http://52.138.217.177:1900";
+  public static SOCKET_PROD_URL   = "http://13.68.223.203:2252";
 
   private baseUrl: string;
   http: any;
 
   constructor(http: Http,
               private alertUtils: UtilsProvider) {
-    this.baseUrl = ApiProvider.DEMO_URL;
+    this.baseUrl = ApiProvider.PROD_URL;
     this.http = http;
   }
 
@@ -32,12 +34,12 @@ export class ApiProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "woncustomer");
-      headers.append("framework", "wonioniccustomer");
+      headers.append("module", "wonpartner");
+      headers.append("framework", "wonionicpartner");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
-      headers.append("moyaversioncode", APP_VER_CODE);
+      headers.append("versioncode", APP_VER_CODE);
     }
 
     this.alertUtils.showLog(JSON.stringify(headers));
@@ -58,12 +60,12 @@ export class ApiProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "woncustomer");
-      headers.append("framework", "wonioniccustomer");
+      headers.append("module", "wonpartner");
+      headers.append("framework", "wonionicpartner");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
-      headers.append("moyaversioncode", APP_VER_CODE);
+      headers.append("versioncode", APP_VER_CODE);
 
     }
     this.alertUtils.showLog(JSON.stringify(headers));
@@ -80,12 +82,12 @@ export class ApiProvider {
     } else {
       headers = new Headers();
       headers.append("Content-Type", "application/json");
-      headers.append("module", "woncustomer");
-      headers.append("framework", "wonioniccustomer");
+      headers.append("module", "wonpartner");
+      headers.append("framework", "wonionicpartner");
       headers.append("devicetype", "android");
       headers.append("apptype", APP_TYPE);
       headers.append("usertype", APP_USER_TYPE);
-      headers.append("moyaversioncode", APP_VER_CODE);
+      headers.append("versioncode", APP_VER_CODE);
 
     }
     this.alertUtils.showLog(JSON.stringify(headers));

@@ -7,7 +7,7 @@
       <img class="header_icon" src="assets/imgs/img_user.png">
       <span class="title-style">Customer Mgmt</span>
     </ion-title>
-    <ion-buttons (click)="createCustomer($event, '')" end>
+    <ion-buttons *ngIf="isDealer" (click)="createCustomer($event, '')" end>
       <button icon-end ion-button>
         <ion-icon name="md-add"></ion-icon>
       </button>
@@ -24,7 +24,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Customers not found</h5>
+  <h5 *ngIf="noRecords" >Customers not found</h5>
 
   <!--Search Functionality-->
   <ion-card class="customer_mgmnttop">

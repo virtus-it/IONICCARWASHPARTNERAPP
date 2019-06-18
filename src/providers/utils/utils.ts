@@ -284,11 +284,11 @@ export class UtilsProvider {
   }
 
   showLog(val, lineNumber?, pageName?) {
-    console.log(val);
+   /* console.log(val);
     if (lineNumber)
       console.log(lineNumber);
     if (pageName)
-      console.log(pageName);
+      console.log(pageName);*/
   }
 
   showToastWithButton(message: string, showCloseButton: boolean, showCloseButtonText: string) {

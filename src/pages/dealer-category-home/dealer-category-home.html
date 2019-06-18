@@ -10,7 +10,7 @@
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="add()" *ngIf="page1">
+      <button ion-button (click)="add()" *ngIf="page1 && isDealer">
         <ion-icon name="md-add"></ion-icon>
       </button>
     </ion-buttons>

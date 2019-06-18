@@ -54,7 +54,7 @@ export class DealerOrdersPendingPage {
 
     let data = JSON.stringify(input);
 
-    //this.utils.showLoading();
+   /* //this.utils.showLoading();
     this.network.postReq(url,data).then(res=>{
       //this.utils.hideLoading();
       this.utils.showLog("POST (SUCCESS)=> ORDERS: ALL : "+JSON.stringify(res));
@@ -62,7 +62,7 @@ export class DealerOrdersPendingPage {
     },error=>{
       this.utils.showLog("POST (ERROR)=> ORDERS: ALL : "+error);
       //this.utils.hideLoading();
-    })
+    })*/
 
   }
 

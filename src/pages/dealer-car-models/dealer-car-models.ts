@@ -18,6 +18,14 @@ export class DealerCarModelsPage {
   private noRecords = false;
   private USER_ID;
   private USER_TYPE;
+  private isDealer: boolean = true;
+  searchInput = {
+    "userid":this.USER_ID,
+    "searchtext":"",
+    "searchtype":"manufacturer",
+    "TransType":'searchformodel',
+    "apptype":APP_TYPE
+  };
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -57,6 +65,12 @@ export class DealerCarModelsPage {
           }
         });
       });
+
+      if(UtilsProvider.ISSUPER_DEALER){
+        this.isDealer = true;
+      }else{
+        this.isDealer = false;
+      }
     } catch (e) {
       this.alertUtils.showLog(e);
     }
@@ -96,7 +110,6 @@ export class DealerCarModelsPage {
             res.data[i]['imgUrl'] = this.apiService.getImg()+'product_'+res.data[i].productid+'.png';
             if(res.data.isactive)
               this.response.push(res.data[i]);
-
           }
         } else {
           if (!isPaging)
@@ -112,6 +125,39 @@ export class DealerCarModelsPage {
       this.alertUtils.hideLoading();
       this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
     }
+  }
+
+  search(event){
+
+    try {
+      if(!this.searchInput.searchtext){
+        this.alertUtils.showToast("Please type "+ this.searchInput.searchtype);
+        return false;
+      }
+      let input ={
+        "root":this.searchInput
+      };
+
+      let data = JSON.stringify(input);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.getEntities(),data).then((res)=>{
+        this.showProgress = false;
+        this.alertUtils.showLog(res.data);
+
+        /*this.response = {};
+        for (let i = 0; i < res.data.length; i++) {
+          res.data[i]['imgUrl'] = this.apiService.getImg()+'product_'+res.data[i].productid+'.png';
+          if(res.data.isactive)
+            this.response.push(res.data[i]);
+        }*/
+        this.response = res.data;
+      },(error)=>{
+
+      })
+    }catch (e) {
+      this.alertUtils.showLog(e);
+    }
+
   }
 
   doRefresh(refresher) {

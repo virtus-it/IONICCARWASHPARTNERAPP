@@ -72,8 +72,11 @@ export class DealerSupplierCreatePage {
       if (this.user.tracking) {
         this.input.tracking = this.user.tracking;
       }
+
       this.input.distributorId = JSON.stringify(this.user.associateddealer.user_id);
-      this.input.distributor = this.validate(this.user.associateddealer.firstname) + ' ' + this.validate(this.user.associateddealer.lastname);
+      this.input.distributor = this.validate(this.user.associateddealer.firstname);
+        //+ ' ' + this.validate(this.user.associateddealer.lastname);
+
     }
 
     try {

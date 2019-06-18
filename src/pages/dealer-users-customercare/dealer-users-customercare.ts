@@ -16,6 +16,8 @@ export class DealerUsersCustomercarePage {
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
   private USER_TYPE = UtilsProvider.USER_TYPE;
+  private isDealer: boolean = true;
+
   searchInput = {
     "userid":this.USER_ID,
     "status":"globalsearch",
@@ -66,6 +68,12 @@ export class DealerUsersCustomercarePage {
           }
         });
       });
+
+      if(UtilsProvider.ISSUPER_DEALER){
+        this.isDealer = true;
+      }else{
+        this.isDealer = false;
+      }
     } catch (e) {
       this.alertUtils.showLog(e);
     }

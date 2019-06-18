@@ -7,7 +7,7 @@
       <img class="header_icon" src="assets/imgs/img_car.png">
       <span class="title-style">Car Models</span>
     </ion-title>
-    <ion-buttons (click)="create($event, '')" end>
+    <ion-buttons *ngIf="isDealer" (click)="create($event, '')" end>
       <button icon-end ion-button>
         <ion-icon name="md-add"></ion-icon>
       </button>
@@ -24,8 +24,34 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Services not found</h5>
-  <ion-list *ngIf="!noRecords">
+    <!--Search Functionality-->
+    <ion-card class="customer_mgmnttop">
+      <ion-item>
+        <ion-label>Search Type</ion-label>
+        <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype">
+          <ion-option true value="manufacturer">Manufacturer</ion-option>
+          <ion-option value="model">Model</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-row class="tp_searachbox">
+        <ion-col col-10="true">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-input placeholder="search" [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col class="top_srch_icon">
+          <ion-icon (click)="search($event);" name="search"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+
+  <h5 *ngIf="noRecords">Services not found</h5>
+
+    <ion-list *ngIf="!noRecords">
     <div *ngFor="let carModel of response">
       <ion-card>
         <ion-row>

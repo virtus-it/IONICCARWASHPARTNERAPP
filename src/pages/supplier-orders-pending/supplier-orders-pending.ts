@@ -225,6 +225,8 @@ export class SupplierOrdersPendingPage {
       }else if(status == 'jobstarted'){
         //tracking should be trun off using Subscription object
         this.alertUtils.stopSubscription();
+        this.tracker.stopTracking();
+        this.tracker.disconnectSocket();
       }
 
       if(canIExecute) {
@@ -287,12 +289,12 @@ export class SupplierOrdersPendingPage {
     this.alertUtils.showLog(order.order_id);
     try {
       const options: CameraOptions = {
-        quality: 50,
+        quality: 100,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: 256,
-        targetHeight: 256
+        targetWidth: 512,
+        targetHeight: 512
       };
 
 

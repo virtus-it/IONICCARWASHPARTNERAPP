@@ -116,7 +116,7 @@ export class DealerPaymentsHomePage {
       this.apiService.postReq(this.apiService.getPaymentDetailsByUserID(), data).then(res => {
         this.alertUtils.hideLoading();
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("POST (SUCCESS)=> PAYMENTS: ALL : " + JSON.stringify(res));
+        this.alertUtils.showLog(res);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
@@ -134,6 +134,7 @@ export class DealerPaymentsHomePage {
             }else{
               res.data[i]['statustext'] = res.data[i].status;
             }
+
             //updating bill amount
             if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["billamt_updated"] = res.data[i].bill_amount;
@@ -143,6 +144,9 @@ export class DealerPaymentsHomePage {
             if (isPaging)
               this.response.push(res.data[i]);
           }
+        }else{
+          if (!isPaging)
+            this.noRecords = true;
         }
 
       }, error => {

@@ -16,6 +16,8 @@ export class DealerCustomersPage {
   private noRecords = false;
   private USER_ID ;
   private USER_TYPE;
+  private isDealer: boolean = true;
+
   searchInput = {
     "userid":this.USER_ID,
     "status":"globalsearch",
@@ -65,6 +67,13 @@ export class DealerCustomersPage {
           }
         });
       });
+
+      if(UtilsProvider.ISSUPER_DEALER){
+        this.isDealer = true;
+      }else{
+        this.isDealer = false;
+      }
+
     } catch (e) {
       this.alertUtils.showLog(e);
     }

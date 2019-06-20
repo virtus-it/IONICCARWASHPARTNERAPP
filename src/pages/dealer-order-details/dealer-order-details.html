@@ -150,7 +150,7 @@
         </ion-row>
         <ion-item class="no_margin no_padding" style="padding: 0;">
           <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
-          <span class="text_output no_margin pdleft12-nopadding">{{item?.dealerdetails.firstname + " "+item?.dealerdetails.lastname }}</span>
+          <span class="text_output no_margin pdleft12-nopadding">{{validate(item?.dealerdetails.firstname) + " "+ validate(item?.dealerdetails.lastname) }}</span>
         </ion-item>
         <ion-row class="no_margin no_padding" hidden>
           <ion-icon col-1 name="pin" item-left small class="no_margin no_padding"></ion-icon>

@@ -198,6 +198,9 @@ export class DealerOrdersOrderedPage {
       this.apiService.postReq(this.apiService.searchOrders(), data).then((res) => {
         this.showProgress = false;
 
+        this.alertUtils.showLog(res);
+        this.alertUtils.showLog(JSON.stringify(res));
+
         this.processData(res, false);
 
       }, (error) => {

@@ -111,17 +111,18 @@ export class DealerOrderDetailsPage {
 
   }
 
-
-
   assignForward(event) {
     this.getSuppliers();
   }
 
   validate(s) {
-    if (s == null || s == 'null')
+    if(s){
+      if(s == null || s == 'null')
+        return '';
+      else
+        return s;
+    }else
       return '';
-    else
-      return s;
   }
 
   sendMessage(item) {

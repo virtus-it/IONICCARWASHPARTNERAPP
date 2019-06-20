@@ -235,7 +235,6 @@ export class FeedbackPage {
   changeIssueStatus(event, feedback, status) {
 
     try {
-
       let input = {
 
         "root": {

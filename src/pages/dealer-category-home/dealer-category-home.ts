@@ -255,15 +255,19 @@ export class DealerCategoryHomePage {
     } else {
       this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
         console.log(res);
-        if (res && res.data) {
-          this.alertUtils.showToast("Category created successfully");
-          this.page1 = !this.page1;
-          this.page2 = !this.page2;
-          if (this.base64Image && this.base64Image.length > 0) {
-            this.uploadImg(this.base64Image, 'category_' + res.data.categoryid);
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          if (res && res.data) {
+            this.alertUtils.showToast("Category created successfully");
+            this.page1 = !this.page1;
+            this.page2 = !this.page2;
+            if (this.base64Image && this.base64Image.length > 0) {
+              this.uploadImg(this.base64Image, 'category_' + res.data.categoryid);
+            }
+            this.fetchCategories('');
           }
-          this.fetchCategories('');
-        }
+        }else
+          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+
       }, err => {
         console.log(err);
       })

@@ -111,7 +111,7 @@ export class DealerUsersCustomercarePage {
       input.root['lastuserid'] = last_userid_id;
 
       this.apiService.postReq(this.apiService.distributors(),JSON.stringify(input)).then(res=>{
-        this.alertUtils.showLog("POST (SUCCESS)=> DISTRIBUTORS: "+JSON.stringify(res.data));
+        this.alertUtils.showLog(res);
 
         this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
 

@@ -264,7 +264,8 @@ export class DealerCustomersPage {
               if (res.result == this.alertUtils.RESULT_SUCCESS) {
                 this.alertUtils.showToast('User successfully deleted');
                 this.fetchCustomers(false, false, false, '', '');
-              }
+              }else
+                this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
 
             });
 

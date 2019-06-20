@@ -72,6 +72,9 @@ export class DealerPaymentsHomePage {
         if (action != 'confirm') {
           input.root.status = "rejected";
         }
+
+        this.alertUtils.showLog(JSON.stringify(input));
+
         this.apiService.postReq(this.apiService.changePaymentStatus(), input).then(res => {
           if (res.result == RES_SUCCESS && res.data) {
             this.alertUtils.showToast("Payment status updated successfully");

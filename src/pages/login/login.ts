@@ -17,8 +17,8 @@ import {Subscription} from "rxjs";
 export class LoginPage {
 
   //development
-  username: string = '9863636314';
-  password: any = '9863636314';
+  username: string = '';
+  password: any = '';
   public type = 'password';
   public showPass = false;
   errorText: string = "";

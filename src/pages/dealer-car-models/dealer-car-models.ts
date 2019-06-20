@@ -142,7 +142,7 @@ export class DealerCarModelsPage {
       this.showProgress = true;
       this.apiService.postReq(this.apiService.getEntities(),data).then((res)=>{
         this.showProgress = false;
-        this.alertUtils.showLog(res.data);
+        this.alertUtils.showLog(res);
 
         /*this.response = {};
         for (let i = 0; i < res.data.length; i++) {
@@ -150,7 +150,10 @@ export class DealerCarModelsPage {
           if(res.data.isactive)
             this.response.push(res.data[i]);
         }*/
-        this.response = res.data;
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          this.response = res.data;
+        }else
+          this.alertUtils.showToast("there is details found");
       },(error)=>{
 
       })

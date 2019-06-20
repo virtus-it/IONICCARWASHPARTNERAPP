@@ -64,17 +64,17 @@
                    (click)="showPromptForCreateIssue($event, res);">Reply</span>
             </ion-col>
 
-            <ion-col class="delet_bg">
+            <ion-col class="delet_bg" *ngIf="res.status != 'close' ">
               <span class="header_icon "
-                          *ngIf="res.status != 'close' "
-                           (click)="changeIssueStatus($event, res, 'close');">Close</span>
+                           (click)="changeIssueStatus($event, res, 'close');">Close
+              </span>
             </ion-col>
 
-          <!--<ion-col><img src="assets/imgs/img_tick.png"-->
-                        <!--class="header_icon"-->
-                        <!--*ngIf="res.status == 'close' "-->
-                        <!--(click)="changeIssueStatus($event, res, 'open');">-->
-          <!--</ion-col>-->
+          <ion-col class="delet_bg" *ngIf="res.status == 'close' ">
+            <span class="header_icon "
+                  (click)="changeIssueStatus($event, res, 'open');">Open
+            </span>
+          </ion-col>
         </ion-row>
       </ion-card>
     </div>

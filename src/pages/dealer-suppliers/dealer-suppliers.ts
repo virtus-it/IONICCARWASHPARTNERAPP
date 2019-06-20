@@ -95,8 +95,8 @@ export class DealerSuppliersPage {
       this.menuCtrl.enable(false, 'menu1');
       this.menuCtrl.enable(false, 'menu2');
       this.menuCtrl.enable(true, 'menu3');
-      this.menuCtrl.enable(true, 'menu4');
-      this.menuCtrl.enable(true, 'menu5');
+      this.menuCtrl.enable(false, 'menu4');
+      this.menuCtrl.enable(false, 'menu5');
     }
 
   }

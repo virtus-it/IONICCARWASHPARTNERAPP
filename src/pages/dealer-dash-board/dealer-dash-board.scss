@@ -37,4 +37,17 @@ page-dealer-dash-board {
   .usrmnicon {
     font-size: 3.2em !important;
   }
+  ul.booking_cnt {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  ul.booking_cnt li {
+    float: left;
+    margin:  5px;
+    padding: 5px;
+    border-radius: 3px;
+    h4{color: #fff; margin: 0;}
+  }
 }

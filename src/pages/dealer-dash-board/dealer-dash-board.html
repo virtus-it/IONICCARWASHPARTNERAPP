@@ -14,7 +14,7 @@
 
 
   <!--users-->
-  <ion-card style="text-align: center" class="dashbord_allstatus">
+  <ion-card style="text-align: center" class="dashboard_card" float-left>
     <ion-row (click)="openUsers();">
       <ion-col col-4 >
         <ion-icon name="md-contacts" class="left-icon usrmnicon"></ion-icon>
@@ -28,7 +28,7 @@
   </ion-card>
 
   <!--car washers-->
-  <ion-card style="text-align: center" class="dashboard_card " float-left>
+  <ion-card style="text-align: center" class="dashboard_card " float-right>
     <ion-row (click)="openCarWashers();">
       <ion-col col-4 >
         <ion-icon name="md-body" class="left-icon"></ion-icon>
@@ -41,7 +41,7 @@
   </ion-card>
 
   <!--vendors/companies-->
-  <ion-card style="text-align: center" class="dashboard_card" float-right>
+  <ion-card style="text-align: center" class="dashboard_card" float-left>
     <ion-row (click)="openCompanies();">
       <ion-col col-4 >
         <ion-icon name="md-paper" class="left-icon"></ion-icon>
@@ -54,7 +54,7 @@
   </ion-card>
 
   <!--total earnings-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
+  <ion-card style="text-align: center" class="dashboard_card" float-right>
     <ion-row>
       <ion-col col-4>
         <ion-icon name="md-cash" class="left-icon"></ion-icon>
@@ -70,7 +70,7 @@
   <br><br>
 
   <!--total bookings-->
-  <ion-card style="text-align: center" class="dashboard_card" float-right>
+  <ion-card style="text-align: center" class="dashboard_card" float-left>
     <ion-row (click)="openBookings();">
       <ion-col col-4 >
         <ion-icon name="md-stats" class="left-icon"></ion-icon>
@@ -83,7 +83,7 @@
   </ion-card>
 
   <!--total on going jobs-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
+  <ion-card style="text-align: center" class="dashboard_card" float-right>
     <ion-row (click)="openBookings();">
       <ion-col col-4 >
         <ion-icon name="md-download" class="left-icon"></ion-icon>
@@ -96,7 +96,7 @@
   </ion-card>
 
   <!--total cancel jobs-->
-  <ion-card style="text-align: center" class="dashboard_card" float-right>
+  <ion-card style="text-align: center" class="dashboard_card" float-left>
     <ion-row (click)="openBookings();">
       <ion-col col-4 >
         <ion-icon name="md-close" class="left-icon"></ion-icon>
@@ -110,7 +110,7 @@
 
 
   <!--total completed jobs-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
+  <ion-card style="text-align: center" class="dashboard_card" float-right>
     <ion-row (click)="openBookings();">
       <ion-col col-4 >
         <ion-icon name="md-checkmark" class="left-icon"></ion-icon>
@@ -132,9 +132,11 @@
       <canvas id="chart1" #doughnutCanvas></canvas>
       <div style="align-content: center">
       <h3>Bookings Count:</h3>
-      <h4>Today: {{response?.TOTALBOOKING?.totalbookingsdaily}}</h4>
-      <h4>This Month: {{response?.TOTALBOOKING?.totalbookingsmonthly}}</h4>
-      <h4>This Year: {{response?.TOTALBOOKING?.totalbookingsyearly}}</h4>
+        <ul class="booking_cnt">
+          <li style="background: #b13c2e">      <h4>Today: {{response?.TOTALBOOKING?.totalbookingsdaily}}</h4></li>
+          <li style="background: #c27d0e"> <h4>This Month: {{response?.TOTALBOOKING?.totalbookingsmonthly}}</h4></li>
+          <li style="background: ##009abf"> <h4>This Year: {{response?.TOTALBOOKING?.totalbookingsyearly}}</h4></li>
+        </ul>
       </div>
     </ion-card-content>
   </ion-card>

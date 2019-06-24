@@ -119,3 +119,11 @@ ion-icon {
   width: 100%;}
 .alert-ios .alert-wrapper{color: #444;}
 .droplist{max-width: 100%;}
+@media (min-width: 720px) {
+  .scroll-content {
+    background: url(../assets/imgs/bg1.jpg) center !important;
+  }
+}
+.no_bg.login_fields {
+  background: #fff;
+}

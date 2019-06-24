@@ -50,22 +50,20 @@
       <ion-label floating>Address *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="250" ></ion-input>
     </ion-item>
-
-    <ion-list radio-group>
-      <span>
+<ion-label> <span>
         Tracking
-      </span>
-    
-      <ion-item>
+      </span></ion-label>
+    <ion-list radio-group>
+     <ion-item>
         <ion-label>ON</ion-label>
         <ion-radio [checked]="input.tracking == 'ON'" value="ON"></ion-radio>
       </ion-item>
-    
+
       <ion-item>
         <ion-label>OFF</ion-label>
         <ion-radio [checked]="input.tracking == 'OFF'" value="OFF"></ion-radio>
       </ion-item>
-    
+
     </ion-list>
 
     <ion-item *ngIf="showVendor">

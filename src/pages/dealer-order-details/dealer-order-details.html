@@ -105,7 +105,7 @@
 
     <!--Images-->
     <ion-card *ngIf="item.status == 'jobstarted' || item.status == 'delivered'">
-      JOB IMAGES
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Images</span></ion-card-header>
       <ion-row>
         <ion-col>BEFORE</ion-col>
         <ion-col>AFTER</ion-col>
@@ -176,7 +176,7 @@
         </ion-row>
         <div class="message-wrap">
           <div *ngFor="let mes of item?.messages" class="message" [class.left]=" mes.user.userid != userID " [class.right]=" mes.user.userid == userID ">
-            <img class="user-img" style="width: 10%" src="assets/imgs/img_user.png" alt="" *ngIf="mes.user.userid != userID">
+            <img class="user-img" style="width: 10%; float:left;" src="assets/imgs/img_user.png" alt="" *ngIf="mes.user.userid != userID">
             <div class="msg-detail">
               <div class="msg-info">
                 <p>

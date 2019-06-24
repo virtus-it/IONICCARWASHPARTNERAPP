@@ -1,80 +1,80 @@
 <ion-content padding>
   <div class="fixscrollcontainer">
-  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
-               name="crescent"></ion-spinner>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content>
-    </ion-refresher-content>
-  </ion-refresher>
+    <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+                 name="crescent"></ion-spinner>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>
 
-  <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Orders not found</h5>
+    <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Orders not found</h5>
 
 
     <button (click)="getLocation(0);"  ion-button hidden>
       TRACKING
     </button>
 
-  <ion-list *ngIf="!noRecords">
-    <div *ngFor="let order of response; let i = index;">
+    <ion-list *ngIf="!noRecords">
+      <div *ngFor="let order of response; let i = index;">
 
-      <ion-card class="colomn_main">
+        <ion-card class="colomn_main card_lst_cntr">
 
-        <ion-card-header class="jobid_header">
-          <span class="jobassign_no">#{{order?.order_id}}</span> <div class="order_heading"> <label>Status</label><span>{{order.statusUpdated}}</span></div>
-        </ion-card-header>
+          <ion-card-header class="jobid_header">
+            <span class="jobassign_no">#{{order?.order_id}}</span> <div class="order_heading"> <label>Status</label><span>{{order.statusUpdated}}</span></div>
+          </ion-card-header>
 
-        <ion-row>
-          <ion-col><span class="job_mgm_lbl">Cart ID</span>{{order.cart_id}}</ion-col>
-          <ion-col><span class="job_mgm_lbl">Delivery Time</span>{{order.delivery_exceptedtime}}</ion-col>
-        </ion-row>
-        <ion-row class="border_b">
-          <ion-col><span class="job_mgm_lbl">Last Updated</span>{{order?.timestamp | utcDate}}</ion-col>
-          <ion-col class="amount_aed"><span class="job_mgm_lbl">Amount</span>AED {{order?.bill_amount}}</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address">{{order.orderby_address}}</span></ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col><span class="job_mgm_lbl">Cart ID</span>{{order.cart_id}}</ion-col>
+            <ion-col><span class="job_mgm_lbl">Delivery Time</span>{{order.delivery_exceptedtime}}</ion-col>
+          </ion-row>
+          <ion-row class="border_b">
+            <ion-col><span class="job_mgm_lbl">Last Updated</span>{{order?.timestamp | utcDate}}</ion-col>
+            <ion-col class="amount_aed"><span class="job_mgm_lbl">Amount</span>AED {{order?.bill_amount}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address">{{order.orderby_address}}</span></ion-col>
+          </ion-row>
 
 
-        <!--buttons-->
-        <ion-row *ngIf="order.orderstatus == 'assigned'">
-          <ion-col>
-            <button (click)="updateOrderStatus($event,i,'backtodealer');"  ion-button>
-              REJECT
-            </button>
-          </ion-col>
-          <ion-col>
-            <button (click)="updateOrderStatus($event,i,'accept');"  ion-button>
-              ACCEPT
-            </button>
-          </ion-col>
-        </ion-row>
-
-        <ion-row >
-          <ion-col *ngIf="order.orderstatus == 'accepted'">
-            <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
-              START TO VISIT
-            </button>
-          </ion-col>
-          <ion-col *ngIf="order.orderstatus == 'orderstarted'">
-            <ion-buttons>
-              <button class="btn-lg" (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
-                JOB START
+          <!--buttons-->
+          <ion-row *ngIf="order.orderstatus == 'assigned'">
+            <ion-col>
+              <button class="button-block" (click)="updateOrderStatus($event,i,'backtodealer');"  ion-button>
+                REJECT
               </button>
-            </ion-buttons>
-          </ion-col>
-          <ion-col>
-            <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
-              VIEW DETAILS
-            </button>
-          </ion-col>
-        </ion-row>
-      </ion-card>
-    </div>
-  </ion-list>
+            </ion-col>
+            <ion-col>
+              <button class="button-block" (click)="updateOrderStatus($event,i,'accept');"  ion-button>
+                ACCEPT
+              </button>
+            </ion-col>
+          </ion-row>
 
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+          <ion-row >
+            <ion-col *ngIf="order.orderstatus == 'accepted'">
+              <button class="btn-lg button-block" (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
+                START TO VISIT
+              </button>
+            </ion-col>
+            <ion-col *ngIf="order.orderstatus == 'orderstarted'">
+              <ion-buttons>
+                <button class=" button-block" (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
+                  JOB START
+                </button>
+              </ion-buttons>
+            </ion-col>
+            <ion-col>
+              <button class="button-block" (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
+                VIEW DETAILS
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </div>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
 </ion-content>

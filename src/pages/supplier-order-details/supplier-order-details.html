@@ -15,9 +15,11 @@
   <ion-spinner block name="crescent" class="spinner_center" color="primary" *ngIf="showProgress" item-center></ion-spinner>
   <div class="no_padding prdct_main_container order_details_pg" *ngIf="!showProgress">
     <ion-card class="no_padding">
-      <ion-card-header>
-        {{item.statusUpdated}}
+      <ion-card-header class="cardtop_heading"><div class="pgid"><span class="orderid">#{{item?.order_id}}</span> <span class="statusupdt"> {{item.statusUpdated}} </span>
+      </div>
+        <div class="total_cost"><span class="orderid">Bill Amount</span><span class="statusupdt"> {{item?.billamt_updated}}</span></div>
       </ion-card-header>
+
       <ion-card-content>
         <ion-row>
           <ion-col>
@@ -25,30 +27,15 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> #{{item?.order_id}}</span>
-          </ion-col>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> Total: {{item?.billamt_updated}}</span>
-          </ion-col>
+          <ion-col><span class="job_mgm_lbl">DELIVERY</span>{{item?.delivery_exceptedtime}}</ion-col>
+          <ion-col col-2><span class="job_mgm_lbl">TYPE</span> {{item?.orderby_paymenttype}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">Modified on</span>{{item?.modifieddate | utcDate}}</ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col>DELIVERY</ion-col>
-          <ion-col>TYPE</ion-col>
-        </ion-row>
+
 
         <ion-row>
-          <ion-col>
-            <span class="gray8" item-start>{{item?.delivery_exceptedtime}}</span>
-          </ion-col>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> {{item?.orderby_paymenttype}}</span>
-          </ion-col>
-        </ion-row>
 
-        <ion-row>
-          <ion-col>{{item?.modifieddate | utcDate}}</ion-col>
           <ion-col *ngIf="item?.status == 'jobstarted'">
             <button ion-button color="primary" (click)="pickImage('post'); editStatusModal($event);">DELIVER</button>
           </ion-col>
@@ -58,10 +45,8 @@
 
     <!--Product Details-->
     <ion-card>
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Services Details</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
-        <ion-row>
-          <ion-col>SERVICE DETAILS</ion-col>
-        </ion-row>
         <ion-row>
           <ion-col>{{item?.productdetails?.category}}</ion-col>
         </ion-row>
@@ -78,31 +63,33 @@
     </ion-card>
 
     <!--order status-->
-    <ion-card>
+    <ion-card class="card_status ">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Status</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
-        JOB STATUS
-        <ion-row>
-          <ion-col>Created</ion-col>
-          <ion-col>Assigned</ion-col>
-          <ion-col>Completed</ion-col>
-        </ion-row>
+        <ul class="jb_status">
+          <li class="jb_sts_dls"><ion-icon name="person"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Created</span>
+            {{validate(item?.orderby_firstname)+" "+validate(item?.orderby_lastname)}}
+          </div>
+          </li>
+          <li class="jb_sts_dls"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Assigned</span>
+            {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
+          </div>
+          </li>
 
-        <ion-row>
-          <ion-col>{{validate(item?.orderby_firstname)+" "+validate(item?.orderby_lastname)}}</ion-col>
-          <ion-col>{{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}</ion-col>
-          <ion-col>{{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}</ion-col>
-        </ion-row>
+          <li class="jb_sts_dls"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
+            {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
+          </div>
+          </li>
+        </ul>
 
-        <ion-row>
-          <ion-col>{{item?.ordered_date | utcDate}}</ion-col>
-          <ion-col>{{item?.order_assigneddate | utcDate}}</ion-col>
-          <ion-col>{{item?.order_delivereddate | utcDate}}</ion-col>
-        </ion-row>
+
+
 
       </ion-card-content>
     </ion-card>
 
     <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Supplier Details</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
@@ -123,14 +110,9 @@
     </ion-card>
 
     <ion-card class="dealer_contnr">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
-        <ion-row>
-          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
-            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}
-          </ion-col>
-          <ion-col col-sm-7 col-md-7 col-lg-7 col-xl-7 class="right">
-          </ion-col>
-        </ion-row>
+
         <ion-item class="no_margin no_padding">
           <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
           <span class="text_output no_margin pdleft12-nopadding">{{item?.dealerdetails.firstname + " "+item?.dealerdetails.lastname }}</span>
@@ -149,12 +131,8 @@
     </ion-card>
 
     <ion-card>
+      <ion-card-header class="cardtop_heading">{{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}</ion-card-header>
       <ion-card-content class="no_padding no_margin">
-        <ion-row>
-          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5 class="fs-15">
-            {{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}
-          </ion-col>
-        </ion-row>
         <div class="message-wrap">
           <div *ngFor="let mes of item?.messages" class="message" [class.left]=" mes.user.userid != userID " [class.right]=" mes.user.userid == userID ">
             <img class="user-img" style="width: 10%" src="assets/imgs/img_user.png" alt="" *ngIf="mes.user.userid != userID">

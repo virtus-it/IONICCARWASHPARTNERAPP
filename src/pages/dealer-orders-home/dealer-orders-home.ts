@@ -20,9 +20,6 @@ export class DealerOrdersHomePage {
   ];
 
   selectedTab = 0;
-
-  // @ViewChild(SuperTabs) superTabs: SuperTabs;
-
   orders: string[] = [];
   baseImgUrl: string;
   extensionPng: string = '.png';
@@ -62,6 +59,14 @@ export class DealerOrdersHomePage {
     }
   }
 
+  ionViewWillEnter(){
+    this.alertUtils.showLog('ionViewWillEnter - home');
+
+    if(UtilsProvider.ORDER_STUAS_UPDATED){
+      UtilsProvider.ORDER_STUAS_UPDATED = false;
+    }
+  }
+
 
   onTabSelect(ev: any) {
     this.selectedTab = ev.index;
@@ -94,6 +99,8 @@ export class DealerOrdersHomePage {
 
   ionViewDidLoad() {
 
+    this.alertUtils.showLog('ionViewDidLoad - home');
+
     if (this.uType == UserType.DEALER || this.uType == UserType.CUSTOMER_CARE) {
       this.menuCtrl.enable(true, 'menu1');
 
@@ -116,35 +123,6 @@ export class DealerOrdersHomePage {
       this.menuCtrl.enable(false, 'menu3');
       this.menuCtrl.enable(false, 'menu4');
     }
-
-    /* this.baseImgUrl = this.apiUrl.imageDownload()+'product_';
-
-     let url = this.apiUrl.orderByStatus();
-
-     let input = {
-       "order": {
-         "userid": UtilsProvider.USER_ID,
-         "usertype": UtilsProvider.USER_TYPE,
-         "status": 'all',
-         "pagesize": '10',
-         "last_orderid": '0',
-         "framework": FRAMEWORK,
-         "apptype": APP_TYPE
-       }
-     };
-
-     let data = JSON.stringify(input);
-
-     //this.utils.showLoading();
-     this.network.postReq(url,data).then(res=>{
-       //this.utils.hideLoading();
-       this.utils.showLog("POST (SUCCESS)=> ORDERS: ALL : "+JSON.stringify(res));
-       this.orders = res.data;
-     },error=>{
-       this.utils.showLog("POST (ERROR)=> ORDERS: ALL : "+error);
-       //this.utils.hideLoading();
-     })*/
-
   }
 
 }

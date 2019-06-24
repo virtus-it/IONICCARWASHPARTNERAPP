@@ -5,6 +5,8 @@ import 'rxjs/add/operator/filter';
 import {Socket} from "ng-socket-io";
 import {APP_TYPE, KEY_TRACKING_ORDER, KEY_TRACKING_STATUS, UserType, UtilsProvider} from "../utils/utils";
 import {Observable, Subscription} from "rxjs";
+import {BackgroundMode} from "@ionic-native/background-mode";
+declare var cordova;
 
 @Injectable()
 export class LocationTracker {
@@ -21,6 +23,7 @@ export class LocationTracker {
               private socket: Socket,
               private geolocation: Geolocation,
               private alertUtils: UtilsProvider,
+              private backgroundMode: BackgroundMode,
               private backgroundGeolocation: BackgroundGeolocation) {
     this.socketInit = socket;
   }
@@ -34,6 +37,10 @@ export class LocationTracker {
     this.alertUtils.showLog("order info end");
 
     if (this.order.order_id && this.order.useruniqueid) {
+
+      this.backgroundMode.enable();
+      this.backgroundMode.on('activate');
+      this.backgroundMode.disableWebViewOptimizations();
 
       this.connectSocket();
 
@@ -78,7 +85,7 @@ export class LocationTracker {
 
       this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
 
-        console.log(position);
+        this.alertUtils.showLog(position);
 
         // Run update inside of Angular's zone
         this.zone.run(() => {
@@ -146,6 +153,7 @@ export class LocationTracker {
               "userid": UtilsProvider.USER_ID,
               "usertype": UserType.SUPPLIER,
               "loginid": UtilsProvider.USER_ID,
+              "time": this.alertUtils.getTodayDate(),
               "apptype": APP_TYPE
             }
           });
@@ -156,13 +164,17 @@ export class LocationTracker {
   }
 
   stopTracking() {
-    console.log('stopTracking');
+    this.alertUtils.showLog('stopTracking');
+
+    this.backgroundMode.disable();
 
     this.alertUtils.setSecureValue(KEY_TRACKING_STATUS, false);
     this.alertUtils.setSecureValue(KEY_TRACKING_ORDER, "");
 
     this.backgroundGeolocation.finish();
+    if(this.watch)
     this.watch.unsubscribe();
+    if(this.sub)
     this.sub.unsubscribe();
   }
 

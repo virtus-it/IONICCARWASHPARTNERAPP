@@ -3,7 +3,7 @@ import "rxjs/add/operator/map";
 import {APP_TYPE, APP_USER_TYPE, IS_WEBSITE, UtilsProvider} from "../utils/utils";
 import {Http, RequestOptions, Headers} from "@angular/http";
 
-export const APP_VER_CODE: string = "4";
+export const APP_VER_CODE: string = "5";
 
 @Injectable()
 export class NetworkProvider {

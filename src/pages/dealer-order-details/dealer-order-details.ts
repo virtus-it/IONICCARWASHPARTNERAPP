@@ -7,13 +7,13 @@ import {
   NavController,
   NavParams,
   Content,
-  Platform
+  Platform, ViewController
 } from 'ionic-angular';
 import {
   APP_TYPE,
   APP_USER_TYPE, KEY_USER_INFO,
   OrderTypes,
-  RES_SUCCESS,
+  RES_SUCCESS, UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
@@ -40,6 +40,7 @@ export class DealerOrderDetailsPage {
   suppliersList = [];
   distributorsList: string[];
   productsList: string[];
+  showBackButton: boolean = false;
   private dealerID = "";
   private userID = "";
   private callFrom = "";
@@ -53,6 +54,7 @@ export class DealerOrderDetailsPage {
               public param: NavParams,
               public alertUtils: UtilsProvider,
               private platform: Platform,
+              private viewCtrl: ViewController,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
               private apiService: ApiProvider) {
@@ -62,9 +64,14 @@ export class DealerOrderDetailsPage {
     translateService.setDefaultLang('en');
     translateService.use('en');
 
-    this.callFrom = this.param.get("callfrom");
+    this.callFrom = this.param.get("callFrom");
     this.orderId = this.param.get("orderid");
     this.categoryID = this.param.get("categoryid");
+
+    if(this.callFrom == 'ordered')
+      this.showBackButton = true;
+    else
+      this.showBackButton = false;
 
 
     this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
@@ -457,5 +464,9 @@ export class DealerOrderDetailsPage {
     }).catch(error => {
       this.alertUtils.showLog(error)
     });
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 }

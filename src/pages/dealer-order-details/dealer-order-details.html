@@ -1,6 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
+      <button (click)="dismiss()" class="my-style-for-modal" icon-only ion-button *ngIf="showBackButton"></button>
       <img src="assets/imgs/header_icon.png" class="header_icon">
       <span class="title-style"> {{ 'ORDER_DETAILS_PAGE.PAGE_TITLE' | translate }}
       </span>

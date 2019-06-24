@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule} from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, Navbar} from 'ionic-angular';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 import {MyApp} from './app.component';

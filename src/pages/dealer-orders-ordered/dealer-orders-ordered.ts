@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {App, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerOrderDetailsPage} from "../dealer-order-details/dealer-order-details";
@@ -27,15 +27,50 @@ export class DealerOrdersOrderedPage {
   private response: any;
   private noRecords = false;
 
+  ionViewWillEnter(){
+    this.alertUtils.showLog('ionViewWillEnter');
+
+    this.alertUtils.showLog('ngOnInit');
+    if(UtilsProvider.ORDER_STUAS_UPDATED){
+      UtilsProvider.ORDER_STUAS_UPDATED = false;
+      this.initLoad();
+    }
+  }
+  ionViewDidLoad(){
+    this.alertUtils.showLog('ionViewDidLoad');
+  }
+
+  ionViewDidEnter(){
+    this.alertUtils.showLog('ionViewDidEnter');
+  }
+
+  ionViewWillLeave(){
+    this.alertUtils.showLog('ionViewWillLeave');
+  }
+
+  ionViewDidLeave(){
+    this.alertUtils.showLog('ionViewDidLeave');
+  }
+
+  ionViewWillUnload(){
+    this.alertUtils.showLog('ionViewWillUnload');
+  }
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
               private platform: Platform,
+              private modalCtrl: ModalController,
               private appCtrl: App) {
 
-    this.showProgress = false;
+    this.alertUtils.showLog('constructor');
 
+    this.initLoad();
+  }
+
+  initLoad(){
+    this.showProgress = false;
     try {
       this.platform.ready().then(ready => {
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
@@ -65,9 +100,6 @@ export class DealerOrdersOrderedPage {
     }
   }
 
-  ionViewDidLoad() {
-    //this.fetchOrders(false, false, true, "", "");
-  }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {
@@ -248,13 +280,32 @@ export class DealerOrdersOrderedPage {
 
   }
 
-  viewDetails(event, orderID, categoryID) {
+  /*viewDetails(event, orderID, categoryID) {
     if (orderID) {
       this.appCtrl.getRootNav().push('DealerOrderDetailsPage', {
         orderid: orderID,
         categoryid: categoryID,
+        callFrom:'ordered',
       });
     }
+  }*/
+
+  viewDetails(event, orderID, categoryID) {
+    let model = this.modalCtrl.create('DealerOrderDetailsPage', {
+      orderid: orderID,
+      categoryid: categoryID,
+      callFrom:'ordered',
+    })
+
+    model.onDidDismiss(data => {
+      this.alertUtils.showLog('onDidDismiss');
+      this.alertUtils.showLog('value : '+ UtilsProvider.ORDER_STUAS_UPDATED);
+      if(UtilsProvider.ORDER_STUAS_UPDATED){
+        UtilsProvider.ORDER_STUAS_UPDATED = false;
+        this.fetchOrders(false,false,false,true,true);
+      }
+    })
+    model.present();
   }
 
 }

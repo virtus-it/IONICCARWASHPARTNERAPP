@@ -167,6 +167,7 @@ export class DealerOrderDetailsAssignForwardPage {
 
         this.output.result = res.result;
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          UtilsProvider.ORDER_STUAS_UPDATED = true;
           this.output.actionType = 'assign';
           this.viewCtrl.dismiss(this.output);
         } else

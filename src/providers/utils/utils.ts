@@ -70,6 +70,7 @@ export class UtilsProvider {
   private static _USER_DEALER_NAME: string = "";
   private static _USER_DEALER_ADDR: string = "";
   private static _USER_IS_SUPER_DEALER: boolean = false;
+  static ORDER_STUAS_UPDATED: boolean = false;
   RESULT_SUCCESS: string = "success";
   public ERROR_MES = "";
   DIGITS = "[0-9]*";
@@ -146,6 +147,10 @@ export class UtilsProvider {
 
   static setUSER_INFO(userInfo) {
     this._USER_INFO = userInfo;
+  }
+
+   getTodayDate() {
+    return moment(new Date()).format('DD-MM-YYYY HH:mm:ss');
   }
 
   static formatDateToDDMMYYYY(date) {

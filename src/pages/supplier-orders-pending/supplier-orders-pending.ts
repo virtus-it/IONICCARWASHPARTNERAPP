@@ -196,7 +196,7 @@ export class SupplierOrdersPendingPage {
     }
   }
 
-  updateOrderStatus(event, i, status) {
+  updateOrderStatus(order, status) {
     try {
 
       let canIExecute = true;
@@ -233,7 +233,7 @@ export class SupplierOrdersPendingPage {
 
         let input = {
           "order": {
-            "orderid": this.response[i].order_id,
+            "orderid": order.order_id,
             "status": status,
             "lat": this.alertUtils.location.latitude,
             "lng": this.alertUtils.location.longitude,
@@ -262,7 +262,7 @@ export class SupplierOrdersPendingPage {
             else if (status == 'orderstarted') {
               this.alertUtils.showLog('order started');
               this.alertUtils.showToast('Tracking Initialized');
-              this.tracker.startTracking(this.response[i]);
+              this.tracker.startTracking(order);
             } else if (status == 'jobstarted') {
               this.alertUtils.showLog('job started');
               this.alertUtils.stopSubscription();
@@ -283,13 +283,15 @@ export class SupplierOrdersPendingPage {
       this.showProgress = false;
       //this.alertUtils.hideLoading();
     }
+
+    this.showProgress = false;
   }
 
   pickImage(order,prePost) {
     this.alertUtils.showLog(order.order_id);
     try {
       const options: CameraOptions = {
-        quality: 100,
+        quality: 50,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
@@ -302,7 +304,7 @@ export class SupplierOrdersPendingPage {
         let base64Image =  imageData;
 
         if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,prePost+'_'+order.order_id);
+          this.uploadImg(base64Image,prePost+'_'+order.order_id,order);
         }
 
       }, (err) => {
@@ -314,7 +316,7 @@ export class SupplierOrdersPendingPage {
     }
   }
 
-  uploadImg(s,fileName){
+  uploadImg(s,fileName,order){
     let input = {
       "image": {
         "filename": fileName,
@@ -325,10 +327,12 @@ export class SupplierOrdersPendingPage {
     this.showProgress = true;
     this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
       this.showProgress = false;
+      this.alertUtils.showLog(res);
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
 
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
-
+        this.alertUtils.showToast("Image upload successfully");
+        this.updateOrderStatus(order,'jobstarted');
       } else
         this.alertUtils.showToast(res.result);
 

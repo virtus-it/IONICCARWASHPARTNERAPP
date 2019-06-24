@@ -10,9 +10,9 @@
     <h5 *ngIf="noRecords" class="empty_middle_text_center" text-center="true">Orders not found</h5>
 
 
-    <button (click)="getLocation(0);"  ion-button hidden>
+    <!--<button (click)="getLocation(0);"  ion-button hidden>
       TRACKING
-    </button>
+    </button>-->
 
     <ion-list *ngIf="!noRecords">
       <div *ngFor="let order of response; let i = index;">
@@ -39,12 +39,12 @@
           <!--buttons-->
           <ion-row *ngIf="order.orderstatus == 'assigned'">
             <ion-col>
-              <button class="button-block" (click)="updateOrderStatus($event,i,'backtodealer');"  ion-button>
+              <button class="button-block" (click)="updateOrderStatus(order,'backtodealer');"  ion-button>
                 REJECT
               </button>
             </ion-col>
             <ion-col>
-              <button class="button-block" (click)="updateOrderStatus($event,i,'accept');"  ion-button>
+              <button class="button-block" (click)="updateOrderStatus(order,'accept');"  ion-button>
                 ACCEPT
               </button>
             </ion-col>
@@ -52,13 +52,13 @@
 
           <ion-row >
             <ion-col *ngIf="order.orderstatus == 'accepted'">
-              <button class="btn-lg button-block" (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
+              <button class="btn-lg button-block" (click)="updateOrderStatus(order,'orderstarted');"  ion-button>
                 START TO VISIT
               </button>
             </ion-col>
             <ion-col *ngIf="order.orderstatus == 'orderstarted'">
               <ion-buttons>
-                <button class=" button-block" (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
+                <button class=" button-block" (click)=" pickImage(order, 'pre');" ion-button>
                   JOB START
                 </button>
               </ion-buttons>

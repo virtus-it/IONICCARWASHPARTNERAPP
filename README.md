@@ -70,11 +70,76 @@ npm install @ionic-native/call-number
 ionic cordova plugin add cordova-open-native-settings
 npm install @ionic-native/open-native-settings
 
+
 9.App Rate:
 ionic cordova plugin add cordova-plugin-apprate
 npm install @ionic-native/app-rate
+
 
 10.Swipeble tabs:
 npm i ionic2-super-tabs@4.1.4
 more info
 https://github.com/zyra/ionic2-super-tabs#installation
+
+11. Momentum Date Library
+npm install moment
+
+12. Tranlator 
+Use this
+npm install @ngx-translate/core@9.1.1 --save
+Instedof
+npm install @ngx-translate/core --save
+More Info : https://github.com/ngx-translate/core
+: https://forum.ionicframework.com/t/multi-language-ngx-translate-ionic-3-object-is-not-a-function-at-translateservice-get-issue/128736
+
+13. Geolocation
+$ ionic cordova plugin add cordova-plugin-geolocation --variable GEOLOCATION_USAGE_DESCRIPTION="To locate you"
+$ npm install --save @ionic-native/geolocation@4
+
+14. Socket
+npm install ng-socket-io --save
+
+More Info : https://devdactic.com/ionic-realtime-socket-io/
+
+15. Unique Device ID
+ionic cordova plugin add cordova-plugin-uniquedeviceid
+npm install --save @ionic-native/unique-device-id@4
+
+More Info : https://ionicframework.com/docs/v3/native/unique-device-id/
+
+16. Camera - to pick image from camera or gallery and upload to server
+$ ionic cordova plugin add cordova-plugin-camera
+$ npm install --save @ionic-native/camera@4
+More Info : https://ionicframework.com/docs/native/camera/
+
+17. Charts
+npm install chart.js --save
+
+18. Push Notifications
+$ ionic cordova plugin add phonegap-plugin-push
+$ npm install --save @ionic-native/push@4
+
+More Info: https://ionicframework.com/docs/v3/native/push/
+
+19. Native Storage
+$ ionic cordova plugin add cordova-plugin-nativestorage
+$ npm install --save @ionic-native/native-storage@4
+
+20. App Version
+$ ionic cordova plugin add cordova-plugin-app-version
+$ npm install --save @ionic-native/app-version@4
+
+More Info: https://ionicframework.com/docs/v3/native/app-version/
+
+
+21. Network
+$ ionic cordova plugin add cordova-plugin-network-information
+$ npm install --save @ionic-native/network@4
+
+22. Background Mode
+ionic cordova plugin add cordova-plugin-background-mode
+npm install --save @ionic-native/background-mode@4
+
+23. Background Geolocation
+$ ionic cordova plugin add cordova-plugin-mauron85-background-geolocation@2.2.5
+$ npm uninstall --save @ionic-native/background-geolocation@3

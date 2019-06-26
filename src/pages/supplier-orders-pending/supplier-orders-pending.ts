@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {
+  APP_TYPE,
+  FRAMEWORK, IMAGE_HEIGHT,
+  IMAGE_QUALITY, IMAGE_WIDTH,
+  KEY_USER_INFO,
+  OrderTypes,
+  UserType,
+  UtilsProvider
+} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import 'rxjs/add/observable/interval';
 import {Geolocation} from "@ionic-native/geolocation";
@@ -291,12 +299,12 @@ export class SupplierOrdersPendingPage {
     this.alertUtils.showLog(order.order_id);
     try {
       const options: CameraOptions = {
-        quality: 50,
+        quality: IMAGE_QUALITY,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: 512,
-        targetHeight: 512
+        targetWidth: IMAGE_WIDTH,
+        targetHeight: IMAGE_HEIGHT
       };
 
 
@@ -331,13 +339,13 @@ export class SupplierOrdersPendingPage {
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
 
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
-        this.alertUtils.showToast("Image upload successfully");
-        this.updateOrderStatus(order,'jobstarted');
+        this.alertUtils.showToast("Image uploaded successfully");
+        //this.updateOrderStatus(order,'jobstarted');
       } else
         this.alertUtils.showToast(res.result);
 
     }, error => {
-      this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+      this.alertUtils.showLog(error);
     })
   }
 

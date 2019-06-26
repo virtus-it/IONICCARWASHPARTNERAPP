@@ -11,7 +11,7 @@ import {
 } from 'ionic-angular';
 import {
   APP_TYPE,
-  APP_USER_TYPE, KEY_USER_INFO,
+  APP_USER_TYPE, IMAGE_HEIGHT, IMAGE_QUALITY, IMAGE_WIDTH, KEY_USER_INFO,
   OrderTypes,
   RES_SUCCESS, UserType,
   UtilsProvider
@@ -35,6 +35,8 @@ export class SupplierOrderDetailsPage {
   showProgress = true;
   editorMsg: string = "";
   productsList: string[];
+  imgUrlPre: any;
+  imgUrlPost: any;
   private dealerID = "";
   private userID = "";
   private callFrom = "";
@@ -96,6 +98,10 @@ export class SupplierOrderDetailsPage {
           }
         });
       });
+
+      this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
+      this.imgUrlPost = this.apiService.getImg()+'post_'+this.orderId+'.png';
+
     } catch (e) {
       this.alertUtils.showLog(e);
     }
@@ -310,12 +316,12 @@ export class SupplierOrderDetailsPage {
   pickImage(prePost) {
     try {
       const options: CameraOptions = {
-        quality: 50,
+        quality: IMAGE_QUALITY,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: 256,
-        targetHeight: 256
+        targetWidth: IMAGE_WIDTH,
+        targetHeight: IMAGE_HEIGHT
       };
 
 

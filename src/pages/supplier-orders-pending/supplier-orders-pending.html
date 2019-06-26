@@ -58,7 +58,7 @@
             </ion-col>
             <ion-col *ngIf="order.orderstatus == 'orderstarted'">
               <ion-buttons>
-                <button class=" button-block" (click)=" pickImage(order, 'pre');" ion-button>
+                <button class=" button-block" (click)=" pickImage(order, 'pre'); updateOrderStatus(order,'jobstarted')" ion-button>
                   JOB START
                 </button>
               </ion-buttons>

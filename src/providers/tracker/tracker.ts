@@ -36,7 +36,7 @@ export class LocationTracker {
     this.alertUtils.showLog(this.order);
     this.alertUtils.showLog("order info end");
 
-    if (this.order.order_id && this.order.useruniqueid) {
+    if (this.order.order_id) {
 
       this.backgroundMode.enable();
       this.backgroundMode.on('activate');

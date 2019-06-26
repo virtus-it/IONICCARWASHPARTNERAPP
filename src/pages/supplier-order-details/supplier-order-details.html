@@ -76,7 +76,7 @@
           </div>
           </li>
 
-          <li class="jb_sts_dls"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
+          <li class="jb_sts_dls" *ngIf="item.status == 'delivered'"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
           </div>
           </li>

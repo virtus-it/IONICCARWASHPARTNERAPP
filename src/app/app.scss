@@ -109,7 +109,7 @@ ion-icon {
 }
 @media (min-width: 550px) {
   .fixscrollcontainer
-  {width :100%; margin:0 auto; display: block;}
+  {width :100%; margin:0 auto; display: block; background: #f1f5f7;}
 }
 .platform-ios .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
   border-bottom: none !important;

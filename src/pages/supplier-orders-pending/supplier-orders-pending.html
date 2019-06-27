@@ -52,13 +52,13 @@
 
           <ion-row >
             <ion-col *ngIf="order.orderstatus == 'accepted'">
-              <button class="btn-lg button-block" (click)="updateOrderStatus(order,'orderstarted');"  ion-button>
+              <button class=" button-block" (click)="updateOrderStatus(order,'orderstarted');"  ion-button>
                 START TO VISIT
               </button>
             </ion-col>
             <ion-col *ngIf="order.orderstatus == 'orderstarted'">
               <ion-buttons>
-                <button class=" button-block" (click)=" pickImage(order, 'pre');" ion-button>
+                <button class=" button-block" (click)=" pickImage(order, 'pre'); updateOrderStatus(order,'jobstarted')" ion-button>
                   JOB START
                 </button>
               </ion-buttons>

@@ -28,7 +28,7 @@ export class AboutUsPage {
     });
     this.alertUtils.getVersionNumber().then(num => {
       verName = num;
-      this.buildVersion = verName + "-" + verCode;
+      this.buildVersion = verName + " - " + verCode;
     }).catch(err => {
       this.alertUtils.showLog(err)
     });

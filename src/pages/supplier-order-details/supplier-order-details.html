@@ -76,16 +76,28 @@
           </div>
           </li>
 
-          <li class="jb_sts_dls"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
+          <li class="jb_sts_dls" *ngIf="item.status == 'delivered'"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
           </div>
           </li>
         </ul>
 
 
-
-
       </ion-card-content>
+    </ion-card>
+
+    <!--Images-->
+    <ion-card *ngIf="item.status == 'jobstarted' || item.status == 'delivered'">
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Images</span></ion-card-header>
+      <ion-row>
+        <ion-col>BEFORE</ion-col>
+        <ion-col>AFTER</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col><img [src]="imgUrlPre" style="width: 30%"></ion-col>
+        <ion-col><img [src]="imgUrlPost" style="width: 30%"></ion-col>
+      </ion-row>
     </ion-card>
 
     <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
@@ -108,6 +120,8 @@
         </ion-item>
       </ion-card-content>
     </ion-card>
+
+
 
     <ion-card class="dealer_contnr">
       <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}</span></ion-card-header>

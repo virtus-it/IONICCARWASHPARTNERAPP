@@ -96,6 +96,11 @@ ion-icon {
   padding: 10px 0;
   cursor: pointer;
 }
+
+.jobid_header {
+
+  background: #2196F3;
+}
 @media (min-width: 300px) {
   .fixscrollcontainer
   {width :100%; display: inline; }
@@ -104,7 +109,7 @@ ion-icon {
 }
 @media (min-width: 550px) {
   .fixscrollcontainer
-  {width :550px; margin:0 auto; display: block;}
+  {width :100%; margin:0 auto; display: block; background: #f1f5f7;}
 }
 .platform-ios .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
   border-bottom: none !important;
@@ -119,7 +124,7 @@ ion-icon {
   width: 100%;}
 .alert-ios .alert-wrapper{color: #444;}
 .droplist{max-width: 100%;}
-@media (min-width: 720px) {
+@media (min-width: 1025px) {
   .scroll-content {
     background: url(../assets/imgs/bg1.jpg) center !important;
   }

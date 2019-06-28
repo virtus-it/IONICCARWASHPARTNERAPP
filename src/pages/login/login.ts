@@ -85,7 +85,7 @@ export class LoginPage {
         "emailid": this.username,
         "mobileno": this.username,
         "pwd": this.password,
-        //"useruniqueid": this.alertUtils.getDeviceUUID(),
+        "useruniqueid": this.alertUtils.getDeviceUUID(),
         "apptype": APP_TYPE,
         "mobiletype": MOBILE_TYPE,
         "framework": FRAMEWORK,
@@ -101,11 +101,11 @@ export class LoginPage {
     this.alertUtils.showLoading();
     this.networkProvider.postReq(this.apiUrl.login(), data).then(res => {
       this.alertUtils.hideLoading();
-      this.alertUtils.showLog("res", res.data);
+      this.alertUtils.showLog("res", res);
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
         if (res.data && res.data.user) {
-          this.setGCMDetails(res.data);
           let output = res.data.user;
+          this.setGCMDetails(output);
           let uType = output.USERTYPE;
 
           if (uType == UserType.DEALER ||
@@ -283,7 +283,7 @@ export class LoginPage {
     let gcmData = JSON.stringify(input);
     this.alertUtils.showLog('gcmData : ' + gcmData);
     this.apiService.postReq(this.apiService.setGCMRegister(), gcmData).then(gcm => {
-      this.alertUtils.showLog(gcmData);
+      this.alertUtils.showLog(gcm);
       if (gcm.result == this.alertUtils.RESULT_SUCCESS) {
         this.alertUtils.showToast("You have successfully logged in");
 

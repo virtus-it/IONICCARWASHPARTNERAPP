@@ -11,10 +11,12 @@ import {Subscription} from "rxjs";
 import {NativeStorage} from '@ionic-native/native-storage';
 
 export const SHOW_ALL = false;
-export const IS_WEBSITE: boolean = true;
+export const IS_WEBSITE: boolean = false;
+const SHOW_LOGS = false;
 export const KEY_USER_INFO = 'secure_storage_user_info';
 const KEY_GCM_ID = 'secure_storage_user_gcm_id';
 const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';
+
 
 export const KEY_TRACKING_STATUS = 'secure_storage_tracking_status';
 export const KEY_TRACKING_ORDER = 'secure_storage_tracking_order';
@@ -293,11 +295,14 @@ export class UtilsProvider {
   }
 
   showLog(val, lineNumber?, pageName?) {
-    console.log(val);
-    if (lineNumber)
-      console.log(lineNumber);
-    if (pageName)
-      console.log(pageName);
+    if(SHOW_LOGS){
+      console.log(val);
+      if (lineNumber)
+        console.log(lineNumber);
+      if (pageName)
+        console.log(pageName);
+    }
+
   }
 
   showToastWithButton(message: string, showCloseButton: boolean, showCloseButtonText: string) {

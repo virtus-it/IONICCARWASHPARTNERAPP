@@ -76,7 +76,7 @@ export class DealerCategoryHomePage {
   }
 
   viewServices(item) {
-    console.log(item);
+
     this.navCtrl.push('DealerProductsPage', { item: item });
   }
 
@@ -86,7 +86,6 @@ export class DealerCategoryHomePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DealerCategoryHomePage');
   }
 
   ngOnInit() {
@@ -94,7 +93,7 @@ export class DealerCategoryHomePage {
   }
 
   delete(item) {
-    console.log(item);
+
 
     let alert = this.alertCtrl.create({
       title: 'WARNING',
@@ -104,7 +103,6 @@ export class DealerCategoryHomePage {
           text: 'NO',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
           }
         },
         {
@@ -117,7 +115,6 @@ export class DealerCategoryHomePage {
                 input.product.isactive = 1
               }
               this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
-                console.log(res);
                 if (res && res.data) {
                   this.alertUtils.showToast("Category deleted successfully");
                   this.fetchCategories('');
@@ -151,7 +148,6 @@ export class DealerCategoryHomePage {
       this.title = "Update package";
 
     }
-    console.log(this.currentSeg);
 
     this.title = "Update category";
     this.isUpdate = true;
@@ -169,7 +165,6 @@ export class DealerCategoryHomePage {
   }
 
   back() {
-    console.log(this.currentSeg);
 
     this.page1 = !this.page1;
     this.page2 = !this.page2;
@@ -207,7 +202,6 @@ export class DealerCategoryHomePage {
 
   save() {
 
-    console.log(this.person);
     if (!this.alertUtils.validateText(this.person.category, "name", 2, 50)) {
       this.alertUtils.showToast(this.alertUtils.ERROR_MES);
       return false;
@@ -238,7 +232,7 @@ export class DealerCategoryHomePage {
     if (this.btnText == "Update") {
       input.product["categoryid"] = this.person.categoryid;
       this.apiService.putReq(this.apiService.editCategory(), JSON.stringify(input)).then(res => {
-        console.log(res);
+
         if (res && res.data) {
           this.alertUtils.showToast("Category update successfully");
           this.page1 = !this.page1;
@@ -249,12 +243,11 @@ export class DealerCategoryHomePage {
           this.fetchCategories('');
         }
       }, err => {
-        console.log(err);
       })
 
     } else {
       this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
-        console.log(res);
+
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           if (res && res.data) {
             this.alertUtils.showToast("Category created successfully");
@@ -269,7 +262,7 @@ export class DealerCategoryHomePage {
           this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
 
       }, err => {
-        console.log(err);
+
       })
     }
 
@@ -282,7 +275,7 @@ export class DealerCategoryHomePage {
 
   fetchCategories(refresher) {
     this.apiService.getReq(this.apiService.getProductCategory() + UtilsProvider.USER_ID + "/" + UtilsProvider.USER_TYPE + "/" + APP_TYPE).then(res => {
-      console.log(res);
+
       if (refresher) {
         refresher.complete();
       }
@@ -302,7 +295,6 @@ export class DealerCategoryHomePage {
       if (refresher) {
         refresher.complete();
       }
-      console.log(err);
     });
   }
 

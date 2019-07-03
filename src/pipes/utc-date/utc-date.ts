@@ -12,7 +12,7 @@ export class UtcDatePipe implements PipeTransform {
     let b = moment(new Date());
     let a = moment(localtime);
     if (b.diff(a, 'hours') > 24) {
-      return moment(localtime).format("DD-MM-YYYY");
+      return moment(localtime).format("DD-MM-YYYY HH:mm");
     } else {
       return moment(localtime).fromNow();
     }

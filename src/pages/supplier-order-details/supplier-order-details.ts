@@ -19,6 +19,7 @@ import {
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 
 @IonicPage()
@@ -35,8 +36,8 @@ export class SupplierOrderDetailsPage {
   showProgress = true;
   editorMsg: string = "";
   productsList: string[];
-  imgUrlPre: any;
-  imgUrlPost: any;
+  preImg: string = '';
+  postImg: string = '';
   private dealerID = "";
   private userID = "";
   private callFrom = "";
@@ -48,6 +49,7 @@ export class SupplierOrderDetailsPage {
               public appCtrl: App,
               public navCtrl: NavController,
               public param: NavParams,
+              private photoViewer: PhotoViewer,
               public alertUtils: UtilsProvider,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
@@ -99,15 +101,34 @@ export class SupplierOrderDetailsPage {
         });
       });
 
-      this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
-      this.imgUrlPost = this.apiService.getImg()+'post_'+this.orderId+'.png';
+      if (this.orderId) {
+        this.preImg = this.apiService.getImg() + "pre_" + this.orderId+".png";
+        this.postImg = this.apiService.getImg() + "post_" + this.orderId+".png";
+      }
 
     } catch (e) {
       this.alertUtils.showLog(e);
     }
+  }
+
+  changeImage(type) {
+    if (type == 1) {
+      this.preImg = "http://executive-carwash.com/wp-content/uploads/2012/10/detail-icon.png";
+    } else
+      this.postImg = "http://executive-carwash.com/wp-content/uploads/2012/10/detail-icon.png";
 
 
+  }
+  getImage(type) {
+    try {
+      if (type == 1)
+        this.photoViewer.show(this.preImg, 'BEFORE');
+      else
+        this.photoViewer.show(this.postImg, 'AFTER');
 
+    } catch (error) {
+      this.alertUtils.showLog(error);
+    }
 
   }
 
@@ -185,8 +206,14 @@ export class SupplierOrderDetailsPage {
             this.item["completedcolor"] = "danger";
           } else if (this.item.status == "assigned") {
             this.item["statusColor"] = "warning";
-            this.item["orderstatus"] = "Assigned to supplier";
-            this.item["trackingmessage"] = "Delivered";
+            this.item["orderstatus"] = "Assigned";
+            this.item["trackingmessage"] = "Assigned";
+            this.item["assigncolor"] = "success";
+            this.item["completedcolor"] = "";
+          } else if (this.item.status == "accept" || this.item.status == 'Accept' || this.item.status == 'Accepted') {
+            this.item["statusColor"] = "warning";
+            this.item["orderstatus"] = "Accepted";
+            this.item["trackingmessage"] = "Accepted";
             this.item["assigncolor"] = "success";
             this.item["completedcolor"] = "";
           } else if (this.item.status == "delivered" || this.item.status == "Delivered") {
@@ -321,7 +348,8 @@ export class SupplierOrderDetailsPage {
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
         targetWidth: IMAGE_WIDTH,
-        targetHeight: IMAGE_HEIGHT
+        targetHeight: IMAGE_HEIGHT,
+        allowEdit: true
       };
 
 

@@ -21,6 +21,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assign-forward/dealer-order-details-assign-forward";
 import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
 import {DealerOrdersOrderedPage} from "../dealer-orders-ordered/dealer-orders-ordered";
+import {PhotoViewer} from "@ionic-native/photo-viewer";
 
 @IonicPage()
 @Component({
@@ -33,8 +34,8 @@ export class DealerOrderDetailsPage {
   @ViewChild(Content) content: Content;
 
   item: any;
-  imgUrlPre: any;
-  imgUrlPost: any;
+  preImg: string = '';
+  postImg: string = '';
   showProgress = true;
   editorMsg: string = "";
   suppliersList = [];
@@ -50,6 +51,7 @@ export class DealerOrderDetailsPage {
   constructor(private modalCtrl: ModalController,
               private ref: ChangeDetectorRef,
               public appCtrl: App,
+              private photoViewer: PhotoViewer,
               public navCtrl: NavController,
               public param: NavParams,
               public alertUtils: UtilsProvider,
@@ -74,8 +76,10 @@ export class DealerOrderDetailsPage {
       this.showBackButton = false;
 
 
-    this.imgUrlPre = this.apiService.getImg()+'pre_'+this.orderId+'.png';
-    this.imgUrlPost = this.apiService.getImg()+'post_'+this.orderId+'.png';
+    if (this.orderId) {
+      this.preImg = this.apiService.getImg() + "pre_" + this.orderId+".png";
+      this.postImg = this.apiService.getImg() + "post_" + this.orderId+".png";
+    }
 
     try {
       this.platform.ready().then(ready => {
@@ -115,6 +119,27 @@ export class DealerOrderDetailsPage {
       this.alertUtils.showLog(e);
     }
 
+
+  }
+
+  changeImage(type) {
+    if (type == 1) {
+      this.preImg = "http://executive-carwash.com/wp-content/uploads/2012/10/detail-icon.png";
+    } else
+      this.postImg = "http://executive-carwash.com/wp-content/uploads/2012/10/detail-icon.png";
+
+
+  }
+  getImage(type) {
+    try {
+      if (type == 1)
+        this.photoViewer.show(this.preImg, 'BEFORE');
+      else
+        this.photoViewer.show(this.postImg, 'AFTER');
+
+    } catch (error) {
+      this.alertUtils.showLog(error);
+    }
 
   }
 
@@ -187,7 +212,7 @@ export class DealerOrderDetailsPage {
           if (this.item.status == "onhold") {
             this.item["orderstatus"] = "Onhold";
             this.item["statusColor"] = "warning";
-            this.item["trackingmessage"] = "We have put your job on-hold as our Service Engineer can't deliver, sorry for the inconvenience caused";
+            this.item["trackingmessage"] = "We have put your job on-hold as our Service Agent can't deliver, sorry for the inconvenience caused";
           } else if (this.item.status == "Cancelled" || this.item.status == "cancelled") {
             this.item["orderstatus"] = "Cancelled";
             this.item["statusColor"] = "danger";
@@ -203,10 +228,16 @@ export class DealerOrderDetailsPage {
           } else if (this.item.status == "assigned") {
             this.item["statusColor"] = "warning";
             this.item["orderstatus"] = "Assigned to supplier";
-            this.item["trackingmessage"] = "Delivered";
+            this.item["trackingmessage"] = "Assigned";
             this.item["assigncolor"] = "success";
             this.item["completedcolor"] = "";
-          } else if (this.item.status == "delivered" || this.item.status == "Delivered") {
+          }else if (this.item.status == "accept" || this.item.status == 'Accept' || this.item.status == 'Accepted') {
+            this.item["statusColor"] = "warning";
+            this.item["orderstatus"] = "Accepted by Service Agent";
+            this.item["trackingmessage"] = "Accepted";
+            this.item["assigncolor"] = "success";
+            this.item["completedcolor"] = "";
+          }else if (this.item.status == "delivered" || this.item.status == "Delivered") {
             this.item["orderstatus"] = "Delivered";
             this.item["statusColor"] = "success";
             this.item["trackingmessage"] = "Delivered";
@@ -256,7 +287,7 @@ export class DealerOrderDetailsPage {
               this.item.status == OrderTypes.NOT_BROADCASTED)
               this.item["statusUpdated"] = "Order Created";
             else if (this.item.status == OrderTypes.ASSIGNED)
-              this.item["statusUpdated"] = "Assigned to Service Engineer";
+              this.item["statusUpdated"] = "Assigned to Service Agent";
             else if(this.item.status == OrderTypes.ACCEPT)
               this.item["statusUpdated"] = "Order Accepted";
             else if(this.item.status == OrderTypes.ORDER_STARTED)

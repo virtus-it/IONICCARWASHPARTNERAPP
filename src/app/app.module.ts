@@ -31,6 +31,7 @@ import {AppVersion} from "@ionic-native/app-version";
 import {BackgroundMode} from "@ionic-native/background-mode";
 import {BackgroundGeolocation} from "@ionic-native/background-geolocation";
 import {LocationTracker} from '../providers/tracker/tracker';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -145,6 +146,7 @@ export function createTranslateLoader(http: HttpClient) {
     Network,
     AppVersion,
     Camera,
+    PhotoViewer,
     Push,
     UtilsProvider,
     NetworkProvider,

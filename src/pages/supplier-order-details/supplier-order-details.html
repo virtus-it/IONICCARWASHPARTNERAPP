@@ -71,9 +71,16 @@
             {{validate(item?.orderby_firstname)+" "+validate(item?.orderby_lastname)}}
           </div>
           </li>
-          <li class="jb_sts_dls"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Assigned</span>
+          <li class="jb_sts_dls"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block">
+            <span class="job_mgm_lbl">Assigned</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
           </div>
+          </li>
+
+          <li class="jb_sts_dls" *ngIf="item.status == 'accept'||'orderstarted'||item.status == 'jobstarted'||item.status == 'delivered'"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block">
+            <span class="job_mgm_lbl">Accepted</span>
+            {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
+            <span class="job_mgm_lbl">{{item?.order_orderstarteddate | utcDate}}</span></div>
           </li>
 
           <li class="jb_sts_dls" *ngIf="item.status == 'delivered'"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
@@ -86,7 +93,7 @@
       </ion-card-content>
     </ion-card>
 
-    <!--Images-->
+    <!--&lt;!&ndash;Images&ndash;&gt;
     <ion-card *ngIf="item.status == 'jobstarted' || item.status == 'delivered'">
       <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Images</span></ion-card-header>
       <ion-row>
@@ -98,6 +105,31 @@
         <ion-col><img [src]="imgUrlPre" style="width: 30%"></ion-col>
         <ion-col><img [src]="imgUrlPost" style="width: 30%"></ion-col>
       </ion-row>
+    </ion-card>-->
+
+    <ion-card *ngIf="item.status == 'jobstarted' || item.status == 'delivered'">
+      <ion-card-content>
+        <ion-row>
+          <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5>
+            JOB STATUS - IMAGES
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-avatar>
+              <ion-label style="text-align: center">BEFORE</ion-label>
+              <img class="profile-photo" (click)="getImage(1)" src="{{preImg}}" (error)="changeImage(1)">
+            </ion-avatar>
+          </ion-col>
+          <ion-col>
+            <ion-avatar>
+              <ion-label style="text-align: center">AFTER</ion-label>
+              <img class="profile-photo" (click)="getImage(2)" src="{{postImg}}" (error)="changeImage(2)">
+            </ion-avatar>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+
     </ion-card>
 
     <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">

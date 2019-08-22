@@ -107,7 +107,7 @@ export class DealerOrdersForwardPage {
                 res.data[i].status == OrderTypes.NOT_BROADCASTED)
                 res.data[i]["statusUpdated"] = "Order Created";
               else if (res.data[i].status == OrderTypes.ASSIGNED)
-                res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
+                res.data[i]["statusUpdated"] = "Assigned to Service Agent";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "DELIVERED";
               res.data[i]["statusUpdated"] = "Order Delivered";

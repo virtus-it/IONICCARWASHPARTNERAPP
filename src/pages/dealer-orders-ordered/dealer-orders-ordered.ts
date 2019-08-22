@@ -171,7 +171,7 @@ export class DealerOrdersOrderedPage {
               res.data[i].status == OrderTypes.NOT_BROADCASTED)
               res.data[i]["statusUpdated"] = "Job Created";
             else if (res.data[i].status == OrderTypes.ASSIGNED)
-              res.data[i]["statusUpdated"] = "Assigned to Service Engineer";
+              res.data[i]["statusUpdated"] = "Assigned to Service Agent";
             else if (res.data[i].status == OrderTypes.ACCEPT)
               res.data[i]["statusUpdated"] = "Job Accepted";
             else if (res.data[i].status == OrderTypes.ORDER_STARTED)

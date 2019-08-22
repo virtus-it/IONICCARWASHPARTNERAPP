@@ -53,12 +53,12 @@ export class DealerSupplierCreatePage {
 
     if (this.user == '') {
       this.isUpdate = false;
-      this.pageTitle = 'CREATE SERVICE ENGINEER';
+      this.pageTitle = 'CREATE SERVICE AGENT';
       this.buttonTitle = 'CREATE';
       this.input.tracking = "ON";
     } else {
       this.isUpdate = true;
-      this.pageTitle = 'EDIT SERVICE ENGINEER';
+      this.pageTitle = 'EDIT SERVICE AGENT';
       this.buttonTitle = 'UPDATE';
 
       //updating values
@@ -73,7 +73,10 @@ export class DealerSupplierCreatePage {
         this.input.tracking = this.user.tracking;
       }
 
+      if(this.user.associateddealer && this.user.associateddealer.user_id)
       this.input.distributorId = JSON.stringify(this.user.associateddealer.user_id);
+
+      if(this.user.associateddealer && this.user.associateddealer.firstname)
       this.input.distributor = this.validate(this.user.associateddealer.firstname);
         //+ ' ' + this.validate(this.user.associateddealer.lastname);
 

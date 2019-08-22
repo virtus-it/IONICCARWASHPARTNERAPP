@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_engineer.png">
-      <span class="title-style">Service Engineers</span>
+      <span class="title-style">Service Agents</span>
     </ion-title>
     <ion-buttons *ngIf="isDealer" end (click)="create($event, '')">
       <button ion-button icon-end>
@@ -23,7 +23,7 @@
       </ion-refresher-content>
     </ion-refresher>
 
-    <h5 *ngIf="noRecords" >Service Engineers not found</h5>
+    <h5 *ngIf="noRecords" >Service Agents not found</h5>
 
     <!--Search Functionality-->
     <ion-card class="customer_mgmnttop">

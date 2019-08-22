@@ -47,7 +47,7 @@ export class MyApp {
       // {title: 'PACKAGE',        component: 'DealerPackagePage', icon: "assets/imgs/img_package.png"},
       {title: 'CATEGORY',       component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png"},
       {title: 'MODELS',        component: 'DealerCarModelsPage', icon: "assets/imgs/img_car.png"},
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
       {title: 'USERS',          component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png"},
       {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png"},
@@ -68,7 +68,7 @@ export class MyApp {
     ];
 
     this.pagesVendor = [
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
       {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
@@ -77,7 +77,7 @@ export class MyApp {
     this.pagesJobAssigner = [
       {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
       {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
       {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
@@ -88,7 +88,7 @@ export class MyApp {
       {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
       {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png"},
       {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
-      {title: 'SERVICE ENGINEERS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
       {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}

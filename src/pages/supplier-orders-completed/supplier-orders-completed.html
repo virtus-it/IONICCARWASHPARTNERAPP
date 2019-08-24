@@ -31,7 +31,7 @@
 
 
         <ion-row>
-          <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address">{{order.orderby_address}}</span></ion-col>
+          <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address" (click)="this.alertUtils.showNavigation(order.orderby_address)">{{order.orderby_address}}</span></ion-col>
         </ion-row>
 
 

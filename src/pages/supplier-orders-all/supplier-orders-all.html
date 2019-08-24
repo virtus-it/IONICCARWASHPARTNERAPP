@@ -38,7 +38,7 @@
           <ion-col>{{order.slotdate}}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>{{order.orderby_address}}</ion-col>
+          <ion-col (click)="this.alertUtils.showNavigation(order.orderby_address)">{{order.orderby_address}}</ion-col>
         </ion-row>
 
         <!--buttons-->

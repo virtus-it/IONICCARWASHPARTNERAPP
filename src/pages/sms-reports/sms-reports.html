@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/img_user.png">
+      <span class="title-style">SMS REPORTS</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="fixscrollcontainer">
+    <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+                 name="crescent"></ion-spinner>
+
+    <ion-card>
+      <ion-row>
+        <ion-col>From Date</ion-col>
+        <ion-col>
+          <ion-input name="iDate" class="" type="date" [(ngModel)]="fromDate" ></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>To Date</ion-col>
+        <ion-col>
+          <ion-input name="iDate" class="" type="date" [(ngModel)]="toDate" ></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-col col-6="true" align-self-center="">
+        <button ion-button  (click)="getReports();">Get Report</button>
+      </ion-col>
+    </ion-card>
+
+    <!--<ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>-->
+
+    <h5 *ngIf="noRecords" >Customers not found</h5>
+
+
+    <!--List of Customers-->
+    <ion-list *ngIf="!noRecords">
+      <div *ngFor="let res of response">
+        <ion-card class="customer_mgmnt">
+
+          <ion-row>
+            <ion-col><span class="job_mgm_lbl">Message</span>
+              {{validate(res.body_desc) }}
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <span class="job_mgm_lbl">Send To</span>
+              {{sendTo(res.mobilenumbers)}}
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>
+    </ion-list>
+
+    <!--<ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>-->
+  </div>
+</ion-content>

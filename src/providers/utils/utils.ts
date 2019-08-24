@@ -9,6 +9,7 @@ import {AppVersion} from "@ionic-native/app-version";
 import {Network} from "@ionic-native/network";
 import {Subscription} from "rxjs";
 import {NativeStorage} from '@ionic-native/native-storage';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = false;
@@ -92,6 +93,7 @@ export class UtilsProvider {
               private uniqueDeviceID: UniqueDeviceID,
               private nativeStorage: NativeStorage,
               private platform: Platform,
+              private launchNavigator: LaunchNavigator,
               private network: Network,
               private appVersion: AppVersion,
               public loadingCtrl: LoadingController) {
@@ -543,6 +545,24 @@ export class UtilsProvider {
 
     } catch (e) {
       this.showLog(e);
+    }
+  }
+
+  showNavigation(addr){
+    try {
+      this.showLog(addr);
+      let options: LaunchNavigatorOptions = {
+        //start: 'London, ON',
+        //app: LaunchNavigator.APP.GOOGLE_MAPS,
+      };
+
+      this.launchNavigator.navigate(addr, options)
+        .then(
+          success => console.log('Launched navigator'),
+          error => console.log('Error launching navigator', error)
+        );
+    }catch (e) {
+
     }
   }
 }

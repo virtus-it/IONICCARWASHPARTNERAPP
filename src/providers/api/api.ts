@@ -262,6 +262,10 @@ export class ApiProvider {
     return this.baseUrl + "mcreateorder";
   }
 
+  getSmsList() {
+    return this.baseUrl + "getsmslist";
+  }
+
   updateOrder() {
     return this.baseUrl + "updateorder";
   }

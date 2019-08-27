@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="4" id="com.admin.washonclick" version="1.01.06.19" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="12" id="com.admin.washonclick" version="1.1.20.08" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WOC-Partner</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="sales@virtus-it.com" href="http://www.virtus-it.com/">Ionic Framework Team</author>
@@ -76,6 +76,8 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
+    <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyDoS0Blw09XR34phjQ4BGF6v8mpQ5E8aSM" />
+    <preference name="GOOGLE_MAPS_IOS_API_KEY" value="AIzaSyDoS0Blw09XR34phjQ4BGF6v8mpQ5E8aSM" />
     <engine name="android" spec="6.3.0" />
     <engine name="browser" spec="5.0.4" />
     <plugin name="cordova-plugin-advanced-http" spec="^2.0.6" />
@@ -105,4 +107,15 @@
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-background-mode" spec="^0.7.2" />
     <plugin name="cordova-plugin-mauron85-background-geolocation" spec="^2.2.5" />
+    <plugin name="cordova-plugin-googlemaps" spec="2.0.0">
+        <variable name="PLAY_SERVICES_VERSION" value="15.0.1" />
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="This app wants to get your location while this app runs only." />
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app wants to get your location always, even this app runs in background." />
+    </plugin>
+    <plugin name="com-sarriaroman-photoviewer" spec="^1.2.4" />
+    <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="^5.0.4">
+        <variable name="GOOGLE_API_KEY_FOR_ANDROID" value="AIzaSyDoS0Blw09XR34phjQ4BGF6v8mpQ5E8aSM" />
+        <variable name="OKHTTP_VERSION" value="3.12.0" />
+    </plugin>
 </widget>

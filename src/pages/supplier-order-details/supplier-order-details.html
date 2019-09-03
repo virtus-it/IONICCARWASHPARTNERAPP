@@ -33,11 +33,21 @@
         </ion-row>
 
 
+        <ion-row>
+          <ion-col *ngIf="item?.status == 'jobstarted'">
+            <button ion-button color="primary" (click)="changeOrderStatus('arrived');">ARRIVED</button>
+          </ion-col>
+        </ion-row>
 
         <ion-row>
-
           <ion-col *ngIf="item?.status == 'jobstarted'">
-            <button ion-button color="primary" (click)="pickImage('post'); editStatusModal($event);">DELIVER</button>
+            <button ion-button color="primary" (click)="pickImage('post'); changeOrderStatus('jobcompleted');">DELIVER</button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col *ngIf="item?.status == 'jobcompleted'">
+            <button ion-button color="primary" (click)="editStatusModal();">Confirm Payment</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
@@ -115,16 +125,18 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
+          <ion-col col-6>
             <ion-avatar>
               <ion-label style="text-align: center">BEFORE</ion-label>
               <img class="profile-photo" (click)="getImage(1)" src="{{preImg}}" (error)="changeImage(1)">
+              <ion-label style="text-align: center">{{getDate(item.order_jobstarteddate)}}</ion-label>
             </ion-avatar>
           </ion-col>
-          <ion-col>
+          <ion-col col-6>
             <ion-avatar>
               <ion-label style="text-align: center">AFTER</ion-label>
               <img class="profile-photo" (click)="getImage(2)" src="{{postImg}}" (error)="changeImage(2)">
+              <ion-label style="text-align: center">{{getDate(item.order_delivereddate)}}</ion-label>
             </ion-avatar>
           </ion-col>
         </ion-row>
@@ -132,7 +144,9 @@
 
     </ion-card>
 
-    <ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
+
+    <!--service agent details commented-->
+    <!--<ion-card *ngIf="item?.showassignstatus == true " class="dealer_contnr">
       <ion-card-header class="cardtop_heading"><span class="statusupdt">Supplier Details</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
         <ion-row>
@@ -151,7 +165,7 @@
           <span class="text_output no_margin pdleft12-nopadding" style="color:#0f75bc;">{{item?.supplierdetails.mobileno}}</span>
         </ion-item>
       </ion-card-content>
-    </ion-card>
+    </ion-card>-->
 
 
 
@@ -161,7 +175,7 @@
 
         <ion-item class="no_margin no_padding">
           <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
-          <span class="text_output no_margin pdleft12-nopadding">{{item?.dealerdetails.firstname + " "+item?.dealerdetails.lastname }}</span>
+          <span class="text_output no_margin pdleft12-nopadding">{{validate(item?.dealerdetails?.firstname) + " "+validate(item?.dealerdetails?.lastname) }}</span>
         </ion-item>
         <ion-row class="no_margin no_padding" hidden>
           <ion-icon col-1 name="pin" item-left small class="no_margin no_padding"></ion-icon>
@@ -185,7 +199,7 @@
             <div class="msg-detail">
               <div class="msg-info">
                 <p>
-                  {{mes.user.firstname}}&nbsp;&nbsp;&nbsp;{{mes.createddate | utcDate }}</p>
+                  {{validate(mes.user.firstname)}}&nbsp;&nbsp;&nbsp;{{mes.createddate | utcDate }}</p>
               </div>
               <div class="msg-content">
                 <span class="triangle"></span>

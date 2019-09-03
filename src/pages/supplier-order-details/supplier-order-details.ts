@@ -16,6 +16,7 @@ import {
   RES_SUCCESS, UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
+import * as moment from 'moment';
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -132,18 +133,28 @@ export class SupplierOrderDetailsPage {
 
   }
 
-
+  getDate(date){
+    let myDate;
+    if (date) {
+      date = date.replace('T','');
+      myDate = moment(date, 'YYYY-MM-DD hh:mm:ss').toDate()
+      return moment(myDate).format("DD-MM-YY hh:mm");
+    }
+  }
 
   validate(s) {
-    if (s == null || s == 'null')
+    if(s){
+      if(s == null || s == 'null')
+        return '';
+      else
+        return s;
+    }else
       return '';
-    else
-      return s;
   }
 
   sendMessage(item) {
     // this.showPrompt(item)
-    if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {
+    if (this.alertUtils.validateText(this.editorMsg, "Message", 1, 250)) {
       this.createMessage(item, this.editorMsg)
     } else {
       this.alertUtils.showToast(this.alertUtils.ERROR_MES);
@@ -269,7 +280,11 @@ export class SupplierOrderDetailsPage {
           } else if (this.item.status == OrderTypes.JOB_STARTED) {
             this.item["orderstatus"] = "jobstarted";
             this.item["statusUpdated"] = "Job Started";
-          } else if (this.item.status == OrderTypes.DELIVERED) {
+          }else if (this.item.status == OrderTypes.JOB_COMPLETED) {
+            this.item["orderstatus"] = "jobcompleted";
+            this.item["statusUpdated"] = "Payment Pending";
+          }
+          else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "delivered";
             this.item["statusUpdated"] = "Job Completed";
           } else if (this.item.status == OrderTypes.CANCELLED) {
@@ -349,7 +364,6 @@ export class SupplierOrderDetailsPage {
         mediaType: this.camera.MediaType.PICTURE,
         targetWidth: IMAGE_WIDTH,
         targetHeight: IMAGE_HEIGHT,
-        allowEdit: true
       };
 
 
@@ -392,6 +406,53 @@ export class SupplierOrderDetailsPage {
     })
   }
 
+  changeOrderStatus(status){
+    try{
+      let canIExecute = false;
+      if(status == 'arrived'){
+        //cal for service agent location
+        //validate if his loc < 30 meters
+        canIExecute = true;
+      }else{
+        canIExecute = true;
+      }
+
+      if(canIExecute){
+        let input = {
+          "order": {
+            "orderid": this.item.order_id,
+            "status": status,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
+          }
+        };
+
+        this.alertUtils.showLog(JSON.stringify(input));
+
+        this.showProgress = true;
+        this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
+          this.alertUtils.showLog(res);
+          this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
+
+          this.showProgress = false;
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.alertUtils.showToast('Job Completed');
+            this.fetchOrderDetails();
+            this.editStatusModal();
+          } else
+            this.alertUtils.showToast(res.result);
+
+        }, error => {
+          this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+        })
+      }
+    }catch (e) {
+
+    }
+  }
+
   editStatusModal() {
     let model = this.modalCtrl.create('DealerOrderDetailsEditStatusPage', {
       order:this.item,
@@ -402,7 +463,7 @@ export class SupplierOrderDetailsPage {
     model.onDidDismiss(data => {
       if (data && data.hasOwnProperty('result')) {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
-          this.alertUtils.showToast('Order Delivered');
+          this.alertUtils.showToast('Payment received');
           this.fetchOrderDetails();
         } else {
           this.alertUtils.showToast('Some thing went wrong!');

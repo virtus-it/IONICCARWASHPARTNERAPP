@@ -33,6 +33,8 @@ import {BackgroundGeolocation} from "@ionic-native/background-geolocation";
 import {LocationTracker} from '../providers/tracker/tracker';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import {LaunchNavigator} from "@ionic-native/launch-navigator";
+import { MapUtilsProvider } from '../providers/map-utils/map-utils';
+import {NativeGeocoder} from "@ionic-native/native-geocoder";
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -154,7 +156,9 @@ export function createTranslateLoader(http: HttpClient) {
     NetworkProvider,
     BackgroundMode,
     BackgroundGeolocation,
-    Geolocation
+    Geolocation,
+    MapUtilsProvider,
+    NativeGeocoder
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>
       <img class="header_icon_addrs" src="assets/imgs/header_icon.png">
-      <span class="title-style">ORDER STATUS</span>
+      <span class="title-style">PAYMENT STATUS</span>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -11,15 +11,15 @@
 
   <form>
 
-    <ion-card>
+    <!--<ion-card>
       <ion-list radio-group [(ngModel)]="input.orderStatus" name="orderStatus">
 
         <ion-item>
-          <ion-label>Delivered</ion-label>
+          <ion-label>Completed</ion-label>
           <ion-radio value="delivered"></ion-radio>
         </ion-item>
 
-        <ion-item>
+        &lt;!&ndash;<ion-item>
           <ion-label>Door Locked</ion-label>
           <ion-radio value="doorlock"></ion-radio>
         </ion-item>
@@ -37,26 +37,14 @@
         <ion-item>
           <ion-label>Can't Delivered</ion-label>
           <ion-radio value="cantdelivered"></ion-radio>
-        </ion-item>
+        </ion-item>&ndash;&gt;
 
       </ion-list>
 
-    </ion-card>
+    </ion-card>-->
 
 
     <div *ngIf="input.orderStatus == 'delivered'">
-<!--      <ion-card>-->
-<!--        <ion-row>-->
-<!--          <ion-col>Quantity</ion-col>-->
-<!--          <ion-col>{{input.return_cans}}</ion-col>-->
-
-<!--        </ion-row>-->
-
-<!--        <ion-row>-->
-<!--          <ion-col>{{input.delivered_qty}}</ion-col>-->
-<!--          <ion-col>{{input.return_cans}}</ion-col>-->
-<!--        </ion-row>-->
-<!--      </ion-card>-->
 
       <ion-card>
         <ion-row>
@@ -97,11 +85,11 @@
         <ion-list radio-group [(ngModel)]="input.paymentype" name="paymentype">
 
           <ion-item>
-            <ion-label>COD</ion-label>
+            <ion-label>CASH</ion-label>
             <ion-radio value="cod"></ion-radio>
           </ion-item>
 
-          <ion-item>
+          <!--<ion-item>
             <ion-label>CREDIT</ion-label>
             <ion-radio value="credit"></ion-radio>
           </ion-item>
@@ -114,13 +102,11 @@
           <ion-item>
             <ion-label>ONLINE BANKING</ion-label>
             <ion-radio value="onlinebanking"></ion-radio>
-          </ion-item>
+          </ion-item>-->
 
         </ion-list>
       </ion-card>
     </div>
-
-
 
   </form>
 </ion-content>

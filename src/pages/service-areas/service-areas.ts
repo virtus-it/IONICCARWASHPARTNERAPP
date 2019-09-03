@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-//import { MapLoaderService } from './map.loader'
 import {IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 
 declare var google;

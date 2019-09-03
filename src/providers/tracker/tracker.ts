@@ -110,7 +110,7 @@ export class LocationTracker {
   trackingUpdate() {
     try {
       this.alertUtils.showLog("trackingUpdate - Initiated");
-      this.sub = Observable.interval(10000).subscribe((val) => {
+      this.sub = Observable.interval(5000).subscribe((val) => {
 
         this.alertUtils.showLog("lat : " + this.lat);
         this.alertUtils.showLog("lng : " + this.lng);

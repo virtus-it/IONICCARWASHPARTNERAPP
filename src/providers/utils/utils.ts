@@ -22,7 +22,7 @@ const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';
 export const KEY_TRACKING_STATUS = 'secure_storage_tracking_status';
 export const KEY_TRACKING_ORDER = 'secure_storage_tracking_order';
 
-export const IMAGE_QUALITY: number = 50;
+export const IMAGE_QUALITY: number = 30;
 export const IMAGE_WIDTH: number = 256;
 export const IMAGE_HEIGHT: number = 256;
 
@@ -54,6 +54,7 @@ export enum OrderTypes {
   ASSIGNED = 'assigned',
   ACCEPT = 'accept',
   DELIVERED = 'delivered',
+  JOB_COMPLETED = 'jobcompleted',
   CANCELLED = 'cancelled',
 
   ORDER_STARTED = 'orderstarted',
@@ -563,6 +564,64 @@ export class UtilsProvider {
         );
     }catch (e) {
 
+    }
+  }
+
+  showLogs(mes?, val?) {
+    if(SHOW_LOGS){
+      console.log('\n -->');
+      if(mes)
+        console.log(mes);
+      if(val)
+        console.log(val);
+      console.log(' <--');
+    }
+
+  }
+
+  showLogRes(api?, input?, res?) {
+    if(SHOW_LOGS){
+      console.log('\n>> Request Started...');
+      try {
+        if (api)
+          console.log(api);
+        if (input)
+          console.log('Input => ' + input);
+
+        if (res) {
+          try {
+            console.log('Output =>');
+            console.log(res);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } catch (e) {
+      }
+      console.log('<< Request End');
+    }
+  }
+
+  showLogErr(api?, input?, err?) {
+    if(SHOW_LOGS){
+      console.log('\n>> Request Started...');
+      try {
+        if (api)
+          console.log(api);
+        if (input)
+          console.log('Input => ' + input);
+
+        if (err) {
+          try {
+            console.log('Error =>');
+            console.log(err);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } catch (e) {
+      }
+      console.log('<< Request End');
     }
   }
 }

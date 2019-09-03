@@ -16,12 +16,16 @@ import {
   RES_SUCCESS, UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
+
+import * as moment from 'moment';
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
 import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assign-forward/dealer-order-details-assign-forward";
 import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
 import {DealerOrdersOrderedPage} from "../dealer-orders-ordered/dealer-orders-ordered";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
+import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions} from "@ionic-native/native-geocoder";
+/*declare var google;*/
 
 @IonicPage()
 @Component({
@@ -38,6 +42,7 @@ export class DealerOrderDetailsPage {
   postImg: string = '';
   showProgress = true;
   editorMsg: string = "";
+  buttonTitle:any = "Assign";
   suppliersList = [];
   distributorsList: string[];
   productsList: string[];
@@ -56,6 +61,7 @@ export class DealerOrderDetailsPage {
               public param: NavParams,
               public alertUtils: UtilsProvider,
               private platform: Platform,
+              private nativeGeocoder: NativeGeocoder,
               private viewCtrl: ViewController,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
@@ -143,6 +149,15 @@ export class DealerOrderDetailsPage {
 
   }
 
+  getDate(date){
+    let myDate;
+    if (date) {
+      date = date.replace('T','');
+      myDate = moment(date, 'YYYY-MM-DD hh:mm:ss').toDate()
+      return moment(myDate).format("DD-MM-YY hh:mm");
+    }
+  }
+
   assignForward(event) {
     this.getSuppliers();
   }
@@ -159,7 +174,7 @@ export class DealerOrderDetailsPage {
 
   sendMessage(item) {
     // this.showPrompt(item)
-    if (this.alertUtils.validateText(this.editorMsg, "Message", 3, 250)) {
+    if (this.alertUtils.validateText(this.editorMsg, "Message", 1, 250)) {
       this.createMessage(item, this.editorMsg)
     } else {
       this.alertUtils.showToast(this.alertUtils.ERROR_MES);
@@ -194,6 +209,11 @@ export class DealerOrderDetailsPage {
             this.item["billamt_updated"] = res.data[0].bill_amount;
           }else
             this.item["billamt_updated"] = res.data[0].orderamt;
+
+          if(this.item.status == "assigned"){
+            this.buttonTitle = 'Re - Assign';
+          }else
+            this.buttonTitle ='Assign';
 
 
           if (this.item.status == "assigned" || this.item.status == "delivered") {
@@ -243,7 +263,11 @@ export class DealerOrderDetailsPage {
             this.item["trackingmessage"] = "Delivered";
             this.item["assigncolor"] = "success";
             this.item["completedcolor"] = "success";
-          } else if (this.item.status == "doorlock" || this.item.status == "Door Locked") {
+          } else if (this.item.status == OrderTypes.JOB_COMPLETED) {
+            this.item["orderstatus"] = "Delivered";
+            this.item["statusUpdated"] = "Payment Pending";
+          }
+          else if (this.item.status == "doorlock" || this.item.status == "Door Locked") {
             this.item["orderstatus"] = "Door Locked";
             this.item["statusColor"] = "warning";
             this.item["trackingmessage"] = "Not delivered: Door - Locked";
@@ -349,7 +373,7 @@ export class DealerOrderDetailsPage {
 
       this.showProgress = true;
       this.apiService.getReq(url).then(res => {
-        this.alertUtils.showLog(res);
+        this.alertUtils.showLogRes(url,null,res);
         this.showProgress = false;
 
         this.suppliersList = [];
@@ -360,10 +384,53 @@ export class DealerOrderDetailsPage {
             this.suppliersList.push(res.data[i]);
           }
 
+          //this.openAssignForwardModal();
 
-          this.openAssignForwardModal();
+
+          if(this.item.orderby_latitude && this.item.orderby_longitude){
+            this.openAssignForwardModal();
+          }else{
+            let options: NativeGeocoderOptions = {
+              useLocale: true,
+              maxResults: 5
+            };
+            this.nativeGeocoder.forwardGeocode(this.item.orderby_address, options)
+              .then((coordinates: NativeGeocoderForwardResult[]) =>{
+                this.alertUtils.showLogs(coordinates[0].latitude);
+                this.alertUtils.showLogs(coordinates[0].longitude);
+                this.item.orderby_latitude = coordinates[0].latitude;
+                this.item.latitude = coordinates[0].latitude;
+                this.item.orderby_longitude = coordinates[0].longitude;
+                this.item.longitude = coordinates[0].longitude;
+                this.openAssignForwardModal();
+                console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude)
+              });
+          }
+
+
+          /*if(this.item.orderby_latitude && this.item.orderby_longitude){
+            this.openAssignForwardModal();
+          }else{
+            let geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': this.item.orderby_address }, (results, status) => {
+              this.alertUtils.showLogs('Getting lat lngs from addr : supplier : ', results);
+
+              if (results && results[0] && results[0].geometry && results[0].geometry.location) {
+                let loc = results[0].geometry.location;
+                this.alertUtils.showLogs(loc.lat());
+                this.alertUtils.showLogs(loc.lng());
+                this.item.orderby_latitude = loc.lat();
+                this.item.latitude = loc.lat();
+                this.item.orderby_longitude = loc.lng();
+                this.item.longitude = loc.lng();
+                this.openAssignForwardModal();
+              }
+            });
+            //this.openAssignForwardModal();
+          }*/
         }
       }, error => {
+        this.alertUtils.showLogErr(url,null,error);
       })
     }catch (e) {
       this.alertUtils.showLog(e);

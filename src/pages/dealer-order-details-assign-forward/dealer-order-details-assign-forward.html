@@ -1,32 +1,78 @@
 <ion-header>
   <ion-navbar>
-    <ion-title start>
+    <!--<ion-title start>
       <img class="header_icon" src="assets/imgs/img_rating.png">
       <span class="title-style">SERVICE AGENTS</span>
-    </ion-title>
+    </ion-title>-->
+
+    <ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="listView">
+        <ion-label style="text-align: center; color: white">LIST VIEW</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="mapView">
+        <ion-label style="text-align: center; color: white">MAP VIEW</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-navbar>
 </ion-header>
-<!--<ion-header>-->
-  <!--<ion-navbar>-->
-  <!--<ion-segment (ionChange)="segmentChanged($event)">-->
-    <!--<ion-segment-button value="suppliers">-->
-      <!--<ion-label style="color: #fff; text-align: left;">SERVICE AGENTS</ion-label>-->
-    <!--</ion-segment-button>-->
-    <!--&lt;!&ndash;<ion-segment-button value="distributors">-->
-      <!--<ion-label>VENDORS</ion-label>-->
-    <!--</ion-segment-button>&ndash;&gt;-->
-  <!--</ion-segment>-->
-  <!--</ion-navbar>-->
-<!--</ion-header>-->
 
-<ion-content padding>
+<ion-content>
 
-  <ion-list radio-group [(ngModel)]="selectedValue">
+
+    <div id="map_canvas1" style="height: 100%" *ngIf="!isListView">
+    </div>
+
+    <div *ngIf="isListView">
+      <ion-list radio-group [(ngModel)]="selectedValue" >
+        <ion-item *ngFor="let list of mainList">
+          <ion-label>{{list.firstname + " " + list.lastname}}</ion-label>
+          <ion-radio [value]="list"></ion-radio>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  <!--<ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="listView">
+      <ion-label style="text-align: left;">LIST VIEW</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="mapView">
+      <ion-label>MAP VIEW</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <div [ngSwitch]="segmentValue">
+    <div *ngSwitchCase="'mapView'">
+      <div [style.display]="segmentValue == 'mapView' ? 'block' : 'none'">
+        <div #map id="map_canvas1"></div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'listView'">
+      <ion-list radio-group [(ngModel)]="selectedValue">
+        <ion-item *ngFor="let list of mainList">
+          <ion-label>{{list.firstname + " " + list.lastname}}</ion-label>
+          <ion-radio [value]="list"></ion-radio>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>-->
+
+  <!--<ion-list radio-group [(ngModel)]="selectedValue" *ngIf="isListView">
     <ion-item *ngFor="let list of mainList">
       <ion-label>{{list.firstname + " " + list.lastname}}</ion-label>
       <ion-radio [value]="list"></ion-radio>
     </ion-item>
-  </ion-list>
+  </ion-list>-->
+
+  <!--<div *ngIf="!isListView">
+
+    <div  id="map_canvas1" style="height: 50%">
+    </div>
+
+   &lt;!&ndash; <div  style="height: 50%">
+    </div>&ndash;&gt;
+
+  </div>-->
 
 </ion-content>
 

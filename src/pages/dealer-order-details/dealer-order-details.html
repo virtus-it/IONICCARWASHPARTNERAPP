@@ -50,8 +50,8 @@
 
         <ion-row>
 
-          <ion-col *ngIf="item?.status != 'delivered'">
-            <button ion-button color="primary" (click)="assignForward($event);">ASSIGN</button>
+          <ion-col *ngIf="item?.status != 'delivered' && item?.status != 'jobcompleted'">
+            <button ion-button color="primary" (click)="assignForward($event);">{{buttonTitle}}</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
@@ -140,16 +140,18 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
+          <ion-col col-6>
             <ion-avatar>
               <ion-label style="text-align: center">BEFORE</ion-label>
               <img class="profile-photo" (click)="getImage(1)" src="{{preImg}}" (error)="changeImage(1)">
+              <ion-label style="text-align: center">{{getDate(item.order_jobstarteddate)}}</ion-label>
             </ion-avatar>
           </ion-col>
-          <ion-col>
+          <ion-col col-6>
             <ion-avatar>
               <ion-label style="text-align: center">AFTER</ion-label>
               <img class="profile-photo" (click)="getImage(2)" src="{{postImg}}" (error)="changeImage(2)">
+              <ion-label style="text-align: center">{{getDate(item.order_delivereddate)}}</ion-label>
             </ion-avatar>
           </ion-col>
         </ion-row>
@@ -190,7 +192,7 @@
         </ion-row>
         <ion-item class="no_margin no_padding" style="padding: 0;">
           <ion-icon name="person" item-left small class="no_margin no_padding"></ion-icon>
-          <span class="text_output no_margin pdleft12-nopadding">{{validate(item?.dealerdetails.firstname) + " "+ validate(item?.dealerdetails.lastname) }}</span>
+          <span class="text_output no_margin pdleft12-nopadding">{{validate(item?.dealerdetails?.firstname) + " "+ validate(item?.dealerdetails?.lastname) }}</span>
         </ion-item>
         <ion-row class="no_margin no_padding" hidden>
           <ion-icon col-1 name="pin" item-left small class="no_margin no_padding"></ion-icon>

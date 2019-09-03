@@ -53,7 +53,7 @@ export class MyApp {
       {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png"},
       {title: 'SMS REPORTS',    component: 'SmsReportsPage', icon: "assets/imgs/img_rating.png"},
       {title: 'FEEDBACK',       component: 'FeedbackPage', icon: "assets/imgs/img_rating.png"},
-      //{title: 'SERVICE AREAS',  component: 'ServiceAreasPage', icon: "assets/imgs/img_rating.png"},
+      {title: 'SERVICE AREAS',  component: 'ServiceAreasPage', icon: "assets/imgs/img_rating.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
       {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
@@ -125,13 +125,16 @@ export class MyApp {
       const options: PushOptions = {
         android: {
           senderID: '530358294125',
-          sound: true,
-          forceShow: true
+          //sound: true,
+          sound: this.setSound(),
+          forceShow: true,
+          vibrate: true
         },
         ios: {
           alert: 'true',
           badge: false,
-          sound: 'true'
+          sound: 'true',
+          //vibrate: true
         },
         windows: {},
         browser: {
@@ -172,6 +175,14 @@ export class MyApp {
       this.alertUtils.showLog("CATCH BLOCK");
       this.alertUtils.showLog(JSON.stringify(e));
     }
+  }
+
+  setSound() {
+    //if (this.platform.is('android')) {
+      return 'file://assets/sounds/ringtone.mp3'
+    /*} else {
+      return 'file://assets/sounds/bell.mp3'
+    }*/
   }
 
   showPromptForLogout() {

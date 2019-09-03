@@ -109,7 +109,8 @@ export class SupplierOrdersPendingPage {
       this.apiService.postReq(this.apiService.orderByStatus(), data).then(res => {
         this.alertUtils.hideLoading();
         this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
-        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : " + JSON.stringify(res));
+        this.alertUtils.showLog("POST (SUCCESS)=> ORDERS: ORDERED : ");
+        this.alertUtils.showLog(res);
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.noRecords = false;
@@ -134,10 +135,14 @@ export class SupplierOrdersPendingPage {
             } else if (res.data[i].status == OrderTypes.JOB_STARTED) {
               res.data[i]["orderstatus"] = "jobstarted";
               res.data[i]["statusUpdated"] = "Job Started";
+            } else if (res.data[i].status == OrderTypes.JOB_COMPLETED) {
+              res.data[i]["orderstatus"] = "jobcompleted";
+              res.data[i]["statusUpdated"] = "Payment Pending";
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
               res.data[i]["statusUpdated"] = "Job Completed";
-            } else if (res.data[i].status == OrderTypes.CANCELLED) {
+            }
+            else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "cancelled";
               res.data[i]["statusUpdated"] = "Job Cancelled";
             } else if (res.data[i].status == OrderTypes.ONHOLD) {
@@ -271,6 +276,7 @@ export class SupplierOrdersPendingPage {
               this.alertUtils.showLog('order started');
               this.alertUtils.showToast('Tracking Initialized');
               this.tracker.startTracking(order);
+              this.alertUtils.showNavigation(order.orderby_address);
             } else if (status == 'jobstarted') {
               this.alertUtils.showLog('job started');
               this.alertUtils.stopSubscription();
@@ -304,7 +310,7 @@ export class SupplierOrdersPendingPage {
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
         targetWidth: IMAGE_WIDTH,
-        targetHeight: IMAGE_HEIGHT
+        targetHeight: IMAGE_HEIGHT,
       };
 
 

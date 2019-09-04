@@ -55,6 +55,7 @@ export enum OrderTypes {
   ACCEPT = 'accept',
   DELIVERED = 'delivered',
   JOB_COMPLETED = 'jobcompleted',
+  ARRIVED = 'arrived',
   CANCELLED = 'cancelled',
 
   ORDER_STARTED = 'orderstarted',
@@ -574,7 +575,6 @@ export class UtilsProvider {
         console.log(mes);
       if(val)
         console.log(val);
-      console.log(' <--');
     }
 
   }

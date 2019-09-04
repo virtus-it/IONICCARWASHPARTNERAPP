@@ -25,6 +25,8 @@ import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-sta
 import {DealerOrdersOrderedPage} from "../dealer-orders-ordered/dealer-orders-ordered";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
 import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions} from "@ionic-native/native-geocoder";
+import {MapUtilsProvider} from "../../providers/map-utils/map-utils";
+
 /*declare var google;*/
 
 @IonicPage()
@@ -42,7 +44,7 @@ export class DealerOrderDetailsPage {
   postImg: string = '';
   showProgress = true;
   editorMsg: string = "";
-  buttonTitle:any = "Assign";
+  buttonTitle: any = "Assign";
   suppliersList = [];
   distributorsList: string[];
   productsList: string[];
@@ -61,6 +63,7 @@ export class DealerOrderDetailsPage {
               public param: NavParams,
               public alertUtils: UtilsProvider,
               private platform: Platform,
+              private mapUtils: MapUtilsProvider,
               private nativeGeocoder: NativeGeocoder,
               private viewCtrl: ViewController,
               private translateService: TranslateService,
@@ -76,15 +79,15 @@ export class DealerOrderDetailsPage {
     this.orderId = this.param.get("orderid");
     this.categoryID = this.param.get("categoryid");
 
-    if(this.callFrom == 'ordered')
+    if (this.callFrom == 'ordered')
       this.showBackButton = true;
     else
       this.showBackButton = false;
 
 
     if (this.orderId) {
-      this.preImg = this.apiService.getImg() + "pre_" + this.orderId+".png";
-      this.postImg = this.apiService.getImg() + "post_" + this.orderId+".png";
+      this.preImg = this.apiService.getImg() + "pre_" + this.orderId + ".png";
+      this.postImg = this.apiService.getImg() + "post_" + this.orderId + ".png";
     }
 
     try {
@@ -136,6 +139,7 @@ export class DealerOrderDetailsPage {
 
 
   }
+
   getImage(type) {
     try {
       if (type == 1)
@@ -149,10 +153,10 @@ export class DealerOrderDetailsPage {
 
   }
 
-  getDate(date){
+  getDate(date) {
     let myDate;
     if (date) {
-      date = date.replace('T','');
+      date = date.replace('T', '');
       myDate = moment(date, 'YYYY-MM-DD hh:mm:ss').toDate()
       return moment(myDate).format("DD-MM-YY hh:mm");
     }
@@ -163,12 +167,12 @@ export class DealerOrderDetailsPage {
   }
 
   validate(s) {
-    if(s){
-      if(s == null || s == 'null')
+    if (s) {
+      if (s == null || s == 'null')
         return '';
       else
         return s;
-    }else
+    } else
       return '';
   }
 
@@ -205,15 +209,15 @@ export class DealerOrderDetailsPage {
           this.alertUtils.showLog(res.data[0]);
           this.item = res.data[0];
 
-          if(this.item.status == OrderTypes.DELIVERED){
+          if (this.item.status == OrderTypes.DELIVERED) {
             this.item["billamt_updated"] = res.data[0].bill_amount;
-          }else
+          } else
             this.item["billamt_updated"] = res.data[0].orderamt;
 
-          if(this.item.status == "assigned"){
+          if (this.item.status == "assigned") {
             this.buttonTitle = 'Re - Assign';
-          }else
-            this.buttonTitle ='Assign';
+          } else
+            this.buttonTitle = 'Assign';
 
 
           if (this.item.status == "assigned" || this.item.status == "delivered") {
@@ -251,13 +255,13 @@ export class DealerOrderDetailsPage {
             this.item["trackingmessage"] = "Assigned";
             this.item["assigncolor"] = "success";
             this.item["completedcolor"] = "";
-          }else if (this.item.status == "accept" || this.item.status == 'Accept' || this.item.status == 'Accepted') {
+          } else if (this.item.status == "accept" || this.item.status == 'Accept' || this.item.status == 'Accepted') {
             this.item["statusColor"] = "warning";
             this.item["orderstatus"] = "Accepted by Service Agent";
             this.item["trackingmessage"] = "Accepted";
             this.item["assigncolor"] = "success";
             this.item["completedcolor"] = "";
-          }else if (this.item.status == "delivered" || this.item.status == "Delivered") {
+          } else if (this.item.status == "delivered" || this.item.status == "Delivered") {
             this.item["orderstatus"] = "Delivered";
             this.item["statusColor"] = "success";
             this.item["trackingmessage"] = "Delivered";
@@ -266,8 +270,10 @@ export class DealerOrderDetailsPage {
           } else if (this.item.status == OrderTypes.JOB_COMPLETED) {
             this.item["orderstatus"] = "Delivered";
             this.item["statusUpdated"] = "Payment Pending";
-          }
-          else if (this.item.status == "doorlock" || this.item.status == "Door Locked") {
+          }  else if (this.item.status == OrderTypes.ARRIVED) {
+            this.item["orderstatus"] = "Arrived";
+            this.item["statusUpdated"] = "Service Agent at Customer loc";
+          } else if (this.item.status == "doorlock" || this.item.status == "Door Locked") {
             this.item["orderstatus"] = "Door Locked";
             this.item["statusColor"] = "warning";
             this.item["trackingmessage"] = "Not delivered: Door - Locked";
@@ -312,11 +318,11 @@ export class DealerOrderDetailsPage {
               this.item["statusUpdated"] = "Order Created";
             else if (this.item.status == OrderTypes.ASSIGNED)
               this.item["statusUpdated"] = "Assigned to Service Agent";
-            else if(this.item.status == OrderTypes.ACCEPT)
+            else if (this.item.status == OrderTypes.ACCEPT)
               this.item["statusUpdated"] = "Order Accepted";
-            else if(this.item.status == OrderTypes.ORDER_STARTED)
+            else if (this.item.status == OrderTypes.ORDER_STARTED)
               this.item["statusUpdated"] = "Order Started";
-            else if(this.item.status == OrderTypes.JOB_STARTED)
+            else if (this.item.status == OrderTypes.JOB_STARTED)
               this.item["statusUpdated"] = "Job Started";
           } else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "Job Completed";
@@ -336,9 +342,9 @@ export class DealerOrderDetailsPage {
           }
 
           //updating bill amount
-          if(this.item.status == OrderTypes.DELIVERED){
+          if (this.item.status == OrderTypes.DELIVERED) {
             this.item["billamt_updated"] = this.item.bill_amount;
-          }else
+          } else
             this.item["billamt_updated"] = this.item.orderamt;
 
           if (this.item.messages) {
@@ -367,72 +373,42 @@ export class DealerOrderDetailsPage {
   getSuppliers() {
 
     try {
-      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE+"/"+UtilsProvider.USER_TYPE;
+      let url = this.apiService.getSuppliers() + UtilsProvider.USER_ID + "/" + APP_TYPE + "/" + UtilsProvider.USER_TYPE;
 
       this.alertUtils.showLog(url);
 
       this.showProgress = true;
       this.apiService.getReq(url).then(res => {
-        this.alertUtils.showLogRes(url,null,res);
+        this.alertUtils.showLogRes(url, null, res);
         this.showProgress = false;
 
         this.suppliersList = [];
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           for (let i = 0; i < res.data.length; i++) {
-            res.data[i]["firstname"]  = this.validate(res.data[i].firstname);
-            res.data[i]["lastname"]   = this.validate(res.data[i].lastname);
+            res.data[i]["firstname"] = this.validate(res.data[i].firstname);
+            res.data[i]["lastname"] = this.validate(res.data[i].lastname);
             this.suppliersList.push(res.data[i]);
           }
 
-          //this.openAssignForwardModal();
-
-
-          if(this.item.orderby_latitude && this.item.orderby_longitude){
+          if (this.item.orderby_latitude && this.item.orderby_longitude)
             this.openAssignForwardModal();
-          }else{
-            let options: NativeGeocoderOptions = {
-              useLocale: true,
-              maxResults: 5
-            };
-            this.nativeGeocoder.forwardGeocode(this.item.orderby_address, options)
-              .then((coordinates: NativeGeocoderForwardResult[]) =>{
-                this.alertUtils.showLogs(coordinates[0].latitude);
-                this.alertUtils.showLogs(coordinates[0].longitude);
-                this.item.orderby_latitude = coordinates[0].latitude;
-                this.item.latitude = coordinates[0].latitude;
-                this.item.orderby_longitude = coordinates[0].longitude;
-                this.item.longitude = coordinates[0].longitude;
-                this.openAssignForwardModal();
-                console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude)
-              });
+          else {
+            if (this.platform.is('android') || this.platform.is('ios')){
+              this.mapUtils.getNativeForwardGeocode(this.item.orderby_address).then((coordinates: NativeGeocoderForwardResult[]) => {
+                  this.alertUtils.showLogs(coordinates[0].latitude);
+                  this.alertUtils.showLogs(coordinates[0].longitude);
+                  this.item.orderby_latitude = coordinates[0].latitude;
+                  this.item.orderby_longitude = coordinates[0].longitude;
+                  this.openAssignForwardModal();
+                });
+            }else
+              this.openAssignForwardModal();
           }
-
-
-          /*if(this.item.orderby_latitude && this.item.orderby_longitude){
-            this.openAssignForwardModal();
-          }else{
-            let geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'address': this.item.orderby_address }, (results, status) => {
-              this.alertUtils.showLogs('Getting lat lngs from addr : supplier : ', results);
-
-              if (results && results[0] && results[0].geometry && results[0].geometry.location) {
-                let loc = results[0].geometry.location;
-                this.alertUtils.showLogs(loc.lat());
-                this.alertUtils.showLogs(loc.lng());
-                this.item.orderby_latitude = loc.lat();
-                this.item.latitude = loc.lat();
-                this.item.orderby_longitude = loc.lng();
-                this.item.longitude = loc.lng();
-                this.openAssignForwardModal();
-              }
-            });
-            //this.openAssignForwardModal();
-          }*/
         }
       }, error => {
-        this.alertUtils.showLogErr(url,null,error);
+        this.alertUtils.showLogErr(url, null, error);
       })
-    }catch (e) {
+    } catch (e) {
       this.alertUtils.showLog(e);
       this.alertUtils.hideLoading();
     }
@@ -443,7 +419,7 @@ export class DealerOrderDetailsPage {
       suppliersList: this.suppliersList,
       distributorsList: this.distributorsList,
       orderInfo: this.item,
-    },{
+    }, {
       cssClass: 'dialogcustomstyle',
     })
 
@@ -470,8 +446,8 @@ export class DealerOrderDetailsPage {
 
   editStatusModal() {
     let model = this.modalCtrl.create('DealerOrderDetailsEditStatusPage', {
-      order:this.item,
-    },{
+      order: this.item,
+    }, {
       cssClass: 'dialogcustomstyle',
     })
 

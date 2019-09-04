@@ -68,10 +68,6 @@ export class DealerOrderDetailsAssignForwardPage {
 
     this.mainList = this.suppliersList;
 
-    /*if(this.orderInfo){
-      this.updateOrderByLatLngs();
-    }*/
-
     try {
       this.platform.ready().then(ready => {
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
@@ -111,38 +107,11 @@ export class DealerOrderDetailsAssignForwardPage {
     this.viewCtrl.dismiss();
   }
 
-  updateOrderByLatLngs(){
-      this.alertUtils.showLogs('updateOrderByLatLngs()');
-      this.alertUtils.showLogs(this.orderInfo);
-    try {
-      if (this.orderInfo.orderby_latitude && this.orderInfo.orderby_longitude) {
-        this.orderInfo.latitude = this.orderInfo.orderby_latitude;
-        this.orderInfo.longitude = this.orderInfo.orderby_longitude;
-      } else {
-        let geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'address': this.item.orderby_address}, (results, status) => {
-          this.alertUtils.showLogs('Getting lat lngs from addr : supplier : ', results);
-
-          if (results && results[0] && results[0].geometry && results[0].geometry.location) {
-            let loc = results[0].geometry.location;
-            this.alertUtils.showLogs(loc.lat());
-            this.alertUtils.showLogs(loc.lng());
-            this.orderInfo.orderby_latitude = loc.lat();
-            this.orderInfo.orderby_longitude = loc.lng();
-            this.orderInfo['latitude'] = loc.lat();
-            this.orderInfo['longitude'] = loc.lng();
-            this.alertUtils.showLogs('order obj updated:', this.orderInfo);          }
-        });
-      }
-    } catch (e) {
-    }
-  }
-
   doValidation(event) {
 
     this.alertUtils.showLogs('selected value',this.selectedValue);
 
-    /*if (this.selectedValue != '') {
+    if (this.selectedValue != '') {
       if (this.buttonTitle == 'ASSIGN') {
         this.doAssign();
       } else if (this.buttonTitle == 'FORWARD') {
@@ -154,7 +123,7 @@ export class DealerOrderDetailsAssignForwardPage {
       } else if (this.buttonTitle == 'FORWARD') {
         this.alertUtils.showToast('Select any distributor');
       }
-    }*/
+    }
 
   }
 
@@ -275,9 +244,6 @@ export class DealerOrderDetailsAssignForwardPage {
   }
 
 
-
-
-
   ngAfterViewInit() {
     //this.loadMap();
   }
@@ -297,36 +263,46 @@ export class DealerOrderDetailsAssignForwardPage {
 
         this.map.animateCamera(position);
 
+        //there is no customer lat lng updating using geo coder
+        if(!(this.orderInfo.orderby_latitude && this.orderInfo.orderby_longitude))
+          this.getLatLngs({},this.orderInfo.orderby_address,this.orderInfo.orderby_latitude,this.orderInfo.orderby_longitude,false,false,true);
 
-        for(let i=0;i<(this.suppliersList.length)+1;i++){
-          if(i==this.suppliersList.length){
-              this.getLatLngs({},this.orderInfo.orderby_address,this.orderInfo.orderby_latitude,this.orderInfo.orderby_longitude,false,false);
-          }else{
+        //show supplier marker without zoom and validate whether he have in 10km radius
+        for(let i=0;i<this.suppliersList.length;i++){
             let sObj:any = this.suppliersList[i];
             //this.alertUtils.showLogs('sObj', sObj);
             this.getLatLngs(sObj,sObj.address,sObj.latitude,sObj.longitude,true,true);
-          }
         }
+
+        //show customer marker with zoom
+        this.getLatLngs({},this.orderInfo.orderby_address,this.orderInfo.orderby_latitude,this.orderInfo.orderby_longitude,false,false,false);
       });
   }
 
   getLatLngs(sObj:any,address: any, lat:any,lng:any,findDistence:boolean,isSupplier?:boolean, dontShowMarker?:boolean):LatLng {
     try {
 
+      this.alertUtils.showLog('<<< GEO_CODER >>>');
+      this.alertUtils.showLog('sObj :'+sObj);
+      this.alertUtils.showLog('address :'+address);
+      this.alertUtils.showLog('lat :'+lat);
+      this.alertUtils.showLog('lng :'+lng);
+      this.alertUtils.showLog('findDistence :'+findDistence);
+      this.alertUtils.showLog('isSupplier :'+isSupplier);
+      this.alertUtils.showLog('dontShowMarker :'+dontShowMarker);
+      this.alertUtils.showLog('<<< LOGS >>>');
+
       if(lat && lng){
           if(findDistence){
             this.findDistenceAndShowMarker(new LatLng(lat,lng),sObj,isSupplier);
           }else{
-            let coordinates: LatLng = new LatLng(lat, lng);
-
-            let position = {
-              target: coordinates,
-              zoom: 11
-            };
-
-            this.map.animateCamera(position);
-            this.alertUtils.showLogs('Camera moved to '+new LatLng(lat,lng));
-            this.addMarker(coordinates,sObj,isSupplier);
+            if(dontShowMarker){
+              this.orderInfo.orderby_latitude = lat;
+              this.orderInfo.orderby_longitude = lng;
+            }else{
+              let coordinates: LatLng = new LatLng(lat, lng);
+              this.addMarker(coordinates,sObj,isSupplier);
+            }
           }
       }else{
         let geocoder = new google.maps.Geocoder();
@@ -340,21 +316,13 @@ export class DealerOrderDetailsAssignForwardPage {
 
             if(loc.lat(),loc.lng()){
               if(dontShowMarker){
-                this.orderInfo.latitude = lat;
-                this.orderInfo.longitude = lng;
+                this.orderInfo.orderby_latitude = lat;
+                this.orderInfo.orderby_longitude = lng;
               }else{
                 if(findDistence){
                   this.findDistenceAndShowMarker(new LatLng(loc.lat(), loc.lng()),sObj,isSupplier);
                 }else{
                   let coordinates: LatLng = new LatLng(loc.lat(), loc.lng());
-
-                  let position = {
-                    target: coordinates,
-                    zoom: 11
-                  };
-
-                  this.map.animateCamera(position);
-                  this.alertUtils.showLogs('Camera moved to '+loc);
                   this.addMarker(coordinates,sObj,isSupplier);
                 }
               }
@@ -401,13 +369,15 @@ export class DealerOrderDetailsAssignForwardPage {
       });
 
 
-      let position = {
-        target: loc,
-        zoom: 11,
-        clickable:true,
-      };
+      if(!isSupplier){
+        let position = {
+          target: loc,
+          zoom: 11,
+          clickable:true,
+        };
 
-      this.map.animateCamera(position);
+        this.map.animateCamera(position);
+      }
 
     } catch (e) {
     }
@@ -417,8 +387,8 @@ export class DealerOrderDetailsAssignForwardPage {
     try {
 
       var radlat1 = Math.PI * loc.lat/180;
-      var radlat2 = Math.PI * this.orderInfo.latitude/180;
-      var theta = loc.lng-this.orderInfo.longitude;
+      var radlat2 = Math.PI * this.orderInfo.orderby_latitude/180;
+      var theta = loc.lng-this.orderInfo.orderby_longitude;
       var radtheta = Math.PI * theta/180;
       var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
       if (dist > 1) {
@@ -434,14 +404,6 @@ export class DealerOrderDetailsAssignForwardPage {
       if(dist < 100){
 
         sObj['distence'] = dist;
-        let position = {
-          target: loc,
-          zoom: 11
-        };
-
-
-        this.map.animateCamera(position);
-        this.alertUtils.showLogs('Camera moved to '+loc);
         this.addMarker(loc,sObj,isSupplier);
       }
 

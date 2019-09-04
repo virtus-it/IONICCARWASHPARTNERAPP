@@ -283,8 +283,10 @@ export class SupplierOrderDetailsPage {
           }else if (this.item.status == OrderTypes.JOB_COMPLETED) {
             this.item["orderstatus"] = "jobcompleted";
             this.item["statusUpdated"] = "Payment Pending";
-          }
-          else if (this.item.status == OrderTypes.DELIVERED) {
+          }else if (this.item.status == OrderTypes.ARRIVED) {
+            this.item["orderstatus"] = "Arrived";
+            this.item["statusUpdated"] = "You are at Customer loc";
+          } else if (this.item.status == OrderTypes.DELIVERED) {
             this.item["orderstatus"] = "delivered";
             this.item["statusUpdated"] = "Job Completed";
           } else if (this.item.status == OrderTypes.CANCELLED) {

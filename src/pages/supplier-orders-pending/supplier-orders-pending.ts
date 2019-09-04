@@ -17,6 +17,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 import {LocationTracker} from "../../providers/tracker/tracker";
+import {MapUtilsProvider} from "../../providers/map-utils/map-utils";
 
 
 @IonicPage()
@@ -36,6 +37,7 @@ export class SupplierOrdersPendingPage {
               private apiService: ApiProvider,
               private geolocation: Geolocation,
               private camera: Camera,
+              private mapUtils:MapUtilsProvider,
               private tracker: LocationTracker,
               private platform: Platform,
               private backgroundMode: BackgroundMode,
@@ -141,8 +143,13 @@ export class SupplierOrdersPendingPage {
             } else if (res.data[i].status == OrderTypes.DELIVERED) {
               res.data[i]["orderstatus"] = "delivered";
               res.data[i]["statusUpdated"] = "Job Completed";
-            }
-            else if (res.data[i].status == OrderTypes.CANCELLED) {
+            }else if (res.data[i].status == OrderTypes.JOB_COMPLETED) {
+              res.data[i]["orderstatus"] = "jobcompleted";
+              res.data[i]["statusUpdated"] = "Payment Pending";
+            }else if (res.data[i].status == OrderTypes.ARRIVED) {
+              res.data[i]["orderstatus"] = "arrived";
+              res.data[i]["statusUpdated"] = "You are at Customer loc";
+            }else if (res.data[i].status == OrderTypes.CANCELLED) {
               res.data[i]["orderstatus"] = "cancelled";
               res.data[i]["statusUpdated"] = "Job Cancelled";
             } else if (res.data[i].status == OrderTypes.ONHOLD) {
@@ -299,6 +306,16 @@ export class SupplierOrdersPendingPage {
     }
 
     this.showProgress = false;
+  }
+
+  validateArriveStatus(order){
+    if(order.orderby_latitude && order.orderby_longitude){
+      if(this.mapUtils.findDistence(order))
+        this.alertUtils.showLog('success');
+        //this.updateOrderStatus(order,'arrived');
+      else
+        this.alertUtils.showAlert('OOPS','You are not near to customer location.\nPlease go customer location and try again','OK');
+    }
   }
 
   pickImage(order,prePost) {

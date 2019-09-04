@@ -56,7 +56,14 @@
                 START TO VISIT
               </button>
             </ion-col>
+
             <ion-col *ngIf="order.orderstatus == 'orderstarted'">
+              <button class=" button-block" (click)="validateArriveStatus(order);"  ion-button>
+                ARRIVED
+              </button>
+            </ion-col>
+
+            <ion-col *ngIf="order.orderstatus == 'arrived'">
               <ion-buttons>
                 <button class=" button-block" (click)=" pickImage(order, 'pre'); updateOrderStatus(order,'jobstarted')" ion-button>
                   JOB START

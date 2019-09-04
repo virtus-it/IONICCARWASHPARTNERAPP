@@ -6,6 +6,7 @@ import {Socket} from "ng-socket-io";
 import {APP_TYPE, KEY_TRACKING_ORDER, KEY_TRACKING_STATUS, UserType, UtilsProvider} from "../utils/utils";
 import {Observable, Subscription} from "rxjs";
 import {BackgroundMode} from "@ionic-native/background-mode";
+import {LatLng} from "@ionic-native/google-maps";
 declare var cordova;
 
 @Injectable()
@@ -185,6 +186,10 @@ export class LocationTracker {
 
   connectSocket() {
     this.socketInit.connect();
+  }
+
+  getLoc(){
+    return new LatLng(this.lat,this.lng);
   }
 
 }

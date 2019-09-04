@@ -184,8 +184,10 @@ export class DealerOrdersOrderedPage {
           }else if (res.data[i].status == OrderTypes.JOB_COMPLETED) {
             res.data[i]["orderstatus"] = "jobcompleted";
             res.data[i]["statusUpdated"] = "Payment Pending";
-          }
-          else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
+          }else if (res.data[i].status == OrderTypes.ARRIVED) {
+            res.data[i]["orderstatus"] = "Arrived";
+            res.data[i]["statusUpdated"] = "Service Agent at Customer loc";
+          }else if (res.data[i].status == OrderTypes.CANNOT_DELIVER) {
             res.data[i]["orderstatus"] = "CANT DELIVER";
           } else if (res.data[i].status == OrderTypes.DOORLOCK) {
             res.data[i]["orderstatus"] = "DOORLOCK";

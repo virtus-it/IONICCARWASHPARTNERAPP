@@ -390,7 +390,8 @@ export class DealerOrderDetailsPage {
             this.suppliersList.push(res.data[i]);
           }
 
-          if (this.item.orderby_latitude && this.item.orderby_longitude)
+          this.openAssignForwardModal();
+          /*if (this.item.orderby_latitude && this.item.orderby_longitude)
             this.openAssignForwardModal();
           else {
             if (this.platform.is('android') || this.platform.is('ios')){
@@ -403,7 +404,7 @@ export class DealerOrderDetailsPage {
                 });
             }else
               this.openAssignForwardModal();
-          }
+          }*/
         }
       }, error => {
         this.alertUtils.showLogErr(url, null, error);

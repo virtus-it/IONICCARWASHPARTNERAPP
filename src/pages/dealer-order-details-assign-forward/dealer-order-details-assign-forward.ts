@@ -30,6 +30,7 @@ export class DealerOrderDetailsAssignForwardPage {
   pageTitle: string;
   buttonTitle: string = 'ASSIGN';
   user: any;
+  showMap:boolean = false;
   map: GoogleMap;
   segmentValue:any;
   isListView: boolean = true;
@@ -70,6 +71,12 @@ export class DealerOrderDetailsAssignForwardPage {
 
     try {
       this.platform.ready().then(ready => {
+
+        if(this.platform.is('android') || this.platform.is('ios'))
+          this.showMap = false;
+        else
+          this.showMap = true;
+
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLogs(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

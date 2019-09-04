@@ -9,14 +9,14 @@
       <ion-segment-button value="listView">
         <ion-label style="text-align: center; color: white">LIST VIEW</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="mapView">
+      <ion-segment-button value="mapView" *ngIf="showMap">
         <ion-label style="text-align: center; color: white">MAP VIEW</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="background: #00a4cc">
 
 
     <div id="map_canvas1" style="height: 100%" *ngIf="!isListView">

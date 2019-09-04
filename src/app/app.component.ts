@@ -125,7 +125,6 @@ export class MyApp {
       const options: PushOptions = {
         android: {
           senderID: '530358294125',
-          //sound: true,
           sound: this.setSound(),
           forceShow: true,
           vibrate: true

@@ -311,8 +311,10 @@ export class SupplierOrdersPendingPage {
   validateArriveStatus(order){
     if(order.orderby_latitude && order.orderby_longitude){
       if(this.mapUtils.findDistence(order))
+      {
         this.alertUtils.showLog('success');
-        //this.updateOrderStatus(order,'arrived');
+        this.updateOrderStatus(order,'arrived');
+      }
       else
         this.alertUtils.showAlert('OOPS','You are not near to customer location.\nPlease go customer location and try again','OK');
     }

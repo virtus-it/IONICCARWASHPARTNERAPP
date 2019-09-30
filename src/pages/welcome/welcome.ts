@@ -35,7 +35,7 @@ export class WelcomePage {
               public apiService: ApiProvider,
               public platform: Platform) {
 
-    /*this.alertUtils.initUser(this.alertUtils.getUserInfo());
+    this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.platform.ready().then(ready => {
       try {
@@ -54,7 +54,7 @@ export class WelcomePage {
         this.showScreen = true;
         this.alertUtils.showLog(e);
       }
-    });*/
+    });
 
 
   }

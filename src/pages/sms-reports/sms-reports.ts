@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,8 @@ export class SmsReportsPage {
   private noRecords = false;
   private USER_ID ;
   private USER_TYPE;
+  yearMinLimit: any;
+  yearMaxLimit: any;
   fromDate:any;
   toDate:any;
   private isDealer: boolean = true;
@@ -72,8 +75,10 @@ export class SmsReportsPage {
   }
 
   ionViewDidLoad() {
-
-
+    var now = moment();
+    var old = moment().add(-1, 'years');
+    this.yearMinLimit = moment(old.format(), moment.ISO_8601).format();
+    this.yearMaxLimit = moment(now.format(), moment.ISO_8601).format();
   }
 
   getReports(){
@@ -120,15 +125,17 @@ export class SmsReportsPage {
         this.showProgress = true;
         this.apiService.postReq(this.apiService.getSmsList(), data).then(res => {
           this.showProgress = false;
-          this.alertUtils.showLog(res.data);
-          this.alertUtils.showLog(res.data[0].mobilenumbers);
 
-          if(res && res.data)
-            this.response = res.data;
-          this.noRecords = false;
+          if(res.result == 'success'){
+            this.alertUtils.showLog(res.data);
+            this.alertUtils.showLog(res.data[0].mobilenumbers);
 
-          this.alertUtils.showLog('res : '+this.response);
+            if(res && res.data)
+              this.response = res.data;
+            this.noRecords = false;
 
+            this.alertUtils.showLog('res : '+this.response);
+          }
         }, error => {
 
         })

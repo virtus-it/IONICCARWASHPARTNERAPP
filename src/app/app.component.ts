@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from "@ngx-translate/core";
 import {UtilsProvider} from "../providers/utils/utils";
 import {Push, PushObject, PushOptions} from "@ionic-native/push";
+import {MediaPlayerProvider} from "../providers/media-player/media-player";
 
 
 
@@ -27,7 +28,7 @@ export class MyApp {
               public push: Push,
               public statusBar: StatusBar,
               private alertCtrl: AlertController,
-              //public navCtrl: NavController,
+              private mediaPlayer:MediaPlayerProvider,
               public alertUtils: UtilsProvider,
               private translateService: TranslateService,
               public splashScreen: SplashScreen) {
@@ -115,6 +116,7 @@ export class MyApp {
 
   initPushNotification() {
     this.alertUtils.showLog("initPushNotification");
+
     try {
       if (!this.platform.is('cordova')) {
         this.showProgress = false;
@@ -122,12 +124,14 @@ export class MyApp {
         this.alertUtils.showLog('Push notifications not initialized. Cordova is not available - Run in physical device');
         return;
       }
+
       const options: PushOptions = {
         android: {
           senderID: '530358294125',
-          sound: this.setSound(),
+          //sound: true,
           forceShow: true,
-          vibrate: true
+          vibrate: true,
+          icon:'icon',
         },
         ios: {
           alert: 'true',
@@ -140,6 +144,7 @@ export class MyApp {
           pushServiceURL: 'http://push.api.phonegap.com/v1/push'
         }
       };
+
       const pushObject: PushObject = this.push.init(options);
 
       pushObject.on('registration').subscribe((data: any) => {
@@ -177,8 +182,10 @@ export class MyApp {
   }
 
   setSound() {
+    let a;
+    this.mediaPlayer.createPlayer();
     //if (this.platform.is('android')) {
-      return 'file://assets/sounds/ringtone.mp3'
+      return 'file://android_asset/www/assets/sounds/ringtone.mp3'
     /*} else {
       return 'file://assets/sounds/bell.mp3'
     }*/

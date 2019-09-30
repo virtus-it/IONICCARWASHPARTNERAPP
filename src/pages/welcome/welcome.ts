@@ -12,6 +12,7 @@ import {
 import {ApiProvider} from "../../providers/api/api";
 
 
+
 @IonicPage()
 @Component({
   selector: 'page-welcome',
@@ -33,7 +34,8 @@ export class WelcomePage {
               public alertUtils: UtilsProvider,
               public apiService: ApiProvider,
               public platform: Platform) {
-    this.alertUtils.initUser(this.alertUtils.getUserInfo());
+
+    /*this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.platform.ready().then(ready => {
       try {
@@ -52,7 +54,7 @@ export class WelcomePage {
         this.showScreen = true;
         this.alertUtils.showLog(e);
       }
-    });
+    });*/
 
 
   }

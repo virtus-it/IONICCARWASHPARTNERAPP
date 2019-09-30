@@ -16,18 +16,37 @@
                  name="crescent"></ion-spinner>
 
     <ion-card>
-      <ion-row>
+      <!--<ion-row>
         <ion-col>From Date</ion-col>
         <ion-col>
           <ion-input name="iDate" class="" type="date" [(ngModel)]="fromDate" ></ion-input>
         </ion-col>
-      </ion-row>
+      </ion-row>-->
 
       <ion-row>
+        <ion-label class="Fs12">From Date</ion-label>
+        <ion-item class="input-shadow">
+          <ion-datetime displayFormat="DD MMMM YYYY" [min]="yearMinLimit" [max]="yearMaxLimit" placeholder="-"
+                        [(ngModel)]="fromDate">
+          </ion-datetime>
+        </ion-item>
+      </ion-row>
+
+
+      <!--<ion-row>
         <ion-col>To Date</ion-col>
         <ion-col>
           <ion-input name="iDate" class="" type="date" [(ngModel)]="toDate" ></ion-input>
         </ion-col>
+      </ion-row>-->
+
+      <ion-row>
+        <ion-label class="Fs12">To Date</ion-label>
+        <ion-item class="input-shadow">
+          <ion-datetime displayFormat="DD MMMM YYYY" [min]="yearMinLimit" [max]="yearMaxLimit" placeholder="-"
+                        [(ngModel)]="toDate">
+          </ion-datetime>
+        </ion-item>
       </ion-row>
 
       <ion-col col-6="true" align-self-center="">

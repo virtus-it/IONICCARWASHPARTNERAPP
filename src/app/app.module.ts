@@ -35,6 +35,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import {LaunchNavigator} from "@ionic-native/launch-navigator";
 import { MapUtilsProvider } from '../providers/map-utils/map-utils';
 import {NativeGeocoder} from "@ionic-native/native-geocoder";
+import { MediaPlayerProvider } from '../providers/media-player/media-player';
+import {Media} from "@ionic-native/media";
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -151,6 +153,7 @@ export function createTranslateLoader(http: HttpClient) {
     Camera,
     PhotoViewer,
     Push,
+    Media,
     LaunchNavigator,
     UtilsProvider,
     NetworkProvider,
@@ -158,7 +161,9 @@ export function createTranslateLoader(http: HttpClient) {
     BackgroundGeolocation,
     Geolocation,
     MapUtilsProvider,
-    NativeGeocoder
+    MediaPlayerProvider,
+    NativeGeocoder,
+    MediaPlayerProvider
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,11 +1,19 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, APP_USER_TYPE, FRAMEWORK, MOBILE_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
+import {
+  APP_TYPE,
+  APP_USER_TYPE,
+  FRAMEWORK,
+  INTERNET_ERR_MSG,
+  MOBILE_TYPE,
+  UserType,
+  UtilsProvider
+} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {NetworkProvider} from "../../providers/network/network";
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 
 
@@ -19,11 +27,16 @@ export class LoginPage {
   //development
   username: string = '';
   password: any = '';
+  timerValue: any;
+  timerRunning:boolean = false;
   public type = 'password';
   public showPass = false;
   errorText: string = "";
   showLogin = true;
   sub: Subscription;
+  subTimeout: Subscription
+  requestedOtp: boolean = false;
+  sendOtpTitle:any = 'Send OTP';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private networkProvider: NetworkProvider,
@@ -103,6 +116,7 @@ export class LoginPage {
       this.alertUtils.hideLoading();
       this.alertUtils.showLog("res", res);
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
+        this.subTimeout.unsubscribe();
         if (res.data && res.data.user) {
           let output = res.data.user;
           this.setGCMDetails(output);
@@ -251,6 +265,7 @@ export class LoginPage {
       this.apiService.getReq(this.apiService.getForgotPwdUrl() + data.mobileno).then(res => {
         this.alertUtils.showLog(res);
         this.alertUtils.hideLoading();
+        this.startTimer();
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.alertUtils.showAlert("Success", "Password sent to your registered phone number", "OK")
         } else {
@@ -293,6 +308,50 @@ export class LoginPage {
     }, err => {
       this.alertUtils.showToast("Could not register device");
       this.alertUtils.showLog(err);
+    })
+  }
+
+  getOtp() {
+    try {
+      if (this.username) {
+        if (this.alertUtils.validateNumber(this.username, "Mobile Number", 9, 10)) {
+          if (this.alertUtils.networkStatus()) {
+            this.requestedOtp = true;
+            this.sendOtpTitle = 'Resend OTP';
+            this.forgotPwdTask({'mobileno': this.username})
+          } else {
+            this.alertUtils.showAlert("INTERNET CONNECTION", 'Please check your internet connection', "OK");
+          }
+        } else {
+          this.alertUtils.showToast(this.alertUtils.ERROR_MES);
+        }
+      } else {
+        this.alertUtils.showToast("please enter mobile number");
+      }
+    } catch (e) {
+    }
+  }
+
+  startTimer() {
+    this.timerRunning = true;
+    var timer = 90;
+    var minutes;
+    var seconds;
+
+    this.subTimeout = Observable.interval(1000).subscribe(x => {
+      minutes = Math.floor(timer / 60);
+      seconds = Math.floor(timer % 60);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      this.timerValue = minutes + ':' +seconds;
+      --timer;
+      if (--timer < 0) {
+        this.timerRunning = false;
+        console.log('timeup');
+        this.subTimeout.unsubscribe();
+      }
     })
   }
 

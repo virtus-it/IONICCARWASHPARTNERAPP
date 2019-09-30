@@ -3,15 +3,15 @@ import "rxjs/add/operator/map";
 import {APP_TYPE, APP_USER_TYPE, IS_WEBSITE, UtilsProvider} from "../utils/utils";
 import {Http, RequestOptions, Headers} from "@angular/http";
 
-export const APP_VER_CODE: string = "10";
+export const APP_VER_CODE: string = "14";
 
 @Injectable()
 export class NetworkProvider {
 
-  http: any;
+  //http: any;
 
-  constructor(http: Http, private alertUtils: UtilsProvider) {
-    this.http = http;
+  constructor(public http: Http, private alertUtils: UtilsProvider) {
+    //this.http = http;
   }
 
   /*getReq(url) {

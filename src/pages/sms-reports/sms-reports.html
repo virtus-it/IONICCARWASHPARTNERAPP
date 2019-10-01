@@ -16,12 +16,6 @@
                  name="crescent"></ion-spinner>
 
     <ion-card>
-      <!--<ion-row>
-        <ion-col>From Date</ion-col>
-        <ion-col>
-          <ion-input name="iDate" class="" type="date" [(ngModel)]="fromDate" ></ion-input>
-        </ion-col>
-      </ion-row>-->
 
       <ion-row>
         <ion-label class="Fs12">From Date</ion-label>
@@ -32,13 +26,6 @@
         </ion-item>
       </ion-row>
 
-
-      <!--<ion-row>
-        <ion-col>To Date</ion-col>
-        <ion-col>
-          <ion-input name="iDate" class="" type="date" [(ngModel)]="toDate" ></ion-input>
-        </ion-col>
-      </ion-row>-->
 
       <ion-row>
         <ion-label class="Fs12">To Date</ion-label>
@@ -54,13 +41,8 @@
       </ion-col>
     </ion-card>
 
-    <!--<ion-refresher (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content>
-      </ion-refresher-content>
-    </ion-refresher>-->
 
     <h5 *ngIf="noRecords" >Customers not found</h5>
-
 
     <!--List of Customers-->
     <ion-list *ngIf="!noRecords">
@@ -77,6 +59,24 @@
             <ion-col>
               <span class="job_mgm_lbl">Send To</span>
               {{sendTo(res.mobilenumbers)}}
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <span class="job_mgm_lbl">Status</span>
+            </ion-col>
+            <ion-col>
+              <span class="job_mgm_lbl">Time Stamp</span>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              {{statusUpdate(res.status)}}
+            </ion-col>
+            <ion-col>
+              {{formatDate(res.createddate)}}
             </ion-col>
           </ion-row>
 

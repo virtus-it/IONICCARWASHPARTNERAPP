@@ -173,6 +173,17 @@ export class SmsReportsPage {
       return '';
   }
 
+  formatDate(s){
+    return UtilsProvider.formatDate(s);
+  }
+
+  statusUpdate(s){
+    if(s=='1')
+      return 'Sent';
+    else
+      return 'Not sent';
+  }
+
   doRefresh(refresher) {
    // this.getAll(false, true, false, "", refresher);
     setTimeout(() => {

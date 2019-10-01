@@ -168,6 +168,25 @@ export class UtilsProvider {
     return moment(d).format('DD-MM-YYYY');
   }
 
+  static formatDate(s:string){
+    /*//let date = moment(s, 'YYYY-MM-DD HH:mm:ss').toDate();
+    var offset = moment().utcOffset();
+    return moment.utc(date).utcOffset(offset).format("DD-MM-YYYY HH:mm");
+    //return moment.utc(date).local().format('DD-MM-YYYY HH:mm');*/
+
+    /*var date = moment(s, 'YYYY-MM-DD HH:mm:ss').toDate()
+
+    console.log(date); // 2015-09-13 03:39:27
+
+    var stillUtc = moment.utc(date).toDate();
+    return  moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');*/
+
+    let utcTime = s;
+    var offset = moment().utcOffset();
+    return  moment.utc(utcTime).utcOffset(offset).format("DD-MM-YYYY HH:mm");
+
+  }
+
   static formatDateToYYYYMMDD(date) {
     let d = new Date(date);
     return moment(d).format('YYYY-MM-DD');

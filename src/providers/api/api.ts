@@ -3,6 +3,7 @@ import {APP_TYPE, APP_USER_TYPE, IS_WEBSITE, UtilsProvider} from "../utils/utils
 import {Http, Headers, RequestOptions} from "@angular/http";
 import {APP_VER_CODE} from "../network/network";
 import "rxjs/add/operator/map";
+import { LoadingController } from 'ionic-angular';
 
 @Injectable()
 export class ApiProvider {
@@ -19,11 +20,28 @@ export class ApiProvider {
 
   private baseUrl: string;
   http: any;
+  private loader;
 
   constructor(http: Http,
+    public loadingCtrl: LoadingController,
               private alertUtils: UtilsProvider) {
     this.baseUrl = ApiProvider.PROD_URL;
     this.http = http;
+  }
+
+   presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Please wait...",
+      cssClass: 'my-loading-class'
+    });
+    this.loader.present();
+  }
+
+   closeLoading() {
+    if (this.loader !== null && this.loader !== undefined) {
+      this.loader.dismiss();
+      this.loader = null;
+    }
   }
 
   getReq(url) {

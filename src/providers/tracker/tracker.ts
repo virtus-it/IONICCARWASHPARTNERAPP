@@ -7,6 +7,7 @@ import {APP_TYPE, KEY_TRACKING_ORDER, KEY_TRACKING_STATUS, UserType, UtilsProvid
 import {Observable, Subscription} from "rxjs";
 import {BackgroundMode} from "@ionic-native/background-mode";
 import {LatLng} from "@ionic-native/google-maps";
+import { ApiProvider } from '../api/api';
 declare var cordova;
 
 @Injectable()
@@ -18,10 +19,12 @@ export class LocationTracker {
   public lng: number = 0;
   private order: any;
   sub: Subscription;
+  subToDb: Subscription;
 
 
   constructor(public zone: NgZone,
               private socket: Socket,
+              private apiService: ApiProvider,
               private geolocation: Geolocation,
               private alertUtils: UtilsProvider,
               private backgroundMode: BackgroundMode,
@@ -47,6 +50,8 @@ export class LocationTracker {
 
       this.trackingUpdate();
 
+      this.locUpdateInDb();
+
       // Background Tracking
 
       let config = {
@@ -57,7 +62,7 @@ export class LocationTracker {
         interval: 100
       };
 
-      this.backgroundGeolocation.configure(config).then((location) => {
+      this.backgroundGeolocation.configure(config).subscribe((location) => {
 
         this.alertUtils.showLog('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
 
@@ -174,9 +179,12 @@ export class LocationTracker {
 
     this.backgroundGeolocation.finish();
     if(this.watch)
-    this.watch.unsubscribe();
+      this.watch.unsubscribe();
     if(this.sub)
-    this.sub.unsubscribe();
+      this.sub.unsubscribe();
+
+    if(this.subToDb)
+      this.subToDb.unsubscribe();
   }
 
   disconnectSocket() {
@@ -190,6 +198,60 @@ export class LocationTracker {
 
   getLoc(){
     return new LatLng(this.lat,this.lng);
+  }
+
+
+  locUpdateInDb() {
+    try {
+      this.alertUtils.showLog("loc update in db - Initiated");
+      this.subToDb = Observable.interval(20000).subscribe((val) => {
+
+        this.alertUtils.showLog("lat : " + this.lat);
+        this.alertUtils.showLog("lng : " + this.lng);
+        this.alertUtils.showLog("order : " + this.order);
+        if (this.lat && this.lng && this.order.order_id && this.order.useruniqueid) {
+          this.sendObjToDb();
+        }
+      });
+
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
+  }
+
+  sendObjToDb() {
+    try {
+      this.alertUtils.showLog(this.lat, this.lng);
+      this.alertUtils.showLog(this.order.order_id);
+      this.alertUtils.showLog(this.order.useruniqueid);
+
+      if (this.lat && this.lng && this.order) {
+
+        let input = {
+          "order": {
+            "transtype":"livetracking",
+            "orderid": this.order.order_id,
+            "latitude": this.lat,
+            "longitude": this.lng,
+            "uuid": this.order.useruniqueid,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "time": this.alertUtils.getTodayDate(),
+            "apptype": APP_TYPE
+          }
+        };
+
+        let inputData = JSON.stringify(input);
+        this.alertUtils.showLog(inputData);
+
+        this.apiService.postReq(this.apiService.tracking(), inputData).then(res => {
+          this.alertUtils.showLog(res);
+        });
+      }
+    } catch (e) {
+      this.alertUtils.showLog(e);
+    }
   }
 
 }

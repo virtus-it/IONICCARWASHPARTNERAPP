@@ -25,7 +25,8 @@
     <div *ngIf="isListView">
       <ion-list radio-group [(ngModel)]="selectedValue" >
         <ion-item *ngFor="let list of mainList">
-          <ion-label>{{list.firstname + " " + list.lastname}}</ion-label>
+          <ion-label *ngIf="list.availability == 1" style="color:#00a4cc">{{list.firstname + " " + list.lastname}}</ion-label>
+          <ion-label *ngIf="list.availability != 1" style="color: red">{{list.firstname + " " + list.lastname}}</ion-label>
           <ion-radio [value]="list"></ion-radio>
         </ion-item>
       </ion-list>

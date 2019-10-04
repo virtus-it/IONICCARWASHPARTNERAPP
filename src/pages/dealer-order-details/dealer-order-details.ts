@@ -68,14 +68,8 @@ export class DealerOrderDetailsPage {
               private viewCtrl: ViewController,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
-              private apiService: ApiProvider,
-              ) {
-                let lang = "en";
-                if (UtilsProvider.lang) {
-                  lang = UtilsProvider.lang
-                }
-                UtilsProvider.sLog(lang);
-                translateService.use(lang);
+              private apiService: ApiProvider) {
+
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     translateService.setDefaultLang('en');
@@ -393,6 +387,17 @@ export class DealerOrderDetailsPage {
           for (let i = 0; i < res.data.length; i++) {
             res.data[i]["firstname"] = this.validate(res.data[i].firstname);
             res.data[i]["lastname"] = this.validate(res.data[i].lastname);
+
+            if(res.data[i].availability == 1){
+              this.item["statusColor"] = "primary";
+              res.data[i]['activeStatus'] = true;
+            }
+            else{
+              this.item["statusColor"] = "warning";
+              res.data[i]['activeStatus'] = false;
+            }
+
+
             this.suppliersList.push(res.data[i]);
           }
 

@@ -6,12 +6,13 @@ import {
   ModalController,
   NavController,
   NavParams,
-  Platform
+  Platform,
+  Thumbnail
 } from 'ionic-angular';
 import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplier-create";
-import {TranslateService} from "@ngx-translate/core";
+
 @IonicPage()
 @Component({
   selector: 'page-dealer-suppliers',
@@ -20,6 +21,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class DealerSuppliersPage {
 
   from: any;
+  activeStatus: boolean = false;
   showProgress = true;
   private response: any;
   private noRecords = false;
@@ -45,18 +47,11 @@ export class DealerSuppliersPage {
               private menuCtrl: MenuController,
               private platform: Platform,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController,
-              private translateService: TranslateService) {
+              private alertCtrl: AlertController) {
     this.from = this.navParams.get('from');
 
     try {
       this.platform.ready().then(ready => {
-        let lang = "en";
-                if (UtilsProvider.lang) {
-                  lang = UtilsProvider.lang
-                }
-                UtilsProvider.sLog(lang);
-                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -109,7 +104,6 @@ export class DealerSuppliersPage {
   }
 
 
-
   fetchSuppliers(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {
 
@@ -132,6 +126,12 @@ export class DealerSuppliersPage {
             this.response = res.data;
 
           for (let i = 0; i < res.data.length; i++) {
+            
+            if(res.data[i].availability == 1)
+              res.data[i]['activeStatus'] = true;
+            else
+              res.data[i]['activeStatus'] = false;
+
             if (res.data[i].tracking && res.data[i].tracking == 'true') {
               res.data[i].tracking = "ON";
             } else {
@@ -262,6 +262,7 @@ export class DealerSuppliersPage {
             let input = {
               "User": {
                 "TransType": 'deactivate',
+                "availability": 0,
                 "userid": user.userid,
                 "user_type": UserType.SUPPLIER,
                 "app_type": APP_TYPE
@@ -286,5 +287,44 @@ export class DealerSuppliersPage {
       ]
     });
     prompt.present();
+  }
+
+  changeActiveStatus(user){
+    this.alertUtils.showLog(user);
+
+    try {
+      let status = 1;
+
+      if(user.activeStatus == false)
+        status = 2;
+
+      let input = {
+        "User": {
+          "TransType": 'deactivate',
+          "availability": status,
+          "userid": user.userid,
+          "user_type": UserType.SUPPLIER,
+          "app_type": APP_TYPE
+        }
+      };
+
+      let inputData = JSON.stringify(input);
+      this.alertUtils.showLog(inputData);
+      
+      this.apiService.presentLoading();
+      this.apiService.postReq(this.apiService.createCustomer(), inputData).then(res => {
+        this.alertUtils.showLog(res);
+        this.apiService.closeLoading();
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          this.alertUtils.showToast('User successfully deleted');
+          this.fetchSuppliers(false, false, false, '', '');
+        }
+
+      });
+    } catch (error) {
+      
+    }
+
   }
 }

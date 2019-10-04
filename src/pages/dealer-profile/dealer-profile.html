@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Profile</ion-title>
+    <ion-title>{{ 'PROFILE_PAGE.PAGE_TITLE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -25,32 +25,33 @@
 
     <ion-list *ngIf="person">
       <ion-item>
-        <ion-label floating>First Name</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_first_name' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.firstname" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Last Name</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_last_name' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.lastname" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Email</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_email' | translate }}</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_mobile_number' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.emailid" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Mobile Number</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_address' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.mobileno" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Address</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.PAGE_TITLE' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.address" name="name" required></ion-input>
       </ion-item>
 
       <ion-item *ngIf="showFlottingCash">
-        <ion-label floating>Cash</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_cash' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.flottingcash" name="name" required></ion-input>
       </ion-item>
     </ion-list>
-    <button color="secondary" class="profile_btn" ion-button block (click)="save()">Save</button>
+    <button color="secondary" class="profile_btn" ion-button block (click)="save()">{{ 'PROFILE_PAGE.BUTTONS.btn_save' | translate }}</button>
   </div>
   </div>
 </ion-content>

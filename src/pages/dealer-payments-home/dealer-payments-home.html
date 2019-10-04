@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_payments.png">
-      <span class="title-style">Payments</span>
+      <span class="title-style">{{ 'PAYMENTS_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -27,12 +27,12 @@
       <ion-card class="colomn_main ">
 
         <ion-card-header class="jobid_header">
-          Status: {{payment.statustext}}
+          {{ 'PAYMENTS_PAGE.LABELS.lb_status' | translate }}: {{payment.statustext}}
         </ion-card-header>
 
         <ion-row>
-          <ion-col>Transaction ID</ion-col>
-          <ion-col>Received Date</ion-col>
+          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_transaction_id' | translate }}</ion-col>
+          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_received_date' | translate }}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>#{{payment.paymentid}}</ion-col>
@@ -40,8 +40,8 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>Payed By</ion-col>
-          <ion-col>Received By</ion-col>
+          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_payed_by' | translate }}</ion-col>
+          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_received_by' | translate }}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>{{validate(payment.customer.firstname) +' '+validate(payment.customer.lastname)}}</ion-col>
@@ -49,16 +49,16 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>Payment Type</ion-col>
+          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_payment_type' | translate }}</ion-col>
           <ion-col>{{payment.payment_type}}</ion-col>
         </ion-row>
 
         <ion-row *ngIf="payment.status == 'received' && userType=='dealer'">
           <ion-col (click)="changeStatus('reject',payment)">
-            <button ion-button full>Reject</button>
+            <button ion-button full>{{ 'PAYMENTS_PAGE.BUTTONS.btn_reject' | translate }}</button>
           </ion-col>
           <ion-col (click)="changeStatus('confirm',payment)">
-            <button ion-button full>Confirm</button>
+            <button ion-button full>{{ 'PAYMENTS_PAGE.BUTTONS.btn_confirm' | translate }}</button>
           </ion-col>
 
         </ion-row>

@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Dashboard</ion-title>
+    <ion-title>{{ 'DASHBOARD_PAGE.PAGE_TITLE' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -21,7 +21,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.USER?.user}}</h2>
-        <h5>USERS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_users' | translate }}</h5>
       </ion-col>
     </ion-row>
 
@@ -35,7 +35,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.CARWASHER?.serviceengineers}}</h2>
-        <h5>CAR WASHERS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_car_washers' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -48,7 +48,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.COMPANIES?.company}}</h2>
-        <h5>VENDORS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_vendors' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -61,7 +61,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.TOTALEARNINGS?.totalamount}}</h2>
-        <h5>TOTAL EARNINGS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_total_earnings' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -77,7 +77,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.TOTALBOOKING?.totalbookings}}</h2>
-        <h5>TOTAL BOOKINGS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_total_bookings' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -90,7 +90,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.ONGOINGJOBS?.ongoingjobs}}</h2>
-        <h5>ON GOING JOBS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_on_going_jobs' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -103,7 +103,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.CANCEL?.canceljobs}}</h2>
-        <h5>CANCELLED JOBS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_cancelled_jobs' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -117,7 +117,7 @@
       </ion-col>
       <ion-col >
         <h2>{{response?.completed?.completedjobs}}</h2>
-        <h5>COMPLETED JOBS</h5>
+        <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_completed_jobs' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -126,16 +126,16 @@
 
   <ion-card>
     <ion-card-header>
-      Bookings
+      {{ 'DASHBOARD_PAGE.LABELS.lb_booking' | translate }}
     </ion-card-header>
     <ion-card-content>
       <canvas id="chart1" #doughnutCanvas></canvas>
       <div style="align-content: center">
-      <h3>Bookings Count:</h3>
+      <h3>{{ 'DASHBOARD_PAGE.LABELS.lb_bookings_count' | translate }}</h3>
         <ul class="booking_cnt">
-          <li style="background: #b13c2e">      <h4>Today: {{response?.TOTALBOOKING?.totalbookingsdaily}}</h4></li>
-          <li style="background: #c27d0e"> <h4>This Month: {{response?.TOTALBOOKING?.totalbookingsmonthly}}</h4></li>
-          <li style="background: ##009abf"> <h4>This Year: {{response?.TOTALBOOKING?.totalbookingsyearly}}</h4></li>
+          <li style="background: #b13c2e">      <h4>{{ 'DASHBOARD_PAGE.LABELS.lb_today' | translate }}: {{response?.TOTALBOOKING?.totalbookingsdaily}}</h4></li>
+          <li style="background: #c27d0e"> <h4>{{ 'DASHBOARD_PAGE.LABELS.lb_this_month' | translate }}: {{response?.TOTALBOOKING?.totalbookingsmonthly}}</h4></li>
+          <li style="background: #009abf"> <h4>{{ 'DASHBOARD_PAGE.LABELS.lb_this_year' | translate }}: {{response?.TOTALBOOKING?.totalbookingsyearly}}</h4></li>
         </ul>
       </div>
     </ion-card-content>
@@ -143,15 +143,15 @@
   <br>
   <ion-card>
     <ion-card-header>
-      Car Washers
+      {{ 'DASHBOARD_PAGE.LABELS.lb_car_washers' | translate }}
     </ion-card-header>
     <ion-card-content>
       <canvas id="chart2" #doughnutCanvas2></canvas>
       <div style="align-content: center">
-      <h3>Car Washers Count:</h3>
-      <h4>Today: {{response?.CARWASHER?.serviceengineersdaily}}</h4>
-      <h4>This Month: {{response?.CARWASHER?.serviceengineersmonthly}}</h4>
-      <h4>This Year: {{response?.CARWASHER?.serviceengineersyearly}}</h4>
+      <h3> {{ 'DASHBOARD_PAGE.LABELS.lb_car_washers_count' | translate }}:</h3>
+      <h4>{{ 'DASHBOARD_PAGE.LABELS.lb_today' | translate }}: {{response?.CARWASHER?.serviceengineersdaily}}</h4>
+      <h4>{{ 'DASHBOARD_PAGE.LABELS.lb_this_month' | translate }}: {{response?.CARWASHER?.serviceengineersmonthly}}</h4>
+      <h4>{{ 'DASHBOARD_PAGE.LABELS.lb_this_year' | translate }}: {{response?.CARWASHER?.serviceengineersyearly}}</h4>
       </div>
     </ion-card-content>
   </ion-card>

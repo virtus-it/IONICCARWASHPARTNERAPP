@@ -37,7 +37,8 @@ export class LoginPage {
   subTimeout: Subscription
   requestedOtp: boolean = false;
   sendOtpTitle:any = 'Send OTP';
-
+  languageSelected: any;
+  languages = [{ name: "English", code: "en" }, { name: "Arabic", code: "ar" }];
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private networkProvider: NetworkProvider,
               private menuCtrl: MenuController,
@@ -53,11 +54,20 @@ export class LoginPage {
     this.password = '0000222251';*/
 
 
-    translateService.setDefaultLang('en');
-    translateService.use('en');
-
+     translateService.setDefaultLang('en');
+     translateService.use('en');
+   
     try {
       this.platform.ready().then(ready => {
+        this.alertUtils.getLang().then(lang => {
+          if (lang) {
+            this.languageSelected = lang;
+          } else {
+            this.languageSelected = 'en';
+          }
+        }, err => {
+          this.alertUtils.showLog(err);
+        })
         this.alertUtils.getSecValue('secure_storage_user_info').then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -74,7 +84,7 @@ export class LoginPage {
     } catch (e) {
       this.alertUtils.showLog(e);
     }
-
+    this.alertUtils.showLog("getDLang : " + this.translateService.getDefaultLang())
   }
 
   ionViewDidLoad() {
@@ -331,7 +341,23 @@ export class LoginPage {
     } catch (e) {
     }
   }
+  setLanguage() {
+    this.alertUtils.showLog(this.languageSelected)
+    let defaultLanguage = this.translateService.getDefaultLang();
+    this.alertUtils.showLog("defaultLanguage : " + defaultLanguage);
+    if (this.languageSelected) {
+      this.translateService.setDefaultLang(this.languageSelected);
+      this.translateService.use(this.languageSelected);
+      this.alertUtils.setLang(this.languageSelected);
+      UtilsProvider.lang = this.languageSelected;
+    } else {
+      this.languageSelected = defaultLanguage;
+      this.translateService.use(defaultLanguage);
+      this.alertUtils.setLang(defaultLanguage);
+      UtilsProvider.lang = defaultLanguage;
 
+    }
+  }
   startTimer() {
     this.timerRunning = true;
     var timer = 90;

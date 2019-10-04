@@ -12,7 +12,7 @@ import {ApiProvider} from "../../providers/api/api";
 // import {SuperTabs} from "ionic2-super-tabs";
 import {Geolocation} from '@ionic-native/geolocation';
 import {LocationTracker} from "../../providers/tracker/tracker";
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-supplier-orders-home',
@@ -43,10 +43,17 @@ export class SupplierOrdersHomePage {
               private platform: Platform,
               private tracker: LocationTracker,
               private alertUtils: UtilsProvider,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private translateService: TranslateService) {
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

@@ -26,8 +26,8 @@
 
 
         <ion-row>
-          <ion-col>Cart ID</ion-col>
-          <ion-col>Delivery Time</ion-col>
+          <ion-col> {{ 'JOBS_PAGE_SE_LOGIN.LABELS.lb_cart_id' | translate }}</ion-col>
+          <ion-col> {{ 'JOBS_PAGE_SE_LOGIN.LABELS.lb_delivery time' | translate }}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>{{order.cart_id}}</ion-col>
@@ -45,12 +45,12 @@
         <ion-row *ngIf="order.orderstatus == 'assigned'">
           <ion-col col-6>
             <button (click)="updateOrderStatus($event,i,'backtodealer');"  ion-button>
-              REJECT
+              {{ 'JOBS_PAGE_SE_LOGIN.BUTTONS.btn_reject' | translate }}
             </button>
           </ion-col>
           <ion-col col-6>
             <button (click)="updateOrderStatus($event,i,'accept');"  ion-button>
-              ACCEPT
+              {{ 'JOBS_PAGE_SE_LOGIN.BUTTONS.btn_accept' | translate }}
             </button>
           </ion-col>
         </ion-row>
@@ -58,7 +58,7 @@
         <ion-row >
           <ion-col *ngIf="order.orderstatus == 'accepted'">
             <button (click)="updateOrderStatus($event,i,'orderstarted');"  ion-button>
-              START TO VISIT
+              {{ 'JOBS_PAGE_SE_LOGIN.BUTTONS.btn_start_to_visit' | translate }}
             </button>
           </ion-col>
 
@@ -67,12 +67,12 @@
         <ion-row >
           <ion-col *ngIf="order.orderstatus == 'orderstarted'" col-6>
           <button (click)="pickImage(order, 'pre'); updateOrderStatus($event,i,'jobstarted');" ion-button>
-            JOB STAsdRT
+            {{ 'JOBS_PAGE_SE_LOGIN.BUTTONS.btn_job_start' | translate }}
           </button>
           </ion-col>
           <ion-col col-6>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
-              VIEW DETAILS
+              {{ 'JOBS_PAGE_SE_LOGIN.BUTTONS.btn_view_details' | translate }}
             </button>
           </ion-col>
         </ion-row>

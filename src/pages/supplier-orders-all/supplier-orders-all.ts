@@ -7,7 +7,7 @@ import { Observable, Subscription } from "rxjs";
 import { Geolocation } from '@ionic-native/geolocation';
 import { Socket } from 'ng-socket-io';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-supplier-orders-all',
@@ -28,12 +28,19 @@ export class SupplierOrdersAllPage {
     private socket: Socket,
     private camera: Camera,
     private platform: Platform,
-    private appCtrl: App) {
+    private appCtrl: App,
+    private translateService: TranslateService) {
 
     this.showProgress = false;
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

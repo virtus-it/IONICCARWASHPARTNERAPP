@@ -5,7 +5,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title start>
-      <span class="title-style">Service Areas</span>
+      <span class="title-style">{{ 'SERVICE_AREAS_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -21,8 +21,8 @@
 
 
     <ion-buttons *ngIf="isEditingPolygon">
-      <button ion-button color="primary" (click)="close();">Remove</button>
-      <button ion-button color="primary" (click)="createArea();">Add</button>
+      <button ion-button color="primary" (click)="close();">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_add' | translate }}</button>
+      <button ion-button color="primary" (click)="createArea();">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_remove' | translate }}</button>
     </ion-buttons>
 
   </ion-row>
@@ -35,10 +35,10 @@
 <ion-footer>
   <ion-row *ngIf="isEditedPolygon">
     <ion-col class="edit_bg" (click)="saveIntoServer()">
-      <span class="header_icon">UPDATE</span>
+      <span class="header_icon">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_update' | translate }}</span>
     </ion-col>
     <ion-col class="delet_bg" (click)="reset();">
-      <span class="header_icon">RESET</span>
+      <span class="header_icon">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_reset' | translate }}</span>
     </ion-col>
   </ion-row>
 

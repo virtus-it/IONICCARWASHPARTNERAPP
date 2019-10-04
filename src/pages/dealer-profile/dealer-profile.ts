@@ -3,7 +3,7 @@ import {AlertController, IonicPage, NavController, NavParams, Platform} from 'io
 import {ApiProvider} from '../../providers/api/api';
 import {APP_TYPE, KEY_USER_INFO, RES_SUCCESS, UserType, UtilsProvider} from '../../providers/utils/utils';
 import {Camera, CameraOptions} from '@ionic-native/camera';
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-dealer-profile',
@@ -22,9 +22,16 @@ export class DealerProfilePage {
               private alertCtrl: AlertController,
               private camera: Camera,
               private platform: Platform,
-              private apiService: ApiProvider) {
+              private apiService: ApiProvider,
+              private translateService: TranslateService) {
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

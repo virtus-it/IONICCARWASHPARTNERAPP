@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-supplier-orders-completed',
@@ -19,12 +19,19 @@ export class SupplierOrdersCompletedPage {
               private alertUtils: UtilsProvider,
               private  apiService: ApiProvider,
               private platform: Platform,
-              private appCtrl: App) {
+              private appCtrl: App,
+              private translateService: TranslateService) {
 
     this.showProgress = false;
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

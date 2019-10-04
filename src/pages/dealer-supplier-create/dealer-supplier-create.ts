@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, Platform, ViewController } from 'i
 import { APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider } from "../../providers/utils/utils";
 import { ApiProvider } from "../../providers/api/api";
 import { FormBuilder } from "@angular/forms";
-
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -42,8 +42,14 @@ export class DealerSupplierCreatePage {
     private alertUtils: UtilsProvider,
     private apiService: ApiProvider,
     private platform: Platform,
-    private formBuilder: FormBuilder) {
-
+    private formBuilder: FormBuilder,
+    private translateService: TranslateService) {
+      let lang = "en";
+      if (UtilsProvider.lang) {
+        lang = UtilsProvider.lang
+      }
+      UtilsProvider.sLog(lang);
+      translateService.use(lang);
     this.alertUtils.showLog('showVendor : ' + this.showVendor);
 
     this.user = navParams.get('item');

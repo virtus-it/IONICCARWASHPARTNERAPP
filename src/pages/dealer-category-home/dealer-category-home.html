@@ -37,26 +37,26 @@
               <ion-col col-8>
                 <ion-item>
                   <h2>{{item.category}}</h2>
-                  <p>Priority: {{item.priority}}</p>
+                  <p>{{ 'CREATE_CATEGORY_PAGE.LABELS.lb_priority' | translate }}: {{item.priority}}</p>
                   <p>{{item.category_desc}}</p>
                 </ion-item>
               </ion-col>
               <ion-col col-2 *ngIf="item.isactive == 0">
-                <b class="danger">In-Active</b>
+                <b class="danger">{{ 'CATEGORY_PAGE.LABELS.lb_in_active' | translate }}</b>
               </ion-col>
 
             </ion-row>
             <ion-row>
-              <ion-col (click)="update(item)" class="edit_bg"><span class="header_icon">Update</span>
+              <ion-col (click)="update(item)" class="edit_bg"><span class="header_icon">{{ 'CATEGORY_PAGE.BUTTONS.btn_update' | translate }}</span>
               </ion-col>
 
               <ion-col (click)="delete(item)" class="delet_bg">
-                <span class="header_icon" *ngIf="item.isactive == 0">Enable</span>
-                <span class="header_icon" *ngIf="item.isactive == 1">Disable</span>
+                <span class="header_icon" *ngIf="item.isactive == 0">{{ 'CATEGORY_PAGE.BUTTONS.btn_enable' | translate }}</span>
+                <span class="header_icon" *ngIf="item.isactive == 1">{{ 'CATEGORY_PAGE.BUTTONS.btn_disable' | translate }}</span>
 
               </ion-col>
 
-              <ion-col (click)="viewServices(item)" class="edit_bg"><span class="header_icon">View Services</span></ion-col>
+              <ion-col (click)="viewServices(item)" class="edit_bg"><span class="header_icon">{{ 'CATEGORY_PAGE.BUTTONS.btn_view_services' | translate }}</span></ion-col>
             </ion-row>
 
           </ion-card>
@@ -72,15 +72,15 @@
 
     <ion-list>
       <ion-item>
-        <ion-label floating>Name</ion-label>
+        <ion-label floating>{{ 'CREATE_CATEGORY_PAGE.LABELS.lb_name' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.category" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Priority</ion-label>
+        <ion-label floating>{{ 'CREATE_CATEGORY_PAGE.LABELS.lb_priority' | translate }}</ion-label>
         <ion-input type="tel" [(ngModel)]="person.priority" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Description</ion-label>
+        <ion-label floating>{{ 'CREATE_CATEGORY_PAGE.LABELS.lb_description' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.desp" name="name" required></ion-input>
       </ion-item>
     </ion-list>

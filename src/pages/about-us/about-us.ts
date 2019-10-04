@@ -16,8 +16,12 @@ export class AboutUsPage {
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
               private translateService: TranslateService) {
-    translateService.setDefaultLang('en');
-    translateService.use('en');
+                let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
 
 
     let verCode, verName;

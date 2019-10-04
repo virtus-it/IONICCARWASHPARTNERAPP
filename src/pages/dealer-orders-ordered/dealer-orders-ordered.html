@@ -39,15 +39,15 @@
       <ion-card class="colomn_main card_lst_cntr">
 
         <ion-card-header class="jobid_header">
-          <span class="jobassign_no">#{{order.order_id}}</span> <div class="order_heading"> <label>Status</label><span>{{order.statusUpdated}}</span></div>
+          <span class="jobassign_no">#{{order.order_id}}</span> <div class="order_heading"> <label>{{'JOBS_PAGE.LABELS.lb_status' | translate }}</label><span>{{order.statusUpdated}}</span></div>
         </ion-card-header>
         <ion-row>
-          <ion-col><span class="job_mgm_lbl">Cart ID</span>{{order.cart_id}}</ion-col>
-          <ion-col><span class="job_mgm_lbl">Delivery Time</span>{{order.delivery_exceptedtime}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_cart_id' | translate }}</span>{{order.cart_id}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_delivery_time' | translate }}</span>{{order.delivery_exceptedtime}}</ion-col>
         </ion-row>
         <ion-row class="border_b">
-          <ion-col><span class="job_mgm_lbl">Last Updated</span>{{order?.timestamp | utcDate}}</ion-col>
-          <ion-col class="amount_aed"><span class="job_mgm_lbl">Amount</span>AED {{order.billamt_updated}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_last_updated' | translate }}</span>{{order?.timestamp | utcDate}}</ion-col>
+          <ion-col class="amount_aed"><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_amount' | translate }}</span>AED {{order.billamt_updated}}</ion-col>
         </ion-row>
 
         <ion-row>
@@ -58,7 +58,7 @@
 
           <ion-col>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
-              VIEW DETAILS
+              {{'JOBS_PAGE.BUTTONS.btn_view_details' | translate}}
             </button>
           </ion-col>
         </ion-row>

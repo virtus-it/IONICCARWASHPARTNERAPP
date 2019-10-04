@@ -18,7 +18,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 import {LocationTracker} from "../../providers/tracker/tracker";
 import {MapUtilsProvider} from "../../providers/map-utils/map-utils";
-
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -42,12 +42,19 @@ export class SupplierOrdersPendingPage {
               private platform: Platform,
               private backgroundMode: BackgroundMode,
               private backgroundGeolocation: BackgroundGeolocation,
-              private appCtrl: App) {
+              private appCtrl: App,
+              private translateService: TranslateService) {
 
     this.showProgress = false;
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

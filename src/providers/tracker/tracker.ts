@@ -57,7 +57,7 @@ export class LocationTracker {
         interval: 100
       };
 
-      this.backgroundGeolocation.configure(config).subscribe((location) => {
+      this.backgroundGeolocation.configure(config).then((location) => {
 
         this.alertUtils.showLog('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
 

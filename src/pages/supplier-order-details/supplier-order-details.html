@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>
       <img src="assets/imgs/header_icon.png" class="header_icon">
-      <span class="title-style"> {{ 'ORDER_DETAILS_PAGE.PAGE_TITLE' | translate }}
+      <span class="title-style"> {{ 'JOB_DETAILS_PAGE.PAGE_TITLE' | translate }}
       </span>
     </ion-title>
     <ion-buttons end *ngIf="callFrom == 'pushnotification'">
@@ -17,7 +17,7 @@
     <ion-card class="no_padding">
       <ion-card-header class="cardtop_heading"><div class="pgid"><span class="orderid">#{{item?.order_id}}</span> <span class="statusupdt"> {{item.statusUpdated}} </span>
       </div>
-        <div class="total_cost"><span class="orderid">Bill Amount</span><span class="statusupdt"> {{item?.billamt_updated}}</span></div>
+        <div class="total_cost"><span class="orderid"> {{ 'JOB_DETAILS_PAGE.LABELS.lb_bill_amount' | translate }}</span><span class="statusupdt"> {{item?.billamt_updated}}</span></div>
       </ion-card-header>
 
       <ion-card-content>
@@ -27,27 +27,27 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col><span class="job_mgm_lbl">DELIVERY</span>{{item?.delivery_exceptedtime}}</ion-col>
-          <ion-col col-2><span class="job_mgm_lbl">TYPE</span> {{item?.orderby_paymenttype}}</ion-col>
-          <ion-col><span class="job_mgm_lbl">Modified on</span>{{item?.modifieddate | utcDate}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_delivery' | translate }}</span>{{item?.delivery_exceptedtime}}</ion-col>
+          <ion-col col-2><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_type' | translate }}</span> {{item?.orderby_paymenttype}}</ion-col>
+          <ion-col><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_modified_on' | translate }}</span>{{item?.modifieddate | utcDate}}</ion-col>
         </ion-row>
 
 
         <ion-row>
           <ion-col *ngIf="item?.status == 'jobstarted'">
-            <button ion-button color="primary" (click)="changeOrderStatus('arrived');">ARRIVED</button>
+            <button ion-button color="primary" (click)="changeOrderStatus('arrived');">{{ 'JOB_DETAILS_PAGE.BUTTONS.btn_arrived' | translate }}</button>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col *ngIf="item?.status == 'jobstarted'">
-            <button ion-button color="primary" (click)="pickImage('post'); changeOrderStatus('jobcompleted');">DELIVER</button>
+            <button ion-button color="primary" (click)="pickImage('post'); changeOrderStatus('jobcompleted');">{{ 'JOB_DETAILS_PAGE.BUTTONS.btn_deliver' | translate }}</button>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col *ngIf="item?.status == 'jobcompleted'">
-            <button ion-button color="primary" (click)="editStatusModal();">Confirm Payment</button>
+            <button ion-button color="primary" (click)="editStatusModal();">{{ 'JOB_DETAILS_PAGE.BUTTONS.btn_confrm_paymnt' | translate }}</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
@@ -55,7 +55,7 @@
 
     <!--Product Details-->
     <ion-card>
-      <ion-card-header class="cardtop_heading"><span class="statusupdt">Services Details</span></ion-card-header>
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'JOB_DETAILS_PAGE.LABELS.lb_service_details' | translate }}</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
         <ion-row>
           <ion-col>{{item?.productdetails?.category}}</ion-col>
@@ -74,26 +74,26 @@
 
     <!--order status-->
     <ion-card class="card_status ">
-      <ion-card-header class="cardtop_heading"><span class="statusupdt">Job Status</span></ion-card-header>
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'JOB_DETAILS_PAGE.LABELS.lb_job_status' | translate }}</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
         <ul class="jb_status">
-          <li class="jb_sts_dls"><ion-icon name="person"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Created</span>
+          <li class="jb_sts_dls"><ion-icon name="person"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_status_created' | translate }}</span>
             {{validate(item?.orderby_firstname)+" "+validate(item?.orderby_lastname)}}
           </div>
           </li>
           <li class="jb_sts_dls"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block">
-            <span class="job_mgm_lbl">Assigned</span>
+            <span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_status_assigned' | translate }}</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
           </div>
           </li>
 
           <li class="jb_sts_dls" *ngIf="item.status == 'accept'||'orderstarted'||item.status == 'jobstarted'||item.status == 'delivered'"><ion-icon name="checkmark" class="check"></ion-icon><div class="status_right_block">
-            <span class="job_mgm_lbl">Accepted</span>
+            <span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_status_accepted' | translate }}</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
             <span class="job_mgm_lbl">{{item?.order_orderstarteddate | utcDate}}</span></div>
           </li>
 
-          <li class="jb_sts_dls" *ngIf="item.status == 'delivered'"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">Completed</span>
+          <li class="jb_sts_dls" *ngIf="item.status == 'delivered'"><ion-icon name="thumbs-up" class="thumb"></ion-icon><div class="status_right_block"><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_status_completed' | translate }}</span>
             {{validate(item?.supplierdetails?.firstname)+" "+validate(item?.supplierdetails?.lastname)}}
           </div>
           </li>
@@ -121,7 +121,7 @@
       <ion-card-content>
         <ion-row>
           <ion-col col-sm-5 col-md-5 col-lg-5 col-xl-5>
-            JOB STATUS - IMAGES
+            {{ 'JOB_DETAILS_PAGE.LABELS.lb_job_status_images' | translate }}
           </ion-col>
         </ion-row>
         <ion-row>
@@ -170,7 +170,7 @@
 
 
     <ion-card class="dealer_contnr">
-      <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'ORDER_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}</span></ion-card-header>
+      <ion-card-header class="cardtop_heading"><span class="statusupdt">{{ 'JOB_DETAILS_PAGE.LABELS.lb_customer_details' | translate }}</span></ion-card-header>
       <ion-card-content class="no_margin no_padding">
 
         <ion-item class="no_margin no_padding">
@@ -191,7 +191,7 @@
     </ion-card>
 
     <ion-card>
-      <ion-card-header class="cardtop_heading">{{ 'ORDER_DETAILS_PAGE.LABELS.lb_order_msg' | translate }}</ion-card-header>
+      <ion-card-header class="cardtop_heading">{{ 'JOB_DETAILS_PAGE.LABELS.lb_order_messages' | translate }}</ion-card-header>
       <ion-card-content class="no_padding no_margin">
         <div class="message-wrap">
           <div *ngFor="let mes of item?.messages" class="message" [class.left]=" mes.user.userid != userID " [class.right]=" mes.user.userid == userID ">

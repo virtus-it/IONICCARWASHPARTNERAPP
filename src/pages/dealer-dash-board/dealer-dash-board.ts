@@ -7,7 +7,7 @@ import {ApiProvider} from "../../providers/api/api";
 // import {DealerDistributorsPage} from "../dealer-distributors/dealer-distributors";
 // import {DealerOrdersHomePage} from "../dealer-orders-home/dealer-orders-home";
 import {Chart} from 'chart.js';
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-dealer-dash-board',
@@ -34,9 +34,20 @@ export class DealerDashBoardPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private platform: Platform,
-              private ref: ChangeDetectorRef) {
+              private ref: ChangeDetectorRef,
+              private translateService: TranslateService) {
+                
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+    if (UtilsProvider.lang) {
+      lang = UtilsProvider.lang
+    }
+    UtilsProvider.sLog(lang);
+    translateService.use(lang);
+
+  
+
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

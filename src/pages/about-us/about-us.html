@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>About Us</ion-title>
+    <ion-title>{{ 'ABOUT_US_PAGE.PAGE_TITLE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,15 +11,15 @@
   <div class="fixscrollcontainer">
   <ion-card padding>
 
-    <h5 class="">{{ 'ABOUT_US_PAGE.LABELS.lb_build_version_title' | translate }}</h5>
+    <h5 class="">{{ 'ABOUT_US_PAGE.LABELS.lb_build_version' | translate }}</h5>
     <p>{{buildVersion}}</p>
 
-    <h5 class="pdtop-10">{{ 'ABOUT_US_PAGE.LABELS.lb_about_title' | translate }}</h5>
-    <p class="pstyle">{{ 'ABOUT_US_PAGE.LABELS.lb_about_content_1' | translate }}</p>
+    <h5 class="pdtop-10">{{ 'ABOUT_US_PAGE.LABELS.lb_about' | translate }}</h5>
+    <p class="pstyle">{{ 'ABOUT_US_PAGE.LABELS.lb_content' | translate }}</p>
 
     <p>
-      <a href="http://www.virtus-it.com/legal/">{{ 'ABOUT_US_PAGE.LABELS.lb_terms' | translate }}</a> and
-      <a href="http://www.virtus-it.com/privacy-statement/">{{ 'ABOUT_US_PAGE.LABELS.lb_privacy' | translate }}</a>
+      <a href="http://www.virtus-it.com/legal/">{{ 'ABOUT_US_PAGE.LABELS.lb_terms_and_condiotions' | translate }}</a> and
+      <a href="http://www.virtus-it.com/privacy-statement/">{{ 'ABOUT_US_PAGE.LABELS.lb_privacy_policy' | translate }}</a>
     </p>
 
 <!--    <img src="assets/imgs/powerby.png" class="img-responsive powerby-style">-->

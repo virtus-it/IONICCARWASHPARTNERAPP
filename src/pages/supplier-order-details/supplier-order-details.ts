@@ -56,7 +56,8 @@ export class SupplierOrderDetailsPage {
               public alertCtrl: AlertController,
               private camera: Camera,
               private platform: Platform,
-              private apiService: ApiProvider) {
+              private apiService: ApiProvider
+              ) {
 
 
     translateService.setDefaultLang('en');
@@ -69,6 +70,12 @@ export class SupplierOrderDetailsPage {
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

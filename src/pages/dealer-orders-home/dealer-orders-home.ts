@@ -3,7 +3,7 @@ import {AlertController, IonicPage, MenuController, NavController, NavParams, Pl
 import {KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {NetworkProvider} from "../../providers/network/network";
 import {ApiProvider} from "../../providers/api/api";
-
+import {TranslateService} from "@ngx-translate/core";
 // import {SuperTabs} from "ionic2-super-tabs";
 
 
@@ -33,11 +33,19 @@ export class DealerOrdersHomePage {
               private menuCtrl: MenuController,
               private alertUtils: UtilsProvider,
               private platform: Platform,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private translateService: TranslateService) {
     this.uType = this.navParams.get('uType');
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
+                
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

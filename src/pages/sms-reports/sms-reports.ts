@@ -3,7 +3,7 @@ import {AlertController, IonicPage, ModalController, NavController, NavParams, P
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import * as moment from 'moment';
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-sms-reports',
@@ -29,11 +29,18 @@ export class SmsReportsPage {
               private ref: ChangeDetectorRef,
               private platform: Platform,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private translateService: TranslateService) {
 
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

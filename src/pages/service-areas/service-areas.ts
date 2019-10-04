@@ -12,7 +12,7 @@ import {
 } from '@ionic-native/google-maps';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, RES_SUCCESS, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -41,10 +41,17 @@ export class ServiceAreasPage {
               public platform: Platform,
               public apiService: ApiProvider,
               private alertUtils: UtilsProvider,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              private translateService: TranslateService) {
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

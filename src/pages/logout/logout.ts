@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {APP_TYPE, UserType, UtilsProvider} from "../../providers/utils/utils";
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-logout',
@@ -12,7 +12,14 @@ export class LogoutPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertCtrl: AlertController,
-              public alertUtils: UtilsProvider) {
+              public alertUtils: UtilsProvider,
+              private translateService: TranslateService) {
+                let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
   }
 
   ionViewDidLoad() {

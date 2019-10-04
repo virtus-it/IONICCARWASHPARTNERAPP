@@ -3,7 +3,7 @@ import {App, IonicPage, ModalController, NavController, NavParams, Platform} fro
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerOrderDetailsPage} from "../dealer-order-details/dealer-order-details";
-
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -62,8 +62,14 @@ export class DealerOrdersOrderedPage {
               private  apiService: ApiProvider,
               private platform: Platform,
               private modalCtrl: ModalController,
-              private appCtrl: App) {
-
+              private appCtrl: App,
+              private translateService: TranslateService) {
+                let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
     this.alertUtils.showLog('constructor');
 
     this.initLoad();

@@ -17,7 +17,7 @@
   <form class="customer_poptxt" >
 
     <ion-item>
-      <ion-label>User</ion-label>
+      <ion-label>{{ 'CREATE_USER_PAGE.LABELS.lb_user' | translate }}</ion-label>
       <ion-select [(ngModel)]="input.userType" name="userType">
         <ion-option value={{user.value}} *ngFor="let user of usersList"
                     (ionSelect)="updateDetails($event, user.value)">
@@ -26,23 +26,23 @@
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>First Name</ion-label>
+      <ion-label floating>{{ 'CREATE_USER_PAGE.LABELS.lb_first_name' | translate }}</ion-label>
       <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Last Name</ion-label>
+      <ion-label floating>{{ 'CREATE_USER_PAGE.LABELS.lb_last_name' | translate }}</ion-label>
       <ion-input name="lastname" class="" type="text" [(ngModel)]="input.lastname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phone Number</ion-label>
+      <ion-label floating>{{ 'CREATE_USER_PAGE.LABELS.lb_phone_number' | translate }}</ion-label>
       <ion-input class="" name="phno1" type="text" [(ngModel)]="input.phno1" maxlength="9" required></ion-input>
     </ion-item>
 
     <ion-row class="">
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">{{ 'CREATE_USER_PAGE.BUTTONS.btn_cancel' | translate }}</button>
       </ion-col>
       <ion-col align-self-center="">
         <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>

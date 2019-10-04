@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_customer_care.png">
-      <span class="title-style">Users</span>
+      <span class="title-style">{{ 'USERS_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
       <ion-buttons *ngIf="isDealer" (click)="create($event, '')" end>
         <button icon-end ion-button>
@@ -56,17 +56,17 @@
       <ion-card>
 
         <ion-row>
-          <ion-col><span class="job_mgm_lbl">User name</span>
+          <ion-col><span class="job_mgm_lbl">{{ 'USERS_PAGE.LABELS.lb_user_name' | translate }}</span>
             {{user.firstname + " " + user.lastname}}
           </ion-col>
-          <ion-col><span class="job_mgm_lbl">Mobile</span>
+          <ion-col><span class="job_mgm_lbl">{{ 'USERS_PAGE.LABELS.lb_mobile' | translate }}</span>
             {{user.mobileno}}
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-          <span class="job_mgm_lbl">User Type :</span> {{user.usertype | uppercase}}
+          <span class="job_mgm_lbl">{{ 'USERS_PAGE.LABELS.lb_user_type' | translate }} :</span> {{user.usertype | uppercase}}
           </ion-col>
         </ion-row>
 
@@ -77,10 +77,10 @@
         </ion-row>
 
         <ion-row>
-          <ion-col class="edit_bg"  (click)="create($event, user);"><span  class="header_icon">Edit</span>
+          <ion-col class="edit_bg"  (click)="create($event, user);"><span  class="header_icon">{{ 'USERS_PAGE.BUTTONS.btn_edit' | translate }}</span>
           </ion-col>
           <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span  class="header_icon"
-                                           >Delete</span></ion-col>
+                                           >{{ 'USERS_PAGE.BUTTONS.btn_delete' | translate }}</span></ion-col>
         </ion-row>
 
       </ion-card>

@@ -35,7 +35,7 @@ export const INTERNET_ERR_MSG = "Please check internet connectivity and try agai
 export const GEN_ERR_MSG = "Something went wrong please check internet connectivity and try again";
 export const TRY_AGAIN_ERR_MSG = "Something went wrong please try again";
 export const VALIDATE_EMAIL = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+const KEY_USER_LANG = 'secure_storage_user_lang';
 export enum UserType {
   SALES = 'sales',
   SALES_TEAM = 'salesteam',
@@ -71,8 +71,8 @@ export enum OrderTypes {
 
 @Injectable()
 export class UtilsProvider {
-
-
+  
+  static lang: string = "en";
   private static _USER_PHNO: string = "";
   private static _USER_ADDR: string = "";
   private static _GCM_ID: string = "";
@@ -112,7 +112,14 @@ export class UtilsProvider {
   static get USER_NAME(): string {
     return this._USER_NAME;
   }
+  setLang(data) {
+    this.nativeStorage.setItem(KEY_USER_LANG, data)
+      .then(() => this.showLog('Stored  USER_INFO'), error => console.error('Error storing data', error));
+  }
+  getLang() {
 
+    return this.nativeStorage.getItem(KEY_USER_LANG);
+  }
   private static _ISSUPER_DEALER: boolean = false;
 
   static get ISSUPER_DEALER(): boolean {
@@ -154,7 +161,13 @@ export class UtilsProvider {
   static getGCM_ID(): string {
     return this._GCM_ID;
   }
-
+  static sLog(val, lineNumber?, pageName?) {
+    console.log(val);
+   if (lineNumber)
+   console.log(lineNumber);
+   if (pageName)
+   console.log(pageName);
+ }
   static setUSER_INFO(userInfo) {
     this._USER_INFO = userInfo;
   }

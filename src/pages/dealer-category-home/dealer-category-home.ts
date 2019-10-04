@@ -3,7 +3,7 @@ import { AlertController, IonicPage, ModalController, NavController, NavParams, 
 import { APP_TYPE, INTERNET_ERR_MSG, KEY_USER_INFO, UtilsProvider } from '../../providers/utils/utils';
 import { ApiProvider } from '../../providers/api/api';
 import { Camera, CameraOptions } from "@ionic-native/camera";
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-dealer-category-home',
@@ -30,10 +30,17 @@ export class DealerCategoryHomePage {
     private apiService: ApiProvider,
     private platform: Platform,
     private camera: Camera, private ref: ChangeDetectorRef, private modalCtrl: ModalController,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,private translateService: TranslateService) {
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
+                
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

@@ -3,7 +3,7 @@ import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ion
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
-
+import {TranslateService} from "@ngx-translate/core";
 @IonicPage()
 @Component({
   selector: 'page-dealer-distributors-create',
@@ -34,8 +34,14 @@ export class DealerDistributorsCreatePage {
               private alertUtils: UtilsProvider,
               private platform: Platform,
               private apiService: ApiProvider,
-              private formBuilder: FormBuilder) {
-
+              private formBuilder: FormBuilder,
+              private translateService: TranslateService) {
+                let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.user = navParams.get('item');

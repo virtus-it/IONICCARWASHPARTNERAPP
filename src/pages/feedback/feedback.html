@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_rating.png">
-      <span class="title-style">Feedback Mgmt</span>
+      <span class="title-style">{{ 'FEEDBACK_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -61,12 +61,12 @@
 
             <ion-col class="edit_bg">
               <span class="header_icon " *ngIf="res.status != 'close' "
-                   (click)="showPromptForCreateIssue($event, res);">Reply</span>
+                   (click)="showPromptForCreateIssue($event, res);">{{ 'FEEDBACK_PAGE.BUTTONS.btn_reply' | translate }}</span>
             </ion-col>
 
             <ion-col class="delet_bg" *ngIf="res.status != 'close' ">
               <span class="header_icon "
-                           (click)="changeIssueStatus($event, res, 'close');">Close
+                           (click)="changeIssueStatus($event, res, 'close');">{{ 'FEEDBACK_PAGE.BUTTONS.btn_close' | translate }}
               </span>
             </ion-col>
 

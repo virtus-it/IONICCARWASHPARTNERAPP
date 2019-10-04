@@ -17,57 +17,57 @@
   <form class="customer_poptxt">
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Name *</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_name' | translate }} *</ion-label>
       <ion-input name="firstname" class="" type="text" [(ngModel)]="input.firstname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phone Number *</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_phone_number' | translate }} *</ion-label>
       <ion-input class="" name="phno1" type="tel" [(ngModel)]="input.phno1" maxlength="9" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Alternate Mobile</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_alternate_mobile' | translate }}</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.phno2" name="phno2" maxlength="9" ></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>ID *</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_id' | translate }} *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.id" name="id" maxlength="10" ></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Vehicle Number *</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_vehicle number' | translate }} *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.vechicleNumber" name="vehicleNumber" maxlength="10" ></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Floating Cash *</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_floating_cash' | translate }} *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.flottingCash" name="flottingCash" maxlength="10" ></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Address *</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_address' | translate }} *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="250" ></ion-input>
     </ion-item>
 <ion-label> <span>
-        Tracking
+  {{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_tracking' | translate }}
       </span></ion-label>
     <ion-list radio-group>
      <ion-item>
-        <ion-label>ON</ion-label>
+        <ion-label>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_on' | translate }}</ion-label>
         <ion-radio [checked]="input.tracking == 'ON'" value="ON"></ion-radio>
       </ion-item>
 
       <ion-item>
-        <ion-label>OFF</ion-label>
+        <ion-label>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_off' | translate }}</ion-label>
         <ion-radio [checked]="input.tracking == 'OFF'" value="OFF"></ion-radio>
       </ion-item>
 
     </ion-list>
 
     <ion-item *ngIf="showVendor">
-      <ion-label>Vendor</ion-label>
+      <ion-label>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_vendor' | translate }}</ion-label>
       <ion-select [(ngModel)]="input.distributor" name="distributor">
         <ion-option value={{distributor.firstname}} *ngFor="let distributor of distributorsList"
                     (ionSelect)="updateDistributorDetails($event, distributor)">{{distributor.firstname+' '+distributor.lastname}}</ion-option>
@@ -76,7 +76,7 @@
 
     <ion-row class="">
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">{{ 'CREATE_SERVICE_AGENTS_PAGE.BUTTONS.btn_cancel' | translate }}</button>
       </ion-col>
       <ion-col align-self-center="">
         <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>

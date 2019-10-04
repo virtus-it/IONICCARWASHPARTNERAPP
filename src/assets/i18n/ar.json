@@ -1,0 +1,448 @@
+﻿{
+	"WELCOME_PAGE": {
+	  "PAGE_TITLE": "Enter mobile number to verify your identity during signup!",
+	  "BUTTONS": {
+		"btn_continue": "Continue",
+		"btn_skip": "Skip",
+		"btn_singup": "سجل",
+		"btn_cancel": "إلغاء"
+	  },
+	  "LABELS": {
+		"lb_lng": "اختار اللغة",
+		"lb_welcome_text": "هيا بنا نبدأ!",
+		"lb_supp_code_title_1": "Got a code? ",
+		"lb_supp_code_title_2": "Apply here",
+		"lb_mobile_no_hint": "Mobile Number",
+		"lb_supp_code_hint": "Code (optional)",
+		"lb_register_title_1": "مسجل بالفعل؟",
+		"lb_register_title_2": "تسجيل الدخول"
+	  }
+	},
+	"LOGIN_PAGE": {
+		"PAGE_TITLE": "تسجيل الدخول",
+		"BUTTONS": {
+			"btn_get_otp": "الحصول على otp",
+			"btn_sign_in": "تسجيل الدخول",
+			"btn_ok": "حسنا"
+		},
+		"LABELS": {
+			"lb_mobile_no": "رقم الهاتف المحمول",
+			"lb_enter_otp": "أدخل otp",
+			"lb_resend_otp": "إعادة إرسال otp",
+			"lb_success_content": "تم إرسال كلمة المرور إلى رقم هاتفك المسجل"
+
+		}
+	},
+	"DASHBOARD_PAGE": {
+		"PAGE_TITLE": "لوحة القيادة",
+		"BUTTONS": {
+		},
+		"LABELS": {
+			"lb_users": "المستخدمين",
+			"lb_car_washers": "غسالات السيارات",
+			"lb_vendors": "الباعة",
+			"lb_total_earnings": "الأرباح الكلية",
+			"lb_total_bookings": "مجموع حجوزات",
+			"lb_on_going_jobs": "على الذهاب وظائف",
+			"lb_cancelled_jobs": "وظائف ملغاة",
+			"lb_completed_jobs": "وظائف مكتملة",
+			"lb_booking": "الحجز",
+			"lb_today": "اليوم",
+			"lb_this_month": "هذا الشهر",
+			"lb_this_year": "هذه السنة",
+			"lb_bookings_count": ":حجوزات العد",
+			"lb_car_washers_count": "غسالات السيارات العد"
+		}
+	},
+	"JOBS_PAGE": {
+		"PAGE_TITLE": "إدارة الوظائف",
+		"BUTTONS": {
+			"btn_view_details": "عرض التفاصيل"
+		
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_status": "الحالة",
+			"lb_status_job_created": "خلق وظيفة",
+			"lb_status_job_cancelled": "تم إلغاء الوظيفة",
+			"lb_status_assigned_to_service_agent": "المخصصة لوكيل الخدمة",
+			"lb_status_engineer_started_from_his_location": "بدأ المهندس من موقعه",
+			"lb_status_job_accepted": "وظيفة مقبولة",
+			"lb_status_serviceagent_at_customer_location": "وكيل الخدمة في موقع العميل",
+			"lb_status_job_started": "بدأ العمل",
+			"lb_status_job_completed": "أنجزت المهمة",
+			"lb_cart_id": "معرف العربة",
+			"lb_delivery_time": "موعد التسليم",
+			"lb_last_updated": "آخر تحديث",
+			"lb_amount": "كمية"
+		}
+	},
+	
+	"JOBS_PAGE_SE_LOGIN": {
+		"PAGE_TITLE": "إدارة الوظائف",
+		"BUTTONS": {
+			"btn_view_details": "عرض التفاصيل",
+			"btn_pending": "أمر",
+			"btn_completed": "منجز",
+			"btn_accept": "قبول",
+			"btn_reject": "رفض",
+			"btn_start_to_visit": "البدء في الزيارة",
+			"btn_arrived": "وصل",
+			"btn_job_start": "بداية العمل"
+
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_status": "الحالة",
+			"lb_status_job_created": "خلق وظيفة",
+			"lb_status_job_cancelled": "تم إلغاء الوظيفة",
+			"lb_status_assigned_to_service_agent": "المخصصة لوكيل الخدمة",
+			"lb_status_engineer_started_from_his_location": "بدأ المهندس من موقعه",
+			"lb_status_job_accepted": "وظيفة مقبولة",
+			"lb_status_serviceagent_at_customer_location": "وكيل الخدمة في موقع العميل",
+			"lb_status_job_started": "بدأ العمل",
+			"lb_status_job_completed": "أنجزت المهمة",
+			"lb_cart_id": "معرف العربة",
+			"lb_delivery time": "موعد التسليم",
+			"lb_last_updated": "آخر تحديث",
+			"lb_amount": "كمية"
+		}
+	}, 
+	"JOB_DETAILS_PAGE": {
+		"PAGE_TITLE": "تفاصيل الوظيفة",
+		"BUTTONS": {
+			"btn_assign": "تعيين",
+			"btn_arrived": "وصل",
+			"btn_deliver": "ايصال",
+			"btn_confrm_paymnt": "تأكيد الدفع"
+		},
+		"LABLES": {
+			"lb_bill_amount": "مبلغ الفاتورة",
+			"lb_delivery": "توصيل",
+			"lb_type": "اكتب",
+			"lb_modified_on": "تعديل على",
+			"lb_service_details": "تفاصيل الخدمة",
+			"lb_job_status": "حالة الوظيفة",
+			"lb_customer_details": "تفاصيل العميل",
+			"lb_order_messages": "ترتيب الرسائل",
+			"lb_job_status_images": "صور حالة الوظيفة",
+			"lb_service_agent_details": "تفاصيل وكيل الخدمة",
+			"lb_status_created": "خلقت",
+			"lb_status_assigned": "تعيين",
+			"lb_status_accepted": "وافقت",
+			"lb_status_start_to_visit": "البدء في الزيارة",
+			"lb_status_job_started": "بدأت",
+			"lb_status_completed": "منجز"
+		}
+
+	},
+	"CUSTOMERS_PAGE": {
+		"PAGE_TITLE": "ادارة الزبائن",
+		"BUTTONS": {
+			"btn_edit": "تعديل",
+			"btn_delete": "حذف"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_user_name": "اسم المستخدم",
+			"lb_mobile": "التليفون المحمول",
+			"lb_address": "عنوان"
+		}
+	},
+	"CREATE_CUSTOMERS_PAGE": {
+		"PAGE_TITLE": "خلق العملاء",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_create": "خلق"
+		},
+		"LABELS": {
+			"lb_first_name": "الاسم الاول",
+			"lb_last_name": "الكنية",
+			"lb_phone_number": "رقم الهاتف",
+			"lb_email": "البريد الإلكتروني",
+			"lb_flat_number": "عدد مسطح",
+			"lb_locality": "مكان",
+			"lb_address": "عنوان",
+			"lb_payment_type": "نوع الدفع",
+			"lb_cod": "سمك القد",
+			"lb_credit": "ائتمان"
+		}
+	},
+	"EDIT_CUSTOMERS_PAGE": {
+		"PAGE_TITLE": "تحرير العملاء",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_update": "تحديث"
+		},
+		"LABELS": {
+			"lb_first_name": "الاسم الاول",
+			"lb_last_name": "الكنية",
+			"lb_phone_number": "رقم الهاتف",
+			"lb_email": "البريد الإلكتروني",
+			"lb_flat_number": "عدد مسطح",
+			"lb_locality": "مكان",
+			"lb_address": "عنوان",
+			"lb_payment_type": "نوع الدفع",
+			"lb_cod": "سمك القد",
+			"lb_credit": "ائتمان"
+		}
+	},
+	"DELETE_CUSTOMERS_PAGE": {
+		"PAGE_TITLE": "حذف العملاء",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_update": "تحديث"
+		},
+		"LABELS": {
+			"lb_content": "هل أنت متأكد أنك تريد حذف العميل؟"
+		}
+	},
+	"CATEGORY_PAGE": {
+		"PAGE_TITLE": "الفئة",
+		"BUTTONS": {
+			"btn_update": "تحديث",
+			"btn_enable": "ممكن",
+			"btn_disable": "تعطيل",
+			"btn_view_services": "عرض الخدمات"
+		},
+		"LABELS": {
+			"lb_in_active": "غير نشط"
+		}
+	},
+	"CREATE_CATEGORY_PAGE": {
+		"PAGE_TITLE": "إنشاء فئة",
+		"BUTTONS": {
+			"btn_save": "حفظ"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_priority": "أفضلية",
+			"lb_description": "وصف"
+		}
+	},
+	"UPDATE_CATEGORY_PAGE": {
+		"PAGE_TITLE": "تحديث الفئة",
+		"BUTTONS": {
+			"btn_update": "تحديث"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_priority": "أفضلية",
+			"lb_description": "وصف"
+		}
+	},
+	"SERVICES_PAGE": {
+		"PAGE_TITLE": "خدمات",
+		"BUTTONS": {
+			"btn_edit": "تعديل",
+			"btn_delete": "حذف"
+		}
+	},
+	"CREATE_SERVICES_PAGE": {
+		"PAGE_TITLE": "إنشاء الخدمات",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_create": "خلق"
+		},
+		"LABELS": {
+			"lb_service_name": "اسم الخدمة",
+			"lb_service_type": "نوع الخدمة",
+			"lb_currency_type": "نوع العملة",
+			"lb_service_cost": "تكلفة الخدمة",
+			"lb_discount": "خصم",
+			"lb_priority": "أفضلية"
+		}
+	},
+	"CAR_MODELS_PAGE": {
+		"PAGE_TITLE": "نماذج السيارات",
+		"BUTTONS": {
+			"btn_edit": "تعديل",
+			"btn_delete": "حذف"
+		},
+		"LABELS": {
+			"lb_model": "نموذج",
+			"lb_manufacturer": "الصانع"
+		}
+	},
+	"CREATE_MODELS_PAGE": {
+		"PAGE_TITLE": "إنشاء نموذج",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_create": "خلق"
+		},
+		"LABELS": {
+			"lb_model": "نموذج",
+			"lb_manufacturer": "الصانع"
+		}
+	},
+	"SERVICE_AGENTS_PAGE": {
+		"PAGE_TITLE": "وكلاء الخدمة",
+		"BUTTONS": {
+			"btn_edit": "تعديل",
+			"btn_delete": "حذف"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_mobile": "التليفون المحمول",
+			"lb_cash": "السيولة النقدية",
+			"lb_vehicle number": "عدد المركبات",
+			"lb_tracking": "تتبع",
+			"lb_associated": "مرتبطة"
+		}
+	},
+	"CREATE_SERVICE_AGENTS_PAGE": {
+		"PAGE_TITLE": "إنشاء وكيل الخدمة",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_create": "خلق"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_phone_number": "رقم الهاتف",
+			"lb_alternate_mobile": "بديل المحمول",
+			"lb_id": "هوية شخصية",
+			"lb_vehicle number": "عدد المركبات ",
+			"lb_floating_cash": "النقدية العائمة",
+			"lb_address": "عنوان",
+			"lb_tracking": "تتبع",
+			"lb_on": "على",
+			"lb_off": "إيقاف",
+			"lb_vendor": "بائع"
+		}
+	},
+	"VENDORS_PAGE": {
+		"PAGE_TITLE": "بائع",
+		"BUTTONS": {
+			"btn_edit": "تعديل",
+			"btn_delete": "حذف"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_user_name": "اسم المستخدم",
+			"lb_mobile": "التليفون المحمول",
+			"lb_company": "شركة",
+			"lb_gst": "ضريبة السلع والخدمات"
+		}
+	},
+	"CREATE_VENDORS_PAGE": {
+		"PAGE_TITLE": "خلق البائع",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_create": "خلق"
+		},
+		"LABELS": {
+			"lb_first_name": "الاسم الاول",
+			"lb_last_name": "الكنية",
+			"lb_phone_number": "رقم الهاتف",
+			"lb_company_name": "اسم الشركة",
+			"lb_address": "عنوان",
+			"lb_gst_number": "رقم gst"
+		}
+	},
+	"USERS_PAGE": {
+		"PAGE_TITLE": "المستخدمين",
+		"BUTTONS": {
+			"btn_edit": "تعديل",
+			"btn_delete": "حذف"
+		},
+		"LABELS": {
+			"lb_name": "اسم",
+			"lb_user_name": "اسم المستخدم",
+			"lb_mobile": "التليفون المحمول",
+			"lb_user_type": "نوع المستخدم"
+		}
+	},
+	"CREATE_USER_PAGE": {
+		"PAGE_TITLE": "إنشاء المستخدم",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"btn_create": "خلق"
+		},
+		"LABELS": {
+			"lb_user": "المستعمل",
+			"lb_first_name": "الاسم الاول",
+			"lb_last_name": "الكنية",
+			"lb_phone_number": "رقم الهاتف"
+		}
+	},
+	"PAYMENTS_PAGE": {
+		"PAGE_TITLE": "المدفوعات",
+		"BUTTONS": {
+			"btn_reject": "رفض",
+			"btn_confirm": "تؤكد"
+		},
+		"LABELS": {
+			"lb_status": "الحالة",
+			"lb_transaction_id": "معرف المعاملة",
+			"lb_received_date": "تاريخ الحصول عليه",
+			"lb_payed_by": "تدفع من قبل",
+			"lb_received_by": "استلمت من قبل",
+			"lb_payment_type": "نوع الدفع"
+		}
+	},
+	"SMS_REPORTS_PAGE": {
+		"PAGE_TITLE": "تقارير الرسائل القصيرة",
+		"BUTTONS": {
+			"btn_get_report": "الحصول على تقرير"
+		},
+		"LABELS": {
+			"lb_from_date": "من التاريخ",
+			"lb_to date": "حتي اليوم",
+			"lb_message": "رسالة",
+			"lb_send_to": "ارسل إلى"
+		}
+	},
+	"FEEDBACK_PAGE": {
+		"PAGE_TITLE": "إدارة ردود الفعل",
+		"BUTTONS": {
+			"btn_reply": "الرد",
+			"btn_close": "أغلق"
+		},
+		"LABELS": {
+		}
+	},
+	"SERVICE_AREAS_PAGE": {
+		"PAGE_TITLE": "مناطق الخدمة",
+		"BUTTONS": {
+			"btn_add": "إضافة",
+			"btn_remove": "إزالة",
+			"btn_update": "تحديث",
+			"btn_reset": "إعادة تعيين"
+		}
+	},
+	"PROFILE_PAGE": {
+		"PAGE_TITLE": "الملف الشخصي",
+		"BUTTONS": {
+			"btn_save": "حفظ"
+		},
+		"LABELS": {
+			"lb_first_name": "الاسم الاول",
+			"lb_last_name": "الكنية",
+			"lb_email": "البريد الإلكترونيail",
+			"lb_mobile_number": "رقم الهاتف المحمول",
+			"lb_address": "عنوان",
+			"lb_cash": "السيولة النقدية",
+			"lc_cash": "السيولة النقدية"
+		}
+	},
+	"ABOUT_US_PAGE": {
+		"PAGE_TITLE": "معلومات عنا",
+		"LABELS": {
+			"lb_build_version": "بناء ",
+			"lb_about": "حول",
+			"lb_content": "\"تعتبر Washonclick فريدة من نوعها من حيث كوننا خدمة غسيل سيارات \"فليكس\" ، ما يعنيه ذلك لك هو أننا غسيل السيارات الوحيد الذي ستحتاج إليه في أي وقت مضى أفضل تجربة غسل سيارة ممكن.\"",
+			"lb_terms_and_condiotions": "الأحكام والشروط",
+			"lb_privacy_policy": "سياسة خاصة"
+		}
+	},
+	"LOGOUT_PAGE": {
+		"PAGE_TITLE": "تسجيل خروج",
+		"BUTTONS": {
+			"btn_cancel": "إلغاء",
+			"lb_sure": "بالتأكيد"
+		}
+	}
+}
+
+
+	

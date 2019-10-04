@@ -13,25 +13,34 @@
       <ion-row>
         <ion-label center class="sign_toplabel">{{ 'LOGIN_PAGE.PAGE_TITLE' | translate }}</ion-label>
       </ion-row>
+      <ion-item>
+        <ion-label>{{ 'WELCOME_PAGE.LABELS.lb_lng' | translate }}</ion-label>
+        <ion-select [(ngModel)]="languageSelected" (ionChange)='setLanguage()' [cancelText]="'WELCOME_PAGE.BUTTONS.btn_cancel' | translate">
+          <ion-option *ngFor="let item of languages" [value]="item.code">{{item.name}}</ion-option>
+          <!-- <ion-option  [value]="en">English</ion-option>
+          <ion-option  [value]="ar">Arabic</ion-option> -->
+        </ion-select>
+      </ion-item>
+
       <ion-item class="no_bg no_shadow input_container ">
-        <ion-label floating>{{ 'LOGIN_PAGE.LABELS.lb_mobile_no_hint' | translate }}</ion-label>
+        <ion-label floating>{{ 'LOGIN_PAGE.LABELS.lb_mobile_no' | translate }}</ion-label>
         <ion-input class="usr_namefeild" type="tel" maxlength="10" minlength="10" [(ngModel)]="username" required
                    (ionChange)="inputMobilecall()"></ion-input>
       </ion-item>
 
       <ion-item class="no_bg no_shadow input_container " *ngIf="requestedOtp">
-        <ion-label floating>Enter OTP</ion-label>
+        <ion-label floating>{{ 'LOGIN_PAGE.LABELS.lb_enter_otp' | translate }}</ion-label>
         <ion-input class="usr_namefeild" type="number" maxlength="8" minlength="4" [(ngModel)]="password" required
                    (ionChange)="inputMobilecall()"></ion-input>
       </ion-item>
 
       <div *ngIf="requestedOtp" style="text-align: center; padding-top: -10px;">
-        <button (click)="getOtp()" primary [disabled]="timerRunning" style="background:#666;color:#fff;">Resend OTP</button>
+        <button (click)="getOtp()" primary [disabled]="timerRunning" style="background:#666;color:#fff;">{{ 'LOGIN_PAGE.LABELS.lb_resend_otp' | translate }}</button>
         <span class="text-primary" *ngIf="timerRunning"> {{timerValue}}</span>
       </div>
 
       <button class="btn-lg mgtop-20 button button-md button-block-md"  ion-button  color="primary" block *ngIf="!requestedOtp" (click)="getOtp();">
-        Get OTP
+        {{ 'LOGIN_PAGE.BUTTONS.btn_get_otp' | translate }}
       </button>
       <button class="btn-lg mgtop-20 button button-md button-block-md"  ion-button  color="primary" block *ngIf="requestedOtp" (click)="logIn();">
         {{ 'LOGIN_PAGE.BUTTONS.btn_sign_in' | translate}}

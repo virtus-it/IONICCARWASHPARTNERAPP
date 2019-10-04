@@ -68,8 +68,14 @@ export class DealerOrderDetailsPage {
               private viewCtrl: ViewController,
               private translateService: TranslateService,
               public alertCtrl: AlertController,
-              private apiService: ApiProvider) {
-
+              private apiService: ApiProvider,
+              ) {
+                let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     translateService.setDefaultLang('en');

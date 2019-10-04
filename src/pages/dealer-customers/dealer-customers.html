@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_user.png">
-      <span class="title-style">Customer Mgmt</span>
+      <span class="title-style">{{ 'CUSTOMERS_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
     <ion-buttons *ngIf="isDealer" (click)="createCustomer($event, '')" end>
       <button icon-end ion-button>
@@ -56,26 +56,26 @@
       <ion-card class="customer_mgmnt">
 
         <ion-row>
-          <ion-col><span class="job_mgm_lbl">User Name</span>
+          <ion-col><span class="job_mgm_lbl">{{ 'CUSTOMERS_PAGE.LABELS.lb_user_name' | translate }}</span>
             {{validate(user.firstname) + " " + validate(user.lastname)}}
           </ion-col>
           <ion-col>
-            <span class="job_mgm_lbl">Mobile</span>
+            <span class="job_mgm_lbl">{{ 'CUSTOMERS_PAGE.LABELS.lb_mobile' | translate }}</span>
             {{user.mobileno}}
           </ion-col>
         </ion-row>
 
         <ion-row *ngIf="user.address">
           <ion-col>
-            Address : {{validate(user.address)}}
+            {{ 'CUSTOMERS_PAGE.LABELS.lb_address' | translate }} : {{validate(user.address)}}
           </ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col (click)="createCustomer($event, user);" class="edit_bg"><span class="header_icon">Edit</span>
+          <ion-col (click)="createCustomer($event, user);" class="edit_bg"><span class="header_icon">{{ 'CUSTOMERS_PAGE.BUTTONS.btn_edit' | translate }}</span>
           </ion-col>
           <ion-col (click)="showPromptForDeleteCustomer($event, user);" class="delet_bg"><span class="header_icon"
-          ></span>Delete
+          ></span>{{ 'CUSTOMERS_PAGE.BUTTONS.btn_delete' | translate }}
           </ion-col>
         </ion-row>
 

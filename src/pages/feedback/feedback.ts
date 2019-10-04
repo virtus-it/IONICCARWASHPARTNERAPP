@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
-
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -30,9 +30,16 @@ export class FeedbackPage {
               private ref: ChangeDetectorRef,
               private platform: Platform,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private translateService: TranslateService) {
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

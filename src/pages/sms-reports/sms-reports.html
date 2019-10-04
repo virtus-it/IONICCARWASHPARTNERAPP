@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_user.png">
-      <span class="title-style">SMS REPORTS</span>
+      <span class="title-style">{{ 'SMS_REPORTS_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -18,7 +18,7 @@
     <ion-card>
 
       <ion-row>
-        <ion-label class="Fs12">From Date</ion-label>
+        <ion-label class="Fs12">{{ 'SMS_REPORTS_PAGE.LABELS.lb_from_date' | translate }}</ion-label>
         <ion-item class="input-shadow">
           <ion-datetime displayFormat="DD MMMM YYYY" [min]="yearMinLimit" [max]="yearMaxLimit" placeholder="-"
                         [(ngModel)]="fromDate">
@@ -28,7 +28,7 @@
 
 
       <ion-row>
-        <ion-label class="Fs12">To Date</ion-label>
+        <ion-label class="Fs12">{{ 'SMS_REPORTS_PAGE.LABELS.lb_to date' | translate }}</ion-label>
         <ion-item class="input-shadow">
           <ion-datetime displayFormat="DD MMMM YYYY" [min]="yearMinLimit" [max]="yearMaxLimit" placeholder="-"
                         [(ngModel)]="toDate">
@@ -37,7 +37,7 @@
       </ion-row>
 
       <ion-col col-6="true" align-self-center="">
-        <button ion-button  (click)="getReports();">Get Report</button>
+        <button ion-button  (click)="getReports();">{{ 'SMS_REPORTS_PAGE.BUTTONS.btn_get_report' | translate }}</button>
       </ion-col>
     </ion-card>
 
@@ -50,14 +50,14 @@
         <ion-card class="customer_mgmnt">
 
           <ion-row>
-            <ion-col><span class="job_mgm_lbl">Message</span>
+            <ion-col><span class="job_mgm_lbl">{{ 'SMS_REPORTS_PAGE.LABELS.lb_message' | translate }}</span>
               {{validate(res.body_desc) }}
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col>
-              <span class="job_mgm_lbl">Send To</span>
+              <span class="job_mgm_lbl">{{ 'SMS_REPORTS_PAGE.LABELS.lb_send_to' | translate }}</span>
               {{sendTo(res.mobilenumbers)}}
             </ion-col>
           </ion-row>

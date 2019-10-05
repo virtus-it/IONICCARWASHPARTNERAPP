@@ -5,7 +5,7 @@
     </button>
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_engineer.png">
-      <span class="title-style">Service Agents</span>
+      <span class="title-style">{{ 'SERVICE_AGENTS_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
     <ion-buttons *ngIf="isDealer" end (click)="create($event, '')">
       <button ion-button icon-end>
@@ -54,15 +54,15 @@
 
           <ion-row>
             <ion-col>
-              <span class="job_mgm_lbl">Name </span>
+              <span class="job_mgm_lbl">{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_name' | translate }} </span>
               {{validate(user.firstname) +' '+ validate(user.lastname)}}
             </ion-col>
             <ion-col>
-              <span class="job_mgm_lbl">Mobile </span>
+              <span class="job_mgm_lbl">{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_mobile' | translate }} </span>
               {{user.mobileno}}
             </ion-col>
             <ion-col>
-              <span class="job_mgm_lbl">Cash </span> {{validate(user.flotting_cash)}}
+              <span class="job_mgm_lbl">{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_cash' | translate }} </span> {{validate(user.flotting_cash)}}
             </ion-col>
           </ion-row>
           <ion-row *ngIf="user.address">
@@ -74,25 +74,25 @@
 
 
           <ion-row>
-            <ion-col><span class="job_mgm_lbl">Vehicle No </span>{{validate(user.vechicle_number)}}</ion-col>
-            <ion-col><span class="job_mgm_lbl">Tracking </span>{{user.tracking}}</ion-col>
+            <ion-col><span class="job_mgm_lbl">{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_vehicle number' | translate }} </span>{{validate(user.vechicle_number)}}</ion-col>
+            <ion-col><span class="job_mgm_lbl">{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_tracking' | translate }} </span>{{user.tracking}}</ion-col>
           </ion-row>
 
           <ion-row *ngIf="user.associateddealer">
-            <ion-col><span class="job_mgm_lbl">Associated </span>
+            <ion-col><span class="job_mgm_lbl">{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_associated' | translate }} </span>
               {{validate(user.associateddealer.firstname)+''+validate(user.associateddealer.lastname)}}
             </ion-col>
           </ion-row>
 
           <ion-row>
-            <ion-label>Activate</ion-label>
+            <ion-label>{{ 'SERVICE_AGENTS_PAGE.LABELS.lb_activate' | translate }}</ion-label>
             <ion-toggle  [(ngModel)]="user.activeStatus" [checked]="user.activeStatus" (ionChange)="changeActiveStatus(user);"></ion-toggle>
           </ion-row>
 
           <ion-row *ngIf="isDealer">
-            <ion-col class="edit_bg" (click)="create($event, user);"><span class="header_icon">Edit</span>
+            <ion-col class="edit_bg" (click)="create($event, user);"><span class="header_icon">{{ 'SERVICE_AGENTS_PAGE.BUTTONS.btn_edit' | translate }}</span>
             </ion-col>
-            <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span class="header_icon">Delete</span></ion-col>
+            <ion-col class="delet_bg" (click)="showPromptForDelete($event, user);"><span class="header_icon">{{ 'SERVICE_AGENTS_PAGE.BUTTONS.btn_delete' | translate }}</span></ion-col>
           </ion-row>
 
         </ion-card>

@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -28,9 +29,16 @@ export class DealerProductsPage {
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private platform: Platform,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private translateService: TranslateService) {
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+        if (UtilsProvider.lang) {
+          lang = UtilsProvider.lang
+        }
+        UtilsProvider.sLog(lang);
+        translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

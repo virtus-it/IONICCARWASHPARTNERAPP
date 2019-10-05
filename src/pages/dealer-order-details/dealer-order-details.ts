@@ -19,13 +19,14 @@ import {
 
 import * as moment from 'moment';
 import {ApiProvider} from "../../providers/api/api";
-import {TranslateService} from '@ngx-translate/core';
+
 import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assign-forward/dealer-order-details-assign-forward";
 import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
 import {DealerOrdersOrderedPage} from "../dealer-orders-ordered/dealer-orders-ordered";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
 import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions} from "@ionic-native/native-geocoder";
 import {MapUtilsProvider} from "../../providers/map-utils/map-utils";
+import {TranslateService} from "@ngx-translate/core";
 
 /*declare var google;*/
 
@@ -66,10 +67,12 @@ export class DealerOrderDetailsPage {
               private mapUtils: MapUtilsProvider,
               private nativeGeocoder: NativeGeocoder,
               private viewCtrl: ViewController,
-              private translateService: TranslateService,
+              
               public alertCtrl: AlertController,
-              private apiService: ApiProvider) {
-
+              private apiService: ApiProvider,
+              private translateService: TranslateService) {
+                
+            
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     translateService.setDefaultLang('en');
@@ -92,6 +95,12 @@ export class DealerOrderDetailsPage {
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+                if (UtilsProvider.lang) {
+                  lang = UtilsProvider.lang
+                }
+                UtilsProvider.sLog(lang);
+                translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

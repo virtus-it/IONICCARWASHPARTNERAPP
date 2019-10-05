@@ -12,6 +12,7 @@ import {
 import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerSupplierCreatePage} from "../dealer-supplier-create/dealer-supplier-create";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -47,11 +48,18 @@ export class DealerSuppliersPage {
               private menuCtrl: MenuController,
               private platform: Platform,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private translateService: TranslateService) {
     this.from = this.navParams.get('from');
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+        if (UtilsProvider.lang) {
+          lang = UtilsProvider.lang
+        }
+        UtilsProvider.sLog(lang);
+        translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

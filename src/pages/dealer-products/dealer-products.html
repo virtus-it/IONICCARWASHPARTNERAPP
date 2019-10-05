@@ -5,7 +5,7 @@
 <!--    </button>-->
     <ion-title start>
       <img class="header_icon" src="assets/imgs/img_repairing_service.png">
-      <span class="title-style">SERVICES</span>
+      <span class="title-style">{{ 'SERVICES_PAGE.PAGE_TITLE' | translate }}</span>
     </ion-title>
     <ion-buttons (click)="create($event, '')" end>
       <button icon-end ion-button>
@@ -47,10 +47,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col (click)="create($event, product);" class="edit_bg"><span class="header_icon">Edit</span>
+          <ion-col (click)="create($event, product);" class="edit_bg"><span class="header_icon">{{ 'SERVICES_PAGE.BUTTONS.btn_edit' | translate }}</span>
           </ion-col>
           <ion-col (click)="showPromptForDelete($event, product);"
-                   class="delet_bg"><span class="header_icon">Delete</span></ion-col>
+                   class="delet_bg"><span class="header_icon">{{ 'SERVICES_PAGE.BUTTONS.btn_delete' | translate }}</span></ion-col>
 
         </ion-row>
 

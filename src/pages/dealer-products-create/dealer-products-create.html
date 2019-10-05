@@ -55,17 +55,17 @@
 <!--    </ion-item>-->
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Service Name</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_service_name' | translate }}</ion-label>
       <ion-input name="pname" class="" type="text" [(ngModel)]="input.pname" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Service Type</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_service_type' | translate }}</ion-label>
       <ion-input class="" name="ptype" type="text" [(ngModel)]="input.ptype" maxlength="50" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Currency Type</ion-label>
+      <ion-label>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_currency_type' | translate }}</ion-label>
       <ion-select name="currency" [(ngModel)]="input.currency">
 	      <ion-option value="aed" true>AED</ion-option>
         <ion-option value="inr">INR</ion-option>
@@ -76,18 +76,18 @@
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Service Cost</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_service_cost' | translate }}</ion-label>
       <ion-input class="" name="pcost" type="text" [(ngModel)]="input.pcost" maxlength="50" required></ion-input>
     </ion-item>
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Discount</ion-label>
+      <ion-label floating>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_discount' | translate }}</ion-label>
       <ion-input class="" name="discount" type="text" [(ngModel)]="input.discount" maxlength="50" required></ion-input>
     </ion-item>
 
 
     <ion-item class="no_bg no_shadow input_container ">
-      <ion-label>Priority</ion-label>
+      <ion-label>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_priority' | translate }}</ion-label>
       <ion-select name="priority" [(ngModel)]="input.priority">
         <ion-option value={{priority1}}
                     *ngFor="let priority1 of priorityList">
@@ -97,7 +97,7 @@
 
     <ion-row class="">
       <ion-col align-self-center="">
-        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">Cancel</button>
+        <button ion-button class="wd-100pc bg-gray" (click)="closeModal()">{{ 'CREATE_SERVICES_PAGE.BUTTONS.btn_cancel' | translate }}</button>
       </ion-col>
       <ion-col align-self-center="">
         <button ion-button class="wd-100pc" type="Create" (click)="doValidation();">{{buttonTitle}}</button>

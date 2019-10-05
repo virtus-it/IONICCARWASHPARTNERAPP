@@ -4,6 +4,7 @@ import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 import {Camera, CameraOptions} from '@ionic-native/camera';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -48,8 +49,9 @@ export class DealerProductsCreatePage {
               private viewCtrl: ViewController,
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
-              private formBuilder: FormBuilder) {
-
+              private formBuilder: FormBuilder,
+              private translateService: TranslateService) {
+               
     this.user = navParams.get('item');
     this.categoryitem = navParams.get('categoryitem');
 
@@ -85,6 +87,12 @@ export class DealerProductsCreatePage {
 
     try {
       this.platform.ready().then(ready => {
+        let lang = "en";
+        if (UtilsProvider.lang) {
+          lang = UtilsProvider.lang
+        }
+        UtilsProvider.sLog(lang);
+        translateService.use(lang);
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {

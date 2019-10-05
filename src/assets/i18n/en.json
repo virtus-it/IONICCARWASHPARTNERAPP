@@ -113,9 +113,10 @@
 			"btn_assign": "Assign",
 			"btn_arrived": "Arrived",
 			"btn_deliver": "Deliver",
-			"btn_confrm_paymnt": "Confirm Payment"
+			"btn_confrm_paymnt": "Confirm Payment",
+			"btn_done": "Done"
 		},
-		"LABLES": {
+		"LABELS": {
 			"lb_bill_amount": "Bill Amount",
 			"lb_delivery": "Delivery",
 			"lb_type": "Type",
@@ -286,7 +287,8 @@
 			"lb_cash": "Cash",
 			"lb_vehicle number": "Vehicle Number",
 			"lb_tracking": "Tracking",
-			"lb_associated": "Associated"
+			"lb_associated": "Associated",
+			"lb_activate": "Activate"
 		}
 	},
 	"CREATE_SERVICE_AGENTS_PAGE": {
@@ -388,7 +390,9 @@
 			"lb_from_date": "From Date",
 			"lb_to date": "To Date",
 			"lb_message": "Message",
-			"lb_send_to": "Send To"
+			"lb_send_to": "Send To",
+			"lb_status": "Status",
+			"lb_time_stamp": "Time Stamp"
 		}
 	},
 	"FEEDBACK_PAGE": {
@@ -423,6 +427,13 @@
 			"lc_cash": "Cash"
 		}
 	},
+	"PIC_IMAGE_PAGE":{
+		"PAGE_TITLE": "PICK IMAGE",
+		"BUTTONS":{
+		   "btn_gallery": "GALLERY",
+		   "btn_camera": "CAMERA"
+		}
+	},
 	"ABOUT_US_PAGE": {
 		"PAGE_TITLE": "About Us",
 		"LABELS": {
@@ -437,7 +448,8 @@
 		"PAGE_TITLE": "Logout",
 		"BUTTONS": {
 			"btn_cancel": "Cancel",
-			"lb_sure": "Sure"
+			"lb_sure": "Sure",
+			"lb_logout": "Logout"
 		}
 	}
 }

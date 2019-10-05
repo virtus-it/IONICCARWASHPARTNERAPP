@@ -114,9 +114,10 @@
 			"btn_assign": "تعيين",
 			"btn_arrived": "وصل",
 			"btn_deliver": "ايصال",
-			"btn_confrm_paymnt": "تأكيد الدفع"
+			"btn_confrm_paymnt": "تأكيد الدفع",
+			"btn_done": "فعله"
 		},
-		"LABLES": {
+		"LABELS": {
 			"lb_bill_amount": "مبلغ الفاتورة",
 			"lb_delivery": "توصيل",
 			"lb_type": "اكتب",
@@ -287,7 +288,8 @@
 			"lb_cash": "السيولة النقدية",
 			"lb_vehicle number": "عدد المركبات",
 			"lb_tracking": "تتبع",
-			"lb_associated": "مرتبطة"
+			"lb_associated": "مرتبطة",
+			"lb_activate": "تفعيل"
 		}
 	},
 	"CREATE_SERVICE_AGENTS_PAGE": {
@@ -389,7 +391,9 @@
 			"lb_from_date": "من التاريخ",
 			"lb_to date": "حتي اليوم",
 			"lb_message": "رسالة",
-			"lb_send_to": "ارسل إلى"
+			"lb_send_to": "ارسل إلى",
+			"lb_status": "الحالة",
+			"lb_time_stamp": "الطابع الزمني"
 		}
 	},
 	"FEEDBACK_PAGE": {
@@ -425,6 +429,13 @@
 			"lc_cash": "السيولة النقدية"
 		}
 	},
+	"PIC_IMAGE_PAGE":{
+		"PAGE_TITLE": "اختيار الصورة",
+		"BUTTONS":{
+		   "btn_gallery": "صالة عرض",
+		   "btn_camera": "الة تصوير"
+		}
+	},
 	"ABOUT_US_PAGE": {
 		"PAGE_TITLE": "معلومات عنا",
 		"LABELS": {
@@ -439,7 +450,8 @@
 		"PAGE_TITLE": "تسجيل خروج",
 		"BUTTONS": {
 			"btn_cancel": "إلغاء",
-			"lb_sure": "بالتأكيد"
+			"lb_sure": "بالتأكيد",
+			"lb_logout": "تسجيل خروج"
 		}
 	}
 }

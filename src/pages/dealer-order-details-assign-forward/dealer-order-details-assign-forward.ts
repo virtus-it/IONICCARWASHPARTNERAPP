@@ -351,7 +351,10 @@ export class DealerOrderDetailsAssignForwardPage {
       let iconColor = 'blue';
       let iconTitle = 'Customer';
       if(isSupplier){
-        iconColor = 'red';
+        if(sObj.availability == 2)
+          iconColor = 'red';
+        else
+          iconColor = 'green;'
         iconTitle = sObj.firstname;
       }
 
@@ -408,11 +411,11 @@ export class DealerOrderDetailsAssignForwardPage {
 
       this.alertUtils.showLogs('distence : ',dist);
 
-      if(dist < 100){
+      //if(dist < 100){
 
         sObj['distence'] = dist;
         this.addMarker(loc,sObj,isSupplier);
-      }
+     // }
 
     }catch (e) {
 

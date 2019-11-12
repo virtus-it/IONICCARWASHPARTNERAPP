@@ -58,7 +58,7 @@
 		"PAGE_TITLE": "Jobs Management",
 		"BUTTONS": {
 			"btn_view_details": "View Details"
-			
+
 		},
 		"LABELS": {
 			"lb_name": "Name",
@@ -424,7 +424,7 @@
 			"lb_email": "Email",
 			"lb_mobile_number": "Mobile Number",
 			"lb_address": "Address",
-			"lc_cash": "Cash"
+			"lb_cash": "Cash"
 		}
 	},
 	"PIC_IMAGE_PAGE":{
@@ -454,4 +454,4 @@
 	}
 }
 
-						
+

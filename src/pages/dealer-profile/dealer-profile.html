@@ -34,21 +34,20 @@
       </ion-item>
       <ion-item>
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_email' | translate }}</ion-label>
-        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_mobile_number' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.emailid" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_address' | translate }}</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_mobile_number' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.mobileno" name="name" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>{{ 'PROFILE_PAGE.PAGE_TITLE' | translate }}</ion-label>
+        <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_address' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="person.address" name="name" required></ion-input>
       </ion-item>
 
       <ion-item *ngIf="showFlottingCash">
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_cash' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.flottingcash" name="name" required></ion-input>
+        <ion-input type="text" [(ngModel)]="person.flottingcash" name="name" required disabled></ion-input>
       </ion-item>
     </ion-list>
     <button color="secondary" class="profile_btn" ion-button block (click)="save()">{{ 'PROFILE_PAGE.BUTTONS.btn_save' | translate }}</button>

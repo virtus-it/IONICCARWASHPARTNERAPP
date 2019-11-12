@@ -40,7 +40,7 @@ export class DealerCategoryHomePage {
                 }
                 UtilsProvider.sLog(lang);
                 translateService.use(lang);
-                
+
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -123,7 +123,11 @@ export class DealerCategoryHomePage {
               }
               this.apiService.postReq(this.apiService.createCategory(), JSON.stringify(input)).then(res => {
                 if (res && res.data) {
-                  this.alertUtils.showToast("Category deleted successfully");
+                  if(item.isactive == 0) {
+                    this.alertUtils.showToast("Category successfully enabled");
+                  }else{
+                    this.alertUtils.showToast("Category successfully disabled");
+                  }
                   this.fetchCategories('');
                 }
               });

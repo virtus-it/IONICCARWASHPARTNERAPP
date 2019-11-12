@@ -134,7 +134,7 @@ export class DealerSuppliersPage {
             this.response = res.data;
 
           for (let i = 0; i < res.data.length; i++) {
-            
+
             if(res.data[i].availability == 1)
               res.data[i]['activeStatus'] = true;
             else
@@ -318,20 +318,30 @@ export class DealerSuppliersPage {
 
       let inputData = JSON.stringify(input);
       this.alertUtils.showLog(inputData);
-      
+
       this.apiService.presentLoading();
       this.apiService.postReq(this.apiService.createCustomer(), inputData).then(res => {
         this.alertUtils.showLog(res);
         this.apiService.closeLoading();
 
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.alertUtils.showToast('User successfully deleted');
+          if(status == 1)
+          {
+            this.alertUtils.showToast('User successfully activated');
+          }
+          else
+          {
+            this.alertUtils.showToast('User successfully deactivated');
+          }
+
+          console.log(status);
+
           this.fetchSuppliers(false, false, false, '', '');
         }
 
       });
     } catch (error) {
-      
+
     }
 
   }

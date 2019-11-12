@@ -58,7 +58,7 @@
 		"PAGE_TITLE": "إدارة الوظائف",
 		"BUTTONS": {
 			"btn_view_details": "عرض التفاصيل"
-		
+
 		},
 		"LABELS": {
 			"lb_name": "اسم",
@@ -77,7 +77,7 @@
 			"lb_amount": "كمية"
 		}
 	},
-	
+
 	"JOBS_PAGE_SE_LOGIN": {
 		"PAGE_TITLE": "إدارة الوظائف",
 		"BUTTONS": {
@@ -107,7 +107,7 @@
 			"lb_last_updated": "آخر تحديث",
 			"lb_amount": "كمية"
 		}
-	}, 
+	},
 	"JOB_DETAILS_PAGE": {
 		"PAGE_TITLE": "تفاصيل الوظيفة",
 		"BUTTONS": {
@@ -426,7 +426,7 @@
 			"lb_mobile_number": "رقم الهاتف المحمول",
 			"lb_address": "عنوان",
 			"lb_cash": "السيولة النقدية",
-			"lc_cash": "السيولة النقدية"
+			"lb_cash": "السيولة النقدية"
 		}
 	},
 	"PIC_IMAGE_PAGE":{
@@ -457,4 +457,4 @@
 }
 
 
-	
+

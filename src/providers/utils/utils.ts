@@ -13,7 +13,7 @@ import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-na
 
 export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = false;
-const SHOW_LOGS = false;
+const SHOW_LOGS = true;
 export const KEY_USER_INFO = 'secure_storage_user_info';
 const KEY_GCM_ID = 'secure_storage_user_gcm_id';
 const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';

@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/img_user.png">
+      <span class="title-style">{{ 'WALLET_MANAGEMENT_PAGE.PAGE_TITLE' | translate }}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="fixscrollcontainer">
+
+    <ion-item class="no_bg no_shadow input_container " *ngIf="userType != userTypes.SUPPLIER">
+      <ion-label>{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_sleect_agent' | translate }}</ion-label>
+      <!--<ion-select name="selectedOwner" [(ngModel)]="selectedAgent" interface="action-sheet">-->
+      <ion-select name="selectedOwner" [(ngModel)]="selectedAgentName" interface="popover">
+        <ion-option value="{{ validate(agent.firstname) +' '+validate(agent.lastname) }}"
+                    *ngFor="let agent of agents" (ionSelect)="updateAgent($event,agent);">
+          {{ validate(agent.firstname) +' '+validate(agent.lastname) }}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <!--List of Customers-->
+    <ion-list>
+      <div *ngFor="let item of listOf">
+        <ion-card class="customer_mgmnt">
+
+          <ion-card-header>
+            <ion-row class="dfg">
+              <ion-col style="padding:0; line-height: 17px; text-align: left;">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_orderid' | translate }}:<br/> {{validate(item?.orderid)}}</ion-col>
+              <ion-col style="padding:0;line-height: 17px;text-align: center;">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_type' | translate }}:<br/>{{validate(item?.paymenttype) | uppercase}} </ion-col>
+              <ion-col style="padding:0;line-height: 17px;text-align: right;">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_orderamt' | translate }}: <br/><span>{{item?.orderamt | number:'1.2-2'}}</span></ion-col>
+            </ion-row>
+
+          </ion-card-header>
+
+          <ion-row style="padding-top: 5px">
+            <ion-col ><div class="platform_fee">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_platformfee' | translate }}<span style="float:right;"> {{item?.platformfee | number:'1.2-2'}}</span></div>
+              <div class="platform_fee">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_gatewayfee' | translate }} <span style="float:right;">{{item?.gatewayfee | number:'1.2-2'}}</span></div>
+              <div class="platform_fee">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_totalfee' | translate }}<span style="float:right;"> {{item?.totalfee | number:'1.2-2'}}</span></div></ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col class="seprater">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_walletamounts' | translate }}<span style="text-align: right; float:right;" *ngIf="item.createddate">{{item?.createddate | utcDate}}</span></ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col class="after" style="text-align: center"><span class="lft_icon "><img class="" src="assets/imgs/upicon.png"></span><span class="rgt_cotent">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_before' | translate }}
+              <label>
+          {{item?.beforeamount | number:'1.2-2'}}</label></span></ion-col>
+            <ion-col class="added" style="text-align: center" *ngIf="item.paymenttype == 'cod'"><span class="lft_icon " style="background: #d20b0b !important;padding:2px 9px;">-</span><span class="rgt_cotent" >{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_deducted' | translate }}<label style="color:#d20b0b !important;" *ngIf="item.paymenttype == 'cod'">{{item?.addedordeductedamt | number:'1.2-2'}}</label></span></ion-col>
+
+            <ion-col class="added" style="text-align: center" *ngIf="item.paymenttype != 'cod'"><span class="lft_icon ">+</span><span class="rgt_cotent">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_added' | translate }}<label *ngIf="item.paymenttype != 'cod'"> {{item?.addedordeductedamt | number:'1.2-2'}}</label></span></ion-col>
+
+            <ion-col class="before" style="text-align: center"><span class="lft_icon "><img class="" src="assets/imgs/down.png"></span><span class="rgt_cotent">{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_after' | translate }}<label>{{item?.afteramount | number:'1.2-2'}}</label></span></ion-col>
+          </ion-row>
+
+
+
+        </ion-card>
+      </div>
+    </ion-list>
+
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))" *ngIf="isPagingEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="!isPagingEnabled" class="no_more_data">
+    <ion-icon ios="ios-alert" md="md-alert" col12>
+    </ion-icon>
+    {{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_nomoredata' | translate }}
+  </div>
+</ion-content>

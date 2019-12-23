@@ -132,3 +132,18 @@ ion-icon {
 .no_bg.login_fields {
   background: #fff;
 }
+
+.no_more_data{
+  text-align: center;
+  font-size: medium;
+  color: red;
+  padding: inherit;
+}
+.show-menu ion-label.label.label-md {
+  padding: 3px 0;}
+.show-menu .visible{margin-left: 18px;}
+.show-menu img,.menu_left_icon img {
+  margin-right: 6px;float:left;
+}
+.show-menu span,menu_left_icon span
+{line-height: 27px;}

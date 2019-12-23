@@ -1,0 +1,184 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <span class="title-style">{{'PAYMENTS_REPORTS_PAGE.PAGE_TITLE' | translate }}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="fixscrollcontainer">
+
+    <!--Search Functionality-->
+    <ion-card class="customer_mgmnttop">
+
+      <ion-row class="tp_searachbox">
+        <ion-col col-4="true">
+          <ion-select [(ngModel)]="searchType" name="searchtype" class="droplist" (ionChange)="selected();">
+            <ion-option value="date">Date</ion-option>
+            <ion-option value="vendor">Vendor</ion-option>
+            <ion-option value="serviceagent">CarWasher</ion-option>
+            <ion-option value="paymenttype">Payment Type</ion-option>
+          </ion-select>
+        </ion-col>
+
+        <ion-col col-6="true" *ngIf="searchType == 'paymenttype'">
+          <ion-select [(ngModel)]="searchText" name="searchText" class="droplist">
+            <ion-option value="cod">Cash</ion-option>
+            <ion-option value="online">Online</ion-option>
+          </ion-select>
+        </ion-col>
+
+
+        <ion-col col-6="true" *ngIf="searchType != 'date' && searchType != 'paymenttype'">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-input [(ngModel)]="searchText" placeholder="type here..." class="" maxlength="50" minlength="2" name="searchText" required
+                       type="text">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-3="true" *ngIf="searchType == 'date'">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-datetime [(ngModel)]="dateFrom" placeholder="from" name="searchText" type="text">
+            </ion-datetime>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-3="true" *ngIf="searchType == 'date'">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-datetime [(ngModel)]="dateTo" placeholder="to" name="searchText" type="text">
+            </ion-datetime>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-2 class="top_srch_icon">
+          <ion-icon (click)="fetch();" name="search"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+
+    <ion-list>
+      <div *ngFor="let payment of listOf">
+
+        <ion-card class="colomn_main ">
+
+          <ion-card-header class="jobid_header">
+            {{ 'PAYMENTS_PAGE.LABELS.lb_status' | translate }}: {{payment.statustext}}
+          </ion-card-header>
+
+          <ion-row>
+            <ion-col style="text-align: left"><span
+              class="labelgrey">{{ 'PAYMENTS_PAGE.LABELS.lb_transaction_id' | translate }}</span><br/>#{{payment?.orderid}}
+            </ion-col>
+            <ion-col style="text-align: center"><span
+              class="labelgrey">{{ 'PAYMENTS_REPORTS_PAGE.LABELS.lb_amount' | translate }}</span><br/>{{payment?.amount_received}}
+            </ion-col>
+            <ion-col style="text-align: right"><span
+              class="labelgrey">{{ 'PAYMENTS_PAGE.LABELS.lb_payment_type' | translate }}</span>
+              <br/>{{updatePaymentType(payment?.paymenttype) | uppercase}}</ion-col>
+          </ion-row>
+
+          <ion-row style=" margin-top: 3px;;">
+            <ion-col class="labelgrey"
+                     style="text-align: center;">{{ 'PAYMENTS_PAGE.LABELS.lb_payed_by' | translate }}</ion-col>
+            <ion-col class="labelgrey">  {{ 'PAYMENTS_PAGE.LABELS.lb_received_date' | translate }}</ion-col>
+            <ion-col class="labelgrey">{{ 'PAYMENTS_PAGE.LABELS.lb_received_by' | translate }}</ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ul class="timelinetop">
+                <li style="color:red;">
+                  <span></span>{{validate(payment.customerdetails.firstname) + ' ' + validate(payment.customerdetails.lastname)}}</li>
+                <li><span></span>{{payment.amount_receiveddate | utcDate}}</li>
+                <li style="color:green;">
+                  <span></span>{{validate(payment.supplier_fname) + ' ' + validate(payment.supplier_lname)}}</li>
+              </ul>
+            </ion-col>
+
+          </ion-row>
+
+
+        </ion-card>
+      </div>
+     <!-- <div *ngFor="let payment of listOf">
+
+        <ion-card class="colomn_main ">
+
+          <ion-card-header class="jobid_header">
+            {{ 'PAYMENTS_PAGE.LABELS.lb_status' | translate }}: {{validate(payment.paymentstatus)}}
+          </ion-card-header>
+
+          <ion-row>
+            <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_transaction_id' | translate }}</ion-col>
+            <ion-col>{{'PAYMENTS_REPORTS_PAGE.LABELS.lb_orderid' | translate }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>#{{validate(payment.payment_id)}}</ion-col>
+            <ion-col>{{payment?.orderid}}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{'PAYMENTS_REPORTS_PAGE.LABELS.lb_payed_date' | translate }}</ion-col>
+            <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_received_date' | translate }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>#{{payment.customerpaiddate | utcDate}}</ion-col>
+            <ion-col>{{payment?.amount_receiveddate | utcDate}}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_payed_by' | translate }}</ion-col>
+            <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_received_by' | translate }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{validate(payment.customerdetails.firstname) +' '+validate(payment.customerdetails.lastname)}}</ion-col>
+            <ion-col>{{validate(payment.supplier_fname) +' '+validate(payment.supplier_lname)}}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_payment_type' | translate }}</ion-col>
+            <ion-col>{{'PAYMENTS_REPORTS_PAGE.LABELS.lb_amount' | translate }}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>{{validatePaymentType(payment.paymenttype) | uppercase}}</ion-col>
+            <ion-col>{{validate(payment.amount_received)}}</ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>-->
+    </ion-list>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))" *ngIf="isPagingEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="!isPagingEnabled" class="no_more_data">
+    <ion-icon ios="ios-alert" md="md-alert" col12>
+    </ion-icon>
+    {{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_nomoredata' | translate }}
+  </div>
+</ion-content>

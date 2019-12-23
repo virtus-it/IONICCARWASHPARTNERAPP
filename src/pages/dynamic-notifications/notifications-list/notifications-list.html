@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <span class="title-style">{{ 'NOTIFICATION_PAGE.PAGE_TITLE' | translate }}</span>
+    </ion-title>
+    <ion-buttons (click)="goToSendPage()" end>
+      <button icon-end ion-button>
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="fixscrollcontainer">
+
+    <!--List of Customers-->
+    <ion-list>
+      <div *ngFor="let item of listOf">
+        <ion-card class="customer_mgmnt">
+
+          <ion-row>
+            <ion-col style="text-align: center">{{ 'NOTIFICATION_PAGE.LABELS.lb_message' | translate }}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col style="text-align: center">{{validate(item?.body_desc)}}</ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="item.receivedby">
+            <ion-col style="text-align: center">Send To: {{validate(item?.receivedby) | uppercase}}</ion-col>
+          </ion-row>
+
+          <ion-row style="padding-top:5px; border-top: 0.5px solid #b5b0b0;">
+            <ion-col style="text-align: left" *ngIf="item.createddate">{{validate(item?.smstype) | uppercase}}</ion-col>
+            <ion-col style="text-align: right" *ngIf="item.createddate">{{item?.createddate | utcDate}}</ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>
+    </ion-list>
+
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))" *ngIf="isPagingEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="!isPagingEnabled" class="no_more_data">
+    <ion-icon ios="ios-alert" md="md-alert" col12>
+    </ion-icon>
+    {{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_nomoredata' | translate }}
+  </div>
+</ion-content>

@@ -10,47 +10,52 @@
 
 <ion-content padding>
   <div class="fixscrollcontainer">
-  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
-               item-center></ion-spinner>
+    <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+                 name="crescent"></ion-spinner>
 
-  <div *ngIf="!showProgress">
-
-    <div align="center" *ngIf="person">
-      <img style="width: 40%;" class="profile-image"
-           [src]="imgUrl"
-           (error)="assetImg();"
-           (click)="promptPickImage($event);">
-      <h4>{{person.firstname}}</h4>
+    <div *ngIf="person" style="text-align: center; background: white; padding: 5px">
+      <br>
+      <ion-row col-12="true">
+        <img (click)="chooseImageType();"
+             (error)="assetImg();"
+             [src]="imgUrl"
+             class="image">
+      </ion-row>
+      <ion-label style="font-family: myfont !important; padding-top: 5px; font-size: 16px; font-weight: bold; text-align: center ! important; color: grey">
+        {{validate(person.firstname) | uppercase}}{{' '+validate(person.lastname) | uppercase}}
+      </ion-label>
     </div>
 
+    <br>
     <ion-list *ngIf="person">
       <ion-item>
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_first_name' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.firstname" name="name" required></ion-input>
+        <ion-input [(ngModel)]="person.firstname" name="name" required type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_last_name' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.lastname" name="name" required></ion-input>
+        <ion-input [(ngModel)]="person.lastname" name="name" required type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_email' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.emailid" name="name" required></ion-input>
+        <ion-input [(ngModel)]="person.emailid" name="name" required type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_mobile_number' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.mobileno" name="name" required></ion-input>
+        <ion-input [(ngModel)]="person.mobileno" name="name" readonly required type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_address' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.address" name="name" required></ion-input>
+        <ion-input [(ngModel)]="person.address" name="name" required type="text"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="showFlottingCash">
+      <ion-item *ngIf="showFlottingCash" disabled="true">
         <ion-label floating>{{ 'PROFILE_PAGE.LABELS.lb_cash' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="person.flottingcash" name="name" required disabled></ion-input>
+        <ion-input [(ngModel)]="person.flottingcash" disabled name="name" required type="text"></ion-input>
       </ion-item>
     </ion-list>
-    <button color="secondary" class="profile_btn" ion-button block (click)="save()">{{ 'PROFILE_PAGE.BUTTONS.btn_save' | translate }}</button>
+    <button (click)="updateProfileInfo()" block color="primary"
+            ion-button>{{ 'PROFILE_PAGE.BUTTONS.btn_save' | translate }}</button>
   </div>
-  </div>
+
 </ion-content>

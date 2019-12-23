@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {App, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
 import {
   APP_TYPE,
-  FRAMEWORK, IMAGE_HEIGHT,
+  FRAMEWORK, IMAGE_HEIGHT, IMAGE_LENGTH,
   IMAGE_QUALITY, IMAGE_WIDTH,
   KEY_USER_INFO,
   OrderTypes,
@@ -19,6 +19,7 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
 import {LocationTracker} from "../../providers/tracker/tracker";
 import {MapUtilsProvider} from "../../providers/map-utils/map-utils";
 import {TranslateService} from "@ngx-translate/core";
+import {LocationUpdatesProvider} from "../../providers/location-updates/location-updates";
 
 @IonicPage()
 @Component({
@@ -36,7 +37,9 @@ export class SupplierOrdersPendingPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private geolocation: Geolocation,
+              private locationUpdates: LocationUpdatesProvider,
               private camera: Camera,
+              private modalCtrl: ModalController,
               private mapUtils:MapUtilsProvider,
               private tracker: LocationTracker,
               private platform: Platform,
@@ -305,6 +308,8 @@ export class SupplierOrdersPendingPage {
         }, error => {
           this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
         })
+
+        this.locationUpdates.sendLoctoDb(status);
       }
     } catch (e) {
       this.alertUtils.showLog(e);
@@ -330,29 +335,92 @@ export class SupplierOrdersPendingPage {
   pickImage(order,prePost) {
     this.alertUtils.showLog(order.order_id);
     try {
-      const options: CameraOptions = {
-        quality: IMAGE_QUALITY,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.PNG,
-        mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: IMAGE_WIDTH,
-        targetHeight: IMAGE_HEIGHT,
-      };
-
+      let options: CameraOptions;
+      if (this.platform.is('android')) {
+        options = {
+          quality: IMAGE_QUALITY,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          sourceType: this.camera.PictureSourceType.CAMERA,
+          allowEdit: false,
+          encodingType: this.camera.EncodingType.PNG,
+          saveToPhotoAlbum: false,
+          targetWidth: IMAGE_WIDTH,
+          targetHeight: IMAGE_HEIGHT
+        }
+      } else if (this.platform.is('ios')) {
+        options = {
+          quality: IMAGE_QUALITY,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          sourceType: this.camera.PictureSourceType.CAMERA,
+          allowEdit: false,
+          encodingType: this.camera.EncodingType.PNG,
+          saveToPhotoAlbum: false,
+          targetWidth: IMAGE_WIDTH,
+          targetHeight: IMAGE_HEIGHT,
+        }
+      }
 
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image =  imageData;
-
-        if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,prePost+'_'+order.order_id,order);
-        }
-
+        if(this.calculateImageSize(imageData) < IMAGE_LENGTH ){
+          this.uploadImg(imageData,prePost+'_'+order.order_id,order);
+        }else
+          this.alertUtils.showToast('Your image is too large, we updated job without image');
       }, (err) => {
         // Handle error
         this.alertUtils.showLog(err);
       });
     } catch (e) {
       this.alertUtils.showLog(e);
+    }
+  }
+
+  changeOrderStatus(order, status){
+    try{
+
+      let canIExecute = false;
+      if(status == 'arrived'){
+        //cal for service agent location
+        //validate if his loc < 30 meters
+        canIExecute = true;
+      }else{
+        canIExecute = true;
+      }
+
+      if(canIExecute){
+        let input = {
+          "order": {
+            "orderid": order.order_id,
+            "status": status,
+            "userid": UtilsProvider.USER_ID,
+            "usertype": UserType.SUPPLIER,
+            "loginid": UtilsProvider.USER_ID,
+            "apptype": APP_TYPE
+          }
+        };
+
+        this.alertUtils.showLog(JSON.stringify(input));
+
+        this.showProgress = true;
+        this.apiService.postReq(this.apiService.changeOrderStatus(), JSON.stringify(input)).then(res => {
+          this.alertUtils.showLog(res);
+          this.alertUtils.showLog("POST (SUCCESS)=> CHANGE ORDER STATUS: " + JSON.stringify(res.data));
+
+          this.showProgress = false;
+          if (res.result == this.alertUtils.RESULT_SUCCESS) {
+            this.alertUtils.showToast('Job Completed');
+            this.fetchOrders(false,false,false,null,null);
+            this.editStatusModal(order);
+          } else
+            this.alertUtils.showToast(res.result);
+
+        }, error => {
+          this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
+        })
+
+        this.locationUpdates.sendLoctoDb(status);
+      }
+    }catch (e) {
+
     }
   }
 
@@ -379,6 +447,44 @@ export class SupplierOrdersPendingPage {
     }, error => {
       this.alertUtils.showLog(error);
     })
+  }
+
+  editStatusModal(item) {
+
+    item['delivered_qty'] = item.quantity;
+
+    let model = this.modalCtrl.create('DealerOrderDetailsEditStatusPage', {
+      order:item,
+    },{
+      cssClass: 'dialogcustomstyle',
+    })
+
+    model.onDidDismiss(data => {
+      if (data && data.hasOwnProperty('result')) {
+        if (data.result == this.alertUtils.RESULT_SUCCESS) {
+          this.alertUtils.showToast('Payment received');
+          this.locationUpdates.sendLoctoDb(OrderTypes.DELIVERED);
+          this.fetchOrders(false,false,false,null,null);
+        } else {
+          this.alertUtils.showToast('Some thing went wrong!');
+        }
+      }
+    })
+    model.present();
+  }
+
+  calculateImageSize(base64String){
+    let padding, inBytes, base64StringLength;
+    if(base64String.endsWith("==")) padding = 2;
+    else if (base64String.endsWith("=")) padding = 1;
+    else padding = 0;
+
+    base64StringLength = base64String.length;
+    console.log(base64StringLength)
+    inBytes =(base64StringLength / 4 ) * 3 - padding;
+    console.log(inBytes);
+    let kbytes = inBytes / 1000;
+    return kbytes;
   }
 
 }

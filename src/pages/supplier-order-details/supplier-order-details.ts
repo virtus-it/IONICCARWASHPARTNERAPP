@@ -2,25 +2,31 @@ import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {
   AlertController,
   App,
+  Content,
   IonicPage,
   ModalController,
   NavController,
   NavParams,
-  Content,
   Platform
 } from 'ionic-angular';
 import {
   APP_TYPE,
-  APP_USER_TYPE, IMAGE_HEIGHT, IMAGE_QUALITY, IMAGE_WIDTH, KEY_USER_INFO,
+  APP_USER_TYPE,
+  IMAGE_HEIGHT, IMAGE_LENGTH,
+  IMAGE_QUALITY,
+  IMAGE_WIDTH,
+  KEY_USER_INFO,
   OrderTypes,
-  RES_SUCCESS, UserType,
+  RES_SUCCESS,
+  UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
 import * as moment from 'moment';
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from '@ngx-translate/core';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
+import {Camera, CameraOptions} from '@ionic-native/camera';
+import {PhotoViewer} from '@ionic-native/photo-viewer';
+import {LocationUpdatesProvider} from "../../providers/location-updates/location-updates";
 
 
 @IonicPage()
@@ -34,6 +40,7 @@ export class SupplierOrderDetailsPage {
   @ViewChild(Content) content: Content;
 
   item: any;
+  rate: number = 0;
   showProgress = true;
   editorMsg: string = "";
   productsList: string[];
@@ -44,12 +51,14 @@ export class SupplierOrderDetailsPage {
   private callFrom = "";
   private orderId = "";
   private categoryID = "";
+  statusEnum: typeof  OrderTypes = OrderTypes;
 
   constructor(private modalCtrl: ModalController,
               private ref: ChangeDetectorRef,
               public appCtrl: App,
               public navCtrl: NavController,
               public param: NavParams,
+              private locationUpdates: LocationUpdatesProvider,
               private photoViewer: PhotoViewer,
               public alertUtils: UtilsProvider,
               private translateService: TranslateService,
@@ -69,6 +78,8 @@ export class SupplierOrderDetailsPage {
 
 
     try {
+      this.locationUpdates.startLocationUpdates();
+
       this.platform.ready().then(ready => {
         let lang = "en";
                 if (UtilsProvider.lang) {
@@ -117,6 +128,16 @@ export class SupplierOrderDetailsPage {
     } catch (e) {
       this.alertUtils.showLog(e);
     }
+  }
+
+  updatePaymentType(s){
+    if(s && s.paymenttype){
+      if(s == 'cash' || s == 'cod')
+        return 'cod';
+      else
+        return  s;
+    }
+    return  s;
   }
 
   changeImage(type) {
@@ -192,6 +213,10 @@ export class SupplierOrderDetailsPage {
           this.alertUtils.showLog(res.data[0]);
           this.item = res.data[0];
 
+          this.rate = this.item.customerreview;
+
+          if(!this.rate)
+            this.rate = 0;
 
           if (this.item.status == "assigned" || this.item.status == "delivered") {
             if (this.item.supplierdetails) {
@@ -366,23 +391,36 @@ export class SupplierOrderDetailsPage {
 
   pickImage(prePost) {
     try {
-      const options: CameraOptions = {
-        quality: IMAGE_QUALITY,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.PNG,
-        mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: IMAGE_WIDTH,
-        targetHeight: IMAGE_HEIGHT,
-      };
-
+      let options: CameraOptions;
+      if (this.platform.is('android')) {
+        options = {
+          quality: IMAGE_QUALITY,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          sourceType: this.camera.PictureSourceType.CAMERA,
+          allowEdit: false,
+          encodingType: this.camera.EncodingType.PNG,
+          saveToPhotoAlbum: false,
+          targetWidth: IMAGE_WIDTH,
+          targetHeight: IMAGE_HEIGHT
+        }
+      } else if (this.platform.is('ios')) {
+        options = {
+          quality: IMAGE_QUALITY,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          sourceType: this.camera.PictureSourceType.CAMERA,
+          allowEdit: false,
+          encodingType: this.camera.EncodingType.PNG,
+          saveToPhotoAlbum: false,
+          targetWidth: IMAGE_WIDTH,
+          targetHeight: IMAGE_HEIGHT,
+        }
+      }
 
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image =  imageData;
-
-        if(base64Image && base64Image.length>0){
-          this.uploadImg(base64Image,prePost+'_'+this.item.order_id);
-        }
-
+        if(this.calculateImageSize(imageData) < IMAGE_LENGTH ){
+          this.uploadImg(imageData,prePost+'_'+this.item.order_id);
+        }else
+          this.alertUtils.showToast('Your image is too large, we updated job without image');
       }, (err) => {
         // Handle error
         this.alertUtils.showLog(err);
@@ -393,26 +431,31 @@ export class SupplierOrderDetailsPage {
   }
 
   uploadImg(s,fileName){
-    let input = {
-      "image": {
-        "filename": fileName,
-        "base64string": s,
-      }
-    };
+    try {
+      let input = {
+        "image": {
+          "filename": fileName,
+          "base64string": s,
+        }
+      };
 
-    this.showProgress = true;
-    this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
-      this.showProgress = false;
-      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
+      this.showProgress = true;
+      this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
+        this.showProgress = false;
+        this.alertUtils.showLog(res);
+        this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
 
-      if (res.result == this.alertUtils.RESULT_SUCCESS) {
+        if (res.result == this.alertUtils.RESULT_SUCCESS) {
+          this.alertUtils.showToast("Image uploaded successfully");
+          //this.updateOrderStatus(order,'jobstarted');
+        } else
+          this.alertUtils.showToast(res.result);
 
-      } else
-        this.alertUtils.showToast(res.result);
-
-    }, error => {
-      this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
-    })
+      }, error => {
+        this.alertUtils.showLog(error);
+      })
+    } catch (e) {
+    }
   }
 
   changeOrderStatus(status){
@@ -457,6 +500,8 @@ export class SupplierOrderDetailsPage {
           this.alertUtils.showLog("POST (ERROR)=> CHANGE ORDER STATUS: " + error);
         })
       }
+
+      this.locationUpdates.sendLoctoDb(status);
     }catch (e) {
 
     }
@@ -473,6 +518,7 @@ export class SupplierOrderDetailsPage {
       if (data && data.hasOwnProperty('result')) {
         if (data.result == this.alertUtils.RESULT_SUCCESS) {
           this.alertUtils.showToast('Payment received');
+          this.locationUpdates.sendLoctoDb(OrderTypes.DELIVERED);
           this.fetchOrderDetails();
         } else {
           this.alertUtils.showToast('Some thing went wrong!');
@@ -526,4 +572,17 @@ export class SupplierOrderDetailsPage {
     });
   }
 
+  calculateImageSize(base64String){
+    let padding, inBytes, base64StringLength;
+    if(base64String.endsWith("==")) padding = 2;
+    else if (base64String.endsWith("=")) padding = 1;
+    else padding = 0;
+
+    base64StringLength = base64String.length;
+    console.log(base64StringLength)
+    inBytes =(base64StringLength / 4 ) * 3 - padding;
+    console.log(inBytes);
+    let kbytes = inBytes / 1000;
+    return kbytes;
+  }
 }

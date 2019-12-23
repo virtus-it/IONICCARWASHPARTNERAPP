@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar >
+  <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -11,65 +11,65 @@
 </ion-header>
 <ion-content padding>
   <div class="fixscrollcontainer">
-  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
-               name="crescent"></ion-spinner>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content>
-    </ion-refresher-content>
-  </ion-refresher>
+    <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
+                 name="crescent"></ion-spinner>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>
 
-  <h5 *ngIf="noRecords" >Payments not found</h5>
+    <h5 *ngIf="noRecords">Payments not found</h5>
 
 
-  <ion-list *ngIf="!noRecords">
-    <div *ngFor="let payment of response">
+    <ion-list *ngIf="!noRecords">
+      <div *ngFor="let payment of response">
 
-      <ion-card class="colomn_main ">
+        <ion-card class="colomn_main ">
 
-        <ion-card-header class="jobid_header">
-          {{ 'PAYMENTS_PAGE.LABELS.lb_status' | translate }}: {{payment.statustext}}
-        </ion-card-header>
+          <ion-card-header class="jobid_header">
+            {{ 'PAYMENTS_PAGE.LABELS.lb_status' | translate }}: {{payment.statustext}}
+          </ion-card-header>
 
-        <ion-row>
-          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_transaction_id' | translate }}</ion-col>
-          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_received_date' | translate }}</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>#{{payment.paymentid}}</ion-col>
-          <ion-col>{{payment.amount_receiveddate | utcDate}}</ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col style="text-align: left"><span
+              class="labelgrey">{{ 'PAYMENTS_PAGE.LABELS.lb_transaction_id' | translate }}</span><br/>#{{payment?.orderid}}
+            </ion-col>
+            <ion-col style="text-align: center"><span
+              class="labelgrey">{{ 'PAYMENTS_REPORTS_PAGE.LABELS.lb_amount' | translate }}</span><br/>{{payment?.amount_received}}
+            </ion-col>
+            <ion-col style="text-align: right"><span
+              class="labelgrey">{{ 'PAYMENTS_PAGE.LABELS.lb_payment_type' | translate }}</span>
+              <br/>{{updatePaymentType(payment?.payment_type) | uppercase}}</ion-col>
+          </ion-row>
 
-        <ion-row>
-          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_payed_by' | translate }}</ion-col>
-          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_received_by' | translate }}</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>{{validate(payment.customer.firstname) +' '+validate(payment.customer.lastname)}}</ion-col>
-          <ion-col>{{validate(payment.supplier.firstname) +' '+validate(payment.supplier.lastname)}}</ion-col>
-        </ion-row>
+          <ion-row style=" margin-top: 3px;;">
+            <ion-col class="labelgrey"
+                     style="text-align: center;">{{ 'PAYMENTS_PAGE.LABELS.lb_payed_by' | translate }}</ion-col>
+            <ion-col class="labelgrey">  {{ 'PAYMENTS_PAGE.LABELS.lb_received_date' | translate }}</ion-col>
+            <ion-col class="labelgrey">{{ 'PAYMENTS_PAGE.LABELS.lb_received_by' | translate }}</ion-col>
 
-        <ion-row>
-          <ion-col>{{ 'PAYMENTS_PAGE.LABELS.lb_payment_type' | translate }}</ion-col>
-          <ion-col>{{payment.payment_type}}</ion-col>
-        </ion-row>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ul class="timelinetop">
+                <li style="color:red;">
+                  <span></span>{{validate(payment.customer.firstname) + ' ' + validate(payment.customer.lastname)}}</li>
+                <li><span></span>{{payment.amount_receiveddate | utcDate}}</li>
+                <li style="color:green;">
+                  <span></span>{{validate(payment.supplier.firstname) + ' ' + validate(payment.supplier.lastname)}}</li>
+              </ul>
+            </ion-col>
 
-        <ion-row *ngIf="payment.status == 'received' && userType=='dealer'">
-          <ion-col (click)="changeStatus('reject',payment)">
-            <button ion-button full>{{ 'PAYMENTS_PAGE.BUTTONS.btn_reject' | translate }}</button>
-          </ion-col>
-          <ion-col (click)="changeStatus('confirm',payment)">
-            <button ion-button full>{{ 'PAYMENTS_PAGE.BUTTONS.btn_confirm' | translate }}</button>
-          </ion-col>
+          </ion-row>
 
-        </ion-row>
 
-      </ion-card>
-    </div>
-  </ion-list>
+        </ion-card>
+      </div>
+    </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
 </ion-content>
 

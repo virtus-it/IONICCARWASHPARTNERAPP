@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <span class="title-style">{{ 'GODS_VIEW_PAGE.PAGE_TITLE' | translate }}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div class="fixscrollcontainer">
+
+    <!--Search Functionality-->
+    <ion-card class="customer_mgmnttop">
+
+      <ion-row class="tp_searachbox">
+        <ion-col col-4="true">
+          <ion-select [(ngModel)]="searchtype" name="searchtype" class="droplist" (ionChange)="fetch()">
+            <ion-option true value="all">All</ion-option>
+            <ion-option value="enroute">En Route</ion-option>
+            <ion-option value="started">Started</ion-option>
+            <ion-option value="active">Active</ion-option>
+            <ion-option value="inactive">In active</ion-option>
+            <ion-option value="arrived">Reached</ion-option>
+            <ion-option value="name">Name</ion-option>
+          </ion-select>
+        </ion-col>
+        <ion-col col-6="true" >
+          <ion-item class="no_bg no_shadow input_container " *ngIf="searchtype == 'name'">
+
+            <ion-input [(ngModel)]="searchtext" class="" placeholder="type here..." maxlength="50" name="locality" required type="text">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-2 class="top_srch_icon">
+          <ion-icon (click)="fetch();" name="search"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </div>
+
+  <div id="map_canvas" style="height: 100%">
+  </div>
+</ion-content>

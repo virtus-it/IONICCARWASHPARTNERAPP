@@ -14,6 +14,7 @@ import {NetworkProvider} from "../../providers/network/network";
 import {TranslateService} from "@ngx-translate/core";
 import 'rxjs/add/observable/interval';
 import {Observable, Subscription} from "rxjs";
+import {LocationUpdatesProvider} from "../../providers/location-updates/location-updates";
 
 
 
@@ -41,6 +42,7 @@ export class LoginPage {
   languages = [{ name: "English", code: "en" }, { name: "Arabic", code: "ar" }];
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private networkProvider: NetworkProvider,
+              private locationUpdates : LocationUpdatesProvider,
               private menuCtrl: MenuController,
               private alertUtils: UtilsProvider,
               private apiUrl: ApiProvider,
@@ -56,8 +58,9 @@ export class LoginPage {
 
      translateService.setDefaultLang('en');
      translateService.use('en');
-   
+
     try {
+      this.locationUpdates.startLocationUpdates();
       this.platform.ready().then(ready => {
         this.alertUtils.getLang().then(lang => {
           if (lang) {
@@ -68,6 +71,7 @@ export class LoginPage {
         }, err => {
           this.alertUtils.showLog(err);
         })
+
         this.alertUtils.getSecValue('secure_storage_user_info').then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -195,6 +199,7 @@ export class LoginPage {
       else
         this.navCtrl.setRoot('DealerSuppliersPage', {from: 'loginPage'});
     } else if (uType == UserType.SUPPLIER) {
+      this.locationUpdates.sendLoctoDb('login');
       this.navCtrl.setRoot('SupplierOrdersHomePage');
     }else if (uType == UserType.Job_Assigner) {
       this.navCtrl.setRoot('DealerOrdersHomePage',{uType:uType});

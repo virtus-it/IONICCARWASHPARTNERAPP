@@ -1,12 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
-import {AlertController, Nav, NavController, Platform} from 'ionic-angular';
+import {AlertController, Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from "@ngx-translate/core";
 import {UtilsProvider} from "../providers/utils/utils";
 import {Push, PushObject, PushOptions} from "@ionic-native/push";
 import {MediaPlayerProvider} from "../providers/media-player/media-player";
-
+import {LocationUpdatesProvider} from "../providers/location-updates/location-updates";
 
 
 @Component({
@@ -17,7 +17,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any = 'LoginPage';
   showProgress: boolean = true;
-  pagesDealer: Array<{ title: string, component: any, icon: string }>;
+  pagesDealer: Array<{ title: string, component: any, icon: string,
+    subMenu : Array<{ title: string,  component: any}>}>;
   pagesSupplier: Array<{ title: string, component: any, icon: string }>;
   pagesVendor: Array<{ title: string, component: any, icon: string }>;
   pagesJobAssigner: Array<{ title: string, component: any, icon: string }>;
@@ -31,6 +32,7 @@ export class MyApp {
               private mediaPlayer:MediaPlayerProvider,
               public alertUtils: UtilsProvider,
               private translateService: TranslateService,
+              private locationUpdates: LocationUpdatesProvider,
               public splashScreen: SplashScreen) {
 
     translateService.setDefaultLang('en');
@@ -38,26 +40,35 @@ export class MyApp {
 
     this.initializeApp();
 
+    this.locationUpdates.startLocationUpdates();
+
     // used for an example of ngFor and navigation
 
     this.pagesDealer = [
-      {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
-      {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
-      {title: 'CUSTOMERS',      component: 'DealerCustomersPage',   icon: "assets/imgs/img_user.png"},
-      //{title: 'SERVICES',       component: 'DealerProductsPage',    icon: "assets/imgs/img_repairing_service.png"},
-      // {title: 'PACKAGE',        component: 'DealerPackagePage', icon: "assets/imgs/img_package.png"},
-      {title: 'CATEGORY',       component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png"},
-      {title: 'MODELS',        component: 'DealerCarModelsPage', icon: "assets/imgs/img_car.png"},
-      {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
-      {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
-      {title: 'USERS',          component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png"},
-      {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png"},
-      {title: 'SMS REPORTS',    component: 'SmsReportsPage', icon: "assets/imgs/img_rating.png"},
-      {title: 'FEEDBACK',       component: 'FeedbackPage', icon: "assets/imgs/img_rating.png"},
-      {title: 'SERVICE AREAS',  component: 'ServiceAreasPage', icon: "assets/imgs/img_rating.png"},
-      {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
-      {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
-      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
+      {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png", subMenu: null},
+      {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png", subMenu: null},
+      {title: 'CUSTOMERS',      component: 'DealerCustomersPage',   icon: "assets/imgs/img_user.png", subMenu: null},
+      {title: 'CATEGORY',       component: 'DealerCategoryHomePage', icon: "assets/imgs/img_categories.png", subMenu: null},
+      {title: 'MODELS',        component: 'DealerCarModelsPage', icon: "assets/imgs/img_car.png", subMenu: null},
+      {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png", subMenu: null},
+      {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png", subMenu: null},
+      {title: 'USERS',          component: 'DealerUsersCustomercarePage', icon: "assets/imgs/img_customer_care.png", subMenu: null},
+      {title: 'PAYMENTS',       component: 'DealerPaymentsHomePage', icon: "assets/imgs/img_payments.png", subMenu: null},
+      {title: 'SMS REPORTS',    component: 'SmsReportsPage', icon: "assets/imgs/img_rating.png", subMenu: null},
+      {title: 'FEEDBACK',       component: 'FeedbackPage', icon: "assets/imgs/img_rating.png", subMenu: null},
+      {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png", subMenu: null},
+      {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png", subMenu: null},
+      {title: 'WALLET MANAGEMENT',     component: 'WalletManagementPage',   icon: "assets/imgs/img_dashboard.png", subMenu: null},
+      {title: 'WALLET SETTLEMENTS',     component: 'WalletSettlementsPage',   icon: "assets/imgs/img_dashboard.png", subMenu: null},
+      {title: 'GODS VIEW',     component: 'GodsViewPage',   icon: "assets/imgs/img_dashboard.png", subMenu: null},
+      {title: 'NOTIFICATIONS',  component: 'NotificationsListPage',   icon: "assets/imgs/img_dashboard.png", subMenu: null},
+      {title: 'REPORTS',        component: '', icon: "assets/imgs/img_rating.png",
+        subMenu:
+          [{title:'JOBS',                     component: 'JobsPage'},
+          {title:'CANCELLED',  component: 'JobsCancelledPage'},
+          {title:'PAYMENTS',                  component: 'PaymentsPage'}]},
+      {title: 'SERVICE AREAS',  component: 'ServiceAreasPage', icon: "assets/imgs/img_rating.png", subMenu: null},
+      {title: 'LOGOUT',         component: '', icon: "assets/imgs/img_logout.png", subMenu: null}
     ];
 
     this.pagesSupplier = [
@@ -66,23 +77,28 @@ export class MyApp {
       {title: 'VENDORS',        component: 'DealerDistributorsPage', icon: "assets/imgs/img_vendor.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
-      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
+      {title: 'WALLET MANAGEMENT',     component: 'WalletManagementPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'WALLET SETTLEMENTS',     component: 'WalletSettlementsPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'LOGOUT',         component: '', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesVendor = [
+      {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
       {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
+      {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
-      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
+      {title: 'WALLET MANAGEMENT',     component: 'WalletManagementPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'WALLET SETTLEMENTS',     component: 'WalletSettlementsPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'LOGOUT',         component: '', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesJobAssigner = [
-      {title: 'DASH BOARD',     component: 'DealerDashBoardPage',   icon: "assets/imgs/img_dashboard.png"},
       {title: 'JOBS',           component: 'DealerOrdersHomePage',  icon: "assets/imgs/img_job.png"},
       {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
-      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
+      {title: 'LOGOUT',         component: '', icon: "assets/imgs/img_logout.png"}
     ];
 
     this.pagesBilling = [
@@ -93,7 +109,9 @@ export class MyApp {
       {title: 'SERVICE AGENTS', component: 'DealerSuppliersPage', icon: "assets/imgs/img_engineer.png"},
       {title: 'PROFILE',        component: 'DealerProfilePage', icon: "assets/imgs/img_user.png"},
       {title: 'ABOUT US',       component: 'AboutUsPage', icon: "assets/imgs/img_about.png"},
-      {title: 'LOGOUT',         component: 'LogoutPage', icon: "assets/imgs/img_logout.png"}
+      {title: 'WALLET MANAGEMENT',     component: 'WalletManagementPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'WALLET SETTLEMENTS',     component: 'WalletSettlementsPage',   icon: "assets/imgs/img_dashboard.png"},
+      {title: 'LOGOUT',         component: '', icon: "assets/imgs/img_logout.png"}
     ];
 
   }
@@ -111,7 +129,25 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.alertUtils.showLog('menu', page);
+
+    if(page.component){
+      this.nav.setRoot(page.component);
+    }else{
+      if(!page.subMenu)
+        this.showPromptForLogout();
+    }
+  }
+
+  openSubPage(page) {
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+
+    this.alertUtils.showLog('submenu', page);
+
+    if(page.component){
+      this.nav.setRoot(page.component);
+    }
   }
 
   initPushNotification() {
@@ -192,30 +228,35 @@ export class MyApp {
   }
 
   showPromptForLogout() {
-    let prompt = this.alertCtrl.create({
-      title: 'LOGOUT',
-      message: 'Are you sure. You want to logout?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
+    try {
+      let prompt = this.alertCtrl.create({
+        title: 'LOGOUT',
+        message: 'Are you sure. You want to logout?',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+            }
+          },
+          {
+            text: 'Sure',
+            handler: data => {
+              this.logout();
+            }
           }
-        },
-        {
-          text: 'Sure',
-          handler: data => {
-            this.logout();
-          }
-        }
-      ]
-    });
-    prompt.present();
+        ]
+      });
+      prompt.present();
+    } catch (e) {
+    }
   }
 
   logout(){
-    UtilsProvider.setUSER_INFO('');
-    this.alertUtils.initUser('');
+
     try {
+      this.locationUpdates.sendLoctoDb('logout', UtilsProvider.USER_ID);
+      UtilsProvider.setUSER_INFO('');
+      this.alertUtils.initUser('');
       this.alertUtils.setUserInfo('').then((success) => {
         this.alertUtils.showLog('User Info Updated : '+success);
       }, error => {
@@ -224,6 +265,6 @@ export class MyApp {
     }catch (e) {
       this.alertUtils.showLog(e);
     }
-    //this.navCtrl.setRoot('LoginPage')
+    this.nav.setRoot('LoginPage');
   }
 }

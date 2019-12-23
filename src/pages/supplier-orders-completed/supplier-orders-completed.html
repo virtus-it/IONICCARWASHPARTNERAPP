@@ -72,6 +72,14 @@
           </ion-col>
         </ion-row>
 
+        <ion-row>
+          <ion-col *ngIf="order?.customerreview >= 1" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+          <ion-col *ngIf="order?.customerreview >= 2" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+          <ion-col *ngIf="order?.customerreview >= 3" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+          <ion-col *ngIf="order?.customerreview >= 4" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+          <ion-col *ngIf="order?.customerreview >= 5" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+        </ion-row>
+
       </ion-card>
     </div>
   </ion-list>

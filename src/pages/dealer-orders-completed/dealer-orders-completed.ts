@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -11,6 +11,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class DealerOrdersCompletedPage {
 
+  isSuperUser: boolean = false;
   showProgress = true;
   searchInput = {
     "userid": UtilsProvider.USER_ID,
@@ -43,12 +44,13 @@ export class DealerOrdersCompletedPage {
                 }
                 UtilsProvider.sLog(lang);
                 translateService.use(lang);
-                
+
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
+            this.isSuperUser = UtilsProvider.ISSUPER_DEALER;
 
 
             //initial call
@@ -58,6 +60,7 @@ export class DealerOrdersCompletedPage {
           let value = UtilsProvider.USER_INFO
           if (value && value.hasOwnProperty('USERTYPE')) {
             UtilsProvider.setUSER_INFO(value);
+            this.isSuperUser = UtilsProvider.ISSUPER_DEALER;
             this.alertUtils.initUser(value);
 
 
@@ -68,6 +71,14 @@ export class DealerOrdersCompletedPage {
       });
     } catch (e) {
       this.alertUtils.showLog(e);
+    }
+  }
+
+  selected(){
+    if(this.searchInput.searchtype == 'name' ||
+      this.searchInput.searchtype == 'mobile' ||
+      this.searchInput.searchtype == 'orderid'){
+      this.searchInput.searchtext = '';
     }
   }
 
@@ -245,11 +256,22 @@ export class DealerOrdersCompletedPage {
   }
 
   viewDetails(event, orderID, categoryID) {
+
     if (orderID) {
-      this.appCtrl.getRootNav().push('DealerOrderDetailsPage', {
-        orderid: orderID,
-        categoryid: categoryID,
-      });
+      if(UtilsProvider.USER_TYPE == UserType.Billing_Administrator ||
+        (UtilsProvider.USER_TYPE == UserType.DEALER &&
+          !UtilsProvider.ISSUPER_DEALER)){
+
+        this.appCtrl.getRootNav().push('JobDetailsNoactionsPage', {
+          orderid: orderID,
+          categoryid: categoryID,
+        });
+      }else{
+        this.appCtrl.getRootNav().push('JobDetailsPage', {
+          orderid: orderID,
+          categoryid: categoryID,
+        });
+      }
     }
   }
 

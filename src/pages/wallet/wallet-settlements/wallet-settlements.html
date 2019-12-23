@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <img class="header_icon" src="assets/imgs/img_user.png">
+      <span class="title-style">{{ 'WALLET_HISTORY_PAGE.PAGE_TITLE' | translate }}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+
+    <ion-item class="no_bg no_shadow input_container " *ngIf="userType != userTypes.SUPPLIER">
+      <ion-label>{{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_sleect_agent' | translate }}</ion-label>
+      <ion-select name="selectedAgent" [(ngModel)]="selectedAgentName" interface="popover">
+        <ion-option value = "{{ validate(agent.firstname) +' '+validate(agent.lastname) }}"
+                    *ngFor="let agent of agents" (ionSelect)="updateAgent(agent);">
+          {{ validate(agent.firstname) +' '+validate(agent.lastname) }}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <div [hidden]="(userType == userTypes.DEALER && !isSuperDealer)">
+      <div *ngIf="selectedAgentObj">
+        <br>
+        <ion-row>
+          <ion-col (click)="showAlert(1)" class="edit_bg" *ngIf="userType != userTypes.SUPPLIER">
+          <span class="header_icon">
+          {{ 'WALLET_MANAGEMENT_PAGE.BUTTONS.btn_topup' | translate }}
+        </span>
+          </ion-col>
+          <ion-col (click)="showReconcileAlert();" class="delet_bg" *ngIf="userType != userTypes.SUPPLIER"><span class="header_icon"
+          ></span>{{ 'WALLET_MANAGEMENT_PAGE.BUTTONS.btn_reconcile' | translate }}
+          </ion-col>
+
+        </ion-row>
+        <br>
+      </div>
+    </div>
+
+    <div *ngFor="let item of listOf">
+      <ion-card class="customer_mgmnt w_history">
+
+        <ion-row>
+          <ion-col style="text-align: center" *ngIf="item.type != 'topup'"><span class="icon_dec">-</span></ion-col>
+          <ion-col style="text-align: center" *ngIf="item.type == 'topup'"><span class="icon_plus">+</span></ion-col>
+          <ion-col style="text-align: right" *ngIf="item.createddate"><span class="w_date">{{item?.createddate | utcDate}}</span></ion-col>
+        </ion-row>
+
+
+        <ion-row>
+          <ion-col style="text-align: left">{{ 'WALLET_HISTORY_PAGE.LABELS.lb_updatedby' | translate }}</ion-col>
+          <ion-col style="text-align: right">{{ 'WALLET_HISTORY_PAGE.LABELS.lb_type' | translate }}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col style="text-align: left">{{validate(item?.modifiedby?.firstname) +' '+validate(item?.modifiedby?.lastname)}}</ion-col>
+          <ion-col style="text-align: right">{{validate(item?.type) | uppercase}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col style="text-align: center" *ngIf="item.type != 'topup' && item?.accnumber">
+            {{'Account Number : '+item?.accnumber}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col style=" color: #c83333; font-size: 22px;" *ngIf="item.type != 'topup'">- {{item?.amount | number:'1.2-2'}}</ion-col>
+          <ion-col style="color: #0d8821; font-size: 22px;" *ngIf="item.type == 'topup'">+ {{item?.amount | number:'1.2-2'}}</ion-col>
+          <ion-col style="text-align: right;color: #38b7fe; font-size: 22px;">{{item?.presentwalletamount | number:'1.2-2'}}</ion-col>
+        </ion-row>
+
+      </ion-card>
+    </div>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))" *ngIf="isPagingEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="!isPagingEnabled" class="no_more_data">
+    <ion-icon ios="ios-alert" md="md-alert" col12>
+    </ion-icon>
+    {{ 'WALLET_HISTORY_PAGE.LABELS.lb_nomoredata' | translate }}
+  </div>
+</ion-content>

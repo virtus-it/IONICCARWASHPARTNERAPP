@@ -19,7 +19,7 @@ export class DealerOrderDetailsEditStatusPage {
     delivered_qty: '', product_type: 'cans'
   };
   output = {"result": "", "actionType": "", "data": ""};
-  order: any;
+  order: any = {};
 
 
   constructor(public navCtrl: NavController,
@@ -35,7 +35,18 @@ export class DealerOrderDetailsEditStatusPage {
       this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
       this.order = navParams.get('order');
+      this.alertUtils.showLog('DealerOrderDetailsEditStatusPage');
+      this.alertUtils.showLog(this.order);
+
       if (this.order) {
+
+        if(this.order.paymenttype == 'card payment'){
+
+        }else if(this.order.paymenttype == 'cash' ||
+          this.order.paymentype == 'cod'){
+          this.order['paymentype'] = 'cod';
+        }
+
         if (this.order.order_id)
           this.input.orderid = this.order.order_id;
         if (this.order.orderamt)
@@ -49,9 +60,11 @@ export class DealerOrderDetailsEditStatusPage {
         else
           this.input.return_cans = '0';
 
+
         this.input.empty_cans = '0';
         if (this.order.delivered_quantity)
-          this.input.delivered_qty = this.order.delivered_quantity;
+          this.input.delivered_qty = this.order.delivered_quantity ? this.order.delivered_quantity : this.order.quantity ;
+        this.alertUtils.showLog('updated order obj');
         this.alertUtils.showLog(this.order);
       }
     } catch (e) {
@@ -87,19 +100,29 @@ export class DealerOrderDetailsEditStatusPage {
     this.viewCtrl.dismiss();
   }
 
-  submitOrder(event) {
+  submitOrder() {
     try {
+      this.alertUtils.showLog(this.order.paymenttype);
+
+      let quantity = '0';
+      if(this.input.delivered_qty && this.input.delivered_qty !=''){
+        quantity = this.input.delivered_qty;
+      }else
+        quantity = this.order.quantity;
+
+      this.alertUtils.showLog(quantity);
+
       let input = {
         "order": {
           "orderid": this.input.orderid,
           "orderstatus": this.input.orderStatus,
-          "paymentype": this.input.paymentype,
+          "paymentype": this.order.paymenttype,
           "paymentstatus": this.input.paymentstatus,
           "received_amt": this.input.received_amt,
           "adv_amt": this.input.adv_amt,
           "return_cans": this.input.return_cans,
           "empty_cans": this.input.empty_cans,
-          "delivered_qty": this.input.delivered_qty,
+          "delivered_qty": quantity,
           "product_type": this.input.product_type,
           "userid": UtilsProvider.USER_ID,
           "usertype": UtilsProvider.USER_TYPE,
@@ -115,23 +138,23 @@ export class DealerOrderDetailsEditStatusPage {
 
       this.alertUtils.showLog(data);
 
-      this.alertUtils.showLoading();
-      this.apiService.postReq(this.apiService.orderDelivered(), data).then(res => {
-        this.alertUtils.hideLoading();
-        this.alertUtils.showLog('Order : Delivered');
-        this.alertUtils.showLog(JSON.stringify(res));
+       this.alertUtils.showLoading();
+       this.apiService.postReq(this.apiService.orderDelivered(), data).then(res => {
+         this.alertUtils.hideLoading();
+         this.alertUtils.showLog('Order : Delivered');
+         this.alertUtils.showLog(JSON.stringify(res));
 
-        this.output.result = res.result;
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.viewCtrl.dismiss(this.output);
-          this.alertUtils.stopSubscription();
-          this.tracket.disconnectSocket();
-          this.tracket.stopTracking();
-        } else
-          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
-      }, error => {
+         this.output.result = res.result;
+         if (res.result == this.alertUtils.RESULT_SUCCESS) {
+           this.viewCtrl.dismiss(this.output);
+           this.alertUtils.stopSubscription();
+           this.tracket.disconnectSocket();
+           this.tracket.stopTracking();
+         } else
+           this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+       }, error => {
 
-      })
+       })
     } catch (e) {
       this.alertUtils.showLog(e);
     }

@@ -7,11 +7,12 @@
 
   <ion-content>
     <ion-list>
-      <button class="menu_left_icon"  style="padding: 5px" menuClose ion-item *ngFor="let p of pagesDealer" (click)="openPage(p)">
-        <!--<ion-icon [name]="p.icon"></ion-icon>-->
-        <img [src]="p.icon"  style="width: 10%" [alt]="p.icon">
-        {{p.title}}
-      </button>
+      <ion-item *ngFor="let p of pagesDealer;" menuClose (click)="openPage(p)">
+        <img [src]="p.icon"  style="width: 10%" [alt]="p.icon"> <span>{{p.title}}</span>
+      <ion-item-group submenu [class.visible]="p.subMenu">
+        <ion-item *ngFor="let p1 of p.subMenu" (click)="openSubPage(p1)" style="padding-left: 30px;padding-top: 10px">{{p1.title}}</ion-item>
+      </ion-item-group>
+      </ion-item>
     </ion-list>
   </ion-content>
 
@@ -29,7 +30,7 @@
       <button class="menu_left_icon" style="padding: 5px" menuClose ion-item *ngFor="let p of pagesSupplier" (click)="openPage(p)">
         <!--<ion-icon [name]="p.icon"></ion-icon>-->
         <img [src]="p.icon"  style="width: 10%" [alt]="p.icon">
-        {{p.title}}
+        <span>{{p.title}}</span>
       </button>
     </ion-list>
   </ion-content>
@@ -48,7 +49,7 @@
       <button class="menu_left_icon" style="padding: 5px" menuClose ion-item *ngFor="let p of pagesVendor" (click)="openPage(p)">
         <!--<ion-icon [name]="p.icon"></ion-icon>-->
         <img [src]="p.icon"  style="width: 10%" [alt]="p.icon">
-        {{p.title}}
+        <span>{{p.title}}</span>
       </button>
     </ion-list>
   </ion-content>
@@ -67,7 +68,7 @@
       <button class="menu_left_icon" style="padding: 5px" menuClose ion-item *ngFor="let p of pagesJobAssigner" (click)="openPage(p)">
         <!--<ion-icon [name]="p.icon"></ion-icon>-->
         <img [src]="p.icon"  style="width: 10%" [alt]="p.icon">
-        {{p.title}}
+        <span>{{p.title}}</span>
       </button>
     </ion-list>
   </ion-content>
@@ -86,7 +87,7 @@
       <button class="menu_left_icon" style="padding: 5px" menuClose ion-item *ngFor="let p of pagesBilling" (click)="openPage(p)">
         <!--<ion-icon [name]="p.icon"></ion-icon>-->
         <img [src]="p.icon"  style="width: 10%" [alt]="p.icon">
-        {{p.title}}
+        <span>{{p.title}}</span>
       </button>
     </ion-list>
   </ion-content>

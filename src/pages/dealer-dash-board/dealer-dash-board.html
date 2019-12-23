@@ -14,13 +14,13 @@
 
 
   <!--users-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-left>
     <ion-row (click)="openUsers();">
       <ion-col col-4 >
         <ion-icon name="md-contacts" class="left-icon usrmnicon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.USER?.user}}</h2>
+        <h2>{{validate(response?.USER?.user)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_users' | translate }}</h5>
       </ion-col>
     </ion-row>
@@ -28,39 +28,39 @@
   </ion-card>
 
   <!--car washers-->
-  <ion-card style="text-align: center" class="dashboard_card " float-right>
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card " float-right>
     <ion-row (click)="openCarWashers();">
       <ion-col col-4 >
         <ion-icon name="md-body" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.CARWASHER?.serviceengineers}}</h2>
+        <h2>{{validate(response?.CARWASHER?.serviceengineers)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_car_washers' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
 
   <!--vendors/companies-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-left>
     <ion-row (click)="openCompanies();">
       <ion-col col-4 >
         <ion-icon name="md-paper" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.COMPANIES?.company}}</h2>
+        <h2>{{validate(response?.COMPANIES?.company)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_vendors' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
 
   <!--total earnings-->
-  <ion-card style="text-align: center" class="dashboard_card" float-right>
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-right>
     <ion-row>
       <ion-col col-4>
         <ion-icon name="md-cash" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.TOTALEARNINGS?.totalamount}}</h2>
+        <h2>{{validate(response?.TOTALEARNINGS?.totalamount)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_total_earnings' | translate }}</h5>
       </ion-col>
     </ion-row>
@@ -70,39 +70,39 @@
   <br><br>
 
   <!--total bookings-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
-    <ion-row (click)="openBookings();">
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-left>
+    <ion-row (click)="openAllBookings();">
       <ion-col col-4 >
         <ion-icon name="md-stats" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.TOTALBOOKING?.totalbookings}}</h2>
+        <h2>{{validate(response?.TOTALBOOKING?.totalbookings)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_total_bookings' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
 
   <!--total on going jobs-->
-  <ion-card style="text-align: center" class="dashboard_card" float-right>
-    <ion-row (click)="openBookings();">
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-right>
+    <ion-row (click)="openAllBookings();">
       <ion-col col-4 >
         <ion-icon name="md-download" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.ONGOINGJOBS?.ongoingjobs}}</h2>
+        <h2>{{validate(response?.ONGOINGJOBS?.ongoingjobs)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_on_going_jobs' | translate }}</h5>
       </ion-col>
     </ion-row>
   </ion-card>
 
   <!--total cancel jobs-->
-  <ion-card style="text-align: center" class="dashboard_card" float-left>
-    <ion-row (click)="openBookings();">
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-left>
+    <ion-row (click)="openCancelledBookings();">
       <ion-col col-4 >
         <ion-icon name="md-close" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.CANCEL?.canceljobs}}</h2>
+        <h2>{{validate(response?.CANCEL?.canceljobs)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_cancelled_jobs' | translate }}</h5>
       </ion-col>
     </ion-row>
@@ -110,13 +110,13 @@
 
 
   <!--total completed jobs-->
-  <ion-card style="text-align: center" class="dashboard_card" float-right>
-    <ion-row (click)="openBookings();">
+  <ion-card col-6="true" style="text-align: center" class="dashboard_card" float-right>
+    <ion-row (click)="openAllBookings();">
       <ion-col col-4 >
         <ion-icon name="md-checkmark" class="left-icon"></ion-icon>
       </ion-col>
       <ion-col >
-        <h2>{{response?.completed?.completedjobs}}</h2>
+        <h2>{{validate(response?.completed?.completedjobs)}}</h2>
         <h5>{{ 'DASHBOARD_PAGE.LABELS.lb_completed_jobs' | translate }}</h5>
       </ion-col>
     </ion-row>

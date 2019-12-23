@@ -1,6 +1,14 @@
 import {Component} from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, RES_SUCCESS, UtilsProvider} from "../../providers/utils/utils";
+import {
+  APP_TYPE,
+  FRAMEWORK,
+  KEY_USER_INFO,
+  OrderTypes,
+  RES_SUCCESS,
+  UserType,
+  UtilsProvider
+} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -15,6 +23,7 @@ export class DealerPaymentsHomePage {
   private response: any;
   private noRecords = false;
   private userType= UtilsProvider.USER_TYPE;
+  userTypes: typeof UserType = UserType;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private alertUtils: UtilsProvider,
@@ -95,6 +104,18 @@ export class DealerPaymentsHomePage {
       this.alertUtils.showLog(e);
     }
 
+  }
+
+  updatePaymentType(s){
+    if(s){
+      if(s == 'cash' || s == 'cod')
+        return 'cod';
+      else if(s == 'card payment')
+        return  'card';
+      else
+        return s;
+    }else
+      return '';
   }
 
   fetchOrders(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {

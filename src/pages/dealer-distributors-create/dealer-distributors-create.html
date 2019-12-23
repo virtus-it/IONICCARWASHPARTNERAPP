@@ -31,46 +31,10 @@
       <ion-input class="" name="phno1" type="tel" maxlength="9" minlength="9" [(ngModel)]="input.phno1" required [disabled]="disable"></ion-input>
     </ion-item>
 
-    <!--<ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phone Number</ion-label>
-      <ion-input class="" name="phno2" type="text" [(ngModel)]="input.phno2" maxlength="50" required [disabled]="disable"></ion-input>
-    </ion-item>
-
-    <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Phone Number</ion-label>
-      <ion-input class="" name="phno3" type="text" [(ngModel)]="input.phno3" maxlength="50" required [disabled]="disable"></ion-input>
-    </ion-item>-->
-
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>{{ 'CREATE_VENDORS_PAGE.LABELS.lb_company_name' | translate }} *</ion-label>
       <ion-input class="" name="companyName" type="text" [(ngModel)]="input.companyName" maxlength="50" [disabled]="disable"></ion-input>
     </ion-item>
-
-    <!--<ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>Reference Code</ion-label>
-      <ion-input class="" type="text" [(ngModel)]="input.referenceCode" name="referenceCode"
-                 maxlength="10" [disabled]="disable"></ion-input>
-    </ion-item>-->
-
-    <!--<ion-label>Phone Type</ion-label>
-    <ion-list radio-group [(ngModel)]="input.phoneType" name="paymentType" [disabled]="disable">
-
-      <ion-item>
-        <ion-label>ANDROID</ion-label>
-        <ion-radio value="android"></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>IOS</ion-label>
-        <ion-radio value="ios" text="CREDIT"></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>NO SMARTPHONE</ion-label>
-        <ion-radio value="nosmartphone" text="CREDIT"></ion-radio>
-      </ion-item>
-
-    </ion-list>-->
 
     <ion-item class="no_bg no_shadow input_container " >
       <ion-label floating>{{ 'CREATE_VENDORS_PAGE.LABELS.lb_address' | translate }} *</ion-label>
@@ -83,8 +47,45 @@
                  required [disabled]="disable"></ion-input>
     </ion-item>
 
-   <!-- <ion-checkbox checked value="{{input.acceptOnlinePayments}}" (click)="updateCbValue();"></ion-checkbox>
-    Accept Online Payments-->
+    <div *ngIf="bankDetails && bankDetails.length > 0">
+    <br>
+    <ion-item>Bank1 Details</ion-item>
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>{{ 'Bank Name*' }}</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="bankDetails[0].name" name="name" maxlength="50" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>{{ 'Bank Ifsc*' }}</ion-label>
+      <ion-input class="" type="text" [(ngModel)]="bankDetails[0].ifsc" name="ifsc" maxlength="20" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no_bg no_shadow input_container ">
+      <ion-label floating>{{ 'Account Number*' }}</ion-label>
+      <ion-input class="" type="number" [(ngModel)]="bankDetails[0].number" name="number" maxlength="20" required></ion-input>
+    </ion-item>
+    </div>
+
+    <div *ngIf="bankDetails && bankDetails.length > 1">
+      <br>
+      <ion-item>Bank2 Details</ion-item>
+      <ion-item class="no_bg no_shadow input_container ">
+        <ion-label floating>{{ 'Bank Name' }}</ion-label>
+        <ion-input class="" type="text" [(ngModel)]="bankDetails[1].name" name="name" maxlength="50" required></ion-input>
+      </ion-item>
+
+      <ion-item class="no_bg no_shadow input_container ">
+        <ion-label floating>{{ 'Bank Ifsc' }}</ion-label>
+        <ion-input class="" type="text" [(ngModel)]="bankDetails[1].ifsc" name="ifsc" maxlength="20" required></ion-input>
+      </ion-item>
+
+      <ion-item class="no_bg no_shadow input_container ">
+        <ion-label floating>{{ 'Account Number' }}</ion-label>
+        <ion-input class="" type="number" [(ngModel)]="bankDetails[1].number" name="number" maxlength="20" required></ion-input>
+      </ion-item>
+    </div>
+
+
 
     <ion-row *ngIf="type != 'view'">
       <ion-col align-self-center="">

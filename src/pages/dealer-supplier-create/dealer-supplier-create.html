@@ -41,22 +41,35 @@
       <ion-input class="" type="text" [(ngModel)]="input.vechicleNumber" name="vehicleNumber" maxlength="10" ></ion-input>
     </ion-item>
 
-    <ion-item class="no_bg no_shadow input_container ">
-      <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_floating_cash' | translate }} *</ion-label>
-      <ion-input class="" type="text" [(ngModel)]="input.flottingCash" name="flottingCash" maxlength="10" ></ion-input>
-    </ion-item>
+    <ion-row class="no_bg no_shadow input_container ">
+
+        <ion-col style="background:#fff;">
+          <ion-select [(ngModel)]="input.type" name="searchtype" class="droplist" style="border-bottom: 1px solid #32db64;">
+            <ion-option true value="topup">Top up</ion-option>
+            <ion-option value="reconcile" *ngIf="user">Reconcile</ion-option>
+          </ion-select>
+        </ion-col>
+
+        <ion-col>
+          <ion-item >
+            <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_floating_cash' | translate }} </ion-label>
+            <ion-input class=""  type="text" [(ngModel)]="input.flottingCash" name="flottingCash" maxlength="10" ></ion-input>
+          </ion-item>
+        </ion-col>
+
+    </ion-row>
 
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_address' | translate }} *</ion-label>
       <ion-input class="" type="text" [(ngModel)]="input.addr" name="addr" maxlength="250" ></ion-input>
     </ion-item>
-<ion-label> <span>
+<ion-label style="margin: 15px 0 7px 0  !important;"> <span>
   {{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_tracking' | translate }}
       </span></ion-label>
-    <ion-list radio-group>
+    <ion-list radio-group [(ngModel)]="input.tracking" name="tracking">
      <ion-item>
         <ion-label>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_on' | translate }}</ion-label>
-        <ion-radio [checked]="input.tracking == 'ON'" value="ON"></ion-radio>
+        <ion-radio   [checked]="input.tracking == 'ON'" value="ON"></ion-radio>
       </ion-item>
 
       <ion-item>
@@ -66,7 +79,7 @@
 
     </ion-list>
 
-    <ion-item *ngIf="showVendor">
+    <ion-item *ngIf="showVendor" class="item-md">
       <ion-label>{{ 'CREATE_SERVICE_AGENTS_PAGE.LABELS.lb_vendor' | translate }}</ion-label>
       <ion-select [(ngModel)]="input.distributor" name="distributor">
         <ion-option value={{distributor.firstname}} *ngFor="let distributor of distributorsList"

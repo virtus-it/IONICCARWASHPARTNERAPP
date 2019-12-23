@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {App, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UtilsProvider} from "../../providers/utils/utils";
+import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, OrderTypes, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerOrderDetailsPage} from "../dealer-order-details/dealer-order-details";
 import {TranslateService} from "@ngx-translate/core";
@@ -12,6 +12,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class DealerOrdersOrderedPage {
 
+  isSuperUser: boolean = false;
   public static statusUpdated = false;
   showProgress = true;
   searchInput = {
@@ -40,20 +41,12 @@ export class DealerOrdersOrderedPage {
     this.alertUtils.showLog('ionViewDidLoad');
   }
 
-  ionViewDidEnter(){
-    this.alertUtils.showLog('ionViewDidEnter');
-  }
-
-  ionViewWillLeave(){
-    this.alertUtils.showLog('ionViewWillLeave');
-  }
-
-  ionViewDidLeave(){
-    this.alertUtils.showLog('ionViewDidLeave');
-  }
-
-  ionViewWillUnload(){
-    this.alertUtils.showLog('ionViewWillUnload');
+  selected(){
+    if(this.searchInput.searchtype == 'name' ||
+      this.searchInput.searchtype == 'mobile' ||
+      this.searchInput.searchtype == 'orderid'){
+      this.searchInput.searchtext = '';
+    }
   }
 
   constructor(public navCtrl: NavController,
@@ -84,6 +77,7 @@ export class DealerOrdersOrderedPage {
           if (value && value.hasOwnProperty('USERTYPE')) {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
+            this.isSuperUser = UtilsProvider.ISSUPER_DEALER;
 
 
             //initial call
@@ -94,7 +88,7 @@ export class DealerOrdersOrderedPage {
           if (value && value.hasOwnProperty('USERTYPE')) {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
-
+            this.isSuperUser = UtilsProvider.ISSUPER_DEALER;
 
             //initial call
             this.fetchOrders(false,false,false,true,true);
@@ -159,6 +153,7 @@ export class DealerOrdersOrderedPage {
 
         if (!isPaging)
           this.response = res.data;
+
         for (let i = 0; i < res.data.length; i++) {
 
 
@@ -218,8 +213,10 @@ export class DealerOrdersOrderedPage {
         }
 
       }else{
-          if (!isPaging)
+          if (!isPaging) {
+            this.response = [];
             this.noRecords = true;
+          }
       }
     } catch (e) {
       this.alertUtils.showLog(e);
@@ -292,32 +289,72 @@ export class DealerOrdersOrderedPage {
 
   }
 
-  /*viewDetails(event, orderID, categoryID) {
-    if (orderID) {
-      this.appCtrl.getRootNav().push('DealerOrderDetailsPage', {
-        orderid: orderID,
-        categoryid: categoryID,
-        callFrom:'ordered',
-      });
+  /*rate(index:number){
+    if(showrating){
+      this.order.customerreview = index
     }
+  }
+  getColor(index:number){
+
+    if(this.isAboveRating(index)){
+      return '#E0E0E0';
+    }
+    switch(this.rating){
+      case 1:
+      case 2:
+        return '#DD2C00';
+      case 3:
+        return '#FFCA28';
+      case 4:
+      case 5:
+        return '#037624';
+      default:
+        return '#E0E0E0';
+    }
+
+  }
+  isAboveRating(index:number):boolean{
+    return index > this.rating
+
   }*/
 
   viewDetails(event, orderID, categoryID) {
-    let model = this.modalCtrl.create('DealerOrderDetailsPage', {
-      orderid: orderID,
-      categoryid: categoryID,
-      callFrom:'ordered',
-    })
 
-    model.onDidDismiss(data => {
-      this.alertUtils.showLog('onDidDismiss');
-      this.alertUtils.showLog('value : '+ UtilsProvider.ORDER_STUAS_UPDATED);
-      if(UtilsProvider.ORDER_STUAS_UPDATED){
-        UtilsProvider.ORDER_STUAS_UPDATED = false;
-        this.fetchOrders(false,false,false,true,true);
-      }
-    })
-    model.present();
+    if(UtilsProvider.USER_TYPE == UserType.Billing_Administrator ||
+    (UtilsProvider.USER_TYPE == UserType.DEALER &&
+    !UtilsProvider.ISSUPER_DEALER)){
+      let model = this.modalCtrl.create('JobDetailsNoactionsPage', {
+        orderid: orderID,
+        categoryid: categoryID,
+        callFrom:'ordered',
+      })
+
+      model.onDidDismiss(data => {
+        this.alertUtils.showLog('onDidDismiss');
+        this.alertUtils.showLog('value : '+ UtilsProvider.ORDER_STUAS_UPDATED);
+        if(UtilsProvider.ORDER_STUAS_UPDATED){
+          UtilsProvider.ORDER_STUAS_UPDATED = false;
+          this.fetchOrders(false,false,false,true,true);
+        }
+      })
+      model.present();
+    }else{
+      let model = this.modalCtrl.create('JobDetailsPage', {
+        orderid: orderID,
+        categoryid: categoryID,
+        callFrom:'ordered',
+      })
+
+      model.onDidDismiss(data => {
+        this.alertUtils.showLog('onDidDismiss');
+        this.alertUtils.showLog('value : '+ UtilsProvider.ORDER_STUAS_UPDATED);
+        if(UtilsProvider.ORDER_STUAS_UPDATED){
+          UtilsProvider.ORDER_STUAS_UPDATED = false;
+          this.fetchOrders(false,false,false,true,true);
+        }
+      })
+      model.present();
+    }
   }
 
 }

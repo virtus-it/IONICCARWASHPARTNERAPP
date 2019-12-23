@@ -1,20 +1,37 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  ModalController,
+  NavController,
+  NavParams,
+  Platform
+} from 'ionic-angular';
 import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import { TranslateService } from "@ngx-translate/core";
+import {AbstractPage} from "../../abstract/abstract";
+import {CallWebserviceProvider} from "../../providers/call-webservice/call-webservice";
 
 @IonicPage()
 @Component({
   selector: 'page-dealer-car-models',
   templateUrl: 'dealer-car-models.html',
 })
-export class DealerCarModelsPage {
+export class DealerCarModelsPage extends AbstractPage{
+  protected webCallback(json: any, api: any, reqId: any) {
+        throw new Error("Method not implemented.");
+    }
+    protected handleError(json: any, reqId: any) {
+        throw new Error("Method not implemented.");
+    }
 
+  isPagingEnabled:boolean = true;
   baseImgUrl:string;
   extensionPng:string='.png';
   showProgress = true;
-  private response: any;
+  private response: any = [];
   private noRecords = false;
   private USER_ID;
   private USER_TYPE;
@@ -32,11 +49,14 @@ export class DealerCarModelsPage {
               private alertUtils: UtilsProvider,
               private apiService: ApiProvider,
               private platform: Platform,
+              public loadingCtrl: LoadingController,
+              public webservice: CallWebserviceProvider,
               private ref: ChangeDetectorRef,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,
-             
+
               private translateService: TranslateService) {
+    super(loadingCtrl, webservice);
                 let lang = "en";
     if (UtilsProvider.lang) {
       lang = UtilsProvider.lang
@@ -44,7 +64,7 @@ export class DealerCarModelsPage {
     UtilsProvider.sLog(lang);
     translateService.use(lang);
 
-  
+
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     try {
@@ -55,7 +75,7 @@ export class DealerCarModelsPage {
         }
         UtilsProvider.sLog(lang);
         translateService.use(lang);
-        
+
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -66,7 +86,7 @@ export class DealerCarModelsPage {
             this.USER_TYPE = UtilsProvider.USER_TYPE
 
             //initial call
-            this.fetchList(false, false, true, "", "");
+            this.fetchList();
           }
         }, (error) => {
           let value = UtilsProvider.USER_INFO
@@ -78,7 +98,7 @@ export class DealerCarModelsPage {
             this.USER_TYPE = UtilsProvider.USER_TYPE
 
             //initial call
-            this.fetchList(false, false, true, "", "");
+            this.fetchList();
           }
         });
       });
@@ -100,12 +120,52 @@ export class DealerCarModelsPage {
 
   }
 
-  fetchList(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
+  doRefresh(refresher) {
+    this.event = refresher;
+    this.fetchList();
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 30000);
+  }
+
+  doInfinite(paging): Promise<any> {
+    this.event = paging;
+    if (this.response) {
+      if (this.response.length > 0) {
+        this.fetchList(paging);
+      }
+      else
+        paging.complete();
+    } else {
+      paging.complete();
+    }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 30000);
+    })
+  }
+
+  closeRefresherInfinite(){
+    if (this.event) {
+      this.alertUtils.showLog(this.event);
+      this.event.complete();
+    }
+  }
+
+  selected(){
+    if(this.searchInput.searchtype == 'manufacturer' || this.searchInput.searchtype == 'model'){
+      this.searchInput.searchtext = '';
+    }
+  }
+
+  fetchList(paging?) {
+    this.isPagingEnabled = true;
     try {
 
       let input = {
         "root":{
-          /*usertype:"customer",*/
           "TransType": 'getmodals',
           "usertype":UtilsProvider.USER_TYPE,
           "loginid": this.USER_ID,
@@ -114,37 +174,53 @@ export class DealerCarModelsPage {
         }
       };
 
-      this.apiService.postReq(this.apiService.getEntities(),JSON.stringify(input)).then(res=>{
-        this.alertUtils.showLog("GET (SUCCESS)=> PRODUCTS: "+JSON.stringify(res.data));
-        this.alertUtils.showLog(res);
-        this.response = res.data;
-        this.hideProgress(isFirst,isRefresh,isPaging,paging,refresher);
+      if (paging) {
+        this.isPaging = true;
+        input.root["lastid"] = this.response[this.response.length - 1].entityid;
+      } else {
+        this.isPaging = false;
+        input.root["lastid"] = '0';
+      }
 
-        if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          this.noRecords = false;
+      if(!this.event)
+        this.presentLoading();
+
+      this.apiService.postReq(this.apiService.getEntities(),JSON.stringify(input)).then(res=>{
+        this.alertUtils.showLog(res);
+
+        this.closeLoading();
+
+        if (res.result == this.alertUtils.RESULT_SUCCESS && res.data) {
+          if (!paging)
+            this.response = [];
+
+          this.isPagingEnabled = true;
 
           for (let i = 0; i < res.data.length; i++) {
             res.data[i]['imgUrl'] = this.apiService.getImg()+'product_'+res.data[i].productid+'.png';
-            if(res.data.isactive)
-              this.response.push(res.data[i]);
+            this.response.push(res.data[i]);
           }
         } else {
-          if (!isPaging)
-            this.noRecords = true;
+          if (!paging)
+            this.response = [];
+
+          this.isPagingEnabled = false;
         }
-        this.ref.detectChanges();
+
+        this.closeRefresherInfinite();
+        this.alertUtils.showLog(this.response);
       }, error => {
         this.alertUtils.showLog("GET (ERROR)=> PRODUCTS: " + error);
-        this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
       })
 
     } catch (e) {
-      this.alertUtils.hideLoading();
-      this.hideProgress(isFirst, isRefresh, isPaging, paging, refresher);
+    }finally {
     }
   }
 
   search(event){
+
+    this.isPagingEnabled = false;
 
     try {
       if(!this.searchInput.searchtext){
@@ -180,28 +256,6 @@ export class DealerCarModelsPage {
 
   }
 
-  doRefresh(refresher) {
-    this.fetchList(false, true, false, "", refresher);
-    setTimeout(() => {
-      refresher.complete();
-    }, 30000);
-  }
-
-  doInfinite(paging): Promise<any> {
-    if (this.response) {
-      if (this.response.length > 0)
-        this.fetchList(true, false, false, paging, "");
-      else
-        paging.complete();
-    } else {
-      paging.complete();
-    }
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 30000);
-    })
-  }
 
   hideProgress(isFirst, isRefresh, isPaging, paging, refresher) {
     if (isFirst) {
@@ -238,7 +292,7 @@ export class DealerCarModelsPage {
           else
             this.alertUtils.showToast('Car Model successfully updated');
 
-          this.fetchList(false, false, false, '', '');
+          this.fetchList();
 
         } else {
           this.alertUtils.showToast('Some thing went wrong!');
@@ -281,7 +335,7 @@ export class DealerCarModelsPage {
 
               if (res.result == this.alertUtils.RESULT_SUCCESS) {
                 this.alertUtils.showToast('Model successfully deleted');
-                this.fetchList(false, false, false, '', '');
+                this.fetchList();
               }
 
             });

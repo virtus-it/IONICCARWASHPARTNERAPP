@@ -14,16 +14,24 @@
 
     <ion-row class="tp_searachbox">
       <ion-col col-4="true">
-        <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype" class="droplist">
+        <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype" class="droplist" (ionChange)="selected();">
           <ion-option true value="name">Name</ion-option>
           <ion-option value="mobile">Phone No</ion-option>
           <ion-option value="orderid">Job Id</ion-option>
         </ion-select>
       </ion-col>
-      <ion-col col-6="true">
+      <ion-col col-6="true" *ngIf="searchInput.searchtype == 'name' || searchInput.searchtype == 'orderid'">
         <ion-item class="no_bg no_shadow input_container ">
 
-          <ion-input [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
+          <ion-input [(ngModel)]="searchInput.searchtext" placeholder="type here..." class="" maxlength="50" name="locality" required type="text">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col col-6="true" *ngIf="searchInput.searchtype == 'mobile'">
+        <ion-item class="no_bg no_shadow input_container ">
+
+          <ion-input [(ngModel)]="searchInput.searchtext" placeholder="type here..." class="" maxlength="9" name="locality" required type="text">
           </ion-input>
         </ion-item>
       </ion-col>
@@ -54,7 +62,21 @@
           <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address" (click)="this.alertUtils.showNavigation(order.orderby_address)">{{order.orderby_address}}</span></ion-col>
         </ion-row>
 
+        <ion-row  *ngIf="order.assignedby && isSuperUser">
+          <ion-col>
+            {{ 'JOB_DETAILS_PAGE.LABELS.lb_assignedby' | translate }}{{ order?.assignedby}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row  *ngIf="order.cancelledby && isSuperUser">
+          <ion-col>
+            {{ 'JOB_DETAILS_PAGE.LABELS.lb_cancelledby' | translate }}{{ order?.cancelledby}}
+          </ion-col>
+        </ion-row>
+
         <ion-row>
+
+
 
           <ion-col>
             <button (click)="viewDetails($event,order.order_id,order.category.categoryid);" color="primary" ion-button>
@@ -62,6 +84,16 @@
             </button>
           </ion-col>
         </ion-row>
+
+        <div style="padding-top: 5px; background: aliceblue;" *ngIf="order?.customerreview">
+          <ion-row>
+            <ion-col *ngIf="order?.customerreview >= 1" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 2" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 3" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 4" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 5" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+          </ion-row>
+        </div>
       </ion-card>
     </div>
   </ion-list>

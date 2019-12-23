@@ -37,6 +37,10 @@ import { MapUtilsProvider } from '../providers/map-utils/map-utils';
 import {NativeGeocoder} from "@ionic-native/native-geocoder";
 import { MediaPlayerProvider } from '../providers/media-player/media-player';
 import {Media} from "@ionic-native/media";
+import { ImageUtilsProvider } from '../providers/image-utils/image-utils';
+import { CallWebserviceProvider } from '../providers/call-webservice/call-webservice';
+import { GeocoderProvider } from '../providers/geocoder/geocoder';
+import { LocationUpdatesProvider } from '../providers/location-updates/location-updates';
 // import {DealerDashBoardPage} from "../pages/dealer-dash-board/dealer-dash-board";
 // import {DealerOrdersHomePage} from "../pages/dealer-orders-home/dealer-orders-home";
 //
@@ -163,7 +167,11 @@ export function createTranslateLoader(http: HttpClient) {
     MapUtilsProvider,
     MediaPlayerProvider,
     NativeGeocoder,
-    MediaPlayerProvider
+    MediaPlayerProvider,
+    ImageUtilsProvider,
+    CallWebserviceProvider,
+    GeocoderProvider,
+    LocationUpdatesProvider
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

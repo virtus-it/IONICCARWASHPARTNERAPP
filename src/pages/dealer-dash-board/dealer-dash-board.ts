@@ -36,7 +36,7 @@ export class DealerDashBoardPage {
               private platform: Platform,
               private ref: ChangeDetectorRef,
               private translateService: TranslateService) {
-                
+
     try {
       this.platform.ready().then(ready => {
         let lang = "en";
@@ -46,7 +46,7 @@ export class DealerDashBoardPage {
     UtilsProvider.sLog(lang);
     translateService.use(lang);
 
-  
+
 
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
@@ -153,8 +153,12 @@ export class DealerDashBoardPage {
     }
   }
 
+  validate(s){
+    return this.alertUtils.validate(s);
+  }
+
   openUsers() {
-    this.navCtrl.setRoot('DealerCustomersPage');
+    this.navCtrl.setRoot('DealerUsersCustomercarePage');
   }
 
   openCarWashers() {
@@ -167,6 +171,14 @@ export class DealerDashBoardPage {
 
   openBookings() {
     this.navCtrl.setRoot('DealerOrdersHomePage');
+  }
+
+  openAllBookings() {
+    this.navCtrl.setRoot('JobsPage');
+  }
+
+  openCancelledBookings() {
+    this.navCtrl.setRoot('JobsCancelledPage');
   }
 
   showChart1(val1, val2, val3) {

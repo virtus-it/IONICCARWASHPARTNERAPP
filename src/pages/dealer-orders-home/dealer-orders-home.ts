@@ -45,7 +45,7 @@ export class DealerOrdersHomePage {
                 }
                 UtilsProvider.sLog(lang);
                 translateService.use(lang);
-                
+
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
           if (value && value.hasOwnProperty('USERTYPE')) {
@@ -109,14 +109,14 @@ export class DealerOrdersHomePage {
 
     this.alertUtils.showLog('ionViewDidLoad - home');
 
-    if (this.uType == UserType.DEALER || this.uType == UserType.CUSTOMER_CARE) {
+    if (this.uType == UserType.DEALER) {
       this.menuCtrl.enable(true, 'menu1');
 
       this.menuCtrl.enable(false, 'menu2');
       this.menuCtrl.enable(false, 'menu3');
       this.menuCtrl.enable(false, 'menu4');
       this.menuCtrl.enable(false, 'menu5');
-    } else if (this.uType == UserType.Job_Assigner) {
+    } else if (this.uType == UserType.Job_Assigner || this.uType == UserType.CUSTOMER_CARE) {
       this.menuCtrl.enable(true, 'menu4');
 
       this.menuCtrl.enable(false, 'menu1');

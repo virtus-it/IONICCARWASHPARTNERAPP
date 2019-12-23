@@ -2,18 +2,21 @@ import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {
   AlertController,
   App,
+  Content,
   IonicPage,
   ModalController,
   NavController,
   NavParams,
-  Content,
-  Platform, ViewController
+  Platform,
+  ViewController
 } from 'ionic-angular';
 import {
   APP_TYPE,
-  APP_USER_TYPE, KEY_USER_INFO,
+  APP_USER_TYPE, FRAMEWORK,
+  KEY_USER_INFO,
   OrderTypes,
-  RES_SUCCESS, UserType,
+  RES_SUCCESS,
+  UserType,
   UtilsProvider
 } from "../../providers/utils/utils";
 
@@ -24,7 +27,7 @@ import {DealerOrderDetailsAssignForwardPage} from "../dealer-order-details-assig
 import {DealerOrderDetailsEditStatusPage} from "../dealer-order-details-edit-status/dealer-order-details-edit-status";
 import {DealerOrdersOrderedPage} from "../dealer-orders-ordered/dealer-orders-ordered";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
-import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions} from "@ionic-native/native-geocoder";
+import {NativeGeocoder} from "@ionic-native/native-geocoder";
 import {MapUtilsProvider} from "../../providers/map-utils/map-utils";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -41,6 +44,7 @@ export class DealerOrderDetailsPage {
   @ViewChild(Content) content: Content;
 
   item: any;
+  rate: number = 0;
   preImg: string = '';
   postImg: string = '';
   showProgress = true;
@@ -50,11 +54,14 @@ export class DealerOrderDetailsPage {
   distributorsList: string[];
   productsList: string[];
   showBackButton: boolean = false;
+  userEnum: typeof UserType = UserType;
+  userType:any;
   private dealerID = "";
   private userID = "";
   private callFrom = "";
   private orderId = "";
   private categoryID = "";
+  event:any;
 
   constructor(private modalCtrl: ModalController,
               private ref: ChangeDetectorRef,
@@ -67,12 +74,12 @@ export class DealerOrderDetailsPage {
               private mapUtils: MapUtilsProvider,
               private nativeGeocoder: NativeGeocoder,
               private viewCtrl: ViewController,
-              
+
               public alertCtrl: AlertController,
               private apiService: ApiProvider,
               private translateService: TranslateService) {
-                
-            
+
+
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     translateService.setDefaultLang('en');
@@ -107,8 +114,10 @@ export class DealerOrderDetailsPage {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
 
+
             this.userID = UtilsProvider.USER_ID;
             this.dealerID = UtilsProvider.USER_DEALER_ID;
+            this.userType = UtilsProvider.USER_TYPE;
 
             //initial call
             if (this.orderId)
@@ -124,6 +133,7 @@ export class DealerOrderDetailsPage {
 
             this.userID = UtilsProvider.USER_ID;
             this.dealerID = UtilsProvider.USER_DEALER_ID;
+            this.userType = UtilsProvider.USER_TYPE;
 
             //initial call
             if (this.orderId)
@@ -140,13 +150,20 @@ export class DealerOrderDetailsPage {
 
   }
 
+  doRefresh(refresher) {
+    this.event = refresher;
+    this.fetchOrderDetails();
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 30000);
+  }
+
   changeImage(type) {
     if (type == 1) {
       this.preImg = "http://executive-carwash.com/wp-content/uploads/2012/10/detail-icon.png";
     } else
       this.postImg = "http://executive-carwash.com/wp-content/uploads/2012/10/detail-icon.png";
-
-
   }
 
   getImage(type) {
@@ -214,9 +231,18 @@ export class DealerOrderDetailsPage {
 
       this.apiService.getReq(url).then(res => {
         this.showProgress = false;
+
+        if(this.event)
+          this.event.complete();
+
+
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
           this.alertUtils.showLog(res.data[0]);
           this.item = res.data[0];
+
+          this.rate = this.item.customerreview;
+          if(!this.rate)
+            this.rate = 0;
 
           if (this.item.status == OrderTypes.DELIVERED) {
             this.item["billamt_updated"] = res.data[0].bill_amount;
@@ -379,6 +405,78 @@ export class DealerOrderDetailsPage {
     }
   }
 
+  showPrompt() {
+    let prompt = this.alertCtrl.create({
+      title: 'Do you want cancel this order?',
+      message: 'Please write your comments',
+      inputs: [
+        {
+          label: 'Comments',
+          name: 'comments',
+          type: 'text',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'SEND',
+          handler: data => {
+
+            this.alertUtils.showLog(data.comments);
+
+            this.cancelJob(data.comments);
+
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  cancelJob(s) {
+
+    try {
+
+      /*{"order":{"orderid":480,"customerid":6,"usertype":"customer",
+      "orderstatus":"cancelled","reason":"Hi irder","loginid":6,"apptype":"carwash"}}*/
+
+      let input = {
+        "order": {
+          orderid: this.item.order_id,
+          "orderstatus": 'cancelled',
+          'reason':s,
+          "loginid": UtilsProvider.USER_ID,
+          "user_type": UtilsProvider.USER_TYPE,
+          "apptype": APP_TYPE
+        }
+      };
+
+      let data = JSON.stringify(input);
+
+      this.alertUtils.showLoading();
+      this.apiService.postReq(this.apiService.cancelOrder(), data).then(res => {
+        this.alertUtils.hideLoading();
+        this.alertUtils.showLog(res.data);
+        this.alertUtils.showLog(res.data.message);
+
+        if(res.result == RES_SUCCESS && res.data){
+          this.alertUtils.showToast('Successfully cancelled');
+          this.fetchOrderDetails();
+        }else
+          this.alertUtils.showToast('Something went wrong please try again');
+
+      }, error => {
+
+      })
+    } catch (e) {
+
+    }
+  }
+
   getSuppliers() {
 
     try {
@@ -411,20 +509,6 @@ export class DealerOrderDetailsPage {
           }
 
           this.openAssignForwardModal();
-          /*if (this.item.orderby_latitude && this.item.orderby_longitude)
-            this.openAssignForwardModal();
-          else {
-            if (this.platform.is('android') || this.platform.is('ios')){
-              this.mapUtils.getNativeForwardGeocode(this.item.orderby_address).then((coordinates: NativeGeocoderForwardResult[]) => {
-                  this.alertUtils.showLogs(coordinates[0].latitude);
-                  this.alertUtils.showLogs(coordinates[0].longitude);
-                  this.item.orderby_latitude = coordinates[0].latitude;
-                  this.item.orderby_longitude = coordinates[0].longitude;
-                  this.openAssignForwardModal();
-                });
-            }else
-              this.openAssignForwardModal();
-          }*/
         }
       }, error => {
         this.alertUtils.showLogErr(url, null, error);

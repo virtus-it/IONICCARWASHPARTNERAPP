@@ -130,6 +130,18 @@ export class ApiProvider {
     return this.baseUrl + "getdistributorbydealerid";
   }
 
+  reports() {
+    return this.baseUrl + "getreportsfilter";
+  }
+
+  sendNotifications() {
+    return this.baseUrl + "sendnotifications";
+  }
+
+  locationUpdate() {
+    return this.baseUrl + "locationupdate";
+  }
+
 
   getSignInUrl() {
     return this.baseUrl + "login";
@@ -181,6 +193,14 @@ export class ApiProvider {
     //	getallschedules/apptype/userid
     return this.baseUrl + "getallschedules";
 
+  }
+
+  getMobile() {
+    return this.baseUrl + "getmobile";
+  }
+
+  createSms() {
+    return this.baseUrl + "createsms";
   }
 
   createScheduler() {
@@ -350,6 +370,14 @@ export class ApiProvider {
 
   addArea() {
     return this.baseUrl + "addarea";
+  }
+
+  walletManagement() {
+    return this.baseUrl + "walletmanagement";
+  }
+
+  godsView() {
+    return this.baseUrl + "godsview";
   }
 
   updateArea() {

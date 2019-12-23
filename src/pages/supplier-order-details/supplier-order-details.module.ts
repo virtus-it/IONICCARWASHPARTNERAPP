@@ -6,6 +6,7 @@ import {createTranslateLoader} from "../../app/app.module";
 import {HttpClient} from "@angular/common/http";
 import {PipesModule} from "../../pipes/pipes.module";
 
+
 @NgModule({
   declarations: [
     SupplierOrderDetailsPage,
@@ -19,7 +20,7 @@ import {PipesModule} from "../../pipes/pipes.module";
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
   ],
 })
 export class SupplierOrderDetailsPageModule {}

@@ -17,6 +17,15 @@
 </ion-header>
 
 <ion-content class="page_bg">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div class="fixscrollcontainer">
   <ion-spinner block name="crescent" class="spinner_center" color="primary" *ngIf="showProgress" item-center></ion-spinner>
   <div class="no_padding prdct_main_container order_details_pg" *ngIf="!showProgress">
@@ -35,22 +44,32 @@
         </ion-row>
         <ion-row>
           <ion-col><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_delivery' | translate }}</span>{{item?.delivery_exceptedtime}}</ion-col>
-          <ion-col col-2><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_type' | translate }}</span> {{item?.orderby_paymenttype}}</ion-col>
+          <ion-col col-2><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_type' | translate }}</span> {{item?.paymenttype}}</ion-col>
           <ion-col><span class="job_mgm_lbl">{{ 'JOB_DETAILS_PAGE.LABELS.lb_modified_on' | translate }}</span>{{item?.modifieddate | utcDate}}</ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>
-            <span class="gray8" item-start></span>
-          </ion-col>
-          <ion-col>
-            <span class="no_padding no_margin  text_highlight"> </span>
-          </ion-col>
+          {{item?.statusUpdated}}
+          {{item?.status}}
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="item?.transactioncode">
+          {{'Tranasaction Code : '+item.transactioncode }}
+        </ion-row>
 
-          <ion-col *ngIf="item?.status != 'delivered' && item?.status != 'jobcompleted'">
+
+        <ion-row *ngIf="userType == userEnum.CUSTOMER_CARE || userType == userEnum.DEALER">
+          <div [hidden]="item.status == 'delivered' || item.status == 'jobcompleted' || item.status == 'cancelled'">
+            <ion-col >
+              <button ion-button color="primary" (click)="showPrompt();">Cancel Job</button>
+            </ion-col>
+          </div>
+        </ion-row>
+
+      <ion-row [hidden]="item.status == 'orderstarted' ||
+      item.status == 'delivered' ||
+      item.status == 'jobcompleted'">
+          <ion-col>
             <button ion-button color="primary" (click)="assignForward($event);">{{buttonTitle}}</button>
           </ion-col>
         </ion-row>
@@ -76,6 +95,14 @@
         </div>
       </ion-card-content>
     </ion-card>
+
+      <ion-row>
+        <ion-col *ngIf="rate >= 1" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+        <ion-col *ngIf="rate >= 2" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+        <ion-col *ngIf="rate >= 3" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+        <ion-col *ngIf="rate >= 4" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+        <ion-col *ngIf="rate >= 5" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+      </ion-row>
 
     <!--order status-->
     <ion-card class="card_status">

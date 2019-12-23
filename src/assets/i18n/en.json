@@ -43,7 +43,7 @@
 			"lb_vendors": "VENDORS",
 			"lb_total_earnings": "TOTAL EARNINGS",
 			"lb_total_bookings": "TOTAL BOOKINGS",
-			"lb_on_going_jobs": "On going jobs",
+			"lb_on_going_jobs": "ON GOING JOBS",
 			"lb_cancelled_jobs": "CANCELLED JOBS",
 			"lb_completed_jobs": "COMPLETED JOBS",
 			"lb_booking": "Booking",
@@ -132,7 +132,11 @@
 			"lb_status_accepted": "Accepted",
 			"lb_status_start_to_visit": "Start To Visit",
 			"lb_status_job_started": "Job Started",
-			"lb_status_completed": "Completed"
+			"lb_status_completed": "Completed",
+			"lb_transaction_code": "Transaction code : ",
+			"lb_assignedby": "Assigned By : ",
+			"lb_cancelledby": "Cancelled By: "
+
 		}
 
 	},
@@ -315,14 +319,16 @@
 		"PAGE_TITLE": "Vendors",
 		"BUTTONS": {
 			"btn_edit": "Edit",
-			"btn_delete": "Delete"
+			"btn_delete": "Delete",
+      "btn_view_engineers": "View Agents"
 		},
 		"LABELS": {
 			"lb_name": "Name",
 			"lb_user_name": "User Name",
 			"lb_mobile": "Mobile",
 			"lb_company": "Company",
-			"lb_gst": "GST"
+			"lb_gst": "GST",
+      "lb_service_agents": "Service Agents"
 		}
 	},
 	"CREATE_VENDORS_PAGE": {
@@ -338,7 +344,7 @@
 			"lb_company_name": "Company Name",
 			"lb_address": "Address",
 			"lb_gst_number": "GST Number"
-		}
+    }
 	},
 	"USERS_PAGE": {
 		"PAGE_TITLE": "Users",
@@ -374,11 +380,11 @@
 		},
 		"LABELS": {
 			"lb_status": "Status",
-			"lb_transaction_id": "Transaction ID",
+			"lb_transaction_id": "Order ID",
 			"lb_received_date": "Received Date",
-			"lb_payed_by": "Payed By",
+			"lb_payed_by": "Paid By",
 			"lb_received_by": "Received By",
-			"lb_payment_type": "Payment Type"
+			"lb_payment_type": "Type"
 		}
 	},
 	"SMS_REPORTS_PAGE": {
@@ -416,7 +422,7 @@
 	"PROFILE_PAGE": {
 		"PAGE_TITLE": "Profile",
 		"BUTTONS": {
-			"btn_save": "Save"
+			"btn_save": "Update"
 		},
 		"LABELS": {
 			"lb_first_name": "First Name",
@@ -451,7 +457,76 @@
 			"lb_sure": "Sure",
 			"lb_logout": "Logout"
 		}
-	}
+	},
+	"WALLET_MANAGEMENT_PAGE":{
+	"PAGE_TITLE": "WALLET MANAGEMENT",
+		"BUTTONS": {
+			"btn_topup": "Top up",
+			"btn_reconcile": "Reconcile",
+			"btn_wallethistory": "Wallet History"
+		},
+		"LABELS": {
+			"lb_orderid": "Order Id",
+			"lb_orderamt": "Order Amt",
+			"lb_type": "Type",
+			"lb_sleect_agent": "Select Agent",
+			"lb_platformfee": "Platform Fee",
+			"lb_gatewayfee": "Gateway Fee",
+			"lb_totalfee": "Total Fee",
+			"lb_walletamounts": "Wallet Amounts",
+			"lb_before": "Before",
+			"lb_added": "Added",
+			"lb_deducted": "Deducted",
+			"lb_after": "After",
+			"lb_nomoredata":"No more data is available."
+
+		}
+	},
+	"WALLET_HISTORY_PAGE":{
+	"PAGE_TITLE": "Wallet Settlements",
+
+		"LABELS": {
+			"lb_updatedby": "Updated By",
+			"lb_type": "Type",
+			"lb_walletbalance": "Wallet Balance",
+			"lb_added": "Added",
+			"lb_deducted": "Deducted",
+			"lb_nomoredata":"No more data is available."
+		}
+	},
+  "JOBS_REPORTS_PAGE":{
+    "PAGE_TITLE": "JOBS"
+  },
+  "CANCELLED_JOBS_PAGE":{
+    "PAGE_TITLE": "CANCELLED JOBS"
+  },
+  "PAYMENTS_REPORTS_PAGE":{
+    "PAGE_TITLE": "PAYMENTS",
+
+    "LABELS": {
+      "lb_amount": "Amount",
+      "lb_orderid": "Order Id",
+      "lb_payed_date": "Paid date"
+    }
+  },
+  "NOTIFICATION_PAGE":{
+    "PAGE_TITLE": "NOTIFICATIONS",
+
+    "LABELS": {
+      "lb_message": "Message"
+    }
+  },
+  "GODS_VIEW_PAGE":{
+    "PAGE_TITLE": "Gods View"
+  },
+  "RECONCILE_PAGE":{
+    "PAGE_TITLE": "Wallet reconcile",
+    "LABELS": {
+      "lb_amount": "Reconcile amount",
+      "lb_select_bank": "Select bank",
+      "btn_reconcile": "Reconcile"
+    }
+  }
 }
 
 

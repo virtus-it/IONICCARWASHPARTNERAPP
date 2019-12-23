@@ -27,7 +27,7 @@ export class DealerSupplierCreatePage {
 
 
   input = {
-    firstname: "", phno1: "", phno2: "", id: "", vechicleNumber: "",
+    firstname: "", phno1: "", phno2: "", id: "", vechicleNumber: "", type:'topup',
     addr: "", flottingCash: "", distributor: "", distributorId: "", tracking: "OFF"
   };
 
@@ -73,7 +73,7 @@ export class DealerSupplierCreatePage {
       this.input.phno2 = this.user.mobileno_one;
       this.input.id = this.user.id;
       this.input.vechicleNumber = this.validate(this.user.vechicle_number);
-      this.input.flottingCash = this.validate(JSON.stringify(this.user.flotting_cash));
+      this.input.flottingCash = '0';
       this.input.addr = this.validate(this.user.address);
       if (this.user.tracking) {
         this.input.tracking = this.user.tracking;
@@ -161,17 +161,22 @@ export class DealerSupplierCreatePage {
       if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 9, 9)) {
         if (this.alertUtils.validateNumber(this.input.id, 'ID', 2, 10)) {
           if (this.alertUtils.validateText(this.input.vechicleNumber, "Vechicle Number", 4, 10)) {
-            if (this.alertUtils.validateText(this.input.flottingCash, "Flotting Cash", 1, 8)) {
+            //if (this.alertUtils.validateText(this.input.flottingCash, "Flotting Cash", 1, 8)) {
               if (this.alertUtils.validateText(this.input.addr, "Address", 4, 100)) {
+              if (this.alertUtils.validateText(this.input.distributor, "Vendor", 1, 50)) {
+
                 this.showToast = false;
                 if (this.isUpdate)
                   this.doUpdate();
                 else
                   this.doCreate();
+              } else {
+                this.alertUtils.showToast('Please select any vendor');
+              }
               } else
                 this.showToast = true;
-            } else
-              this.showToast = true;
+            /*} else
+              this.showToast = true;*/
           } else
             this.showToast = true;
         } else
@@ -206,6 +211,7 @@ export class DealerSupplierCreatePage {
           "altmobileno": this.input.phno2,
           "id": this.input.id,
           "vechicle_number": this.input.vechicleNumber,
+          "type":this.input.type,
           "flotting_cash": this.input.flottingCash,
           "address": this.input.addr,
           "tracking": this.input.tracking,
@@ -218,6 +224,9 @@ export class DealerSupplierCreatePage {
           "apptype": APP_TYPE
         }
       };
+
+      if(!input.User.flotting_cash)
+        input.User['flotting_cash'] = null;
 
       let data = JSON.stringify(input);
 
@@ -262,6 +271,7 @@ export class DealerSupplierCreatePage {
           "pwd": this.input.phno1,
           "id": this.input.id,
           "vechicle_number": this.input.vechicleNumber,
+          "type":this.input.type,
           "flotting_cash": this.input.flottingCash,
           "tracking": this.input.tracking,
           "address": this.input.addr,
@@ -272,6 +282,9 @@ export class DealerSupplierCreatePage {
           "apptype": APP_TYPE
         }
       };
+
+      if(!input.User.flotting_cash)
+        input.User['flotting_cash'] = null;
 
       let data = JSON.stringify(input);
 

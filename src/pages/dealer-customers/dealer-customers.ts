@@ -88,6 +88,11 @@ export class DealerCustomersPage {
 
   }
 
+  selected(){
+    if(this.searchInput.searchtype == 'name' || this.searchInput.searchtype == 'mobile' )
+      this.searchInput.searchtext = '';
+  }
+
   ionViewDidLoad() {
 
 

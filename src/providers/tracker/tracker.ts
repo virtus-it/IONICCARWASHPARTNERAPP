@@ -52,7 +52,23 @@ export class LocationTracker {
 
       this.locUpdateInDb();
 
-      // Background Tracking
+      this.startLocationUpdates();
+
+      try{
+        this.alertUtils.setSecureValue(KEY_TRACKING_STATUS, true);
+        this.alertUtils.setSecureValue(KEY_TRACKING_ORDER, this.order);
+      }catch (e) {
+        this.alertUtils.showLog(e);
+      }
+
+    }
+
+  }
+
+  startLocationUpdates(){
+    try {
+
+      // Background location updates
 
       let config = {
         desiredAccuracy: 0,
@@ -63,9 +79,6 @@ export class LocationTracker {
       };
 
       this.backgroundGeolocation.configure(config).subscribe((location) => {
-
-        this.alertUtils.showLog('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
-
         // Run update inside of Angular's zone
         this.zone.run(() => {
           this.lat = location.latitude;
@@ -82,7 +95,7 @@ export class LocationTracker {
       this.backgroundGeolocation.start();
 
 
-      // Foreground Tracking
+      // Foreground location updates
 
       let options = {
         frequency: 3000,
@@ -100,17 +113,8 @@ export class LocationTracker {
         });
 
       });
-
-
-      try{
-        this.alertUtils.setSecureValue(KEY_TRACKING_STATUS, true);
-        this.alertUtils.setSecureValue(KEY_TRACKING_ORDER, this.order);
-      }catch (e) {
-        this.alertUtils.showLog(e);
-      }
-
+    } catch (e) {
     }
-
   }
 
   trackingUpdate() {
@@ -170,21 +174,24 @@ export class LocationTracker {
   }
 
   stopTracking() {
-    this.alertUtils.showLog('stopTracking');
+    try {
+      this.alertUtils.showLog('stopTracking');
 
-    this.backgroundMode.disable();
+      this.backgroundMode.disable();
 
-    this.alertUtils.setSecureValue(KEY_TRACKING_STATUS, false);
-    this.alertUtils.setSecureValue(KEY_TRACKING_ORDER, "");
+      this.alertUtils.setSecureValue(KEY_TRACKING_STATUS, false);
+      this.alertUtils.setSecureValue(KEY_TRACKING_ORDER, "");
 
-    this.backgroundGeolocation.finish();
-    if(this.watch)
-      this.watch.unsubscribe();
-    if(this.sub)
-      this.sub.unsubscribe();
+      this.backgroundGeolocation.finish();
+      if (this.watch)
+        this.watch.unsubscribe();
+      if (this.sub)
+        this.sub.unsubscribe();
 
-    if(this.subToDb)
-      this.subToDb.unsubscribe();
+      if (this.subToDb)
+        this.subToDb.unsubscribe();
+    } catch (e) {
+    }
   }
 
   disconnectSocket() {
@@ -200,12 +207,12 @@ export class LocationTracker {
     return new LatLng(this.lat,this.lng);
   }
 
-
   locUpdateInDb() {
     try {
       this.alertUtils.showLog("loc update in db - Initiated");
       this.subToDb = Observable.interval(20000).subscribe((val) => {
 
+        this.alertUtils.showLog('location updates to db');
         this.alertUtils.showLog("lat : " + this.lat);
         this.alertUtils.showLog("lng : " + this.lng);
         this.alertUtils.showLog("order : " + this.order);

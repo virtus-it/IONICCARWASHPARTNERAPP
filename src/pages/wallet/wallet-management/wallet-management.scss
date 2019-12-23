@@ -1,0 +1,31 @@
+page-wallet-management {
+  .card-md {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .platform_fee {
+    border-bottom: 1px dashed #ccc;
+    padding: 5px 0;
+  }
+  .after .lft_icon{background:#FF9800;float:left;border-radius: 3px;}
+  .added .lft_icon{background: #267d0a;
+    float: left;
+    border-radius: 3px;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 4px 9px;
+    color: #fff;}
+  .before .lft_icon{background:#1abaa9;float:left;border-radius: 3px;}
+  span.lft_icon img {
+    padding: 6px 8px;
+  }
+  .rgt_cotent{float:left;text-align: left;margin-left: 3px;}
+  .rgt_cotent label{width:100%;display: block;}
+  .after .rgt_cotent label{color:#FF9800;font-size:15px}
+  .added .rgt_cotent label{color:#267d0a;font-size:15px}
+  .before .rgt_cotent label{color:#1abaa9;font-size:15px}
+  .seprater.col {  background: #aaa;  color: #fff;
+  }
+}

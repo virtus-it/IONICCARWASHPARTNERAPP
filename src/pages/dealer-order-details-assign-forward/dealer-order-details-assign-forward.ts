@@ -143,10 +143,6 @@ export class DealerOrderDetailsAssignForwardPage {
           "from": this.DEALER_ID,
           "orderfrom": this.orderInfo.order_id,
           "orderstatus": OrderTypes.ASSIGNED,
-          /*"autoassign":true,
-          "supplierID": this.input.phno3,
-          "supplierName": this.input.email,
-          "supplierMno": 'paani',*/
           "autoassign": false,
           "quantity": this.orderInfo.quantity,
           "product_type": this.orderInfo.prod_type,
@@ -168,11 +164,15 @@ export class DealerOrderDetailsAssignForwardPage {
 
         this.output.result = res.result;
         if (res.result == this.alertUtils.RESULT_SUCCESS) {
-          UtilsProvider.ORDER_STUAS_UPDATED = true;
-          this.output.actionType = 'assign';
-          this.viewCtrl.dismiss(this.output);
+          if(res.data.code && res.data.code == '404'){
+            this.alertUtils.showToast(res.data.message);
+          }else{
+            UtilsProvider.ORDER_STUAS_UPDATED = true;
+            this.output.actionType = 'assign';
+            this.viewCtrl.dismiss(this.output);
+          }
         } else
-          this.alertUtils.showToastWithButton('Something went wrong\nPlease try again', true, 'OK');
+          this.alertUtils.showToast(res.data.message);
 
       }, error => {
         this.alertUtils.showLogRes(this.apiService.assignOrder(),data,error);

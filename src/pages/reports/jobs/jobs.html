@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <span class="title-style">{{'JOBS_REPORTS_PAGE.PAGE_TITLE' | translate }}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="fixscrollcontainer">
+
+    <!--Search Functionality-->
+    <ion-card class="customer_mgmnttop">
+
+      <ion-row class="tp_searachbox">
+        <ion-col col-4="true">
+          <ion-select [(ngModel)]="searchType" name="searchtype" class="droplist" (ionChange)="selected();">
+            <ion-option value="status">Status</ion-option>
+            <ion-option value="date">Date</ion-option>
+            <ion-option value="vendor">Vendor</ion-option>
+            <ion-option value="serviceagent">CarWasher</ion-option>
+            <ion-option value="jobid">Job Id</ion-option>
+            <ion-option value="customername">Customer Name</ion-option>
+          </ion-select>
+        </ion-col>
+
+        <ion-col col-6="true" *ngIf="searchType == 'status'">
+          <ion-select [(ngModel)]="searchText" name="searchText" class="droplist">
+            <ion-option value="ordered">Ordered</ion-option>
+            <ion-option value="assigned">Assigned</ion-option>
+            <ion-option value="accept">Accepted</ion-option>
+            <ion-option value="jobstarted">Started</ion-option>
+            <ion-option value="delivered">Delivered</ion-option>
+          </ion-select>
+        </ion-col>
+
+
+        <ion-col col-6="true" *ngIf="searchType != 'date'  && searchType != 'status'">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-input [(ngModel)]="searchText" class="" placeholder="type here..." maxlength="50" minlength="2" name="searchText" required
+                       type="text">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-3="true" *ngIf="searchType == 'date'">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-datetime [(ngModel)]="dateFrom" placeholder="from" name="searchText" type="text">
+            </ion-datetime>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-3="true" *ngIf="searchType == 'date'">
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-datetime [(ngModel)]="dateTo" placeholder="to" name="searchText" type="text">
+            </ion-datetime>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-2 class="top_srch_icon">
+          <ion-icon (click)="fetch();" name="search"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+    <ion-list>
+      <div *ngFor="let order of listOf">
+
+        <ion-card class="colomn_main card_lst_cntr">
+
+          <ion-card-header class="jobid_header">
+            <span class="jobassign_no">#{{validate(order.orderid)}}</span> <div class="order_heading"> <label>{{'JOBS_PAGE.LABELS.lb_status' | translate }}</label><span>{{' '+validate(order.statusUpdated)}}</span></div>
+          </ion-card-header>
+          <ion-row>
+            <ion-col><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_cart_id' | translate }}</span>{{validate(order?.cart_id)}}</ion-col>
+            <ion-col><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_delivery_time' | translate }}</span>{{order?.order_delivereddate | utcDate}}</ion-col>
+          </ion-row>
+          <ion-row class="border_b">
+            <ion-col><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_last_updated' | translate }}</span>{{order?.ordercreateddate | utcDate}}</ion-col>
+            <ion-col class="amount_aed"><span class="job_mgm_lbl">{{'JOBS_PAGE.LABELS.lb_amount' | translate }}</span>AED {{validate(order.bill_amount)}}</ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col><ion-icon name="pin"></ion-icon><span class="ord_address" (click)="this.alertUtils.showNavigation(validate(order?.customerdetails.address))">{{validate(order.customerdetails.address)}}</span></ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>
+    </ion-list>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))" *ngIf="isPagingEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="!isPagingEnabled" class="no_more_data">
+    <ion-icon ios="ios-alert" md="md-alert" col12>
+    </ion-icon>
+    {{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_nomoredata' | translate }}
+  </div>
+</ion-content>

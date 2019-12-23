@@ -133,7 +133,10 @@
 			"lb_status_accepted": "وافقت",
 			"lb_status_start_to_visit": "البدء في الزيارة",
 			"lb_status_job_started": "بدأت",
-			"lb_status_completed": "منجز"
+			"lb_status_completed": "منجز",
+      "lb_transaction_code": "رمز العملية : ",
+      "lb_assignedby": "عين من : ",
+      "lb_cancelledby": "تم الإلغاء بواسطة : "
 		}
 
 	},
@@ -316,14 +319,16 @@
 		"PAGE_TITLE": "بائع",
 		"BUTTONS": {
 			"btn_edit": "تعديل",
-			"btn_delete": "حذف"
+			"btn_delete": "حذف",
+      "btn_view_engineers": "عرض الوكلاء"
 		},
 		"LABELS": {
 			"lb_name": "اسم",
 			"lb_user_name": "اسم المستخدم",
 			"lb_mobile": "التليفون المحمول",
 			"lb_company": "شركة",
-			"lb_gst": "ضريبة السلع والخدمات"
+			"lb_gst": "ضريبة السلع والخدمات",
+      "lb_service_agents": "وكلاء الخدمة"
 		}
 	},
 	"CREATE_VENDORS_PAGE": {
@@ -417,7 +422,7 @@
 	"PROFILE_PAGE": {
 		"PAGE_TITLE": "الملف الشخصي",
 		"BUTTONS": {
-			"btn_save": "حفظ"
+			"btn_save": "تحديث"
 		},
 		"LABELS": {
 			"lb_first_name": "الاسم الاول",
@@ -453,7 +458,76 @@
 			"lb_sure": "بالتأكيد",
 			"lb_logout": "تسجيل خروج"
 		}
-	}
+	},
+	"WALLET_MANAGEMENT_PAGE":{
+	"PAGE_TITLE": "إدارة الحوائط",
+		"BUTTONS": {
+			"btn_topup": "فوق حتى",
+			"btn_reconcile": "التصالح",
+			"btn_wallethistory": "تاريخ المحفظة"
+		},
+		"LABELS": {
+			"lb_orderid": "رقم التعريف الخاص بالطلب",
+			"lb_orderamt": "اطلب",
+			"lb_type": "نوع",
+			"lb_sleect_agent": "اختر الوكيل",
+			"lb_platformfee": "رسوم المنصة",
+			"lb_gatewayfee": "رسوم البوابة",
+			"lb_totalfee": "مجموع الرسوم",
+			"lb_walletamounts": "محفظة المبالغ",
+			"lb_before": "قبل",
+			"lb_added": "وأضاف",
+			"lb_deducted": "المستقطعة",
+			"lb_after": "بعد",
+			"lb_nomoredata":"تتوفر أية بيانات أكثر"
+
+		}
+	},
+	"WALLET_HISTORY_PAGE":{
+	"PAGE_TITLE": "المستوطنات المحفظة",
+
+		"LABELS": {
+			"lb_updatedby": "تم التحديث بواسطة",
+			"lb_type": "نوع",
+			"lb_walletbalance": "رصيد المحفظة",
+			"lb_added": "وأضاف",
+			"lb_deducted": "المستقطعة",
+			"lb_nomoredata":"تتوفر أية بيانات أكثر"
+		}
+	},
+  "JOBS_REPORTS_PAGE":{
+    "PAGE_TITLE": "وظائف"
+  },
+  "CANCELLED_JOBS_PAGE":{
+    "PAGE_TITLE": "الوظائف الملغاة"
+  },
+  "PAYMENTS_REPORTS_PAGE":{
+    "PAGE_TITLE": "المدفوعات",
+
+    "LABELS": {
+      "lb_amount": "كمية",
+      "lb_orderid": "رقم التعريف الخاص بالطلب",
+      "lb_payed_date": "تاريخ الدفع"
+    }
+  },
+  "NOTIFICATION_PAGE":{
+    "PAGE_TITLE": "إخطارات",
+
+    "LABELS": {
+      "lb_message": "رسالة"
+    }
+  },
+  "GODS_VIEW_PAGE":{
+    "PAGE_TITLE": "عرض الآلهة"
+  },
+  "RECONCILE_PAGE":{
+    "PAGE_TITLE": "محفظة التوفيق",
+    "LABELS": {
+      "lb_amount": "التوفيق المبلغ",
+      "lb_select_bank": "اختر البنك",
+      "btn_reconcile": "التصالح"
+    }
+  }
 }
 
 

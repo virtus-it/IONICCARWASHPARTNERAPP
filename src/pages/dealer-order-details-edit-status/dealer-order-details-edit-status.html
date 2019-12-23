@@ -82,11 +82,16 @@
       </ion-card>-->
 
       <ion-card>
-        <ion-list radio-group [(ngModel)]="input.paymentype" name="paymentype">
+        <ion-list radio-group>
 
-          <ion-item>
+          <ion-item *ngIf="order.paymenttype == 'cod' ">
             <ion-label>CASH</ion-label>
-            <ion-radio value="cod"></ion-radio>
+            <ion-radio checked></ion-radio>
+          </ion-item>
+
+          <ion-item *ngIf="order.paymenttype == 'card payment' ">
+            <ion-label>CARD PAYMENT</ion-label>
+            <ion-radio checked></ion-radio>
           </ion-item>
 
           <!--<ion-item>
@@ -114,10 +119,10 @@
 <ion-footer>
   <ion-row>
     <ion-col>
-    <button ion-button full color="primary" (click)="closeModal($event);">CANCEL</button>
+    <button ion-button full color="primary" (click)="closeModal();">CANCEL</button>
     </ion-col>
     <ion-col>
-    <button ion-button full color="primary" (click)="submitOrder($event);">SUBMIT</button>
+    <button ion-button full color="primary" (click)="submitOrder();">SUBMIT</button>
     </ion-col>
   </ion-row>
 </ion-footer>

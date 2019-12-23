@@ -91,6 +91,11 @@ export class DealerUsersCustomercarePage {
 
   }
 
+  selected(){
+    if(this.searchInput.searchtype == 'name' || this.searchInput.searchtype == 'mobile' )
+      this.searchInput.searchtext = '';
+  }
+
   fetchList(isPaging: boolean, isRefresh: boolean, isFirst: boolean, paging, refresher) {
     try {
 

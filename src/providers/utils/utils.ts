@@ -11,20 +11,18 @@ import {Subscription} from "rxjs";
 import {NativeStorage} from '@ionic-native/native-storage';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
-export const SHOW_ALL = false;
 export const IS_WEBSITE: boolean = false;
-const SHOW_LOGS = true;
+const SHOW_LOGS = false;
 export const KEY_USER_INFO = 'secure_storage_user_info';
 const KEY_GCM_ID = 'secure_storage_user_gcm_id';
-const KEY_LOGIN_STATUS = 'secure_storage_user_login_status';
-
 
 export const KEY_TRACKING_STATUS = 'secure_storage_tracking_status';
 export const KEY_TRACKING_ORDER = 'secure_storage_tracking_order';
 
-export const IMAGE_QUALITY: number = 30;
-export const IMAGE_WIDTH: number = 256;
-export const IMAGE_HEIGHT: number = 256;
+export const IMAGE_QUALITY: number = 15;
+export const IMAGE_WIDTH: number = 100;
+export const IMAGE_HEIGHT: number = 100;
+export const IMAGE_LENGTH: number = 40;
 
 export const APP_TYPE: string = "carwash";
 export const APP_USER_TYPE: string = "admin";
@@ -471,6 +469,17 @@ export class UtilsProvider {
     return null;
   }
 
+  isValidEmail(email): any {
+
+    let regExp = VALIDATE_EMAIL;
+
+    if (!regExp.test(email)) {
+      return false;
+    }else
+      return  true;
+
+  }
+
   validateNumber(s: string, fieldName: string, minLength: any, maxLength: any) {
 
     this.showLog("*************** " + fieldName + " Validation"
@@ -515,10 +524,13 @@ export class UtilsProvider {
   }
 
   validate(s) {
-    if (s == null || s == 'null')
+    if (s) {
+      if (s == null || s == 'null')
+        return '';
+      else
+        return s;
+    } else
       return '';
-    else
-      return s;
   }
 
   showAlert(title: string, message: string, btnName: string) {
@@ -664,5 +676,75 @@ export class UtilsProvider {
   getLang() {
 
     return this.nativeStorage.getItem(KEY_USER_LANG);
+  }
+
+  static showLogReq( api?, input?, res?) {
+    if (SHOW_LOGS) {
+      console.log('\n>> Request Started...');
+      try {
+        if (api)
+          console.log(api);
+        if (input)
+          console.log('Input => ' + input);
+
+        if (res) {
+          if (SHOW_LOGS)
+            try {
+              console.log('\n');
+              console.log('Output =>');
+              console.log(res.json());
+
+            } catch (e) {
+              console.log(e);
+            }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      console.log('\n');
+      console.log('<< Request End');
+      console.log('\n');
+    }
+  }
+
+  static showLogErr( api?, input?, err?) {
+    if (SHOW_LOGS) {
+      console.log('\n>> Request Started...');
+      try {
+        if (api)
+          console.log(api);
+        if (input)
+          console.log('Input => ' + input);
+
+        console.log('Status code: '+err.status);
+        if (err) {
+          if (SHOW_LOGS)
+            try {
+              console.log('Error =>');
+              console.log(err._body);
+            } catch (e) {
+              console.log(e);
+            }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      console.log('<< Request End');
+    }
+  }
+
+  getZeroIfKeyIsNotThere(obj,key){
+    if(obj){
+      this.showLog(obj);
+      this.showLog(key);
+      this.showLog(obj.key);
+      if(obj.key){
+        if(obj.key == 'null')
+          return '0';
+        else
+          return  obj.key;
+      }else
+        return '0';
+    }
   }
 }

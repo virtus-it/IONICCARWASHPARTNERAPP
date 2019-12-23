@@ -4,6 +4,7 @@ import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UserType, UtilsProvider} from "../..
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
+
 @IonicPage()
 @Component({
   selector: 'page-dealer-distributors-create',
@@ -25,6 +26,8 @@ export class DealerDistributorsCreatePage {
     firstname: "", lastname: "", phno1: "", phno2: "", phno3: "", companyName: "", referenceCode: "",
     phoneType: "android", addr: "", gstNumber: "", acceptOnlinePayments: false
   };
+
+  bankDetails = [{name: '', ifsc: '', number: ''}, {name: '', ifsc: null, number: null}];
   output = {"result": "", "actionType": "", "data": ""};
   showToast: boolean = false;
 
@@ -36,12 +39,12 @@ export class DealerDistributorsCreatePage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder,
               private translateService: TranslateService) {
-                let lang = "en";
-                if (UtilsProvider.lang) {
-                  lang = UtilsProvider.lang
-                }
-                UtilsProvider.sLog(lang);
-                translateService.use(lang);
+    let lang = "en";
+    if (UtilsProvider.lang) {
+      lang = UtilsProvider.lang
+    }
+    UtilsProvider.sLog(lang);
+    translateService.use(lang);
     this.alertUtils.initUser(this.alertUtils.getUserInfo());
 
     this.user = navParams.get('item');
@@ -80,6 +83,7 @@ export class DealerDistributorsCreatePage {
       this.input.phoneType = this.user.phonetype;
       this.input.referenceCode = this.validate(this.user.reference_code);
       this.input.gstNumber = this.validate(this.user.gstno);
+      this.bankDetails = this.user.bankdetails ? this.user.bankdetails : this.bankDetails;
     }
 
     try {
@@ -96,7 +100,7 @@ export class DealerDistributorsCreatePage {
             this.DEALER_PHNO = UtilsProvider.USER_DEALER_PHNO;
           }
         }, (error) => {
-          let value = UtilsProvider.USER_INFO
+          let value = UtilsProvider.USER_INFO;
           if (value && value.hasOwnProperty('USERTYPE')) {
             UtilsProvider.setUSER_INFO(value);
             this.alertUtils.initUser(value);
@@ -133,24 +137,26 @@ export class DealerDistributorsCreatePage {
       if (this.alertUtils.validateText(this.input.lastname, 'Last name', 1, 50)) {
         if (this.alertUtils.validateNumber(this.input.phno1, "Mobile Number", 9, 9)) {
           if (this.alertUtils.validateText(this.input.companyName, "Company Name", 3, 50)) {
-            //if (this.alertUtils.validateText(this.input.referenceCode, "Locality", 3, 50)) {
             if (this.alertUtils.validateText(this.input.addr, "Address", 5, 200)) {
-              //if (this.alertUtils.validateText(this.input.gstNumber, "GST Number", 1, 10)) {
-              this.showToast = false;
-              if (this.isUpdate)
-                this.doUpdate();
-              else
-                this.doCreate();
-              /*} else
-                this.showToast = true;*/
+              if (this.alertUtils.validateText(this.bankDetails[0].name, "Bank1 Name", 3, 50)) {
+                if (this.alertUtils.validateText(this.bankDetails[0].ifsc, "Bank1 Ifsc", 5, 20)) {
+                  if (this.alertUtils.validateNumber(this.bankDetails[0].number, "Bank1 Number", 5, 20)) {
+
+                    this.showToast = false;
+                    if (this.isUpdate)
+                      this.doUpdate();
+                    else
+                      this.doCreate();
+                  } else
+                    this.showToast = true;
+                } else
+                  this.showToast = true;
+              } else
+                this.showToast = true;
             } else
               this.showToast = true;
-            /*} else
-              this.showToast = true;*/
           } else
             this.showToast = true;
-          /*} else
-            this.alertUtils.showToast('Invalid mobile number');*/
         } else
           this.showToast = true;
       } else
@@ -181,12 +187,12 @@ export class DealerDistributorsCreatePage {
           "mobileno_one": this.input.phno2,
           "mobileno_two": this.input.phno3,
           "pwd": this.input.phno1,
-          //"phonetype": this.input.phoneType,
           "address": this.input.addr,
           "companyname": this.input.companyName,
           "company_logo": 'company_logo_' + this.input.phno1,
           "referCode": this.input.referenceCode,
           "gstnumber": this.input.gstNumber,
+          bankdetails: this.bankDetails,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
           "framework": FRAMEWORK,
@@ -250,6 +256,7 @@ export class DealerDistributorsCreatePage {
           "companyname": this.input.companyName,
           "referCode": this.input.referenceCode,
           "gstnumber": this.input.gstNumber,
+          bankdetails: this.bankDetails,
           "loginid": this.USER_ID,
           "dealer_mobileno": this.DEALER_PHNO,
           "apptype": APP_TYPE,

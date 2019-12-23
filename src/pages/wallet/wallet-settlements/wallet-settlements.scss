@@ -1,0 +1,50 @@
+page-wallet-settlements {
+  .card-md {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .w_history{background: #fff;
+    box-shadow: 0 0 20px #ccc;margin: 18px 0 42px 0;padding: 10px 0;
+    .icon_dec {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      background: #c83333;
+      border-radius: 80px;
+
+      text-align: center;
+
+      font-size: 28px;
+      color: #fff;
+      line-height: 23px;
+      margin-top: -30px;
+      position: fixed;
+    }
+    .icon_plus {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      background: #0d8821;
+      border-radius: 80px;
+
+      text-align: center;
+
+      font-size: 28px;
+      color: #fff;
+      line-height: 23px;
+      margin-top: -30px;
+      position: fixed;
+    }
+    span.w_date {
+      position: fixed;
+      margin-top: -30px;
+      text-align: right;
+      display: grid;
+      align-items: unset;
+      z-index: 1000;
+      right: 6%;
+    }
+  }
+}

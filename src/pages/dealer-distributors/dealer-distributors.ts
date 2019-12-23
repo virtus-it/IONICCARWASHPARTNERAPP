@@ -57,7 +57,7 @@ export class DealerDistributorsPage {
                 }
                 UtilsProvider.sLog(lang);
                 translateService.use(lang);
-                
+
         isPlatformReady = true;
         this.alertUtils.getSecValue(KEY_USER_INFO).then((value) => {
           this.alertUtils.showLog(value);
@@ -100,6 +100,11 @@ export class DealerDistributorsPage {
     }else{
       this.isDealer = false;
     }
+  }
+
+  selected(){
+    if(this.searchInput.searchtype == 'name' || this.searchInput.searchtype == 'mobile' )
+      this.searchInput.searchtext = '';
   }
 
   ionViewDidLoad() {
@@ -254,6 +259,24 @@ export class DealerDistributorsPage {
 
           this.fetchList(false, false, false, '', '');
 
+        } else {
+          this.alertUtils.showToast('Some thing went wrong!');
+        }
+      }
+    })
+    model.present();
+  }
+
+  viewServiceAgents(user) {
+
+    let model = this.modalCtrl.create('VendorAgentsPage', {
+      user: user,
+    });
+
+    model.onDidDismiss(data => {
+      if (data && data.hasOwnProperty('result')) {
+        if (data.result == this.alertUtils.RESULT_SUCCESS) {
+          this.fetchList(false, false, false, '', '');
         } else {
           this.alertUtils.showToast('Some thing went wrong!');
         }

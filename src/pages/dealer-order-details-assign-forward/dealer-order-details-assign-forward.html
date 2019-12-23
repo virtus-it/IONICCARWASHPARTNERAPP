@@ -5,7 +5,9 @@
       <span class="title-style">SERVICE AGENTS</span>
     </ion-title>-->
 
-    <ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChanged($event)">
+    <div style="text-align: center;">{{'SERVICE ENGINEERS'}}</div>
+
+    <ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChanged($event)" *ngIf="showMap">
       <ion-segment-button value="listView">
         <ion-label style="text-align: center; color: white">LIST VIEW</ion-label>
       </ion-segment-button>

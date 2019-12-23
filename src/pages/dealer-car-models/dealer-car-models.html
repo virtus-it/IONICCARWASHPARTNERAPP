@@ -1,3 +1,4 @@
+<script src="dealer-car-models.ts"></script>
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
@@ -17,19 +18,22 @@
 
 <ion-content padding>
   <div class="fixscrollcontainer">
-  <ion-spinner *ngIf="showProgress" block class="spinner_center" color="primary" item-center
-               name="crescent"></ion-spinner>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content>
-    </ion-refresher-content>
-  </ion-refresher>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="arrow-dropdown"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="Refreshing...">
+      </ion-refresher-content>
+    </ion-refresher>
 
     <!--Search Functionality-->
     <ion-card class="customer_mgmnttop">
 
       <ion-row class="tp_searachbox">
         <ion-col col-4="true">
-          <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype" class="droplist">
+          <ion-select [(ngModel)]="searchInput.searchtype" name="searchtype" class="droplist" (ionChange)="selected();">
             <ion-option true value="manufacturer">manufacturer</ion-option>
             <ion-option value="model">Model</ion-option>
           </ion-select>
@@ -37,7 +41,7 @@
         <ion-col col-6="true">
           <ion-item class="no_bg no_shadow input_container ">
 
-            <ion-input [(ngModel)]="searchInput.searchtext" class="" maxlength="50" name="locality" required type="text">
+            <ion-input [(ngModel)]="searchInput.searchtext" placeholder="type here..." class="" maxlength="50" name="locality" required type="text">
             </ion-input>
           </ion-item>
         </ion-col>
@@ -49,7 +53,7 @@
 
   <h5 *ngIf="noRecords">Services not found</h5>
 
-    <ion-list *ngIf="!noRecords">
+    <ion-list>
     <div *ngFor="let carModel of response">
       <ion-card>
         <ion-row>
@@ -70,5 +74,18 @@
       </ion-card>
     </div>
   </ion-list>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))" *ngIf="isPagingEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="!isPagingEnabled" class="no_more_data">
+    <ion-icon ios="ios-alert" md="md-alert" col12>
+    </ion-icon>
+    {{ 'WALLET_MANAGEMENT_PAGE.LABELS.lb_nomoredata' | translate }}
   </div>
 </ion-content>

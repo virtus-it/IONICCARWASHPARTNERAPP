@@ -70,12 +70,36 @@
                 </button>
               </ion-buttons>
             </ion-col>
+
+            <ion-row>
+              <ion-col *ngIf="order?.status == 'jobstarted'">
+                <ion-buttons>
+                <button ion-button color="primary" (click)="pickImage(order,'post'); changeOrderStatus(order,'jobcompleted');">{{ 'JOB_DETAILS_PAGE.BUTTONS.btn_deliver' | translate }}</button>
+                </ion-buttons>
+              </ion-col>
+
+              <ion-col *ngIf="order?.status == 'jobcompleted'">
+                <ion-buttons>
+                <button ion-button color="primary" (click)="editStatusModal(order);">{{ 'JOB_DETAILS_PAGE.BUTTONS.btn_confrm_paymnt' | translate }}</button>
+                </ion-buttons>
+              </ion-col>
+            </ion-row>
+
             <ion-col>
               <button class="button-block" (click)="viewDetails($event,order.order_id,order.category.categoryid);" ion-button>
                 {{ 'JOBS_PAGE_SE_LOGIN.BUTTONS.btn_view_details' | translate }}
               </button>
             </ion-col>
           </ion-row>
+
+          <ion-row>
+            <ion-col *ngIf="order?.customerreview >= 1" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 2" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 3" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 4" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+            <ion-col *ngIf="order?.customerreview >= 5" style="text-align: -webkit-center;"><img class="header_icon" src="assets/imgs/star.png"></ion-col>
+          </ion-row>
+
         </ion-card>
       </div>
     </ion-list>

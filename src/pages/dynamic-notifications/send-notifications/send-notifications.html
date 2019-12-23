@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title start>
+      <span class="title-style">{{ 'NOTIFICATIONS' }}</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <!--<ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>-->
+
+  <div class="fixscrollcontainer">
+
+    <br padding-bottom="10px">
+
+    <ion-row [(ngModel)]="mestype" name="mestype" radio-group>
+
+      <ion-item col-6 padding-right="2px">
+        <ion-label>{{ 'SMS' }}</ion-label>
+        <ion-radio checked value="sms"></ion-radio>
+      </ion-item>
+
+      <ion-item col-6 padding-left="2px">
+        <ion-label>{{ 'Notification' }}</ion-label>
+        <ion-radio value="notification"></ion-radio>
+      </ion-item>
+    </ion-row>
+
+    <ion-card class="customer_mgmnttop">
+
+      <ion-row class="tp_searachbox">
+        <ion-col col-12>
+          <ion-select [(ngModel)]="searchType" col-12 interface="popover" name="searchtype">
+            <ion-option value="allcustomers">All Customers</ion-option>
+            <ion-option value="activecustomers">Active Customers</ion-option>
+            <ion-option value="customerswitharea">Customers of specific area</ion-option>
+            <ion-option value="allserviceagents">All Car Washers</ion-option>
+            <ion-option value="activeserviceagents">Active Car Washers</ion-option>
+            <ion-option value="serviceagentwitharea">Car Washers in a specific area</ion-option>
+          </ion-select>
+        </ion-col>
+
+        <ion-col [hidden]="searchType != 'customerswitharea' && searchType != 'serviceagentwitharea'" col-12>
+          <ion-item class="no_bg no_shadow input_container ">
+
+            <ion-input [(ngModel)]="searchText" class="" maxlength="50" minlength="2" name="searchText"
+                       placeholder="type area info here ..."
+                       required type="text">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+
+        <br>
+      </ion-row>
+
+      <ion-row col-12="true">
+        <div col-12="true">
+           <textarea padding-top="10px" [(ngModel)]="message" class="tp_searachbox" col-12="true" placeholder="type your message here ..."
+                     style=" height: 100px">
+        </textarea>
+        </div>
+      </ion-row>
+
+    </ion-card>
+
+
+    <button (click)="validateFilter();" block ion-button primary>Send Mes</button>
+
+  </div>
+
+</ion-content>

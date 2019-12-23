@@ -6,8 +6,7 @@ import {
   ModalController,
   NavController,
   NavParams,
-  Platform,
-  Thumbnail
+  Platform
 } from 'ionic-angular';
 import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
@@ -27,6 +26,7 @@ export class DealerSuppliersPage {
   private response: any;
   private noRecords = false;
   private USER_ID = UtilsProvider.USER_ID;
+  userTypes: typeof UserType = UserType;
   searchInput = {
     "userid": this.USER_ID,
     "status": "globalsearch",
@@ -99,6 +99,11 @@ export class DealerSuppliersPage {
     }
   }
 
+  selected(){
+    if(this.searchInput.searchtype == 'name' || this.searchInput.searchtype == 'mobile' )
+      this.searchInput.searchtext = '';
+  }
+
   ionViewDidLoad() {
 
     if (this.from && this.from == 'loginPage') {
@@ -135,12 +140,12 @@ export class DealerSuppliersPage {
 
           for (let i = 0; i < res.data.length; i++) {
 
-            if(res.data[i].availability == 1)
+            if(res.data[i].availability == 1 || res.data[i].availability == "1")
               res.data[i]['activeStatus'] = true;
             else
               res.data[i]['activeStatus'] = false;
 
-            if (res.data[i].tracking && res.data[i].tracking == 'true') {
+            /*if (res.data[i].tracking && res.data[i].tracking == 'true') {
               res.data[i].tracking = "ON";
             } else {
               if (i == 0)
@@ -149,7 +154,7 @@ export class DealerSuppliersPage {
                 res.data[i].tracking = "OFF";
 
 
-            }
+            }*/
 
             if (isPaging)
               this.response.push(res.data[i]);
@@ -186,7 +191,26 @@ export class DealerSuppliersPage {
       this.apiService.postReq(this.apiService.searchOrders(), data).then((res) => {
         this.showProgress = false;
         this.alertUtils.showLog(res.data);
-        this.response = res.data;
+
+        this.response = [];
+        for (let i = 0; i < res.data.length; i++) {
+
+          if(res.data[i].availability == 1 || res.data[i].availability == "1")
+            res.data[i]['activeStatus'] = true;
+          else
+            res.data[i]['activeStatus'] = false;
+
+          /*if (res.data[i].tracking && res.data[i].tracking == 'true') {
+            res.data[i].tracking = "ON";
+          } else {
+            if (i == 0)
+              res.data[i].tracking = "ON";
+            else
+              res.data[i].tracking = "OFF";
+          }*/
+
+          this.response.push(res.data[i]);
+        }
       }, (error) => {
 
       })

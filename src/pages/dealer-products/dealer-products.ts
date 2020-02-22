@@ -108,7 +108,7 @@ export class DealerProductsPage {
         this.alertUtils.showLog(res);
         if (res.result == this.alertUtils.RESULT_SUCCESS && res.data) {
           for (let i = 0; i < res.data.length; i++) {
-            res.data[i]['imgUrl'] = this.apiService.getImg() + 'product_' + res.data[i].productid + '.png';
+            res.data[i]['imgUrl'] = this.apiService.getImg() + 'product_' + res.data[i].productid + '.png?random' + Math.random();
           }
           this.response = res.data;
         }
@@ -236,6 +236,9 @@ export class DealerProductsPage {
         } else {
           this.alertUtils.showToast('Some thing went wrong!');
         }
+      }else if(data.action){
+        this.alertUtils.showToast(data.action);
+        this.getProducts(this.categoryItem,'');
       }
     })
 

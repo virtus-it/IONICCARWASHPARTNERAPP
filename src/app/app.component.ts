@@ -161,19 +161,28 @@ export class MyApp {
         return;
       }
 
+      this.push.createChannel({
+        id: "testchannel1",
+        sound:'ringtone',
+        description: "My first test channel",
+        // The importance property goes from 1 = Lowest, 2 = Low, 3 = Normal, 4 = High and 5 = Highest.
+        importance: 1
+      }).then(() => console.log('Channel created'));
+
       const options: PushOptions = {
         android: {
           senderID: '530358294125',
-          //sound: true,
+          sound: true,
+          //sound: this.setSound(),
           forceShow: true,
-          vibrate: true,
+          //vibrate: true,
           icon:'icon',
         },
         ios: {
           alert: 'true',
           badge: false,
-          sound: 'true',
-          //vibrate: true
+         // sound: this.setSound(),
+          //vibrate: true,
         },
         windows: {},
         browser: {

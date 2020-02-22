@@ -13,16 +13,13 @@
 <ion-content padding>
 
   <ion-row>
-
     <ion-col>
-      <ion-icon name="create" style="padding: 1%; color: black" (click)="polygonCreate()"></ion-icon>
-      <ion-icon name="hand" style="padding: 1%; color: grey" (click)="polygonEdit()"></ion-icon>
+      <ion-icon name="create" style="padding: 1%; color: grey; background-color: #38b7fe" (click)="polygonCreate()"></ion-icon>
+      <ion-icon name="hand" style="padding: 1%; color: grey; background-color: #38b7fe" (click)="polygonEdit()"></ion-icon>
     </ion-col>
-
-
     <ion-buttons *ngIf="isEditingPolygon">
-      <button ion-button color="primary" (click)="close();">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_add' | translate }}</button>
-      <button ion-button color="primary" (click)="createArea();">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_remove' | translate }}</button>
+      <button ion-button color="primary" (click)="createArea();">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_add' | translate }}</button>
+      <button ion-button color="primary" (click)="close();">{{ 'SERVICE_AREAS_PAGE.BUTTONS.btn_remove' | translate }}</button>
     </ion-buttons>
 
   </ion-row>

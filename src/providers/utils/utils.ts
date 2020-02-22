@@ -19,10 +19,10 @@ const KEY_GCM_ID = 'secure_storage_user_gcm_id';
 export const KEY_TRACKING_STATUS = 'secure_storage_tracking_status';
 export const KEY_TRACKING_ORDER = 'secure_storage_tracking_order';
 
-export const IMAGE_QUALITY: number = 15;
+export const IMAGE_QUALITY: number = 20;
 export const IMAGE_WIDTH: number = 100;
 export const IMAGE_HEIGHT: number = 100;
-export const IMAGE_LENGTH: number = 40;
+export const IMAGE_LENGTH: number = 100;
 
 export const APP_TYPE: string = "carwash";
 export const APP_USER_TYPE: string = "admin";

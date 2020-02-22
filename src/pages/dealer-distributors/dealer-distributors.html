@@ -27,7 +27,7 @@
   <h5 *ngIf="noRecords" >Vendors not found</h5>
 
     <!--Search Functionality-->
-    <ion-card class="customer_mgmnttop">
+    <ion-card class="customer_mgmnttop" [hidden]="USER_TYPE == usersEnum.SUPPLIER">
 
       <ion-row class="tp_searachbox">
         <ion-col col-4="true">

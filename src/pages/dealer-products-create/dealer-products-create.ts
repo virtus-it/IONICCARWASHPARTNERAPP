@@ -1,6 +1,13 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
-import {APP_TYPE, FRAMEWORK, KEY_USER_INFO, UtilsProvider} from "../../providers/utils/utils";
+import {
+  APP_TYPE,
+  FRAMEWORK, IMAGE_HEIGHT, IMAGE_LENGTH,
+  IMAGE_QUALITY,
+  IMAGE_WIDTH,
+  KEY_USER_INFO,
+  UtilsProvider
+} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder} from "@angular/forms";
 import {Camera, CameraOptions} from '@ionic-native/camera';
@@ -51,7 +58,7 @@ export class DealerProductsCreatePage {
               private apiService: ApiProvider,
               private formBuilder: FormBuilder,
               private translateService: TranslateService) {
-               
+
     this.user = navParams.get('item');
     this.categoryitem = navParams.get('categoryitem');
 
@@ -82,7 +89,7 @@ export class DealerProductsCreatePage {
       this.input.isauthorized = this.user.isauthorized;
       // this.input.id = JSON.parse(this.user.vechiclesid);
 
-      this.imgUrl = this.apiService.getImg() + 'product_' + this.user.productid + '.png'
+      this.imgUrl = this.apiService.getImg() + 'product_' + this.user.productid + '.png?random' + Math.random();
     }
 
     try {
@@ -401,40 +408,51 @@ export class DealerProductsCreatePage {
   }
 
   pickImage(sourceType) {
-
     try {
       const options: CameraOptions = {
-        quality: 50,
+        quality: IMAGE_QUALITY,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.PNG,
         mediaType: this.camera.MediaType.PICTURE,
-        targetWidth: 256,
-        targetHeight: 256,
-        sourceType: sourceType
+        targetWidth: IMAGE_WIDTH,
+        targetHeight: IMAGE_HEIGHT,
+        sourceType: sourceType,
+        allowEdit:true,
       };
 
-
       this.camera.getPicture(options).then((imageData) => {
-        let base64Image = imageData;
-
-        if (base64Image && base64Image.length > 0) {
-          if (this.isUpdate) {
-            this.uploadImg(base64Image, 'product_' + this.user.productid);
-          } else {
-            this.b64Image = base64Image;
-          }
+        if(this.calculateImageSize(imageData) < IMAGE_LENGTH ){
+          this.uploadImg(imageData,'product_' + this.user.productid);
+        }else {
+          this.showProgress = false;
+          this.alertUtils.showToast('Your image is too large, we updated job without image');
         }
-
       }, (err) => {
         // Handle error
         this.alertUtils.showLog(err);
       });
+
     } catch (e) {
       this.alertUtils.showLog(e);
     }
   }
 
+  calculateImageSize(base64String){
+    let padding, inBytes, base64StringLength;
+    if(base64String.endsWith("==")) padding = 2;
+    else if (base64String.endsWith("=")) padding = 1;
+    else padding = 0;
+
+    base64StringLength = base64String.length;
+    console.log(base64StringLength)
+    inBytes =(base64StringLength / 4 ) * 3 - padding;
+    console.log(inBytes);
+    let kbytes = inBytes / 1000;
+    return kbytes;
+  }
+
   uploadImg(s, fileName) {
+    this.showProgress = true;
     let input = {
       "image": {
         "filename": fileName,
@@ -442,14 +460,15 @@ export class DealerProductsCreatePage {
       }
     };
 
-    this.showProgress = true;
+    this.alertUtils.showLoading();
     this.apiService.postReq(this.apiService.imgUpload(), JSON.stringify(input)).then(res => {
       this.showProgress = false;
+      this.alertUtils.hideLoading();
+      this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: ");
       this.alertUtils.showLog("POST (SUCCESS)=> IMAGE UPLOAD: " + res.data);
 
-      this.viewCtrl.dismiss(this.output);
       if (res.result == this.alertUtils.RESULT_SUCCESS) {
-
+        this.viewCtrl.dismiss({action:'Image upload successfully'});
       } else
         this.alertUtils.showToast(res.result);
 

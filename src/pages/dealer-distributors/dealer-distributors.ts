@@ -1,13 +1,5 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {
-  AlertController,
-  IonicPage,
-  MenuController,
-  ModalController,
-  NavController,
-  NavParams,
-  Platform
-} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
 import {APP_TYPE, KEY_USER_INFO, UserType, UtilsProvider} from "../../providers/utils/utils";
 import {ApiProvider} from "../../providers/api/api";
 import {DealerDistributorsCreatePage} from "../dealer-distributors-create/dealer-distributors-create";
@@ -26,6 +18,7 @@ export class DealerDistributorsPage {
   private noRecords = false;
   private USER_ID ;
   private USER_TYPE ;
+  usersEnum: typeof UserType = UserType;
   searchInput = {
     "userid":this.USER_ID,
     "status":"globalsearch",

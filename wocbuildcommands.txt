@@ -1,0 +1,6 @@
+Note: Open nodejs cmd as a administrator
+
+1.ionic cordova build android --prod --release
+2.jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore washonclickadmin.keystore android-release-unsigned.apk "washonclick"
+---jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore washonclickadmin.keystore android-release-unsigned.apk "washonclick"
+2.1 zipalign -v 4 android-release-unsigned.apk Ionic_PROD_WOC_Admin_Android_v3_20_05_2019.apk

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="14" id="com.admin.washonclick" version="1.1.17.09" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="31" id="com.admin.washonclick" version="1.19.12.2019" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WOC-Partner</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="sales@virtus-it.com" href="http://www.virtus-it.com/">Ionic Framework Team</author>
@@ -80,8 +80,9 @@
     <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyDoS0Blw09XR34phjQ4BGF6v8mpQ5E8aSM" />
     <preference name="GOOGLE_MAPS_IOS_API_KEY" value="AIzaSyDoS0Blw09XR34phjQ4BGF6v8mpQ5E8aSM" />
     <allow-navigation href="http://192.168.1.107:8100" />
-    <engine name="android" spec="6.3.0" />
+    <resource-file src="assets/sound/ringtone.mp3" target="app/src/main/res/raw/ringtone.mp3" />
     <engine name="browser" spec="5.0.4" />
+    <engine name="android" spec="6.3.0" />
     <plugin name="cordova-plugin-advanced-http" spec="^2.0.6" />
     <plugin name="cordova-plugin-x-toast" spec="^2.7.2" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />

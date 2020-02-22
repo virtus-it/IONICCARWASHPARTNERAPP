@@ -14,8 +14,8 @@
 
 <ion-content padding>
 
-  <ion-spinner block name="crescent" color="primary" class="spinner_center" *ngIf="showProgress"
-               item-center></ion-spinner>
+  <ion-spinner name="bubbles" icon="android" color="primary" class="spinner_center" *ngIf="showProgress">
+  </ion-spinner>
 
   <div align="center" *ngIf="isUpdate">
     <img style="width: 40%;" class="profile-image"
@@ -25,35 +25,6 @@
   </div>
 
   <form class="customer_poptxt" >
-
-<!--    <ion-item>-->
-<!--      <ion-label>Select Category</ion-label>-->
-<!--      <ion-select [(ngModel)]="input.category" name="category">-->
-<!--        <ion-option value={{cat.category}} *ngFor="let cat of categoryList"-->
-<!--                    (ionSelect)="updateCategoryDetails($event, cat)">{{cat.category}}</ion-option>-->
-<!--      </ion-select>-->
-<!--    </ion-item>-->
-
-    <!--<ion-item *ngIf="categorySelected" class="no_bg no_shadow input_container ">
-      <ion-label>Service</ion-label>
-      <ion-select>
-        <ion-option value={{catProduct.productid}}
-                    *ngFor="let catProduct of categoryProductsList"
-                    (ionSelect)="updateProductDetails($event, catProduct);">
-          {{ catProduct.pname }}</ion-option>
-      </ion-select>
-    </ion-item>-->
-
-<!--    <ion-item class="ion-selector">-->
-<!--      <ion-label>Set Vechicles</ion-label>-->
-<!--      <ion-select [(ngModel)]="input.id" name="id"  multiple="true">-->
-<!--        <ion-option value={{vechicle.id}}-->
-<!--          *ngFor="let vechicle of vechicleTypes">-->
-<!--          {{vechicle.vehicletype}}-->
-<!--        </ion-option>-->
-<!--      </ion-select>-->
-<!--    </ion-item>-->
-
     <ion-item class="no_bg no_shadow input_container ">
       <ion-label floating>{{ 'CREATE_SERVICES_PAGE.LABELS.lb_service_name' | translate }}</ion-label>
       <ion-input name="pname" class="" type="text" [(ngModel)]="input.pname" required></ion-input>

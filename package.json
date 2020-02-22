@@ -22,14 +22,14 @@
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/app-rate": "^5.2.0",
     "@ionic-native/app-version": "^4.20.0",
-    "@ionic-native/background-geolocation": "^4.20.0",
+    "@ionic-native/background-geolocation": "^3.14.0",
     "@ionic-native/background-mode": "^4.20.0",
     "@ionic-native/call-number": "^5.2.0",
     "@ionic-native/camera": "^4.20.0",
     "@ionic-native/core": "~4.18.0",
     "@ionic-native/diagnostic": "^5.2.0",
     "@ionic-native/geolocation": "^4.20.0",
-    "@ionic-native/google-maps": "^5.5.0",
+    "@ionic-native/google-maps": "^4.14.0",
     "@ionic-native/http": "^5.2.0",
     "@ionic-native/launch-navigator": "^4.20.0",
     "@ionic-native/media": "^4.20.0",
@@ -44,25 +44,34 @@
     "@ionic-native/toast": "^5.2.0",
     "@ionic-native/unique-device-id": "^4.20.0",
     "@ionic/storage": "2.2.0",
+    "@mauron85/cordova-plugin-background-geolocation": "^3.0.3",
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "call-number": "^1.0.1",
     "chart.js": "^2.8.0",
+    "com-sarriaroman-photoviewer": "^1.2.4",
     "cordova-android": "6.3.0",
     "cordova-android-support-gradle-release": "^2.0.1",
     "cordova-browser": "5.0.4",
     "cordova-open-native-settings": "^1.5.2",
+    "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-advanced-http": "^2.0.6",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-apprate": "^1.4.0",
+    "cordova-plugin-background-mode": "^0.7.2",
     "cordova-plugin-camera": "^4.0.3",
+    "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-dialogs": "^2.0.1",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-globalization": "^1.11.0",
+    "cordova-plugin-googlemaps": "2.0.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^3.1.2",
+    "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
+    "cordova-plugin-media": "^5.0.3",
+    "cordova-plugin-nativegeocoder": "^3.2.2",
     "cordova-plugin-nativestorage": "^2.3.2",
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -72,6 +81,7 @@
     "cordova-plugin-x-toast": "^2.7.2",
     "cordova.plugins.diagnostic": "^4.0.12",
     "ionic-angular": "3.9.3",
+    "ionic-native": "^2.9.0",
     "ionic2-super-tabs": "^4.1.4",
     "ionicons": "3.0.0",
     "moment": "^2.24.0",
@@ -80,6 +90,7 @@
     "phonegap-plugin-push": "^2.1.3",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": "^5.0.4",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
@@ -113,11 +124,27 @@
       "phonegap-plugin-push": {
         "FCM_VERSION": "11.6.2"
       },
-      "cordova-plugin-app-version": {}
+      "cordova-plugin-app-version": {},
+      "cordova-plugin-background-mode": {},
+      "cordova-plugin-mauron85-background-geolocation": {},
+      "cordova-plugin-googlemaps": {
+        "PLAY_SERVICES_VERSION": "15.0.1",
+        "ANDROID_SUPPORT_V4_VERSION": "27.+",
+        "LOCATION_WHEN_IN_USE_DESCRIPTION": "This app wants to get your location while this app runs only.",
+        "LOCATION_ALWAYS_USAGE_DESCRIPTION": "This app wants to get your location always, even this app runs in background."
+      },
+      "com-sarriaroman-photoviewer": {},
+      "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+        "GOOGLE_API_KEY_FOR_ANDROID": "AIzaSyDoS0Blw09XR34phjQ4BGF6v8mpQ5E8aSM",
+        "OKHTTP_VERSION": "3.12.0"
+      },
+      "cordova-plugin-nativegeocoder": {},
+      "cordova-plugin-media": {},
+      "cordova-plugin-device": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

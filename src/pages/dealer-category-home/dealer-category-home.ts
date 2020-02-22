@@ -101,7 +101,6 @@ export class DealerCategoryHomePage {
 
   delete(item) {
 
-
     let alert = this.alertCtrl.create({
       title: 'WARNING',
       message: 'Are you sure you want to do this operation?',
@@ -341,7 +340,8 @@ export class DealerCategoryHomePage {
         mediaType: this.camera.MediaType.PICTURE,
         targetWidth: 256,
         targetHeight: 256,
-        sourceType: sourceType
+        sourceType: sourceType,
+        allowEdit:true
       };
 
 
